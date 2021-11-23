@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_host"
+    app:startDestination="@id/fragmentMainViewPager">
+
+    <fragment
+        android:id="@+id/fragmentMainViewPager"
+        android:name="com.devapp.fr.ui.fragments.FragmentMainViewPager"
+        android:label="FragmentMainViewPager" />
+    <fragment
+        android:id="@+id/fragmentSplash"
+        android:name="com.devapp.fr.ui.fragments.FragmentSplash"
+        android:label="FragmentSplash" />
+</navigation>

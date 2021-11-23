@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TEXT_SIZE_BOTTOM_BAR_TEXT">@dimen/_14ssp</dimen>
+
+</resources>
