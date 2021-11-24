@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Size text-->
     <dimen name="TEXT_SIZE_BOTTOM_BAR_TEXT">@dimen/_14ssp</dimen>
+    <dimen name="TEXT_SIZE_LARGE">@dimen/_30ssp</dimen>
+    <dimen name="TEXT_SIZE_MEDIUM">@dimen/_24sdp</dimen>
+    <dimen name="TEXT_SIZE_NORMAL">@dimen/_16sdp</dimen>
+    <dimen name="TEXT_SIZE_SMALL">@dimen/_12sdp</dimen>
 
+    <!--Size space-->
+    <dimen name="LARGE_SPACE">@dimen/_12sdp</dimen>
+    <dimen name="MEDIUM_SPACE">@dimen/_8sdp</dimen>
+    <dimen name="LARGE_RADIUS">@dimen/_16sdp</dimen>
+    <dimen name="MEDIUM_RADIUS">@dimen/_12sdp</dimen>
+
+    <!--Size of icon,image....-->
+    <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
+    <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
 </resources>

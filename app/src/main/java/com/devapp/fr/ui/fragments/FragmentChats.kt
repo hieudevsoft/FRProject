@@ -1,6 +1,7 @@
 package com.devapp.fr.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import com.devapp.fr.databinding.FragmentChatsBinding
 import com.devapp.fr.databinding.FragmentSettingsBinding
 
 class FragmentChats : Fragment(R.layout.fragment_chats) {
-
+    val TAG = "FragmentChats"
     private var _binding: FragmentChatsBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -32,6 +33,7 @@ class FragmentChats : Fragment(R.layout.fragment_chats) {
     }
 
     override fun onDestroyView() {
+        Log.d(TAG, "onDestroyView")
         super.onDestroyView()
     }
 }

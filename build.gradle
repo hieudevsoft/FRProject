@@ -21,6 +21,7 @@ buildscript {
         support_dimens_version = "1.0.6"
         circle_image_version = "3.1.0"
         bottom_bar_version="1.1.0"
+        data_store_version="1.0.0"
     }
 
     repositories {

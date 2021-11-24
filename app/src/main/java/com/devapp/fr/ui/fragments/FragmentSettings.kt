@@ -1,6 +1,7 @@
 package com.devapp.fr.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.devapp.fr.databinding.FragmentSettingsBinding
 
 
 class FragmentSettings : Fragment(R.layout.fragment_settings) {
+    val TAG = "FragmentSettings"
     private var _binding:FragmentSettingsBinding?=null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -31,6 +33,7 @@ class FragmentSettings : Fragment(R.layout.fragment_settings) {
     }
 
     override fun onDestroyView() {
+        Log.d(TAG, "onDestroyView ")
         super.onDestroyView()
     }
 }

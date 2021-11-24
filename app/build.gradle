@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -102,5 +103,8 @@ dependencies {
 
     //Animated BottomBar
     implementation "nl.joery.animatedbottombar:library:$bottom_bar_version"
+
+    // Preferences DataStore
+    implementation "androidx.datastore:datastore-preferences:$data_store_version"
 
 }

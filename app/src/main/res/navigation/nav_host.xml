@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentMainViewPager">
+    app:startDestination="@id/fragmentSplash">
 
     <fragment
         android:id="@+id/fragmentMainViewPager"
@@ -11,5 +11,14 @@
     <fragment
         android:id="@+id/fragmentSplash"
         android:name="com.devapp.fr.ui.fragments.FragmentSplash"
-        android:label="FragmentSplash" />
+        android:label="FragmentSplash" >
+        <action
+            android:id="@+id/action_fragmentSplash_to_fragmentMainViewPager"
+            app:destination="@id/fragmentMainViewPager"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/fragmentMainViewPager"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

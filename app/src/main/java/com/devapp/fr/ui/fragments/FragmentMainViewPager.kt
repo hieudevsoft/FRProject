@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
@@ -51,8 +52,12 @@ class FragmentMainViewPager : Fragment(R.layout.fragment_main_view_pager) {
         binding.mainViewPager.apply {
             adapter = mainViewPager
             setPageTransformer(PageTransformHelper.TabletPageTransformer())
+            background = if(isDarkMode) ContextCompat.getDrawable(requireContext(), R.color.background_dark_mode) else
+                ContextCompat.getDrawable(requireContext(), R.color.cardview_light_background)
         }
     }
+
+    var isDarkMode = true
 
     override fun onDestroy() {
         _binding = null

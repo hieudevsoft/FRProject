@@ -1,19 +1,28 @@
 package com.devapp.fr.ui.fragments
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
-import com.devapp.fr.databinding.FragmentChatsBinding
-import com.devapp.fr.databinding.FragmentSettingsBinding
+import com.devapp.fr.adapters.SlidePagerAdapter
+import com.devapp.fr.data.models.SlideItem
 import com.devapp.fr.databinding.FragmentSplashBinding
+import com.devapp.fr.ui.MainActivity
+import com.devapp.fr.util.AnimationHelper.startAnimClick
+import com.devapp.fr.util.PageTransformHelper
+import com.devapp.fr.util.UiHelper
 
 class FragmentSplash : Fragment(R.layout.fragment_splash) {
 
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
+    private lateinit var slideViewPager: SlidePagerAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,8 +33,75 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //Initialize slide pager
+        initializeViewPager()
+
+        //Setup theme
+        setupTheme()
+
+        //Handle event elements
+        handleEventElements()
+
+        //Handle event view pager
+        handleEventViewPager()
         super.onViewCreated(view, savedInstanceState)
     }
+
+    private fun handleEventViewPager() {
+        binding.splashViewPager2.registerOnPageChangeCallback(object:
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,position,isDarkMode)
+            }
+        })
+    }
+
+    private fun handleEventElements() {
+        binding.btnSkip.setOnClickListener {
+            it.startAnimClick()
+            (requireActivity() as MainActivity).navigateToDestination(R.id.fragmentMainViewPager)
+        }
+    }
+
+    private fun setupTheme() {
+        UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,0,isDarkMode)
+        if (isDarkMode) {
+            ViewCompat.setBackgroundTintList(
+                binding.btnSkip,
+                ColorStateList.valueOf(
+                    resources.getColor(
+                        R.color.color_skip_button_slider_dark_mode,
+                    )
+                )
+            )
+            binding.btnSkip.setTextColor(Color.WHITE)
+            binding.root.setBackgroundColor(
+                resources.getColor(
+                    R.color.background_dark_mode,
+                )
+            )
+        }
+    }
+
+    private fun initializeViewPager() {
+        var colorText: Int = Color.WHITE
+        if (!isDarkMode) colorText = Color.BLACK
+        slideViewPager = SlidePagerAdapter(makeListViewPager(), colorText)
+        binding.splashViewPager2.apply {
+            adapter = slideViewPager
+            setPageTransformer(PageTransformHelper.CubeOutPageTransformer())
+        }
+    }
+
+    private fun makeListViewPager(): List<SlideItem> {
+        return listOf(
+            SlideItem("This is title", "This is Des", R.drawable.ic_food),
+            SlideItem("This is title", "This is Des", R.drawable.ic_food),
+            SlideItem("This is title", "This is Des", R.drawable.ic_food),
+        )
+    }
+
+    var isDarkMode = true
 
     override fun onDestroy() {
         _binding = null

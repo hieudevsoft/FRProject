@@ -31,6 +31,7 @@
         app:abb_indicatorHeight="4dp"
         app:abb_indicatorMargin="16dp"
         app:abb_selectedIndex="1"
+        android:elevation="6dp"
         app:abb_rippleEnabled="true"
         app:abb_indicatorLocation="bottom"
         app:abb_animationInterpolator="@android:anim/anticipate_overshoot_interpolator"

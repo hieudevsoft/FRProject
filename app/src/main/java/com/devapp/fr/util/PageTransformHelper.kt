@@ -48,4 +48,11 @@ object PageTransformHelper {
             private val TEMP_FLOAT_OFFSET = FloatArray(2)
         }
     }
+    class CubeOutPageTransformer : ViewPager2.PageTransformer {
+        override fun transformPage(page: View, pos: Float) {
+            page.pivotX = (if (pos < 0f) page.width.toFloat() else 0f)
+            page.pivotY = page.height * 0.5f
+            page.rotationY = 90f * pos
+        }
+    }
 }
