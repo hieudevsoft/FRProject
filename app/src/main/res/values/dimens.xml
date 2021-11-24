@@ -16,4 +16,5 @@
     <!--Size of icon,image....-->
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
+
 </resources>

@@ -126,7 +126,8 @@ class FragmentMainViewPager : ThemeFragment() {
     private fun makeListFragment ():List<Fragment>{
         return listOf(
             FragmentSettings(),
-            FragmentChats()
+            FragmentChats(),
+            FragmentLoves()
         )
     }
 

@@ -107,7 +107,6 @@ dependencies {
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:$data_store_version"
 
-
     //Manger Theme
     implementation "com.dolatkia:animated-theme-manager:$theme_manager"
 

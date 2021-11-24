@@ -93,9 +93,9 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
 
     private fun makeListViewPager(): List<SlideItem> {
         return listOf(
-            SlideItem("This is title", "This is Des", R.drawable.ic_food),
-            SlideItem("This is title", "This is Des", R.drawable.ic_food),
-            SlideItem("This is title", "This is Des", R.drawable.ic_food),
+            SlideItem("This is title 1", "This is Des 1", R.drawable.ic_food),
+            SlideItem("This is title 2", "This is Des 2", R.drawable.ic_food),
+            SlideItem("This is title 3", "This is Des 3", R.drawable.ic_food),
         )
     }
 

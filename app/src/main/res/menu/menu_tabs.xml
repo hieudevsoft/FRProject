@@ -8,5 +8,8 @@
         android:id="@+id/tab_chats"
         android:icon="@drawable/ic_chat"
         android:title="@string/chat" />
-
+    <item
+        android:id="@+id/tabs_love"
+        android:icon="@drawable/ic_heart"
+        android:title="@string/love" />
 </menu>
