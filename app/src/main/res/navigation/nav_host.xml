@@ -11,14 +11,13 @@
     <fragment
         android:id="@+id/fragmentSplash"
         android:name="com.devapp.fr.ui.fragments.FragmentSplash"
-        android:label="FragmentSplash" >
-        <action
-            android:id="@+id/action_fragmentSplash_to_fragmentMainViewPager"
-            app:destination="@id/fragmentMainViewPager"
-            app:enterAnim="@anim/anim_slide_in_right"
-            app:exitAnim="@anim/anim_slide_out_right"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/fragmentMainViewPager"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="FragmentSplash" />
+    <fragment
+        android:id="@+id/fragmentChats"
+        android:name="com.devapp.fr.ui.fragments.FragmentChats"
+        android:label="FragmentChats" />
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="com.devapp.fr.ui.fragments.FragmentSettings"
+        android:label="FragmentSettings" />
 </navigation>
