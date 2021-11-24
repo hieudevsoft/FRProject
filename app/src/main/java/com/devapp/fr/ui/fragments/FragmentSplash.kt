@@ -51,7 +51,7 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
         binding.splashViewPager2.registerOnPageChangeCallback(object:
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,position,isDarkMode)
+                UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,position)
             }
         })
     }
@@ -64,28 +64,26 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
     }
 
     private fun setupTheme() {
-        UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,0,isDarkMode)
-        if (isDarkMode) {
+        UiHelper.makeIndicatorCircle(3,requireContext(),binding.layoutDot,0)
             ViewCompat.setBackgroundTintList(
                 binding.btnSkip,
                 ColorStateList.valueOf(
                     resources.getColor(
-                        R.color.color_skip_button_slider_dark_mode,
+                        R.color.background_dialog_light,
                     )
                 )
             )
-            binding.btnSkip.setTextColor(Color.WHITE)
+            binding.btnSkip.setTextColor(resources.getColor(R.color.background_dark_mode))
             binding.root.setBackgroundColor(
                 resources.getColor(
                     R.color.background_dark_mode,
                 )
             )
-        }
+        binding.btnSkip.iconTint = ColorStateList.valueOf(resources.getColor(R.color.background_dark_mode))
     }
 
     private fun initializeViewPager() {
-        var colorText: Int = Color.WHITE
-        if (!isDarkMode) colorText = Color.BLACK
+        val colorText: Int = Color.WHITE
         slideViewPager = SlidePagerAdapter(makeListViewPager(), colorText)
         binding.splashViewPager2.apply {
             adapter = slideViewPager
@@ -100,8 +98,6 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
             SlideItem("This is title", "This is Des", R.drawable.ic_food),
         )
     }
-
-    var isDarkMode = true
 
     override fun onDestroy() {
         _binding = null

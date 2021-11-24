@@ -2,14 +2,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/LARGE_SPACE"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.google.android.material.textview.MaterialTextView
-        app:layout_constraintStart_toStartOf="parent"
+
+    <RelativeLayout
+        android:id="@+id/lyThemeMode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Settings"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tvDarkMode"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:fontFamily="@font/nunito_regular"
+            android:text="@string/dark_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchDarkMode"
+            style="@style/Widget.App.Switch"
+            app:useMaterialThemeColors="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

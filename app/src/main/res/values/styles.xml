@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FR" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.FR" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -25,5 +25,75 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+<!--    Style DarkTheme Dialog-->
+    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog.DarkTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyleDarkTheme</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyleDarkTheme</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TextTitleStyleDarkTheme</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/TextBodyStyleDarkTheme</item>
+        <item name="android:background">@color/background_dark_mode</item>
+    </style>
+
+    <style name="PositiveButtonStyleDarkTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/background_dialog_dark</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+    </style>
+
+    <style name="NegativeButtonStyleDarkTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+    </style>
+    <style name="TextTitleStyleDarkTheme" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">@dimen/TEXT_SIZE_NORMAL</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="TextBodyStyleDarkTheme" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">@dimen/TEXT_SIZE_SMALL</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--    Style LightTheme Dialog-->
+    <style name="MyThemeOverlay.MaterialComponents.MaterialAlertDialog.LightTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyleLightTheme</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyleLightTheme</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TextTitleStyleLightTheme</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/TextBodyStyleLightTheme</item>
+        <item name="android:background">@color/background_light_mode</item>
+    </style>
+
+    <style name="PositiveButtonStyleLightTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/background_light_mode</item>
+        <item name="backgroundTint">@color/text_light_mode</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+    </style>
+
+    <style name="NegativeButtonStyleLightTheme" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="backgroundTint">@color/background_light_mode</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+    </style>
+    <style name="TextTitleStyleLightTheme" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">@dimen/TEXT_SIZE_NORMAL</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+        <item name="android:textColor">@color/text_light_mode</item>
+    </style>
+    <style name="TextBodyStyleLightTheme" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textSize">@dimen/TEXT_SIZE_SMALL</item>
+        <item name="fontFamily">@font/varelaround_regular</item>
+        <item name="android:textColor">@color/text_light_mode</item>
+    </style>
+
+    <!--Switch Style-->
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorSecondary">@color/color_switch_100</item>
+    </style>
 
 </resources>

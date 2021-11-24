@@ -8,9 +8,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+<!--    Dark theme-->
     <color name="background_dark_mode">#16162C</color>
     <color name="text_dark_mode">#DDDDE0</color>
     <color name="sub_text_dark_mode">#9898A1</color>
     <color name="color_skip_button_slider_dark_mode">#FFBB86FC</color>
+    <color name="background_dialog_dark">#1f2124</color>
+
+    <!--    Light theme-->
+    <color name="background_light_mode">#FAFAFA</color>
+    <color name="text_light_mode">#53586B</color>
+    <color name="sub_text_light_mode">#9E9E9E</color>
+    <color name="color_skip_button_slider_light_mode">#E3E4E6</color>
+    <color name="background_dialog_light">#FFFFFF</color>
+
+    <!--Color others-->
+    <color name="color_switch_900">#FFC107</color>
+    <color name="color_switch_100">#F8D261</color>
 
 </resources>

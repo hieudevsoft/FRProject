@@ -15,28 +15,35 @@
         android:layout_height="0dp"
         android:fitsSystemWindows="true"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintBottom_toTopOf="@id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_host" />
-    <nl.joery.animatedbottombar.AnimatedBottomBar
-        android:id="@+id/bottomBar"
+
+    <com.google.android.material.card.MaterialCardView
+        app:cardCornerRadius="0dp"
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:abb_indicatorAppearance="round"
-        app:abb_indicatorHeight="4dp"
-        app:abb_indicatorMargin="16dp"
-        app:abb_selectedIndex="1"
-        android:elevation="6dp"
-        app:abb_rippleEnabled="true"
-        app:abb_indicatorLocation="bottom"
-        app:abb_animationInterpolator="@android:anim/anticipate_overshoot_interpolator"
-        app:abb_animationDuration="400"
-        app:abb_textAppearance="@style/CustomTextBottomBar"
-        app:abb_selectedTabType="icon"
-        app:abb_tabs="@menu/menu_tabs" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <nl.joery.animatedbottombar.AnimatedBottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:abb_animationDuration="400"
+            app:abb_animationInterpolator="@android:anim/anticipate_overshoot_interpolator"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorHeight="4dp"
+            app:abb_indicatorLocation="bottom"
+            app:abb_indicatorMargin="16dp"
+            app:abb_rippleEnabled="true"
+            app:abb_selectedIndex="1"
+            app:abb_selectedTabType="icon"
+            app:abb_tabs="@menu/menu_tabs"
+            app:abb_textAppearance="@style/CustomTextBottomBar" />
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

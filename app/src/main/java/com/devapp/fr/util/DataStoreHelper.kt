@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.devapp.fr.util.Constants.DATA_STORE_NAME
+import com.devapp.fr.util.Constants.KEY_DARK_MODE
 import com.devapp.fr.util.Constants.KEY_SKIP_SLIDE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -21,7 +22,7 @@ class DataStoreHelper private constructor() {
     companion object{
         @Volatile
         private var instance:DataStoreHelper?=null
-        fun getInstance(context:Context):DataStoreHelper{
+        fun getInstance():DataStoreHelper{
             if(instance==null){
                 synchronized(this){
                     return if(instance==null){
@@ -36,6 +37,7 @@ class DataStoreHelper private constructor() {
     //Make key for save to data store
     private object PreferenceKeys{
         val skipSlide = booleanPreferencesKey(KEY_SKIP_SLIDE)
+        val darkMode = booleanPreferencesKey(KEY_DARK_MODE)
     }
 
     /*
@@ -61,6 +63,32 @@ class DataStoreHelper private constructor() {
     }
     /*
     * Save and read value for skipSlide key
+    * End
+    */
+
+    /*
+    * Save and read value for darkMode key
+    * Start
+    */
+    suspend fun saveDarkMode(dataStore: DataStore<Preferences>,value:Boolean){
+        dataStore.edit { preference->
+            preference[PreferenceKeys.darkMode] = value
+        }
+    }
+    fun getDarkMode(dataStore: DataStore<Preferences>): Flow<Boolean> {
+        return dataStore.data.catch {
+            if(it is IOException){
+                Log.d(TAG, "getSkipSlide: "+it.message.toString())
+                emit(emptyPreferences())
+            } else{
+                throw it
+            }
+        }.map {
+            it[PreferenceKeys.darkMode]?:false
+        }
+    }
+    /*
+    * Save and read value for darkMode key
     * End
     */
 
