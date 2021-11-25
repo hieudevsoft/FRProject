@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
 <!--    Dark theme-->
-    <color name="background_dark_mode">#16162C</color>
+    <color name="background_dark_mode">#1D2733</color>
     <color name="text_dark_mode">#DDDDE0</color>
     <color name="sub_text_dark_mode">#9898A1</color>
     <color name="color_skip_button_slider_dark_mode">#FFBB86FC</color>
