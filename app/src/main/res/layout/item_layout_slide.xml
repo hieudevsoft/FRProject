@@ -10,7 +10,7 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/SIZE_ICON_SLIDE"
         android:layout_height="@dimen/SIZE_ICON_SLIDE"
-        android:src="@drawable/ic_food"
+        android:src="@drawable/img_splashscreen1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
