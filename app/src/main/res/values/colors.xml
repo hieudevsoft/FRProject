@@ -25,5 +25,8 @@
     <!--Color others-->
     <color name="color_switch_900">#FFC107</color>
     <color name="color_switch_100">#F8D261</color>
+    <color name="color_blue_500">#4b86b4</color>
+    <color name="color_grey">#8D8E90</color>
+    <color name="color_white_500">#E7E8EB</color>
 
 </resources>

@@ -6,4 +6,12 @@
     <string name="skip">Skip</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="love">Loves</string>
+
+    <!--Splash-->
+    <string name="title1">Kết nối</string>
+    <string name="des1">Thỏa sức tìm kiếm những người bạn ,tạo cảm giác thoải mái trong các mối quan hệ</string>
+    <string name="title2">Tương tác</string>
+    <string name="des2">Có cơ hội tìm kiếm một nửa yêu thương qua sự trợ giúp của ứng</string>
+    <string name="title3">Thoải mái</string>
+    <string name="des3">Giao diện thân thiện, chức năng dễ dàng sử dụng tăng sự trải nghiệm</string>
 </resources>

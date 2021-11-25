@@ -6,14 +6,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.app.Activity
 import android.content.DialogInterface
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.devapp.fr.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-
-
-
-
-
 
 object UiHelper {
     fun makeIndicatorCircle(
@@ -58,5 +54,15 @@ object UiHelper {
                 dialogInterface.dismiss()
             }
             .show()
+    }
+
+    fun View.GONE(){
+        this.visibility = View.GONE
+    }
+    fun View.VISIBLE(){
+        this.visibility = View.VISIBLE
+    }
+    fun View.INVISIBLE(){
+        this.visibility = View.INVISIBLE
     }
 }

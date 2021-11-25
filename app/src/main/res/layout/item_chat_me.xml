@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/LARGEST_SPACE"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/_1sdp"
+            android:fontFamily="@font/nunito_regular"
+            android:text="10:10 12/11/2011"
+            android:id="@+id/tvTimeMe"
+            android:textColor="@color/color_grey"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CustomCardMessageMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/cardViewMessageMe"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/color_blue_500"
+            app:cardUseCompatPadding="true">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/tvMessageMe"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="start"
+                android:maxEms="9"
+                android:padding="@dimen/NORMAL_SPACE"
+                android:text="This is content Text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/TEXT_SIZE_SMALL" />
+
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
