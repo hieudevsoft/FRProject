@@ -1,31 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/LARGE_SPACE"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <RelativeLayout
-        android:id="@+id/lyThemeMode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textview.MaterialTextView
+        android:layout_height="0dp"
+        android:layout_weight="0.7">
+
+        <ImageView
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:src="@drawable/ic_menu" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/icAvatar"
+            android:background="@drawable/custom_bg_avatar"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_centerVertical="true"
-            android:id="@+id/tvDarkMode"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:fontFamily="@font/nunito_regular"
-            android:text="@string/dark_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchDarkMode"
-            style="@style/Widget.App.Switch"
-            app:useMaterialThemeColors="true"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_alignParentEnd="true">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_avatar" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/icNotificatons"
+            android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+            android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/MEDIUM_SPACE"
+            android:layout_toStartOf="@+id/icAvatar"
+            android:src="@drawable/ic_notifications"
+            android:background="@null"/>
     </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.85"
+        android:text="@string/settings"
+        android:textColor="@color/black"
+        android:textSize="@dimen/TEXT_SIZE_LARGE"
+        android:textStyle="bold"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8.45"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/MEDIUM_SPACE"
+            android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyThemeMode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <ImageView
+                        android:id="@+id/icSwitch"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_light_night"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvDarkMode"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icSwitch"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/dark_mode" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchDarkMode"
+                        style="@style/Widget.App.Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        app:useMaterialThemeColors="true" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyProfile"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_bg_item_setting"
+                    android:padding="@dimen/MEDIUM_SPACE">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icProfile"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_profile"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvProfile"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icProfile"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/profile" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyFriendRequest"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icFriendRequest"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_person_add"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvFriendRequest"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icFriendRequest"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/friend" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icNotifications"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_notifications"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvNotifications"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icNotifications"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/notifi" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyRankings"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icRank"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_ranks"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvRank"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icRank"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/ranks" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyLogout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icLogout"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_logout"
+                        android:rotation="180"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvLogout"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icLogout"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/logout" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyAboutUs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icAboutUs"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_about_us"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvAboutUs"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icAboutUs"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/about" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyHelps"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/SIZE_CARD_VIEW"
+                app:cardUseCompatPadding="true"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:background="@drawable/custom_bg_item_setting">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:background="@drawable/custom_bg_item_setting">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/icHelps"
+                        android:layout_width="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_height="@dimen/ICON_SIZE_MEDIUM"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/ic_help"
+                        app:useMaterialThemeColors="true"
+                        android:layout_centerVertical="true"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvHelps"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/LARGE_SPACE"
+                        android:layout_toEndOf="@+id/icHelps"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/helps" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

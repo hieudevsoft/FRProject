@@ -110,6 +110,4 @@ dependencies {
     //Manger Theme
     implementation "com.dolatkia:animated-theme-manager:$theme_manager"
 
-
-
 }

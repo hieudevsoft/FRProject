@@ -12,9 +12,12 @@
     <dimen name="MEDIUM_SPACE">@dimen/_8sdp</dimen>
     <dimen name="LARGE_RADIUS">@dimen/_16sdp</dimen>
     <dimen name="MEDIUM_RADIUS">@dimen/_12sdp</dimen>
+    <dimen name="CORNER_RADIUS_SMALL">10dp</dimen>
 
     <!--Size of icon,image....-->
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
+    <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
+    <dimen name="SIZE_CARD_VIEW">80dp</dimen>
 
 </resources>

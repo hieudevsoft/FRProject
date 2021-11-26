@@ -4,6 +4,14 @@
     <string name="chat">Chats</string>
     <string name="settings">Settings</string>
     <string name="skip">Skip</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode">Chế độ tối</string>
     <string name="love">Loves</string>
+    <string name="profile">Thông tin cá nhân</string>
+    <string name="friend">Lời mời kết nối</string>
+    <string name="notifi">Thông báo</string>
+    <string name="ranks">Bảng xếp hạng coin</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="about">Về chúng tôi</string>
+    <string name="helps">Trợ giúp</string>
+
 </resources>
