@@ -28,5 +28,8 @@
     <color name="color_blue_500">#4b86b4</color>
     <color name="color_grey">#8D8E90</color>
     <color name="color_white_500">#E7E8EB</color>
+    <color name="color_orange_500">#E76F51</color>
+    <color name="color_white_800">#FCF0F0F0</color>
+    <color name="color_dark_800">#FF101010</color>
 
 </resources>

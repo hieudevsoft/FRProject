@@ -114,6 +114,12 @@ dependencies {
     //Loading Dot
     implementation "com.github.justzak:dilatingdotsprogressbar:$dot_loading_version"
 
+    //Wave layout
+    implementation "pl.bclogic:pulsator4droid:$wave_layout"
+
+    //Animator item
+    implementation "jp.wasabeef:recyclerview-animators:$animator_version"
+
 }
 
 

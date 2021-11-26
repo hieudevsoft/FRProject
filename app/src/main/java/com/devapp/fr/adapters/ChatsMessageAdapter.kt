@@ -64,7 +64,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     }
 
-    private val differ = AsyncListDiffer(this,diffUtilItemCallBack)
+    val differ = AsyncListDiffer(this,diffUtilItemCallBack)
 
     fun submitList(list:List<Message>){
         differ.submitList(list)
@@ -95,4 +95,5 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
 }

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentMainViewPager">
+    app:startDestination="@id/fragmentInbox">
 
     <fragment
         android:id="@+id/fragmentMainViewPager"
@@ -15,9 +15,21 @@
     <fragment
         android:id="@+id/fragmentChats"
         android:name="com.devapp.fr.ui.fragments.FragmentChats"
-        android:label="FragmentChats" />
+        android:label="FragmentChats" >
+        <action
+            android:id="@+id/action_fragmentChats_to_fragmentInbox"
+            app:destination="@id/fragmentInbox"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentSettings"
         android:name="com.devapp.fr.ui.fragments.FragmentSettings"
         android:label="FragmentSettings" />
+    <fragment
+        android:id="@+id/fragmentInbox"
+        android:name="com.devapp.fr.ui.fragments.FragmentInbox"
+        android:label="FragmentInbox" />
 </navigation>

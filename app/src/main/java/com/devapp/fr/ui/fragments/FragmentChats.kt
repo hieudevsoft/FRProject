@@ -17,7 +17,6 @@ import com.devapp.fr.databinding.FragmentSettingsBinding
 class FragmentChats : Fragment(R.layout.fragment_chats) {
     val TAG = "FragmentChats"
     private var _binding: FragmentChatsBinding? = null
-    private lateinit var chatsMessageAdapter: ChatsMessageAdapter
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,19 +28,9 @@ class FragmentChats : Fragment(R.layout.fragment_chats) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //Initialize RecyclerView
-        initRecyclerView()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun initRecyclerView() {
-        chatsMessageAdapter = ChatsMessageAdapter()
-        chatsMessageAdapter.submitList(fakeListMessage())
-        binding.recyclerViewChat.apply {
-            adapter = chatsMessageAdapter
-            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        }
-    }
 
     override fun onDestroy() {
         _binding = null
@@ -53,18 +42,5 @@ class FragmentChats : Fragment(R.layout.fragment_chats) {
         super.onDestroyView()
     }
 
-    private fun fakeListMessage():List<Message>{
-        return listOf(
-            Message(id="1",message = "Xin chào cậu tôi muốn làm quen",isMe = true),
-            Message(id="2",message = "Ồ không được đâu mình có người yêu r",isMe = false),
-            Message(id="3",message = "UKM",isMe = true),
-            Message(id="4",message = "BYE",isMe = false),
-            Message(id="5",message = "HI!",isMe = false),
-            Message(id="6",message = "Xin chào cậu tôi muốn làm quen",isMe = true),
-            Message(id="7",message = "Ồ không được đâu mình có người yêu r",isMe = false),
-            Message(id="8",message = "UKM",isMe = true),
-            Message(id="9",message = "BYE",isMe = false),
-            Message(id="10",message = "HI!",isMe = false),
-        )
-    }
+
 }

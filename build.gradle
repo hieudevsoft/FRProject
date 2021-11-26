@@ -24,6 +24,8 @@ buildscript {
         data_store_version="1.0.0"
         theme_manager="1.1.4"
         dot_loading_version="1.0.1"
+        wave_layout="1.0.3"
+        animator_version="4.0.2"
     }
 
     repositories {

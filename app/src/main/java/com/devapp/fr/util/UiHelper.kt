@@ -5,8 +5,16 @@ import android.text.Html
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.app.Activity
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Context.INPUT_SERVICE
 import android.content.DialogInterface
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
+import android.view.inputmethod.InputMethodManager.SHOW_FORCED
+import android.widget.EditText
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.devapp.fr.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -65,4 +73,34 @@ object UiHelper {
     fun View.INVISIBLE(){
         this.visibility = View.INVISIBLE
     }
+
+
+    fun AppCompatEditText.multilineIme(action: Int) {
+        imeOptions = action
+        inputType = EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE
+        setHorizontallyScrolling(false)
+        maxLines = Integer.MAX_VALUE
+    }
+    fun AppCompatEditText.multilineIme(action:Int,callback: (() -> Unit)? = null) {
+        multilineIme(action)
+        setOnEditorActionListener { _, actionId, _ ->
+            if (action == actionId) {
+                callback?.invoke()
+                true
+            }
+            false
+        }
+    }
+
+    fun View.hideKeyboard() {
+        val inputMethodManager = this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    fun View.showKeyboard() {
+        val inputMethodManager = this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(SHOW_FORCED, HIDE_IMPLICIT_ONLY)
+    }
+
+
 }
