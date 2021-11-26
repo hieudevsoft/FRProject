@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
 import com.devapp.fr.adapters.SlidePagerAdapter
-import com.devapp.fr.data.models.SlideItem
+import com.devapp.fr.data.models.items.SlideItem
 import com.devapp.fr.databinding.FragmentSplashBinding
 import com.devapp.fr.ui.MainActivity
 import com.devapp.fr.util.AnimationHelper.startAnimClick
@@ -93,9 +93,9 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
 
     private fun makeListViewPager(): List<SlideItem> {
         return listOf(
-            SlideItem("This is title 1", "This is Des 1", R.drawable.ic_food),
-            SlideItem("This is title 2", "This is Des 2", R.drawable.ic_food),
-            SlideItem("This is title 3", "This is Des 3", R.drawable.ic_food),
+            SlideItem(resources.getString(R.string.title1), resources.getString(R.string.des1), R.drawable.img_splashscreen1),
+            SlideItem(resources.getString(R.string.title2), resources.getString(R.string.des2), R.drawable.img_splashscreen2),
+            SlideItem(resources.getString(R.string.title3), resources.getString(R.string.des3), R.drawable.img_splashscreen3)
         )
     }
 

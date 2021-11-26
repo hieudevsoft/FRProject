@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgPartnerBody"
+            android:src="@drawable/ic_food"
+            android:layout_gravity="bottom"
+            android:layout_width="@dimen/AVATAR_MESSAGE_BODY_SIZE"
+            android:layout_height="@dimen/AVATAR_MESSAGE_BODY_SIZE"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewMessagePartner"
+            style="@style/CustomCardMessagePartner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginBottom="@dimen/LARGEST_SPACE"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginStart="@dimen/MARGIN_SPACE_AVATAR_BODY"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/color_white_500"
+            app:cardUseCompatPadding="true">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMessagePartner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="9"
+                android:textAlignment="textStart"
+                android:fontFamily="@font/nunito_regular"
+                android:padding="@dimen/NORMAL_SPACE"
+                android:text="This is fffffffffffffffffffffffffffffffText"
+                android:textColor="@color/black"
+                android:textSize="@dimen/TEXT_SIZE_SMALL" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTimePartner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="@dimen/MARGIN_SPACE_AVATAR_BODY"
+            android:fontFamily="@font/nunito_regular"
+            android:text="10:10 12/11/2011"
+            android:textColor="@color/color_grey"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

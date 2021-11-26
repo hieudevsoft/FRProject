@@ -4,12 +4,30 @@
     <string name="chat">Chats</string>
     <string name="settings">Settings</string>
     <string name="skip">Skip</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode">Chế độ tối</string>
     <string name="love">Loves</string>
+
     <string name="hint_email"> Nhập email </string>
     <string name="hint_password"> Nhập mật khẩu </string>
     <string name="hint_repassword"> Nhập lại mật khẩu </string>
     <string name="hint_name"> Nhập tên </string>
 
+
+
+    <string name="profile">Thông tin cá nhân</string>
+    <string name="friend">Lời mời kết nối</string>
+    <string name="notifi">Thông báo</string>
+    <string name="ranks">Bảng xếp hạng coin</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="about">Về chúng tôi</string>
+    <string name="helps">Trợ giúp</string>
+
+    <!--Splash-->
+    <string name="title1">Kết nối</string>
+    <string name="des1">Thỏa sức tìm kiếm những người bạn ,tạo cảm giác thoải mái trong các mối quan hệ</string>
+    <string name="title2">Tương tác</string>
+    <string name="des2">Có cơ hội tìm kiếm một nửa yêu thương qua sự trợ giúp của ứng</string>
+    <string name="title3">Thoải mái</string>
+    <string name="des3">Giao diện thân thiện, chức năng dễ dàng sử dụng tăng sự trải nghiệm</string>
 
 </resources>

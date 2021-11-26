@@ -3,8 +3,7 @@ package com.devapp.fr.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.devapp.fr.R
-import com.devapp.fr.data.models.SlideItem
+import com.devapp.fr.data.models.items.SlideItem
 import com.devapp.fr.databinding.ItemLayoutSlideBinding
 
 class SlidePagerAdapter(

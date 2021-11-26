@@ -67,7 +67,7 @@ class MainActivity : ThemeActivity() {
     override fun syncTheme(appTheme: AppTheme) {}
     private fun handleNavHostFragment() {
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.fragmentSplash) {
+            if (destination.id == R.id.fragmentSplash||destination.id==R.id.fragmentInbox) {
                 bottomBar.visibility = View.GONE
             } else {
                 bottomBar.visibility = View.VISIBLE
