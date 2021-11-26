@@ -7,6 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#464646</color>
+    <color name="light_gray">#a2a2a2</color>
+    <color name="blue">#0d8bd4</color>
+    <color name="gradient_start_purple">#b615de</color>
+    <color name="gradient_end_purple">#ff2fc6</color>
+
 
 <!--    Dark theme-->
     <color name="background_dark_mode">#1D2733</color>

@@ -16,5 +16,13 @@
     <!--Size of icon,image....-->
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
+    <dimen name="BUTTON_BACK_SIZE">@dimen/_36sdp</dimen>
 
+    <!--Padding, margin-->
+    <dimen name="LAYOUT_PADDING">@dimen/_12sdp</dimen>
+    <dimen name="MARGIN_SMALL">@dimen/_12sdp</dimen>
+    <dimen name="MARGIN_MEDIUM">@dimen/_24sdp</dimen>
+    <dimen name="MARGIN_LARGE">@dimen/_36sdp</dimen>
+
+    <dimen name="PADDING_SMALL">@dimen/_8sdp</dimen>
 </resources>

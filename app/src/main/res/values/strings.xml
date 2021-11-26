@@ -6,4 +6,10 @@
     <string name="skip">Skip</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="love">Loves</string>
+    <string name="hint_email"> Nhập email </string>
+    <string name="hint_password"> Nhập mật khẩu </string>
+    <string name="hint_repassword"> Nhập lại mật khẩu </string>
+    <string name="hint_name"> Nhập tên </string>
+
+
 </resources>

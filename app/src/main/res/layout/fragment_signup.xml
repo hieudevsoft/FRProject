@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="100"
+    android:orientation="vertical"
+    android:background="@color/background_dark_mode"
+    android:padding="@dimen/LAYOUT_PADDING">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp"
+
+        android:orientation="horizontal">
+        <Button
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="@dimen/BUTTON_BACK_SIZE"
+            android:layout_height="@dimen/BUTTON_BACK_SIZE"
+            app:backgroundTint="@null"
+            android:drawableLeft="@drawable/ic_back"
+            android:background="@drawable/custom_bg_button_login_back_dark"
+            android:drawableTint="@color/white"
+            android:id="@+id/btn_back"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Đăng ký"
+            android:textColor="@color/white"
+            android:textSize="@dimen/TEXT_SIZE_MEDIUM"
+            app:layout_constraintBottom_toBottomOf="@id/btn_back"
+            app:layout_constraintLeft_toRightOf="@id/btn_back"
+            app:layout_constraintTop_toTopOf="@id/btn_back" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng ký tài khoản bằng email"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/light_gray"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_marginBottom="@dimen/MARGIN_SMALL"
+        android:fontFamily="sans-serif-medium"
+        android:text="Email"
+        android:textColor="@color/white"
+        android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/custom_bg_edittext_login"
+        android:hint="@string/hint_email"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:textColorHint="@color/light_gray"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="@dimen/PADDING_SMALL"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_marginBottom="@dimen/MARGIN_SMALL"
+        android:fontFamily="sans-serif-medium"
+        android:text="Tên"
+        android:textColor="@color/white"
+        android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/custom_bg_edittext_login"
+        android:hint="@string/hint_name"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:textColorHint="@color/light_gray"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="@dimen/PADDING_SMALL"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_marginBottom="@dimen/MARGIN_SMALL"
+        android:fontFamily="sans-serif-medium"
+        android:text="Mật khẩu"
+        android:textColor="@color/white"
+        android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/custom_bg_edittext_login"
+        android:hint="@string/hint_password"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:textColorHint="@color/light_gray"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="@dimen/PADDING_SMALL"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_marginBottom="@dimen/MARGIN_SMALL"
+        android:fontFamily="sans-serif-medium"
+        android:text="Nhập lại mật khẩu"
+        android:textColor="@color/white"
+        android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/custom_bg_edittext_login"
+        android:hint="@string/hint_repassword"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:fontFamily="sans-serif-light"
+        android:textColorHint="@color/light_gray"
+
+        android:paddingLeft="@dimen/PADDING_SMALL"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:text="Đăng ký"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bg_button_login"
+        app:backgroundTint="@null"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/MARGIN_SMALL">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã có tài khoản?"
+            android:textColor="@color/light_gray"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/_4sdp"/>
+    </LinearLayout>
+
+</LinearLayout>
