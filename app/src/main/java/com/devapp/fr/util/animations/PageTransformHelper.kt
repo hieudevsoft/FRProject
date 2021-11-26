@@ -1,9 +1,8 @@
-package com.devapp.fr.util
+package com.devapp.fr.util.animations
 
 import android.graphics.Camera
 import android.graphics.Matrix
 import android.view.View
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 

@@ -1,127 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:weightSum="100"
-    android:orientation="vertical"
     android:background="@color/background_dark_mode"
-    android:padding="@dimen/LAYOUT_PADDING">
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/LAYOUT_PADDING"
+    android:weightSum="100">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
         android:orientation="horizontal">
-        <Button
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="@dimen/BUTTON_BACK_SIZE"
-            android:layout_height="@dimen/BUTTON_BACK_SIZE"
-            app:backgroundTint="@null"
-            android:drawableLeft="@drawable/ic_back"
-            android:background="@drawable/custom_bg_button_login_back_dark"
-            android:drawableTint="@color/white"
-            android:id="@+id/btn_back"
-            />
 
         <TextView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/nunito_extra_bold"
             android:text="Đăng nhập"
             android:textColor="@color/white"
             android:textSize="@dimen/TEXT_SIZE_MEDIUM"
-            app:layout_constraintBottom_toBottomOf="@id/btn_back"
-            app:layout_constraintLeft_toRightOf="@id/btn_back"
-            app:layout_constraintTop_toTopOf="@id/btn_back" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <View
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="15"/>
+        android:layout_weight="20">
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <TextView
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/nunito_light"
         android:text="@string/login_note"
         android:textColor="@color/light_gray" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="7"
         android:layout_marginTop="@dimen/MARGIN_LARGE"
-        android:layout_marginBottom="@dimen/MARGIN_SMALL"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="@dimen/MARGIN_SMALLEST"
+        android:layout_weight="5"
+        android:fontFamily="@font/varelaround_regular"
         android:text="Email"
         android:textColor="@color/white"
         android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+
     <EditText
+        android:id="@+id/edtEmail"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"
+        android:padding="@dimen/MEDIUM_SPACE"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="11"
         android:background="@drawable/custom_bg_edittext_login"
+        android:fontFamily="@font/comfortaa_bold"
         android:hint="@string/hint_email"
-        android:textSize="@dimen/TEXT_SIZE_SMALL"
         android:textColorHint="@color/light_gray"
-        android:fontFamily="sans-serif-light"
-        android:paddingLeft="@dimen/PADDING_SMALL"
-
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
-        android:layout_marginBottom="@dimen/MARGIN_SMALL"
-        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="@dimen/MARGIN_SMALL"
+        android:layout_marginBottom="@dimen/MARGIN_SMALLEST"
+        android:layout_weight="5"
+        android:fontFamily="@font/varelaround_regular"
         android:text="Mật khẩu"
         android:textColor="@color/white"
         android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+
     <EditText
+        android:inputType="textPassword"
+        android:id="@+id/edtPassword"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="11"
         android:background="@drawable/custom_bg_edittext_login"
+        android:fontFamily="@font/comfortaa_bold"
         android:hint="@string/hint_password"
-        android:textSize="@dimen/TEXT_SIZE_SMALL"
-        android:textColorHint="@color/light_gray"
-        android:fontFamily="sans-serif-light"
         android:paddingLeft="@dimen/PADDING_SMALL"
-        />
-    <Button
+        android:textColorHint="@color/light_gray"
+        android:textSize="@dimen/TEXT_SIZE_SMALL" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        android:textColor="@color/white"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:fontFamily="@font/comfortaa_bold"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_weight="10.5"
+        android:background="@drawable/custom_bg_button_login"
         android:text="Đăng nhập"
         android:textAllCaps="false"
-        android:background="@drawable/custom_bg_button_login"
-        app:backgroundTint="@null"
-        android:layout_marginTop="@dimen/MARGIN_MEDIUM"/>
+        app:backgroundTint="@null" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/MARGIN_SMALL"
         android:gravity="center"
-        android:layout_marginTop="@dimen/MARGIN_SMALL">
+        android:orientation="horizontal">
+
         <TextView
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bạn chưa có tài khoản?"
-            android:textColor="@color/light_gray"
-            />
+            android:textColor="@color/light_gray" />
+
         <TextView
+            android:id="@+id/tvSignUp"
+            android:fontFamily="@font/nunito_semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_4sdp"
             android:text="Đăng ký"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_marginLeft="@dimen/_4sdp"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

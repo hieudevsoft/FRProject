@@ -10,8 +10,9 @@
     <color name="gray">#464646</color>
     <color name="light_gray">#a2a2a2</color>
     <color name="blue">#0d8bd4</color>
-    <color name="gradient_start_purple">#b615de</color>
-    <color name="gradient_end_purple">#ff2fc6</color>
+    <color name="gradient_start_purple">#E400A7</color>
+    <color name="gradient_end_purple">#CC00F0</color>
+    <color name="gradient_center_purple">#E670DA</color>
 
 
 <!--    Dark theme-->
@@ -41,6 +42,7 @@
     <color name="color_orange_500">#E76F51</color>
     <color name="color_white_800">#FCF0F0F0</color>
     <color name="color_dark_800">#FF101010</color>
+    <color name="color_dark_500">#1C1C1C</color>
 
 
 </resources>

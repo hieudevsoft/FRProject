@@ -1,4 +1,4 @@
-package com.devapp.fr.util
+package com.devapp.fr.util.animations
 
 import android.view.View
 import android.view.animation.AnimationUtils

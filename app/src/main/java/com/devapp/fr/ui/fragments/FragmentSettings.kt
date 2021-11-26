@@ -6,16 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.devapp.fr.R
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
-import com.devapp.fr.util.DataStoreHelper
-import com.devapp.fr.util.SharedPreferencesHelper
-import com.devapp.fr.util.dataStore
+import com.devapp.fr.util.storages.DataStoreHelper
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.Coordinate
 import com.dolatkia.animatedThemeManager.ThemeFragment
@@ -27,7 +25,7 @@ class FragmentSettings : ThemeFragment() {
     val TAG = "FragmentSettings"
     private var _binding:FragmentSettingsBinding?=null
     private val binding get() = _binding!!
-    private lateinit var sharedPreferencesHelper:SharedPreferencesHelper
+    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

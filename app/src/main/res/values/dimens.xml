@@ -23,9 +23,7 @@
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
-
     <dimen name="BUTTON_BACK_SIZE">@dimen/_36sdp</dimen>
-
     <dimen name="SIZE_CARD_VIEW">80dp</dimen>
     <dimen name="MAX_WIDTH_CHAT">@dimen/_210sdp</dimen>
     <dimen name="AVATAR_MESSAGE_BODY_SIZE">@dimen/_18sdp</dimen>
@@ -36,8 +34,8 @@
     <!--Padding, margin-->
     <dimen name="LAYOUT_PADDING">@dimen/_12sdp</dimen>
     <dimen name="MARGIN_SMALL">@dimen/_12sdp</dimen>
+    <dimen name="MARGIN_SMALLEST">@dimen/_4sdp</dimen>
     <dimen name="MARGIN_MEDIUM">@dimen/_24sdp</dimen>
     <dimen name="MARGIN_LARGE">@dimen/_36sdp</dimen>
-
     <dimen name="PADDING_SMALL">@dimen/_8sdp</dimen>
 </resources>

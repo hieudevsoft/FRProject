@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
 
-    app:startDestination="@id/fragmentLogin">
+    app:startDestination="@id/fragmentSplash">
 
 
     <fragment
@@ -13,7 +13,16 @@
     <fragment
         android:id="@+id/fragmentSplash"
         android:name="com.devapp.fr.ui.fragments.FragmentSplash"
-        android:label="FragmentSplash" />
+        android:label="FragmentSplash" >
+        <action
+            android:id="@+id/action_fragmentSplash_to_fragmentLogin"
+            app:destination="@id/fragmentLogin"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            />
+    </fragment>
     <fragment
         android:id="@+id/fragmentChats"
         android:name="com.devapp.fr.ui.fragments.FragmentChats"
@@ -34,11 +43,27 @@
 
         android:id="@+id/fragmentLogin"
         android:name="com.devapp.fr.ui.fragments.FragmentLogin"
-        android:label="FragmentLogin" />
+        android:label="FragmentLogin" >
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentLogin_to_fragmentSignup2"
+            app:destination="@id/fragmentSignup" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentSignup"
         android:name="com.devapp.fr.ui.fragments.FragmentSignup"
-        android:label="FragmentSignup" />
+        android:label="FragmentSignup" >
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentSignup_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.FragmentInbox"

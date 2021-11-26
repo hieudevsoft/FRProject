@@ -8,14 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
 import com.devapp.fr.adapters.SlidePagerAdapter
 import com.devapp.fr.data.models.items.SlideItem
 import com.devapp.fr.databinding.FragmentSplashBinding
-import com.devapp.fr.ui.MainActivity
-import com.devapp.fr.util.AnimationHelper.startAnimClick
-import com.devapp.fr.util.PageTransformHelper
+import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
+import com.devapp.fr.util.animations.PageTransformHelper
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.UiHelper
 
 class FragmentSplash : Fragment(R.layout.fragment_splash) {
@@ -47,6 +49,17 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onStart() {
+        if(SharedPreferencesHelper(requireContext()).readSkipSlide()){
+            val navOption = NavOptions.Builder().apply {
+                setPopUpTo(R.id.fragmentLogin,true)
+            }.build()
+            val direction = FragmentSplashDirections.actionFragmentSplashToFragmentLogin()
+            findNavController().navigate(direction,navOption)
+        }
+        super.onStart()
+    }
+
     private fun handleEventViewPager() {
         binding.splashViewPager2.registerOnPageChangeCallback(object:
             ViewPager2.OnPageChangeCallback() {
@@ -59,7 +72,8 @@ class FragmentSplash : Fragment(R.layout.fragment_splash) {
     private fun handleEventElements() {
         binding.btnSkip.setOnClickListener {
             it.startAnimClick()
-            (requireActivity() as MainActivity).navigateToDestination(R.id.fragmentMainViewPager)
+            SharedPreferencesHelper(requireContext()).saveSkipSlide(true)
+            findNavController().navigate(FragmentSplashDirections.actionFragmentSplashToFragmentLogin())
         }
     }
 

@@ -1,4 +1,4 @@
-package com.devapp.fr.util
+package com.devapp.fr.util.storages
 
 import android.content.Context
 import android.util.Log
@@ -10,7 +10,6 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.devapp.fr.util.Constants.DATA_STORE_NAME
 import com.devapp.fr.util.Constants.KEY_DARK_MODE
-import com.devapp.fr.util.Constants.KEY_SKIP_SLIDE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -21,11 +20,11 @@ class DataStoreHelper private constructor() {
     val TAG = "DataStoreHelper"
     companion object{
         @Volatile
-        private var instance:DataStoreHelper?=null
-        fun getInstance():DataStoreHelper{
-            if(instance==null){
+        private var instance: DataStoreHelper?=null
+        fun getInstance(): DataStoreHelper {
+            if(instance ==null){
                 synchronized(this){
-                    return if(instance==null){
+                    return if(instance ==null){
                         instance = DataStoreHelper()
                         instance as DataStoreHelper
                     } else instance as DataStoreHelper
@@ -36,35 +35,9 @@ class DataStoreHelper private constructor() {
 
     //Make key for save to data store
     private object PreferenceKeys{
-        val skipSlide = booleanPreferencesKey(KEY_SKIP_SLIDE)
         val darkMode = booleanPreferencesKey(KEY_DARK_MODE)
     }
 
-    /*
-    * Save and read value for skipSlide key
-    * Start
-    */
-    suspend fun saveSkipSlide(dataStore: DataStore<Preferences>,value:Boolean){
-        dataStore.edit { preference->
-            preference[PreferenceKeys.skipSlide] = value
-        }
-    }
-    fun getSkipSlide(dataStore: DataStore<Preferences>): Flow<Boolean> {
-        return dataStore.data.catch {
-            if(it is IOException){
-                Log.d(TAG, "getSkipSlide: "+it.message.toString())
-                emit(emptyPreferences())
-            } else{
-                throw it
-            }
-        }.map {
-            it[PreferenceKeys.skipSlide]?:false
-        }
-    }
-    /*
-    * Save and read value for skipSlide key
-    * End
-    */
 
     /*
     * Save and read value for darkMode key

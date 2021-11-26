@@ -1,8 +1,9 @@
-package com.devapp.fr.util
+package com.devapp.fr.util.storages
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.devapp.fr.util.Constants
 
 class SharedPreferencesHelper(context: Context) {
     private var pref: SharedPreferences =
@@ -14,5 +15,12 @@ class SharedPreferencesHelper(context: Context) {
 
     fun readDarkMode():Boolean {
         return pref.getBoolean(Constants.KEY_DARK_MODE_DEC,false)
+    }
+    fun saveSkipSlide(isSkip: Boolean) {
+        pref.edit().putBoolean(Constants.KEY_SKIP_SLIDE,isSkip).apply()
+    }
+
+    fun readSkipSlide():Boolean {
+        return pref.getBoolean(Constants.KEY_SKIP_SLIDE,false)
     }
 }

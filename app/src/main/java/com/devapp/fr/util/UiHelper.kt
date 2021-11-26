@@ -6,18 +6,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.content.Context.INPUT_SERVICE
 import android.content.DialogInterface
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.view.inputmethod.InputMethodManager.SHOW_FORCED
-import android.widget.EditText
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.content.ContextCompat
 import com.devapp.fr.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 object UiHelper {
     fun makeIndicatorCircle(
@@ -102,5 +100,16 @@ object UiHelper {
         inputMethodManager.toggleSoftInput(SHOW_FORCED, HIDE_IMPLICIT_ONLY)
     }
 
+    fun View.showSnackbar(message:String, callBack: (() -> Unit?)? =null){
+        Snackbar.make(
+            this,
+            message,
+            Snackbar.LENGTH_LONG
+        ).setAction("Đã hiểu!"){
+            if (callBack != null) {
+                callBack()
+            }
+        }.show()
+    }
 
 }
