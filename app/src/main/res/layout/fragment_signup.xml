@@ -42,7 +42,7 @@
         android:layout_marginTop="@dimen/MARGIN_MEDIUM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Đăng ký tài khoản bằng email"
+        android:text="@string/signup_note"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/light_gray"/>
 

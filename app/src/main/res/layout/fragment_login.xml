@@ -47,7 +47,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:fontFamily="sans-serif-light"
-        android:text="Đăng nhập bằng Email mà bạn đã đăng ký"
+        android:text="@string/login_note"
         android:textColor="@color/light_gray" />
 
     <TextView

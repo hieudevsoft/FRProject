@@ -11,8 +11,8 @@
     <string name="hint_password"> Nhập mật khẩu </string>
     <string name="hint_repassword"> Nhập lại mật khẩu </string>
     <string name="hint_name"> Nhập tên </string>
-
-
+    <string name="login_note">Đăng nhập bằng Email mà bạn đã đăng ký</string>
+    <string name="signup_note">Đăng ký tài khoản bằng email</string>
 
     <string name="profile">Thông tin cá nhân</string>
     <string name="friend">Lời mời kết nối</string>
