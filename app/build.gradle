@@ -44,6 +44,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'com.yanzhenjie:loading:1.0.2'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -109,5 +110,14 @@ dependencies {
 
     //Manger Theme
     implementation "com.dolatkia:animated-theme-manager:$theme_manager"
+
+    //Loading Dot
+    implementation "com.github.justzak:dilatingdotsprogressbar:$dot_loading_version"
+
+    //Wave layout
+    implementation "pl.bclogic:pulsator4droid:$wave_layout"
+
+    //Animator item
+    implementation "jp.wasabeef:recyclerview-animators:$animator_version"
 
 }

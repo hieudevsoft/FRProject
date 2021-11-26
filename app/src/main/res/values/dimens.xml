@@ -3,13 +3,18 @@
     <!--Size text-->
     <dimen name="TEXT_SIZE_BOTTOM_BAR_TEXT">@dimen/_14ssp</dimen>
     <dimen name="TEXT_SIZE_LARGE">@dimen/_30ssp</dimen>
-    <dimen name="TEXT_SIZE_MEDIUM">@dimen/_24sdp</dimen>
-    <dimen name="TEXT_SIZE_NORMAL">@dimen/_16sdp</dimen>
-    <dimen name="TEXT_SIZE_SMALL">@dimen/_12sdp</dimen>
+    <dimen name="TEXT_SIZE_MEDIUM">@dimen/_24ssp</dimen>
+    <dimen name="TEXT_SIZE_NORMAL">@dimen/_16ssp</dimen>
+    <dimen name="TEXT_SIZE_SMALL">@dimen/_12ssp</dimen>
+    <dimen name="TEXT_SIZE_SMALLEST">@dimen/_10ssp</dimen>
 
     <!--Size space-->
+    <dimen name="ULTIMATE_SPACE">@dimen/_24sdp</dimen>
+    <dimen name="LARGEST_SPACE">@dimen/_16sdp</dimen>
     <dimen name="LARGE_SPACE">@dimen/_12sdp</dimen>
     <dimen name="MEDIUM_SPACE">@dimen/_8sdp</dimen>
+    <dimen name="NORMAL_SPACE">@dimen/_6sdp</dimen>
+    <dimen name="SMALL_SPACE">@dimen/_4sdp</dimen>
     <dimen name="LARGE_RADIUS">@dimen/_16sdp</dimen>
     <dimen name="MEDIUM_RADIUS">@dimen/_12sdp</dimen>
     <dimen name="CORNER_RADIUS_SMALL">10dp</dimen>
@@ -19,5 +24,9 @@
     <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
     <dimen name="SIZE_CARD_VIEW">80dp</dimen>
+    <dimen name="MAX_WIDTH_CHAT">@dimen/_210sdp</dimen>
+    <dimen name="AVATAR_MESSAGE_BODY_SIZE">@dimen/_18sdp</dimen>
+    <dimen name="MARGIN_SPACE_AVATAR_BODY">@dimen/_24sdp</dimen>
+    <dimen name="SIZE_ICON_24">@dimen/_24sdp</dimen>
 
 </resources>

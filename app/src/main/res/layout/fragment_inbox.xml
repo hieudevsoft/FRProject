@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_bias="0"
+        android:padding="@dimen/MEDIUM_SPACE"
+        app:layout_constraintBottom_toTopOf="@id/lyBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lyBox"
+        android:layout_margin="@dimen/SMALL_SPACE"
+        android:layout_marginBottom="@dimen/NORMAL_SPACE"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center">
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibVoiceTemp"
+                android:layout_width="@dimen/SIZE_ICON_24"
+                android:layout_height="@dimen/SIZE_ICON_24"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_voice" />
+
+            <pl.bclogic.pulsator4droid.library.PulsatorLayout
+                android:id="@+id/pulIbVoice"
+                android:visibility="gone"
+                android:layout_width="@dimen/SIZE_ICON_24"
+                android:layout_height="@dimen/SIZE_ICON_24"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:pulse_count="3"
+                app:pulse_duration="1500"
+                app:pulse_color="@color/color_blue_500"
+                app:pulse_startFromScratch="true"
+                app:pulse_interpolator="Linear"
+                app:pulse_repeat="0"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ibVoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_voice" />
+            </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_camera" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtSendMessage"
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/SMALL_SPACE"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:background="@drawable/custom_background_send"
+            android:backgroundTint="@color/color_white_500"
+            android:fontFamily="@font/comfortaa_regular"
+            android:hint="Xin chào...."
+            android:inputType="textMultiLine"
+            android:padding="@dimen/MEDIUM_SPACE"
+            android:textColor="@color/color_dark_800"
+            android:textCursorDrawable="@null" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSendMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/color_orange_500"
+                app:cardCornerRadius="@dimen/LARGE_RADIUS"
+                app:cardUseCompatPadding="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:src="@drawable/ic_send" />
+
+            </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

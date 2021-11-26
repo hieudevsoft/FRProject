@@ -10,4 +10,8 @@ object Constants {
     //Shared Preferences
     const val PREF_NAME="fr_name"
     const val KEY_DARK_MODE_DEC = "key_dark_mode_dec"
+
+    //Type Message
+    const val FROM_ME=0
+    const val FROM_PARTNER=1
 }

@@ -96,4 +96,27 @@
         <item name="colorSecondary">@color/color_switch_100</item>
     </style>
 
+    <!--Message-->
+    <style name="CustomCardMessageMe" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.CutMe</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MaterialCardView.CutMe" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">@dimen/LARGE_RADIUS</item>
+        <item name="cornerSizeBottomRight">@dimen/LARGE_RADIUS</item>
+        <item name="cornerSizeBottomLeft">@dimen/LARGE_RADIUS</item>
+    </style>
+
+    <style name="CustomCardMessagePartner" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.CutPartner</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MaterialCardView.CutPartner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/LARGE_RADIUS</item>
+        <item name="cornerSizeTopLeft">@dimen/LARGE_RADIUS</item>
+        <item name="cornerSizeBottomRight">@dimen/LARGE_RADIUS</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
 </resources>
