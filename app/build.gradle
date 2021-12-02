@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.devapp.fr"
-        minSdk 21
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        dataBinding true
         viewBinding true
     }
 
@@ -72,8 +73,9 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_okhttp_version"
 
     //Navigation Components
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.fragment:fragment-ktx:$navigation_version_ktx"
+    api "androidx.navigation:navigation-fragment-ktx:$navigation_version_api"
+    api "androidx.navigation:navigation-ui-ktx:$navigation_version_api"
 
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -120,4 +122,7 @@ dependencies {
     //Animator item
     implementation "jp.wasabeef:recyclerview-animators:$animator_version"
 
+    //Temp
+    implementation 'gun0912.ted:tedbottompicker:2.0.1'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

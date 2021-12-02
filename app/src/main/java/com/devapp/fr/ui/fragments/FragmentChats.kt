@@ -5,14 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
-import com.devapp.fr.adapters.ChatsMessageAdapter
-import com.devapp.fr.data.models.items.Message
 import com.devapp.fr.databinding.FragmentChatsBinding
-import com.devapp.fr.databinding.FragmentSettingsBinding
 
 class FragmentChats : Fragment(R.layout.fragment_chats) {
     val TAG = "FragmentChats"

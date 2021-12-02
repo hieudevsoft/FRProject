@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
 
-    app:startDestination="@id/fragmentSplash">
+    app:startDestination="@id/fragmentLogin">
 
 
     <fragment
@@ -49,7 +49,7 @@
             app:exitAnim="@anim/anim_slide_out_right"
             app:popEnterAnim="@anim/anim_slide_in_right"
             app:popExitAnim="@anim/anim_slide_out_left"
-            android:id="@+id/action_fragmentLogin_to_fragmentSignup2"
+            android:id="@+id/action_fragmentLogin_to_fragmentSignup"
             app:destination="@id/fragmentSignup" />
     </fragment>
     <fragment

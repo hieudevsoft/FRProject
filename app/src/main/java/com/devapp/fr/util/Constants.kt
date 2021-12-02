@@ -12,6 +12,14 @@ object Constants {
     const val KEY_DARK_MODE_DEC = "key_dark_mode_dec"
 
     //Type Message
-    const val FROM_ME=0
-    const val FROM_PARTNER=1
+    const val TEXT_FROM_ME=0
+    const val TEXT_FROM_PARTNER=1
+    const val IMAGE_FROM_ME=3
+    const val IMAGE_FROM_PARTNER=4
+    const val AUDIO_FROM_ME=5
+    const val AUDIO_FROM_PARTNER=6
+
+    //Request code
+    const val RC_MEDIA = 100
+
 }

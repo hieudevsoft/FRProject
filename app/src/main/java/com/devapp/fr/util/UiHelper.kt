@@ -16,6 +16,10 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.devapp.fr.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import android.util.DisplayMetrics
+import android.graphics.Bitmap
+import kotlin.math.roundToInt
+
 
 object UiHelper {
     fun makeIndicatorCircle(
@@ -110,6 +114,29 @@ object UiHelper {
                 callBack()
             }
         }.show()
+    }
+
+
+    fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    fun convertPixelsToDp(px: Float, context: Context): Float {
+        return px / (context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
+    fun scaleDown(
+        realImage: Bitmap, maxImageSize: Float,
+        filter: Boolean
+    ): Bitmap? {
+        val ratio = (maxImageSize / realImage.width).coerceAtMost(maxImageSize / realImage.height)
+        val width = (ratio * realImage.width).roundToInt()
+        val height = (ratio * realImage.height).roundToInt()
+        return Bitmap.createScaledBitmap(
+                realImage, width,
+                height, filter
+            )
+
     }
 
 }

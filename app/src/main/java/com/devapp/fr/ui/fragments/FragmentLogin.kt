@@ -62,18 +62,19 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
             }
 
             tvSignUp.setOnClickListener {
-                findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSignup2())
+                val direciton = FragmentLoginDirections.actionFragmentLoginToFragmentSignup();
+                requireParentFragment().findNavController().navigate(direciton)
             }
         }
     }
 
     override fun onDestroy() {
-        _binding = null
         super.onDestroy()
     }
 
     override fun onDestroyView() {
         Log.d(TAG, "onDestroyView")
         super.onDestroyView()
+        _binding = null
     }
 }

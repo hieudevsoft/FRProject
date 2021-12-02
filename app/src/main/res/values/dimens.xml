@@ -29,6 +29,7 @@
     <dimen name="AVATAR_MESSAGE_BODY_SIZE">@dimen/_18sdp</dimen>
     <dimen name="MARGIN_SPACE_AVATAR_BODY">@dimen/_24sdp</dimen>
     <dimen name="SIZE_ICON_24">@dimen/_24sdp</dimen>
+    <dimen name="MAX_SIZE_IMAGE_MASSAGE">@dimen/_200sdp</dimen>
 
 
     <!--Padding, margin-->

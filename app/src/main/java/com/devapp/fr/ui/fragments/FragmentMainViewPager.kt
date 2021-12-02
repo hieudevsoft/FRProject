@@ -14,7 +14,7 @@ import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
-import com.devapp.fr.ui.MainActivity
+import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.animations.PageTransformHelper
 import com.devapp.fr.util.UiHelper
