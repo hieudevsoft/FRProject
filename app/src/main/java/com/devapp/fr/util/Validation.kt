@@ -1,16 +1,21 @@
 package com.devapp.fr.util
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 object Validation {
 
-    const val regexEmail = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}\$"
-    const val regexName = "[a-z \\u00E0-\\u00FC]{1,50}"
+    const val REGEX_NAME = "[a-z \\u00E0-\\u00FC]{1,50}"
+    val VALID_EMAIL_ADDRESS_REGEX: Pattern =
+        Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
 
-    fun validateEmailField(email:String):Boolean{
-        return  regexEmail.toRegex().matches(email)
+    fun validateEmailField(emailStr: String?): Boolean {
+        val matcher: Matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr)
+        return matcher.find()
     }
 
     fun validateNameField(name:String):Boolean{
-        return regexName.toRegex().matches(name)
+        return REGEX_NAME.toRegex().matches(name)
     }
 
     fun validatePasswordField(password:String):Boolean{
@@ -18,7 +23,7 @@ object Validation {
     }
 
     fun validateConfirmPasswordFiled(password:String,confirmPassword:String):Boolean{
-        return password===confirmPassword
+        return password==confirmPassword
     }
 
     fun validateSignUpFields(email:String,name:String,pass:String,confirmPass:String):Boolean{
