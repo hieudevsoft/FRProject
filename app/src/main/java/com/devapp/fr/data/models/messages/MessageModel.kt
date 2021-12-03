@@ -9,8 +9,10 @@ abstract class MessageModel(
     open val userId: String,
     open var type:MessageType,
     open var isMe:Boolean=true,
-    open var react:Int=-1,
-    open var isReact:Boolean=false,
+    open var react:MutableList<Reaction> = mutableListOf(
+        Reaction(-1,0,true),
+        Reaction(-1,0,false)
+    ),
     open var time:String = SimpleDateFormat("dd/MM/yyyy, hh:mm aa", Locale.getDefault()).format(Date().time)
     ) {
 

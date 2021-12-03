@@ -9,8 +9,6 @@ data class MessageText(
     override val userId:String="",
     override var type:MessageType,
     override var isMe:Boolean=true,
-    override var react:Int=-1,
-    override var isReact:Boolean=false,
     var message:String,
     var isTexting:Boolean=false,
 ):MessageModel(id,userId,type) {

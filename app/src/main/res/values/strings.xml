@@ -31,4 +31,13 @@
     <string name="title3">Thoải mái</string>
     <string name="des3">Giao diện thân thiện, chức năng dễ dàng sử dụng tăng sự trải nghiệm</string>
 
+    <string-array name="reactions">
+        <item>Thích</item>
+        <item>Yêu</item>
+        <item>Cười</item>
+        <item>Wow</item>
+        <item>Buồn</item>
+        <item>Tức</item>
+    </string-array>
+
 </resources>

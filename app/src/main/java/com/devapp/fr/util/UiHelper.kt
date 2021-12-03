@@ -18,6 +18,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import android.util.DisplayMetrics
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.TypedValue
+import android.util.TypedValue.COMPLEX_UNIT_DIP
+import android.widget.ImageView
+import com.github.pgreze.reactions.PopupGravity
+import com.github.pgreze.reactions.ReactionsConfig
+import com.github.pgreze.reactions.ReactionsConfigBuilder
+import com.github.pgreze.reactions.dsl.reactionConfig
+import com.github.pgreze.reactions.dsl.reactions
 import kotlin.math.roundToInt
 
 
@@ -136,7 +146,51 @@ object UiHelper {
                 realImage, width,
                 height, filter
             )
+    }
 
+
+    const val RADIUS_POP_UP=16
+    fun configReactionPopUp(context:Context,isMe: Boolean): ReactionsConfig {
+        return reactionConfig(context){
+            reactions {
+                reaction { R.drawable.ic_react_like scale ImageView.ScaleType.CENTER_INSIDE }
+                reaction { R.drawable.ic_react_love scale ImageView.ScaleType.CENTER_INSIDE }
+                reaction { R.drawable.ic_react_laugh scale ImageView.ScaleType.CENTER_INSIDE }
+                reaction { R.drawable.ic_react_wow scale ImageView.ScaleType.CENTER_INSIDE }
+                reaction { R.drawable.ic_react_sad scale ImageView.ScaleType.CENTER_INSIDE }
+                reaction { R.drawable.ic_react_angry scale ImageView.ScaleType.CENTER_INSIDE }
+            }
+            popupGravity = if(isMe) PopupGravity.PARENT_RIGHT else PopupGravity.PARENT_LEFT
+            popupCornerRadius =
+                TypedValue.applyDimension(COMPLEX_UNIT_DIP, RADIUS_POP_UP.toFloat(), context.resources.displayMetrics)
+                    .toInt()
+            popupColor = Color.WHITE
+            popupAlpha = 230
+
+            reactionSize = context.resources.getDimensionPixelSize(R.dimen.SIZE_ICON_24)
+            horizontalMargin = context.resources.getDimensionPixelSize(R.dimen.MARGIN_SMALL)
+
+
+            reactionTextProvider = { position -> "Item $position" }
+            reactionTexts = R.array.reactions
+
+            textBackground = ColorDrawable(Color.TRANSPARENT)
+            textColor = Color.WHITE
+            textHorizontalPadding = context.resources.getDimension(R.dimen.PADDING_SMALL).toInt()
+            textVerticalPadding = context.resources.getDimension(R.dimen.PADDING_SMALL).toInt()
+        }
+
+    }
+    fun getSymbolReactionImageByPosition(position:Int):Int{
+        return when(position){
+            0-> R.drawable.ic_react_like
+            1-> R.drawable.ic_react_love
+            2-> R.drawable.ic_react_laugh
+            3-> R.drawable.ic_react_wow
+            4-> R.drawable.ic_react_sad
+            5-> R.drawable.ic_react_angry
+            else-> -1
+        }
     }
 
 }

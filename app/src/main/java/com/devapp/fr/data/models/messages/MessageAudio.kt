@@ -7,8 +7,6 @@ data class MessageAudio(
     override val userId:String="",
     override var type: MessageType,
     override var isMe:Boolean=true,
-    override var react:Int=-1,
-    override var isReact:Boolean=false,
     var audio:String,
 ):MessageModel(id,userId,type) {
     override fun <T> getContent(): T {

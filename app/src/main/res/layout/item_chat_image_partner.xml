@@ -48,6 +48,7 @@
             android:text="10:10 12/11/2011"
             android:textColor="@color/color_grey"
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
