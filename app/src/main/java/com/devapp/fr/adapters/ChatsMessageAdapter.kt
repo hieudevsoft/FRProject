@@ -1,5 +1,6 @@
 package com.devapp.fr.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -48,7 +49,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private fun initViewForMessageTextMe(data:MessageText,binding:ItemChatMeBinding){
         binding.tvTimeMe.GONE()
         binding.tvTimeMe.text = data.time
-        binding.tvTimeMe.text = data.message
+        binding.tvMessageMe.text = data.message
         val reactionMe = data.react.first()
         val reactionPartner = data.react.last()
         if (reactionMe.count != 0) {
@@ -98,10 +99,26 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private inner class ViewHolderImageMe(val binding: ItemChatImageMeBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("ClickableViewAccessibility")
         fun bind(data: MessageImage) {
-            var isClicked = false
             binding.tvTimeMe.GONE()
             binding.tvTimeMe.text = data.time
+            val reactionMe = data.react.first()
+            val reactionPartner = data.react.last()
+            if (reactionMe.count != 0) {
+                binding.apply {
+                    cardViewReactionOne.VISIBLE()
+                    imgReactionOne.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionMe.react))
+                    tvCountReactionOne.text = reactionMe.count.toString()
+                }
+            } else binding.cardViewReactionOne.GONE()
+            if (reactionPartner.count != 0) {
+                binding.apply {
+                    cardViewReactionTwo.VISIBLE()
+                    imgReactionTwo.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionPartner.react))
+                    tvCountReactionTwo.text = reactionPartner.count.toString()
+                }
+            } else binding.cardViewReactionTwo.GONE()
             if (binding.root.context != null) {
                 Glide
                     .with(binding.root.context)
@@ -140,17 +157,6 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     })
             }
 
-            binding.cardViewImageMe.setOnLongClickListener {
-                isClicked = !isClicked
-                if (isClicked) binding.tvTimeMe.VISIBLE() else binding.tvTimeMe.GONE()
-                true
-            }
-
-            binding.cardViewImageMe.setOnClickListener {
-                onItemImageClicked?.let {
-                    it(binding.imageMe, data.urlImage)
-                }
-            }
         }
     }
 
@@ -160,7 +166,22 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             var isClicked = false
             binding.tvTimePartner.GONE()
             binding.tvTimePartner.text = data.time
-
+            val reactionMe = data.react.first()
+            val reactionPartner = data.react.last()
+            if (reactionMe.count != 0) {
+                binding.apply {
+                    cardViewReactionOne.VISIBLE()
+                    imgReactionOne.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionMe.react))
+                    tvCountReactionOne.text = reactionMe.count.toString()
+                }
+            } else binding.cardViewReactionOne.GONE()
+            if (reactionPartner.count != 0) {
+                binding.apply {
+                    cardViewReactionTwo.VISIBLE()
+                    imgReactionTwo.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionPartner.react))
+                    tvCountReactionTwo.text = reactionPartner.count.toString()
+                }
+            } else binding.cardViewReactionTwo.GONE()
             if (binding.root.context != null) {
                 Glide
                     .with(binding.root.context)
@@ -197,17 +218,6 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     })
             }
 
-            binding.cardViewImagePartner.setOnLongClickListener {
-                isClicked = !isClicked
-                if (isClicked) binding.tvTimePartner.VISIBLE() else binding.tvTimePartner.GONE()
-                true
-            }
-
-            binding.cardViewImagePartner.setOnClickListener {
-                onItemImageClicked?.let {
-                    it(binding.imagePartner, data.urlImage)
-                }
-            }
         }
     }
 
@@ -335,10 +345,62 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
             }
             is ViewHolderImageMe -> {
-                holder.bind(item as MessageImage)
+                val itemResult = item as MessageImage
+                holder.bind(itemResult)
+                val binding = holder.binding
+                handleEventImageMe(binding.root.context, binding,itemResult.urlImage) { reaction ->
+                    if(reaction!=-1){
+                        if (itemResult.isMe&&itemResult.react[0].react==reaction) {
+                            binding.cardViewReactionOne.VISIBLE()
+                            val count = itemResult.react.first().count+1
+                            val item = itemResult.react.first()
+                            item.count = count
+                        }else if(!itemResult.isMe&&itemResult.react[1].react==reaction) {
+                            binding.cardViewReactionTwo.VISIBLE()
+                            val count = itemResult.react.last().count+1
+                            val item = itemResult.react.last()
+                            item.count = count
+                        } else if(itemResult.isMe){
+                            val item = itemResult.react.first()
+                            item.count = 1
+                            item.react = reaction
+                        } else {
+                            val item = itemResult.react.last()
+                            item.count = 1
+                            item.react = reaction
+                        }
+                    }
+                    notifyItemChanged(position)
+                }
             }
             is ViewHolderImagePartner -> {
-                holder.bind(item as MessageImage)
+                val itemResult = item as MessageImage
+                holder.bind(itemResult)
+                val binding = holder.binding
+                handleEventImagePartner(binding.root.context, binding,itemResult.urlImage) { reaction ->
+                    if(reaction!=-1){
+                        if (itemResult.isMe&&itemResult.react[0].react==reaction) {
+                            binding.cardViewReactionOne.VISIBLE()
+                            val count = itemResult.react.first().count+1
+                            val item = itemResult.react.first()
+                            item.count = count
+                        }else if(!itemResult.isMe&&itemResult.react[1].react==reaction) {
+                            binding.cardViewReactionTwo.VISIBLE()
+                            val count = itemResult.react.last().count+1
+                            val item = itemResult.react.last()
+                            item.count = count
+                        } else if(itemResult.isMe){
+                            val item = itemResult.react.first()
+                            item.count = 1
+                            item.react = reaction
+                        } else {
+                            val item = itemResult.react.last()
+                            item.count = 1
+                            item.react = reaction
+                        }
+                    }
+                    notifyItemChanged(position)
+                }
             }
         }
     }
@@ -372,6 +434,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun handleEventTextPartner(
         context: Context,
         binding: ItemChatPartnerBinding,
@@ -398,6 +461,78 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
             }
             true
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun handleEventImageMe(
+        context: Context,
+        binding: ItemChatImageMeBinding,
+        urlImage:String,
+        callBack: (Int) -> Unit
+    ) {
+        val popup = ReactionPopup(
+            context,
+            UiHelper.configReactionPopUp(context, true),
+            object : ReactionSelectedListener {
+                override fun invoke(position: Int): Boolean {
+                    callBack(position)
+                    Log.d(TAG, "invoke: $position")
+                    return true
+                }
+
+            })
+        binding.cardViewImageMe.setOnTouchListener { view, event ->
+            popup.onTouch(view, event)
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (binding.tvTimeMe.isVisible) {
+                        binding.tvTimeMe.GONE()
+                    } else binding.tvTimeMe.VISIBLE()
+                }
+            }
+            true
+        }
+        binding.lyEye.setOnClickListener {
+            onItemImageClicked?.let {
+                it(binding.imageMe, urlImage)
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun handleEventImagePartner(
+        context: Context,
+        binding: ItemChatImagePartnerBinding,
+        urlImage:String,
+        callBack: (Int) -> Unit
+    ) {
+        val popup = ReactionPopup(
+            context,
+            UiHelper.configReactionPopUp(context, true),
+            object : ReactionSelectedListener {
+                override fun invoke(position: Int): Boolean {
+                    callBack(position)
+                    Log.d(TAG, "invoke: $position")
+                    return true
+                }
+
+            })
+        binding.cardViewImagePartner.setOnTouchListener { view, event ->
+            popup.onTouch(view, event)
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (binding.tvTimePartner.isVisible) {
+                        binding.tvTimePartner.GONE()
+                    } else binding.tvTimePartner.VISIBLE()
+                }
+            }
+            true
+        }
+        binding.lyEye.setOnClickListener {
+            onItemImageClicked?.let {
+                it(binding.imagePartner, urlImage)
+            }
         }
     }
 

@@ -37,8 +37,8 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16" />
-        <entry key="app/src/main/res/layout/item_chat_image_me.xml" value="0.16" />
-        <entry key="app/src/main/res/layout/item_chat_image_partner.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_chat_image_me.xml" value="2.4313725490196076" />
+        <entry key="app/src/main/res/layout/item_chat_image_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_me.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
