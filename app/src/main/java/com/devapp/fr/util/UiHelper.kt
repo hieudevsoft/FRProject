@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -22,13 +23,22 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
+import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import com.github.pgreze.reactions.PopupGravity
 import com.github.pgreze.reactions.ReactionsConfig
 import com.github.pgreze.reactions.ReactionsConfigBuilder
 import com.github.pgreze.reactions.dsl.reactionConfig
 import com.github.pgreze.reactions.dsl.reactions
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.math.roundToInt
+import android.view.animation.DecelerateInterpolator
+
+import android.animation.ObjectAnimator
+
+
+
 
 
 object UiHelper {
@@ -191,6 +201,37 @@ object UiHelper {
             5-> R.drawable.ic_react_angry
             else-> -1
         }
+    }
+    fun Any.findOnClickListener(vararg views:View,block:View.()->Unit){
+        views.forEach {
+            it.setOnClickListener { it.block() }
+        }
+    }
+
+
+    fun View.enableOrNot(enable:Boolean){
+        ViewCompat.setBackgroundTintList(this, ColorStateList.valueOf(this.context.resources.getColor(if(enable) R.color.background_dialog_dark else R.color.color_grey_300)))
+        this.isEnabled = enable
+    }
+
+    fun AppCompatEditText.getStringText() = this.text.toString()
+    fun AppCompatEditText.setEmptyText() = this.setText("")
+    fun EditText.getStringText() = this.text.toString()
+    fun EditText.setEmptyText() = this.setText("")
+    fun checkAllEmptyAppCompatEditText(vararg items:AppCompatEditText):Boolean{
+        items.forEach {
+            if(it.getStringText().isNotEmpty()) return false
+        }
+        return true
+    }
+
+    fun LinearProgressIndicator.setProgressAnimate(progress:Int){
+        val animation: ObjectAnimator =
+            ObjectAnimator.ofInt(this, "progress", this.progress, progress)
+        animation.duration = 1000
+        animation.setAutoCancel(true)
+        animation.interpolator = DecelerateInterpolator()
+        animation.start()
     }
 
 }

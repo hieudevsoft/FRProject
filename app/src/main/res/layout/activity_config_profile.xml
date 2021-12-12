@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.ConfigProfileActivity">
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:progress="25"
+        android:id="@+id/progress_bar_step"
+        app:indicatorColor="@color/background_dark_mode"
+        android:indeterminateDuration="500"
+        android:indeterminateBehavior="cycle"
+        app:indeterminateAnimationType="disjoint"
+        app:indicatorDirectionLinear="startToEnd"
+        app:trackCornerRadius="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_back"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_back_24"
+        android:layout_marginStart="@dimen/_16sdp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/fragmentContainerView"
+        android:padding="@dimen/_16sdp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_config_profile"
+        app:layout_constraintBottom_toTopOf="@id/btn_continue" />
+</androidx.constraintlayout.widget.ConstraintLayout>

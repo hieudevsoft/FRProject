@@ -69,10 +69,6 @@ class MainActivity : ThemeActivity() {
         }
     }
 
-    fun navigateToDestination(destination: Int) {
-        navHostFragment.navController.navigate(destination)
-    }
-
     private fun setTheme(isDarkMode: Boolean) {
         var subColor: Int? = null
         var color: Drawable? = null
