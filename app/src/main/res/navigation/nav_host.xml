@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
 
+<<<<<<< HEAD
     app:startDestination="@id/fragmentProfile">
+=======
+    app:startDestination="@id/fragmentSignup">
+>>>>>>> bec4d850cbc3984b62473b00271e990bfb60598e
 
 
     <fragment

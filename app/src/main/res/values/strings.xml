@@ -30,6 +30,8 @@
     <string name="des2">Có cơ hội tìm kiếm một nửa yêu thương qua sự trợ giúp của ứng</string>
     <string name="title3">Thoải mái</string>
     <string name="des3">Giao diện thân thiện, chức năng dễ dàng sử dụng tăng sự trải nghiệm</string>
+    <string name="nam">Nam</string>
+    <string name="n">Nữ</string>
 
     <string-array name="reactions">
         <item>Thích</item>
@@ -39,5 +41,7 @@
         <item>Buồn</item>
         <item>Tức</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

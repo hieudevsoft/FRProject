@@ -226,11 +226,11 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
                                 )
                             )
                             chatsMessageAdapter.submitList(list.toList())
-                            binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount)
+                            binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount+1)
                         }
                     }
                     .setOnErrorListener {
-                        binding.root.showSnackbar("Error!!")
+                        binding.root.showSnackbar(it)
                     }
                     .setTitle(R.string.select_image)
                     .setCompleteButtonText(R.string.selected_done)

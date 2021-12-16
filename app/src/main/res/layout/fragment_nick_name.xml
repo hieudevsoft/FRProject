@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.configProfile.FragmentNickName">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
+        android:gravity="center"
+        android:textColor="@color/background_dark_mode"
+        android:text="Ok, hãy thiết lập hồ sơ của bạn!\nTrước tiên, bạn tên gì?"
+        android:textSize="@dimen/_16sdp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_below="@id/tv1"
+        android:id="@+id/tv2"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:text="Đây là cách bạn sẽ xuất hiện trên Fr"
+        android:fontFamily="@font/nunito_light"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_below="@id/tv2"
+        android:id="@+id/edt_name"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:backgroundTint="@color/background_dark_mode"
+        android:gravity="center"
+        android:textCursorDrawable="@drawable/custom_cursor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_continue"
+        android:layout_alignParentBottom="true"
+        android:text="Tiếp tục"
+        android:fontFamily="@font/nunito_semibold"
+        android:textAllCaps="false"
+        android:padding="@dimen/_8sdp"
+        app:cornerRadius="@dimen/_6sdp"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/background_dark_mode"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

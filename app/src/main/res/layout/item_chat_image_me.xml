@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginBottom="@dimen/MEDIUM_SPACE"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/MEDIUM_SPACE">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -16,35 +16,149 @@
         app:layout_constraintVertical_bias="0">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTimeMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/SMALL_SPACE"
             android:fontFamily="@font/nunito_regular"
             android:text="10:10 12/11/2011"
-            android:id="@+id/tvTimeMe"
             android:textColor="@color/color_grey"
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewImageMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:layout_marginBottom="@dimen/MEDIUM_SPACE"
             android:clickable="true"
-            app:cardCornerRadius="@dimen/MEDIUM_RADIUS"
             android:focusable="true"
-            android:id="@+id/cardViewImageMe"
             android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/MEDIUM_RADIUS"
             app:cardUseCompatPadding="true">
+
             <ImageView
-                android:adjustViewBounds="true"
-                android:transitionName="image_fullscreen"
                 android:id="@+id/imageMe"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:transitionName="image_fullscreen" />
 
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:elevation="1dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewReactionTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/SMALLEST_RADIUS"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/lyReactionTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/SMALL_SPACE"
+                    android:paddingTop="@dimen/SMALLEST_SPACE"
+                    android:paddingEnd="@dimen/SMALL_SPACE"
+                    android:paddingBottom="@dimen/SMALLEST_SPACE">
+
+                    <ImageView
+                        android:id="@+id/imgReactionTwo"
+                        android:layout_width="@dimen/SIZE_ICON_REACT"
+                        android:layout_height="@dimen/SIZE_ICON_REACT"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:src="@drawable/ic_react_like" />
+
+                    <TextView
+                        android:id="@+id/tvCountReactionTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/varelaround_regular"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewReactionOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/SMALLEST_RADIUS"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/lyReactionOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/SMALL_SPACE"
+                    android:paddingTop="@dimen/SMALLEST_SPACE"
+                    android:paddingEnd="@dimen/SMALL_SPACE"
+                    android:paddingBottom="@dimen/SMALLEST_SPACE">
+
+                    <ImageView
+                        android:id="@+id/imgReactionOne"
+                        android:layout_width="@dimen/SIZE_ICON_REACT"
+                        android:layout_height="@dimen/SIZE_ICON_REACT"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:src="@drawable/ic_react_sad" />
+
+                    <TextView
+                        android:id="@+id/tvCountReactionOne"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/varelaround_regular"
+                        android:text="1"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/lyEye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="@dimen/SMALLEST_RADIUS"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/SMALL_SPACE"
+                    android:paddingTop="@dimen/SMALLEST_SPACE"
+                    android:paddingEnd="@dimen/SMALL_SPACE"
+                    android:paddingBottom="@dimen/SMALLEST_SPACE">
+
+                    <ImageView
+                        android:layout_width="@dimen/SIZE_ICON_REACT"
+                        android:layout_height="@dimen/SIZE_ICON_REACT"
+                        android:src="@drawable/ic_eye" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

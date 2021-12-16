@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="?attr/actionBarSize"
+    tools:context=".ui.fragments.configProfile.FragmentDateOfBirth">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/background_dark_mode"
+        android:fontFamily="@font/nunito_regular"
+        android:gravity="center"
+        android:text="Rất vui gặp bạn, hieubui. Sinh\nnhật của bạn khi nào"
+        android:textSize="@dimen/_16sdp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv1"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:text="Chúng tôi sử dụng hiện thị tuổi" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/MARGIN_LARGE"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/SMALL_SPACE"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="center"
+                android:text="Ngày" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_1_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="D"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_2_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="D"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/SMALL_SPACE"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="center"
+                android:text="Tháng" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_1_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="M"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_2_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="M"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/SMALL_SPACE"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="center"
+                android:text="Năm" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_1_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Y"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_2_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Y"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_3_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Y"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_item_4_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Y"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColorHint="@drawable/hint_text"
+                    android:textCursorDrawable="@drawable/custom_cursor" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:drawablePadding="@dimen/SMALL_SPACE"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:text="Chúng tôi không sử dụng cho mục đích khác"
+        app:drawableStartCompat="@drawable/ic_baseline_lock_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/background_dark_mode"
+        android:fontFamily="@font/nunito_semibold"
+        android:padding="@dimen/_8sdp"
+        android:text="Tiếp tục"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_6sdp" />
+
+</RelativeLayout>
