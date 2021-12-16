@@ -21,11 +21,15 @@
     <dimen name="SMALLEST_RADIUS">@dimen/_6sdp</dimen>
     <dimen name="CORNER_RADIUS_SMALL">10dp</dimen>
 
+
+
     <!--Size of icon,image....-->
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
+    <dimen name="SIZE_AVATAR">@dimen/_130sdp</dimen>
     <dimen name="BUTTON_BACK_SIZE">@dimen/_36sdp</dimen>
+    <dimen name="SIZE_COL_PROFILE">@dimen/_35sdp</dimen>
     <dimen name="SIZE_CARD_VIEW">@dimen/_80sdp</dimen>
     <dimen name="MAX_WIDTH_CHAT">@dimen/_210sdp</dimen>
     <dimen name="AVATAR_MESSAGE_BODY_SIZE">@dimen/_18sdp</dimen>
@@ -43,4 +47,5 @@
     <dimen name="MARGIN_LARGE">@dimen/_36sdp</dimen>
     <dimen name="MARGIN_LARGEST">@dimen/_42sdp</dimen>
     <dimen name="PADDING_SMALL">@dimen/_8sdp</dimen>
+    <dimen name="PADDING_SMALLEST">@dimen/_5sdp</dimen>
 </resources>

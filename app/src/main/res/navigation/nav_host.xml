@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
 
-    app:startDestination="@id/fragmentInbox">
+    app:startDestination="@id/fragmentProfile">
 
 
     <fragment
@@ -68,5 +68,13 @@
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.FragmentInbox"
         android:label="FragmentInbox" />
+    <fragment
+        android:id="@+id/fragmentProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentProfile"
+        android:label="FragmentProfile" />
+    <fragment
+        android:id="@+id/fragmentLoves"
+        android:name="com.devapp.fr.ui.fragments.FragmentLoves"
+        android:label="FragmentLoves" />
 
 </navigation>
