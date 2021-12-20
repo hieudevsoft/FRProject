@@ -48,4 +48,36 @@ class SharedPreferencesHelper(context: Context) {
     fun readAddress():String {
         return pref.getString(Constants.KEY_ADDRESS,"")!!
     }
+
+    fun saveGender(gender: Int) {
+        pref.edit().putInt(Constants.KEY_GENDER,gender).apply()
+    }
+
+    fun readGender():Int {
+        return pref.getInt(Constants.KEY_GENDER,0)!!
+    }
+
+    fun saveEmail(email: String) {
+        pref.edit().putString(Constants.KEY_EMAIL,email).apply()
+    }
+
+    fun readEmail(): String? {
+        return pref.getString(Constants.KEY_EMAIL,"")
+    }
+
+    fun savePassword(password: String) {
+        pref.edit().putString(Constants.KEY_PASSWORD,password).apply()
+    }
+
+    fun readPassword(): String? {
+        return pref.getString(Constants.KEY_PASSWORD,"")
+    }
+
+    fun saveIsLogin(isLogin:Boolean) {
+        pref.edit().putBoolean(Constants.KEY_IS_LOGIN,isLogin).apply()
+    }
+
+    fun readIsLogin(): Boolean {
+        return pref.getBoolean(Constants.KEY_PASSWORD,false)
+    }
 }

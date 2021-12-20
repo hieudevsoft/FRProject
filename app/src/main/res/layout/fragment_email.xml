@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:touchscreenBlocksFocus="false"
+    android:paddingBottom="?attr/actionBarSize"
+    tools:context=".ui.fragments.configProfile.FragmentEmail">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/background_dark_mode"
+        android:fontFamily="@font/nunito_regular"
+        android:gravity="center"
+        android:text="Vui lòng cung cấp email của bạn\n để chúng tôi giúp bạn tham gia ứng dụng"
+        android:textSize="@dimen/_16sdp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv1"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:text="Chúng tôi chỉ sử dụng để đăng nhập" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/MARGIN_LARGE"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv2"
+            android:textColorHint="@color/color_grey_300"
+            android:hint="example@gmail.com"
+            android:layout_marginTop="@dimen/MEDIUM_SPACE"
+            android:backgroundTint="@color/background_dark_mode"
+            android:gravity="center"
+            android:textCursorDrawable="@drawable/custom_cursor" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/error_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:visibility="gone"
+            android:drawableStart="@drawable/ic_close"
+            android:textColor="@color/design_default_color_error"
+            android:drawableTint="@color/design_default_color_error"
+            android:fontFamily="@font/nunito_light"
+            android:gravity="center"
+            android:text="error" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:drawablePadding="@dimen/SMALL_SPACE"
+        android:fontFamily="@font/nunito_light"
+        android:gravity="center"
+        android:text="Chúng tôi không sử dụng cho mục đích khác"
+        app:drawableStartCompat="@drawable/ic_baseline_lock_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/background_dark_mode"
+        android:fontFamily="@font/nunito_semibold"
+        android:padding="@dimen/_8sdp"
+        android:text="Tiếp tục"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_6sdp" />
+
+</RelativeLayout>

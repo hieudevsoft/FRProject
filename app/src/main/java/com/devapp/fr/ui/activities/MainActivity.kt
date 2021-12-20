@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
@@ -25,6 +26,9 @@ class MainActivity : ThemeActivity() {
     lateinit var bottomBar: AnimatedBottomBar
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+
+    fun getSharedPref() = sharedPreferencesHelper
+
     override fun getStartTheme(): AppTheme {
         //Init SharedPreferencesHelper
         sharedPreferencesHelper= SharedPreferencesHelper(applicationContext)
@@ -56,11 +60,17 @@ class MainActivity : ThemeActivity() {
 
     }
 
+    override fun onResume() {
+        val isLogin = sharedPreferencesHelper.readIsLogin()
+        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentProfile)
+        super.onResume()
+    }
+
     override fun syncTheme(appTheme: AppTheme) {}
     private fun handleNavHostFragment() {
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.fragmentSplash||destination.id==R.id.fragmentInbox
-                ||destination.id == R.id.fragmentLogin || destination.id ==R.id.fragmentSignup
+                ||destination.id == R.id.fragmentLogin||destination.id==R.id.fragmentProfile
             ) {
                 bottomBar.visibility = View.GONE
             } else {

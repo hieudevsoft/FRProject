@@ -13,6 +13,10 @@ object Constants {
     const val KEY_NAME_CONFIG = "key_name_config"
     const val KEY_DOB = "key_dob"
     const val KEY_ADDRESS = "key_dob"
+    const val KEY_GENDER = "key_gender"
+    const val KEY_EMAIL = "key_email"
+    const val KEY_PASSWORD = "key_password"
+    const val KEY_IS_LOGIN = "key_is_login"
 
     //Type Message
     const val TEXT_FROM_ME=0

@@ -234,4 +234,6 @@ object UiHelper {
         animation.start()
     }
 
+    fun View.toGone() = run { this.visibility = View.GONE }
+    fun View.toVisible() = run { this.visibility = View.VISIBLE }
 }

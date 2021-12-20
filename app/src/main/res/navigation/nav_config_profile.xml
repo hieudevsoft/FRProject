@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_config_profile"
-    app:startDestination="@id/fragmentNickName">
+    app:startDestination="@id/fragmentProcessConfig">
 
     <fragment
         android:id="@+id/fragmentNickName"
@@ -37,14 +37,36 @@
         android:label="fragment_adress"
         tools:layout="@layout/fragment_adress" >
         <action
-            android:id="@+id/action_fragmentAddress_to_fragmentChooseImage"
-            app:destination="@id/fragmentChooseImage"
+            android:id="@+id/action_fragmentAddress_to_fragmentEmail"
+            app:destination="@id/fragmentEmail"
             app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_process_config"
+        android:id="@+id/fragmentProcessConfig"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentProcessConfig"
+        android:label="FragmentProcessConfig" >
+        <action
+            android:id="@+id/action_fragmentProcessConfig_to_fragmentNickName"
+            app:destination="@id/fragmentNickName"
+            app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentChooseImage"
-        android:name="com.devapp.fr.FragmentChooseImage"
-        android:label="fragment_choose_image"
-        tools:layout="@layout/fragment_choose_image" />
+        android:id="@+id/fragmentEmail"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentEmail"
+        android:label="fragment_email"
+        tools:layout="@layout/fragment_email" >
+        <action
+            android:id="@+id/action_fragmentEmail_to_fragmentPassword"
+            app:destination="@id/fragmentPassword"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentPassword"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentPassword"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" />
 </navigation>

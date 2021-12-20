@@ -38,12 +38,18 @@ class ConfigProfileActivity : AppCompatActivity() {
     private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
         when(destination.id){
             R.id.fragmentNickName->{
-                binding.progressBarStep.setProgress(30,true)
+                binding.progressBarStep.setProgress(20,true)
             }
             R.id.fragmentDateOfBirth->{
-                binding.progressBarStep.setProgress(70,true)
+                binding.progressBarStep.setProgress(40,true)
             }
             R.id.fragmentAddress->{
+                binding.progressBarStep.setProgress(60,true)
+            }
+            R.id.fragmentEmail->{
+                binding.progressBarStep.setProgress(80,true)
+            }
+            R.id.fragmentPassword->{
                 binding.progressBarStep.setProgress(100,true)
             }
         }
