@@ -13,6 +13,7 @@ import com.devapp.fr.databinding.FragmentAdressBinding
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.getStringText
+import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 
 class FragmentAddress : BaseFragment<FragmentAdressBinding>() {
     override fun onSetupView() {
@@ -30,8 +31,9 @@ class FragmentAddress : BaseFragment<FragmentAdressBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
+            it.startAnimClick()
             (requireActivity() as ConfigProfileActivity).sharedPrefs.saveAddress(binding.edtAddress.getStringText())
-            findNavController().navigate(FragmentAddressDirections.actionFragmentAddressToFragmentChooseImage())
+            findNavController().navigate(FragmentAddressDirections.actionFragmentAddressToFragmentEmail())
         }
         super.onViewCreated(view, savedInstanceState)
     }

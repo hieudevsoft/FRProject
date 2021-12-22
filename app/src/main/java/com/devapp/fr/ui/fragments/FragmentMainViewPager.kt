@@ -99,11 +99,7 @@ class FragmentMainViewPager : ThemeFragment() {
         }
     }
 
-    fun triggerSaveDarkMode(value:Boolean){
-        viewLifecycleOwner.lifecycleScope.launch {
-            dataStoreHelper.saveDarkMode(dataStore,value)
-        }
-    }
+
 
     private fun subscribersObserve(){
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

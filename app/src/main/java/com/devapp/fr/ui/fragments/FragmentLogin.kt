@@ -1,5 +1,6 @@
 package com.devapp.fr.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.databinding.FragmentLoginBinding
 import com.devapp.fr.databinding.FragmentLovesBinding
+import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.showSnackbar
 
 class FragmentLogin : Fragment(R.layout.fragment_login) {
@@ -62,8 +64,10 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
             }
 
             tvSignUp.setOnClickListener {
-                val direciton = FragmentLoginDirections.actionFragmentLoginToFragmentSignup();
-                requireParentFragment().findNavController().navigate(direciton)
+                Intent(requireActivity(),ConfigProfileActivity::class.java).also {
+                    startActivity(it)
+                    requireActivity().overridePendingTransition(R.anim.anim_slide_in_left,R.anim.anim_slide_out_right)
+                }
             }
         }
     }

@@ -1,11 +1,14 @@
 package com.devapp.fr.ui.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.lifecycleScope
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
@@ -19,13 +22,16 @@ import com.dolatkia.animatedThemeManager.Coordinate
 import com.dolatkia.animatedThemeManager.ThemeFragment
 import com.dolatkia.animatedThemeManager.ThemeManager
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class FragmentSettings : ThemeFragment() {
     val TAG = "FragmentSettings"
     private var _binding:FragmentSettingsBinding?=null
     private val binding get() = _binding!!
+    private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private lateinit var dataStore: DataStore<Preferences>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +39,12 @@ class FragmentSettings : ThemeFragment() {
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        dataStore = context.dataStore
+        dataStoreHelper = DataStoreHelper.getInstance()
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +62,7 @@ class FragmentSettings : ThemeFragment() {
         }
 
         //Init switch
-        binding.switchDarkMode.isChecked = sharedPreferencesHelper.readDarkMode()
+        binding.switchDarkMode.isOn = sharedPreferencesHelper.readDarkMode()
 
         //Handle event elements
         handleEventElement()
@@ -60,12 +72,14 @@ class FragmentSettings : ThemeFragment() {
 
     override fun syncTheme(appTheme: AppTheme) {
         val theme = appTheme as MyAppTheme
-        binding.tvDarkMode.setTextColor(theme.textColor(requireParentFragment().requireContext()))
+        binding.tvSettings.setTextColor(theme.textColor(requireContext()))
+        binding.root.setBackgroundColor(theme.backgroundColor(requireContext()))
+        binding.appBarLayout.setBackgroundColor(theme.backgroundColor(requireContext()))
     }
 
     private fun handleEventElement() {
-        binding.switchDarkMode.setOnCheckedChangeListener { _, b ->
-            (parentFragment as FragmentMainViewPager).triggerSaveDarkMode(b)
+        binding.switchDarkMode.setOnToggledListener { _, b ->
+            triggerSaveDarkMode(b)
             sharedPreferencesHelper.saveDarkMode(b)
             if(!b)
             ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
@@ -73,11 +87,17 @@ class FragmentSettings : ThemeFragment() {
         }
     }
 
+    fun triggerSaveDarkMode(value:Boolean){
+        viewLifecycleOwner.lifecycleScope.launch {
+            dataStoreHelper.saveDarkMode(dataStore,value)
+        }
+    }
+
     private fun setupTheme(isDarkMode:Boolean) {
         if(isDarkMode){
-            binding.tvDarkMode.setTextColor(Color.WHITE)
+            // DARK MODE
         } else{
-            binding.tvDarkMode.setTextColor(Color.BLACK)
+            //LIGHT MODE
         }
     }
 

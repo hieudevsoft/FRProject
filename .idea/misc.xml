@@ -18,8 +18,10 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_layout_slide.xml" value="0.2" />
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.1814814814814815" />
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_focuss.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/drawable/circle_text_view.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/drawable/custom_background_send.xml" value="0.14375" />
         <entry key="app/src/main/res/drawable/custom_background_send_message.xml" value="0.14375" />
+        <entry key="app/src/main/res/drawable/custom_bg_avatar.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/drawable/custom_bg_button_login.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/drawable/custom_bg_button_login_back_dark.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/drawable/custom_bg_button_login_back_light.xml" value="0.18489583333333334" />
@@ -41,15 +43,19 @@
         <entry key="app/src/main/res/layout/fragment_adress.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.12545289855072464" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_choose_image.xml" value="0.21829710144927536" />
+        <entry key="app/src/main/res/layout/fragment_email.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_frament_date_of_birth.xml" value="0.5255878284923928" />
         <entry key="app/src/main/res/layout/fragment_full_screen_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_inbox.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_loves.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/fragment_main_view_pager.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_nick_name.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_nick_name.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_password.xml" value="0.2554347826086957" />
         <entry key="app/src/main/res/layout/fragment_process_config.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16" />
         <entry key="app/src/main/res/layout/item_chat_image_me.xml" value="2.4313725490196076" />

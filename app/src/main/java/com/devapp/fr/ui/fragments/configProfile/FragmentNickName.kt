@@ -14,6 +14,7 @@ import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentNickNameBinding
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
+import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 
 class FragmentNickName : BaseFragment<FragmentNickNameBinding>() {
     override fun onSetupView() {
@@ -31,6 +32,7 @@ class FragmentNickName : BaseFragment<FragmentNickNameBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
+            it.startAnimClick()
             val data = binding.edtName.text.toString()
             findNavController().navigate(FragmentNickNameDirections.actionFragmentNickNameToFragmentDateOfBirth(data))
             (requireActivity() as ConfigProfileActivity).sharedPrefs.saveNameConfig(data)

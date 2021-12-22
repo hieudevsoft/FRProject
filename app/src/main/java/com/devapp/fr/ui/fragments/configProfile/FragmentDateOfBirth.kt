@@ -13,6 +13,7 @@ import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.getStringText
 import com.devapp.fr.util.UiHelper.setEmptyText
+import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -143,6 +144,7 @@ class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
         }
         binding.btnContinue.setOnClickListener {
             jobButton.cancel()
+            it.startAnimClick()
             sharedPref.saveDobConfig(
                 "${binding.edtItem1Day.getStringText()}${binding.edtItem2Day.getStringText()}/" +
                         "${binding.edtItem1Month.getStringText()}${binding.edtItem2Month.getStringText()}/" +
