@@ -19,7 +19,9 @@ import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 class FragmentNickName : BaseFragment<FragmentNickNameBinding>() {
     override fun onSetupView() {
         binding.apply {
-            edtName.setText((requireActivity() as ConfigProfileActivity).sharedPrefs.readNameConfig())
+            val name = (requireActivity() as ConfigProfileActivity).sharedPrefs.readNameConfig()
+            edtName.setText(name)
+            btnContinue.enableOrNot(name.isNotEmpty())
             edtName.addTextChangedListener {
                 if(it.toString().isEmpty()){
                     btnContinue.enableOrNot(false)

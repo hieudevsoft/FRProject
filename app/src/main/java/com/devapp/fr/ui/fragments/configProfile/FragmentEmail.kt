@@ -25,9 +25,9 @@ class FragmentEmail : BaseFragment<FragmentEmailBinding>() {
     val TAG = "FragmentEmail"
     private lateinit var pref:SharedPreferencesHelper
     override fun onSetupView() {
-        binding.btnContinue.enableOrNot(false)
         pref = (requireActivity() as ConfigProfileActivity).sharedPrefs
         if(pref.readEmail()?.isNotEmpty() == true) binding.edtEmail.setText(pref.readEmail())
+        pref.readEmail()?.let { binding.btnContinue.enableOrNot(it.isNotEmpty()) }
         binding.edtEmail.addTextChangedListener {
             val text = it.toString()
             if(text.isEmpty()){

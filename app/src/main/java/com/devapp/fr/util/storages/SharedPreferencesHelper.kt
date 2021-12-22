@@ -78,6 +78,6 @@ class SharedPreferencesHelper(context: Context) {
     }
 
     fun readIsLogin(): Boolean {
-        return pref.getBoolean(Constants.KEY_PASSWORD,false)
+        return pref.getBoolean(Constants.KEY_IS_LOGIN,false)
     }
 }

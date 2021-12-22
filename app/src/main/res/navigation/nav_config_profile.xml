@@ -68,5 +68,16 @@
         android:id="@+id/fragmentPassword"
         android:name="com.devapp.fr.ui.fragments.configProfile.FragmentPassword"
         android:label="fragment_password"
-        tools:layout="@layout/fragment_password" />
+        tools:layout="@layout/fragment_password" >
+        <action
+            android:id="@+id/action_fragmentPassword_to_fragmentImage"
+            app:destination="@id/fragmentImage"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentImage"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentImage"
+        android:label="fragment_image"
+        tools:layout="@layout/fragment_image" />
 </navigation>
