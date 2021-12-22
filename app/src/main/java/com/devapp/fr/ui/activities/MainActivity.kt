@@ -12,6 +12,7 @@ import com.devapp.fr.R
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.databinding.ActivityMainBinding
+import com.devapp.fr.util.UiHelper.setColorStatusBar
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
@@ -40,7 +41,7 @@ class MainActivity : ThemeActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        setColorStatusBar(getColor(R.color.white))
         //Mapping bottomAppbar
         bottomBar = binding.bottomBar
 

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.activities.MainActivity">
 
@@ -33,7 +32,7 @@
         <nl.joery.animatedbottombar.AnimatedBottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             app:abb_animationDuration="400"
             app:abb_animationInterpolator="@android:anim/anticipate_overshoot_interpolator"
             app:abb_indicatorAppearance="round"

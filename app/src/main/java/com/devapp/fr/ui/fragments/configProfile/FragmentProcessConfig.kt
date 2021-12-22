@@ -30,7 +30,7 @@ class FragmentProcessConfig : Fragment(R.layout.fragment_process_config) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProcessConfigBinding.inflate(inflater)
-        pref = (requireActivity() as MainActivity).getSharedPref()
+        pref = (requireActivity() as ConfigProfileActivity).sharedPrefs
         return binding.root
     }
 

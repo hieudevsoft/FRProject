@@ -127,4 +127,6 @@ dependencies {
     implementation 'gun0912.ted:tedbottompicker:2.0.1'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation "com.github.pgreze:android-reactions:1.6"
+    implementation 'com.github.angads25:toggle:1.1.0'
+
 }

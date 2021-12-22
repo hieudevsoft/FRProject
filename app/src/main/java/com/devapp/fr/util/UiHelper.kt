@@ -34,8 +34,12 @@ import com.github.pgreze.reactions.dsl.reactions
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.math.roundToInt
 import android.view.animation.DecelerateInterpolator
-
 import android.animation.ObjectAnimator
+import android.view.Window
+import android.view.WindowManager
+
+
+
 
 
 
@@ -178,7 +182,7 @@ object UiHelper {
             popupAlpha = 230
 
             reactionSize = context.resources.getDimensionPixelSize(R.dimen.SIZE_ICON_24)
-            horizontalMargin = context.resources.getDimensionPixelSize(R.dimen.MARGIN_SMALL)
+            horizontalMargin = context.resources.getDimensionPixelSize(com.devapp.fr.R.dimen.MARGIN_SMALL)
 
 
             reactionTextProvider = { position -> "Item $position" }
@@ -236,4 +240,10 @@ object UiHelper {
 
     fun View.toGone() = run { this.visibility = View.GONE }
     fun View.toVisible() = run { this.visibility = View.VISIBLE }
+    fun Activity.setColorStatusBar(color:Int) {
+        val window: Window = this.window
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = color
+    }
 }
