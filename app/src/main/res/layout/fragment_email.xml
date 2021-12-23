@@ -43,24 +43,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv2"
-            android:textColorHint="@color/color_grey_300"
-            android:hint="example@gmail.com"
             android:layout_marginTop="@dimen/MEDIUM_SPACE"
             android:backgroundTint="@color/background_dark_mode"
             android:gravity="center"
+            android:hint="example@gmail.com"
+            android:textColorHint="@color/color_grey_300"
             android:textCursorDrawable="@drawable/custom_cursor" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/error_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:visibility="gone"
             android:drawableStart="@drawable/ic_close"
-            android:textColor="@color/design_default_color_error"
             android:drawableTint="@color/design_default_color_error"
             android:fontFamily="@font/nunito_light"
             android:gravity="center"
-            android:text="error" />
+            android:text="error"
+            android:textColor="@color/design_default_color_error"
+            android:visibility="gone" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
