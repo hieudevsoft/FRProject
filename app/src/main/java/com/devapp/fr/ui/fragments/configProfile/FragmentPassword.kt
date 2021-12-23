@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentPasswordBinding
@@ -22,7 +23,7 @@ class FragmentPassword : BaseFragment<FragmentPasswordBinding>() {
     private lateinit var pref:SharedPreferencesHelper
     override fun onSetupView() {
         pref = (requireActivity() as ConfigProfileActivity).sharedPrefs
-        binding.btnContinue.enableOrNot(false)
+        binding.btnContinue.enableOrNot(pref.readPassword().isNullOrEmpty())
         binding.edtPassword.addTextChangedListener {
             val text = it.toString()
             if(text.isEmpty()){
@@ -47,9 +48,9 @@ class FragmentPassword : BaseFragment<FragmentPasswordBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
             pref.savePassword(binding.edtPassword.text.toString().trim())
-            pref.saveIsLogin(true)
+            pref.saveIsLogin(false)
             it.startAnimClick()
-            requireActivity().finish()
+            findNavController().navigate(FragmentPasswordDirections.actionFragmentPasswordToFragmentImage())
         }
         super.onViewCreated(view, savedInstanceState)
     }

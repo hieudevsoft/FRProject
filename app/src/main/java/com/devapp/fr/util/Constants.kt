@@ -12,7 +12,7 @@ object Constants {
     const val KEY_DARK_MODE_DEC = "key_dark_mode_dec"
     const val KEY_NAME_CONFIG = "key_name_config"
     const val KEY_DOB = "key_dob"
-    const val KEY_ADDRESS = "key_dob"
+    const val KEY_ADDRESS = "key_ADDRESS"
     const val KEY_GENDER = "key_gender"
     const val KEY_EMAIL = "key_email"
     const val KEY_PASSWORD = "key_password"

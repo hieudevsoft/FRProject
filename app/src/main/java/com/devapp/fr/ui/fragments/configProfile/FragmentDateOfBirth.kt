@@ -1,7 +1,9 @@
 package com.devapp.fr.ui.fragments.configProfile
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +15,8 @@ import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.getStringText
 import com.devapp.fr.util.UiHelper.setEmptyText
+import com.devapp.fr.util.UiHelper.showSnackbar
+import com.devapp.fr.util.Validation
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import kotlinx.coroutines.Job
@@ -20,7 +24,7 @@ import kotlinx.coroutines.delay
 
 class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
     private lateinit var sharedPref: SharedPreferencesHelper
-
+    val TAG = "FragmentDateOfBirth"
     override fun onAttach(context: Context) {
         if (context is ConfigProfileActivity) sharedPref = context.sharedPrefs
         super.onAttach(context)
@@ -42,7 +46,7 @@ class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
                     edtItem3Year.setText(element[2][2].toString())
                     edtItem4Year.setText(element[2][3].toString())
                 }
-                binding.btnContinue.enableOrNot(false)
+                binding.btnContinue.enableOrNot(sharedPref.readDobConfig().isNotEmpty())
             }
         }
     }
@@ -145,13 +149,18 @@ class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
         binding.btnContinue.setOnClickListener {
             jobButton.cancel()
             it.startAnimClick()
-            sharedPref.saveDobConfig(
-                "${binding.edtItem1Day.getStringText()}${binding.edtItem2Day.getStringText()}/" +
-                        "${binding.edtItem1Month.getStringText()}${binding.edtItem2Month.getStringText()}/" +
-                        "${binding.edtItem1Year.getStringText()}${binding.edtItem2Year.getStringText()}" +
-                        "${binding.edtItem3Year.getStringText()}${binding.edtItem4Year.getStringText()}"
-            )
-            findNavController().navigate(FragmentDateOfBirthDirections.actionFragmentDateOfBirthToFragmentAddress())
+            val date = "${binding.edtItem1Day.getStringText()}${binding.edtItem2Day.getStringText()}/" +
+                    "${binding.edtItem1Month.getStringText()}${binding.edtItem2Month.getStringText()}/" +
+                    "${binding.edtItem1Year.getStringText()}${binding.edtItem2Year.getStringText()}" +
+                    "${binding.edtItem3Year.getStringText()}${binding.edtItem4Year.getStringText()}"
+            if(Validation.validateDobField(date)){
+                Log.d(TAG, "handleEvent: $date ${Validation.validateDobField(date)}")
+                sharedPref.saveDobConfig(date)
+                findNavController().navigate(FragmentDateOfBirthDirections.actionFragmentDateOfBirthToFragmentAddress())
+            }else{
+                binding.root.showSnackbar("Ngày sinh bạn chưa chính xác !")
+            }
+
         }
     }
 }

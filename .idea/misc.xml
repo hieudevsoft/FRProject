@@ -60,6 +60,7 @@
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_frament_date_of_birth.xml" value="0.5255878284923928" />
         <entry key="app/src/main/res/layout/fragment_full_screen_image.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_image.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_inbox.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_loves.xml" value="0.161231884057971" />

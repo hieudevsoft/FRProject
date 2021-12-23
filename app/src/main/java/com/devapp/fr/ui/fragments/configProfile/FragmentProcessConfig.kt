@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.databinding.FragmentLovesBinding
 import com.devapp.fr.databinding.FragmentProcessConfigBinding
@@ -36,11 +37,17 @@ class FragmentProcessConfig : Fragment(R.layout.fragment_process_config) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //setup init view
-        findOnClickListener(binding.tvFemale,binding.tvFemale){
+        findOnClickListener(binding.tvMale,binding.tvFemale){
             this.startAnimClick()
-            var data =""
-            data = if(this == binding.tvMale) "male" else "female"
-            pref.saveGender(if(data.contains("male")) 1 else 0)
+            when(this){
+                binding.tvFemale->{
+                    pref.saveGender(0)
+                }
+                binding.tvMale->{
+                    pref.saveGender(1)
+                }
+            }
+            findNavController().navigate(FragmentProcessConfigDirections.actionFragmentProcessConfigToFragmentNickName())
         }
         super.onViewCreated(view, savedInstanceState)
     }
