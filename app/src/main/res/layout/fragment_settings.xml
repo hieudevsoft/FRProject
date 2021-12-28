@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -209,11 +210,11 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_des_noti"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_light"
-                            android:text="Bạn sẽ nhận thông báo về kết đôi tại đây ~" />
+                            android:text="Bạn sẽ nhận thông báo về kết đôi tại đây ~"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <com.google.android.material.textview.MaterialTextView
