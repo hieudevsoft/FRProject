@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentLogin">
+    app:startDestination="@id/fragmentOtherProfile">
 
 
     <fragment
@@ -62,10 +62,21 @@
             app:destination="@id/fragmentSettings"
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentProfile_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLoves"
         android:name="com.devapp.fr.ui.fragments.FragmentLoves"
         android:label="FragmentLoves" />
+    <fragment
+        android:id="@+id/fragmentEditProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentEditProfile"
+        android:label="FragmentEditProfile" />
+    <fragment
+        android:id="@+id/fragmentOtherProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentOtherProfile"
+        android:label="FragmentOtherProfile" />
 
 </navigation>

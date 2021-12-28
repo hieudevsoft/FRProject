@@ -18,20 +18,25 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_arrow_back_24.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_arrow_left.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_back.xml" value="0.22685185185185186" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_close.xml" value="0.23025641025641025" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_food.xml" value="0.15092592592592594" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_heart.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_next.xml" value="0.23076923076923078" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_replay.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/activity_main.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_adress.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_chats.xml" value="0.12183383991894631" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_edit_profile.xml" value="0.21822916666666667" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_email.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_login.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_main_view_pager.xml" value="0.12183383991894631" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_myprofile.xml" value="0.2" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_myprofile.xml" value="0.264" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_nick_name.xml" value="0.21195652173913043" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_other_profile.xml" value="0.21822916666666667" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_password.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_process_config.xml" value="0.11302083333333333" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_settings.xml" value="0.176" />
+        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_splash.xml" value="0.12183383991894631" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_layout_slide.xml" value="0.2" />
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.1814814814814815" />
