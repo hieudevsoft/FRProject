@@ -248,67 +248,59 @@ object QuizConstants {
             QuizData.QuestionType.Nature,
             1
         )
+
         val q50 = QuizData(
-            "Bạn cố không làm người khác trông xấu xa, cho dù người đó hoàn toàn có lỗi",
-            QuizData.QuestionType.Nature,
-            1
-        )
-        val q51 = QuizData(
             "Bạn làm việc một cách bùng nổ vào những thời điểm tự phát thay vì làm việc một cách ổn định và có kế hoạch",
             QuizData.QuestionType.Tactics,
             1
         )
-        val q52 = QuizData(
+        val q51 = QuizData(
             "Khi người khác đánh giá cao bạn, bạn tự hỏi rằng liệu người đó có thất vọng về bạn trong tương lai không",
             QuizData.QuestionType.Identity,
             1
         )
-        val q53 = QuizData(
+        val q52 = QuizData(
             "Bạn thích những công việc mà cho phép bạn làm việc một mình",
             QuizData.QuestionType.Mind,
             2
         )
-        val q54 = QuizData(
+        val q53 = QuizData(
             "Bạn cho rằng ngẫm nghĩ về những câu hỏi triết học trừu tượng thật là vô bổ",
             QuizData.QuestionType.Energy,
             2
         )
-        val q55 = QuizData(
+        val q54 = QuizData(
             "Bạn bị thu hút bởi những chốn đông đúc, náo nhiệt hơn là những nơi yên tĩnh, ấm cúng",
             QuizData.QuestionType.Mind,
             1
         )
-        val q56 = QuizData(
+        val q55 = QuizData(
             "Bạn nhìn cái là biết ngay người khác đang cảm thấy thế nào",
             QuizData.QuestionType.Nature,
             1
         )
-        val q57 = QuizData(
+        val q56 = QuizData(
             "Bạn thường thấy mình bị quá tải",
             QuizData.QuestionType.Identity,
             1
         )
-        val q58 = QuizData(
+        val q57 = QuizData(
             "Bạn hoàn thành mọi việc chuẩn chỉnh như sách giáo khoa mà không bỏ qua bước nào",
             QuizData.QuestionType.Tactics,
             2
         )
-        val q59 = QuizData(
-            "Bạn thấy khó chịu với những thứ được coi là gây tranh cãi",
-            QuizData.QuestionType.Energy,
-            2
-        )
-        val q60 = QuizData(
+
+        val q58 = QuizData(
             "Bạn sẽ nhường lại cơ hội cho người khác nếu bạn nghĩ người đó cần nó hơn mình",
             QuizData.QuestionType.Nature,
             1
         )
-        val q61 = QuizData(
+        val q59 = QuizData(
             "Bạn khốn khổ vì bị deadline dí liên tục",
             QuizData.QuestionType.Tactics,
             1
         )
-        val q62 = QuizData(
+        val q60 = QuizData(
             "Bạn tự tin rằng mọi chuyện rồi sẽ ổn thôi",
             QuizData.QuestionType.Identity,
             1
@@ -373,8 +365,7 @@ object QuizConstants {
         questionList.add(q58)
         questionList.add(q59)
         questionList.add(q60)
-        questionList.add(q61)
-        questionList.add(q62)
+
 
 
 
