@@ -80,4 +80,12 @@ class SharedPreferencesHelper(context: Context) {
     fun readIsLogin(): Boolean {
         return pref.getBoolean(Constants.KEY_IS_LOGIN,false)
     }
+
+    fun saveIsRegister(isRegister:Boolean) {
+        pref.edit().putBoolean(Constants.KEY_IS_REGISTER,isRegister).apply()
+    }
+
+    fun getIsRegister(): Boolean {
+        return pref.getBoolean(Constants.KEY_IS_REGISTER,false)
+    }
 }
