@@ -41,6 +41,7 @@
         <entry key="app/src/main/res/layout/activity_full_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_full_screen_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_adress.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.12545289855072464" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.1" />
@@ -67,6 +68,7 @@
         <entry key="app/src/main/res/layout/item_chat_me.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/mask_layout.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_tabs.xml" value="0.140625" />
       </map>
     </option>

@@ -1,4 +1,4 @@
-package com.devapp.network
+package com.devapp.fr.network
 
 sealed class ResourceRemote<out T> {
     object Idle:ResourceRemote<Nothing>()

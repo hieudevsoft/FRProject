@@ -12,6 +12,7 @@ import com.devapp.fr.R
 import com.devapp.fr.databinding.ActivityConfigProfileBinding
 import com.devapp.fr.util.UiHelper.setProgressAnimate
 import com.devapp.fr.util.storages.SharedPreferencesHelper
+import javax.inject.Inject
 
 class ConfigProfileActivity : AppCompatActivity() {
     val TAG = "ConfigProfileActivity"
@@ -19,6 +20,7 @@ class ConfigProfileActivity : AppCompatActivity() {
     private val binding get() =_binding!!
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var gender:String
+    @Inject
     lateinit var sharedPrefs:SharedPreferencesHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,6 @@ class ConfigProfileActivity : AppCompatActivity() {
             gender = this.getStringExtra("gender").toString()
             Log.d(TAG, "onCreate: $gender")
         }
-        sharedPrefs = SharedPreferencesHelper(this)
         binding.btnBack.setOnClickListener {
             if(!navHostFragment.findNavController().popBackStack()) finish()
         }
