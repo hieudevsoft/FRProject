@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:visibility="visible"
         app:LoadingDots_auto_play="true"
-        app:LoadingDots_dots_color="@color/background_dark_mode"
+        app:LoadingDots_dots_color="@color/black"
         app:LoadingDots_dots_count="4"
         app:LoadingDots_dots_size="@dimen/_8sdp"
         app:LoadingDots_dots_space="@dimen/_3sdp"

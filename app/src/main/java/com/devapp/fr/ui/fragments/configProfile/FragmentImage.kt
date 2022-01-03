@@ -1,8 +1,11 @@
 package com.devapp.fr.ui.fragments.configProfile
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.devapp.fr.R
@@ -12,6 +15,8 @@ import com.devapp.fr.databinding.FragmentImageBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.ui.viewmodels.AuthViewModel
+import com.devapp.fr.ui.viewmodels.StorageViewModel
+import com.devapp.fr.util.CustomDialog
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper.findOnClickListener
@@ -19,6 +24,7 @@ import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.coroutines.*
@@ -27,17 +33,23 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 @AndroidEntryPoint
 class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.PermissionCallbacks {
-    private lateinit var prefs: SharedPreferencesHelper
+    @Inject
+    lateinit var prefs: SharedPreferencesHelper
     val TAG = "FragmentImage"
     private var isChooseImageOne: Boolean? = null
     private lateinit var job: Job
     private val authViewModel:AuthViewModel by viewModels()
+    private val storageViewModel:StorageViewModel by viewModels()
+    private lateinit var dialogLoading:CustomDialog
+    private var listImage:MutableList<String> = mutableListOf("","")
+    private var listUri:MutableList<Uri> = mutableListOf("".toUri(),"".toUri())
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        prefs = (context as ConfigProfileActivity).sharedPrefs
+        dialogLoading = CustomDialog(R.layout.dialog_loading)
     }
 
     override fun onSetupView() {
@@ -69,7 +81,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
                 binding.btnContinue -> {
                     this.startAnimClick()
-                    saveUserToFirebase()
+                    storageViewModel.downloadAllImagesById("123", listOf("1641183258862","1641183259921"))
                 }
             }
         }
@@ -90,7 +102,8 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                 name,
                 gender,
                 dob,
-                address
+                address,
+                id = UUID.randomUUID().toString()
             )
         )
     }
@@ -98,6 +111,9 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
     override fun onDestroyView() {
         job.cancel()
         authViewModel.resetStateAddUserProfile()
+        authViewModel.resetStateGetUserProfile()
+        authViewModel.resetStateEmailExist()
+        dialogLoading.onDestroyView()
         super.onDestroyView()
     }
 
@@ -111,7 +127,16 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                             if (isChooseImageOne == true) binding.img1 else binding.img2,
                             this
                         )
-                        if (isChooseImageOne == true) binding.imgCamera1.toGone() else binding.imgCamera2.toGone()
+                        if (isChooseImageOne == true) {
+                            listImage[0] = "${System.currentTimeMillis()}"
+                            listUri[0] = it
+                            binding.imgCamera1.toGone()
+                        } else {
+                            binding.imgCamera2.toGone()
+                            listImage[1] = "${System.currentTimeMillis()}"
+                            listUri[1] = it
+                        }
+
                     }
                     .setOnErrorListener {
                         binding.root.showSnackbar(it)
@@ -146,14 +171,131 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
             authViewModel.stateAddUserProfile.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
-
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
                     }
 
                     is ResourceRemote.Success->{
+                        binding.root.showSnackbar("Join app successfully~")
+                        dialogLoading.dismiss()
+                    }
 
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
                     }
 
                     else->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            authViewModel.stateGetUserProfile.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.data?.email}")
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    else->{
+                        try{
+                            dialogLoading.dismiss()
+                        }catch (e:Exception){
+
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            authViewModel.stateEmailExist.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        Log.d(TAG, "subscriberObserver: ${it.data}")
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            storageViewModel.stateAddImage.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        Log.d(TAG, "subscriberObserver: ${it.data}")
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            storageViewModel.stateDownloadAllImageById.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        binding.apply {
+                            img1.setImageBitmap(it.data[0])
+                            img2.setImageBitmap(it.data[1])
+                        }
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
 
                     }
                 }

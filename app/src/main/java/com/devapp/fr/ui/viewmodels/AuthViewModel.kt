@@ -18,16 +18,44 @@ class AuthViewModel @Inject constructor(
     private val fireStoreService:FireStoreService
 ):AndroidViewModel(app) {
 
+    //add user profile
     private val _stateAddUserProfile:MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(ResourceRemote.Idle)
     val stateAddUserProfile:StateFlow<ResourceRemote<String>> = _stateAddUserProfile
     fun resetStateAddUserProfile() {
         _stateAddUserProfile.value = ResourceRemote.Idle
     }
-
     fun addUserProfile(userProfile:UserProfile){
         _stateAddUserProfile.value = ResourceRemote.Loading
         viewModelScope.launch {
             _stateAddUserProfile.value = fireStoreService.addUserProfile(userProfile)
       }
     }
+
+    //read user profile
+    private val _stateGetUserProfile:MutableStateFlow<ResourceRemote<UserProfile?>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateGetUserProfile:StateFlow<ResourceRemote<UserProfile?>> = _stateGetUserProfile
+    fun resetStateGetUserProfile() {
+        _stateGetUserProfile.value = ResourceRemote.Idle
+    }
+    fun getUserProfile(id:String){
+        _stateGetUserProfile.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateGetUserProfile.value = fireStoreService.getUserProfile(id)
+        }
+    }
+
+    //email is exist?
+    //read user profile
+    private val _stateEmailExist:MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateEmailExist:StateFlow<ResourceRemote<String>> = _stateEmailExist
+    fun resetStateEmailExist() {
+        _stateGetUserProfile.value = ResourceRemote.Idle
+    }
+    fun isEmailExits(email:String){
+        _stateEmailExist.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateEmailExist.value = fireStoreService.isEmailExist(email)
+        }
+    }
+
 }
