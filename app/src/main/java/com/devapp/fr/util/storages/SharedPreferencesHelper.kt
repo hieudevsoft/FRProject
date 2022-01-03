@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.devapp.fr.util.Constants
+import javax.inject.Inject
 
-class SharedPreferencesHelper(context: Context) {
+class SharedPreferencesHelper @Inject constructor(context: Context) {
     private var pref: SharedPreferences =
         context.getSharedPreferences(Constants.PREF_NAME, MODE_PRIVATE)
 
@@ -54,7 +55,7 @@ class SharedPreferencesHelper(context: Context) {
     }
 
     fun readGender():Int {
-        return pref.getInt(Constants.KEY_GENDER,0)!!
+        return pref.getInt(Constants.KEY_GENDER, 0)
     }
 
     fun saveEmail(email: String) {
@@ -79,5 +80,13 @@ class SharedPreferencesHelper(context: Context) {
 
     fun readIsLogin(): Boolean {
         return pref.getBoolean(Constants.KEY_IS_LOGIN,false)
+    }
+
+    fun saveIsRegister(isRegister:Boolean) {
+        pref.edit().putBoolean(Constants.KEY_IS_REGISTER,isRegister).apply()
+    }
+
+    fun readIsRegister(): Boolean {
+        return pref.getBoolean(Constants.KEY_IS_REGISTER,false)
     }
 }

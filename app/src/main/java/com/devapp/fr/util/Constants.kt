@@ -17,6 +17,7 @@ object Constants {
     const val KEY_EMAIL = "key_email"
     const val KEY_PASSWORD = "key_password"
     const val KEY_IS_LOGIN = "key_is_login"
+    const val KEY_IS_REGISTER = "key_is_register"
 
     //Type Message
     const val TEXT_FROM_ME=0

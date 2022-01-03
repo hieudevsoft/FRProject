@@ -41,14 +41,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue"
-        android:layout_alignParentBottom="true"
-        android:text="Tiếp tục"
-        android:fontFamily="@font/nunito_semibold"
-        android:textAllCaps="false"
-        android:padding="@dimen/_8sdp"
-        app:cornerRadius="@dimen/_6sdp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:backgroundTint="@color/background_dark_mode"
-        android:layout_height="wrap_content"/>
+        android:fontFamily="@font/nunito_semibold"
+        android:padding="@dimen/_8sdp"
+        android:text="Tiếp tục"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_6sdp" />
 
 </RelativeLayout>

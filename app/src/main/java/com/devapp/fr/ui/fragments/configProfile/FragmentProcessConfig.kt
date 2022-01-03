@@ -31,11 +31,12 @@ class FragmentProcessConfig : Fragment(R.layout.fragment_process_config) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProcessConfigBinding.inflate(inflater)
-        pref = (requireActivity() as ConfigProfileActivity).sharedPrefs
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        pref = (requireActivity() as ConfigProfileActivity).sharedPrefs
         //setup init view
         findOnClickListener(binding.tvMale,binding.tvFemale){
             this.startAnimClick()
