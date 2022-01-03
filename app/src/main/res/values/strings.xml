@@ -15,6 +15,7 @@
     <string name="login_note">Đăng nhập bằng Email mà bạn đã đăng ký</string>
     <string name="signup_note">Đăng ký tài khoản bằng email</string>
     <string name="my_profile">Hồ sơ của bạn</string>
+    <string name="edit_profile">Chỉnh sửa hồ sơ của bạn</string>
 
     <string name="profile">Thông tin cá nhân</string>
     <string name="friend">Lời mời kết nối</string>

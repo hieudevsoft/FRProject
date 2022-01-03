@@ -35,7 +35,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:clickable="true"
-                    android:src="@drawable/ic_replay"
+                    android:src="@drawable/ic_back"
                     app:tint="@color/gray"
                     app:useMaterialThemeColors="true" />
 
@@ -47,7 +47,7 @@
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_toEndOf="@+id/btn_reward"
                     android:clickable="true"
-                    android:src="@drawable/ic_heart"
+                    android:src="@drawable/ic_replay"
                     app:tint="@color/gray"
                     app:useMaterialThemeColors="true" />
 
@@ -80,7 +80,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,11 +100,11 @@
                 <RelativeLayout
                     android:id="@+id/ly_other_profile"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/img_avatar_profile"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_450sdp"
+                        android:layout_height="@dimen/_500sdp"
                         android:src="@drawable/img_avatar2"
                         android:scaleType="centerCrop"/>
 
@@ -117,16 +116,31 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:text="'@username"
                         android:fontFamily="@font/nunito_semibold"
+                        android:text="'@username"
                         android:textColor="@color/white"
                         android:textSize="@dimen/TEXT_SIZE_MEDIUM"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_dob_sexual_other_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_other_username"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/nunito_light"
+                        android:text="Gioi tinh, tuoi"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_des_other_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_dob_sexual_other_user"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -135,6 +149,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/TEXT_SIZE_SMALL"
                         android:textStyle="bold" />
+
 
                 </RelativeLayout>
 
