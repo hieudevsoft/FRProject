@@ -31,16 +31,16 @@ class StorageViewModel @Inject constructor(app:Application, private val storage:
     }
 
     //download all image
-    private val _stateDownloadAllImageById: MutableStateFlow<ResourceRemote<List<Bitmap>>> = MutableStateFlow(
+    private val _stateDownloadAllImageById: MutableStateFlow<ResourceRemote<List<String>>> = MutableStateFlow(
         ResourceRemote.Idle)
-    val stateDownloadAllImageById: StateFlow<ResourceRemote<List<Bitmap>>> = _stateDownloadAllImageById
+    val stateDownloadAllImageById: StateFlow<ResourceRemote<List<String>>> = _stateDownloadAllImageById
     fun resetStateDownloadAllImageById() {
         _stateDownloadAllImageById.value = ResourceRemote.Idle
     }
-    fun downloadAllImagesById(id: String,listImage:List<String>){
+    fun downloadAllImagesById(id: String){
         _stateDownloadAllImageById.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateDownloadAllImageById.value = storage.downloadAllImagesById(id,listImage)
+            _stateDownloadAllImageById.value = storage.downloadAllImagesById(id)
         }
     }
 }

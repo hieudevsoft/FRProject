@@ -21,15 +21,16 @@ import com.dolatkia.animatedThemeManager.ThemeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import nl.joery.animatedbottombar.AnimatedBottomBar
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ThemeActivity() {
     val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     lateinit var bottomBar: AnimatedBottomBar
     private lateinit var navHostFragment: NavHostFragment
-    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-
-    fun getSharedPref() = sharedPreferencesHelper
+    @Inject
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
     override fun getStartTheme(): AppTheme {
         //Init SharedPreferencesHelper

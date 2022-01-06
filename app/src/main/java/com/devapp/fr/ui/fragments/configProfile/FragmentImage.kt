@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,9 +17,11 @@ import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.ui.viewmodels.AuthViewModel
 import com.devapp.fr.ui.viewmodels.StorageViewModel
+import com.devapp.fr.util.Constants
 import com.devapp.fr.util.CustomDialog
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.PermissionHelper
+import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.findOnClickListener
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
@@ -28,6 +31,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -81,7 +85,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
                 binding.btnContinue -> {
                     this.startAnimClick()
-                    storageViewModel.downloadAllImagesById("123", listOf("1641183258862","1641183259921"))
+                    storageViewModel.downloadAllImagesById("123")
                 }
             }
         }
@@ -112,7 +116,6 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
         job.cancel()
         authViewModel.resetStateAddUserProfile()
         authViewModel.resetStateGetUserProfile()
-        authViewModel.resetStateEmailExist()
         dialogLoading.onDestroyView()
         super.onDestroyView()
     }
@@ -152,18 +155,21 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        job = lifecycleScope.launch(Dispatchers.IO) {
-//            while (true){
-//                withContext(Dispatchers.Main){
-//                    if (binding.img1.drawable == null || binding.img2.drawable == null)
-//                        binding.btnContinue.enableOrNot(false) else binding.btnContinue.enableOrNot(true)
-//                }
-//            }
-//            delay(500)
-//        }
-
+        statusButtonContinue()
         subscriberObserver()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun statusButtonContinue() {
+        job = lifecycleScope.launch(Dispatchers.IO) {
+            while (true){
+                withContext(Dispatchers.Main){
+                    if (binding.img1.drawable == null || binding.img2.drawable == null)
+                        binding.btnContinue.enableOrNot(false) else binding.btnContinue.enableOrNot(true)
+                }
+            }
+            delay(Constants.DEFAULT_DELAY_STATUS.toLong())
+        }
     }
 
     private fun subscriberObserver() {
@@ -218,33 +224,6 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
             }
         }
         lifecycleScope.launchWhenResumed {
-            authViewModel.stateEmailExist.collectLatest {
-                when(it){
-                    is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
-                    }
-
-                    is ResourceRemote.Success->{
-                        Log.d(TAG, "subscriberObserver: ${it.data}")
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Error->{
-                        dialogLoading.dismiss()
-                        Log.d(TAG, "subscriberObserver: ${it.message}")
-                    }
-
-                    is ResourceRemote.Empty->{
-                        Log.d(TAG, "subscriberObserver: empty")
-                    }
-
-                    is ResourceRemote.Idle->{
-
-                    }
-                }
-            }
-        }
-        lifecycleScope.launchWhenResumed {
             storageViewModel.stateAddImage.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
@@ -279,16 +258,39 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                     }
 
                     is ResourceRemote.Success->{
-                        binding.apply {
-                            img1.setImageBitmap(it.data[0])
-                            img2.setImageBitmap(it.data[1])
-                        }
+                        authViewModel.updateImagesUserProfile("hieuht0001@gmail.com",it.data)
                         dialogLoading.dismiss()
                     }
 
                     is ResourceRemote.Error->{
                         dialogLoading.dismiss()
-                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            authViewModel.stateUpdateImagesUserProfile.collect {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                        dialogLoading.dismiss()
                     }
 
                     is ResourceRemote.Empty->{

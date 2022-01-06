@@ -89,7 +89,7 @@
         android:backgroundTint="@color/background_dark_mode"
         android:fontFamily="@font/nunito_semibold"
         android:padding="@dimen/_8sdp"
-        android:text="Hoàn tất"
+        android:text="Tiếp tục"
         android:textAllCaps="false"
         app:cornerRadius="@dimen/_6sdp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

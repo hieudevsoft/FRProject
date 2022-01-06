@@ -62,20 +62,17 @@ class StorageService @Inject constructor(private val context:Context) {
 
     suspend fun downloadAllImagesById(
         id: String,
-        listNameFile:List<String>,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ): ResourceRemote<List<Bitmap>> {
+    ): ResourceRemote<List<String>> {
         val ref = Firebase.storage.reference
         val res = withContext(dispatcher) {
             try {
-                val maxDownloadSize = 10L * 1024 *1024
-                val listImages = mutableListOf<Bitmap>()
-                listNameFile.forEach {
-                    val bytes = ref.child("images/$id/$it").getBytes(maxDownloadSize).await()
-                    val bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-                    listImages.add(bitmap)
+                val images = ref.child("images/$id").listAll().await()
+                val imageUrls = mutableListOf<String>()
+                images.items.forEach {
+                    imageUrls.add(it.downloadUrl.await().toString())
                 }
-                ResourceRemote.Success(listImages)
+                ResourceRemote.Success(imageUrls)
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
