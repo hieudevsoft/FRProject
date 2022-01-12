@@ -42,6 +42,10 @@
         <item>Buồn</item>
         <item>Tức</item>
     </string-array>
+
+    //hobby tag
+    <string name="hobby_eating">Ăn uống"</string>
+    <string name="hobby_photo">Nhiếp ảnh</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentOtherProfile">
+    app:startDestination="@id/fragmentSplash">
 
 
     <fragment
@@ -48,7 +48,13 @@
 
         android:id="@+id/fragmentLogin"
         android:name="com.devapp.fr.ui.fragments.FragmentLogin"
-        android:label="FragmentLogin" />
+        android:label="FragmentLogin" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentSettings"
+            app:destination="@id/fragmentSettings"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.FragmentInbox"
