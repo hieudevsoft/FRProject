@@ -44,7 +44,26 @@
     </string-array>
 
     //hobby tag
-    <string name="hobby_eating">Ăn uống"</string>
+    <string-array name="hobby">
+        <item>Ăn uống</item>
+        <item>Nhiếp ảnh</item>
+        <item>Bóng đá</item>
+        <item>Âm nhạc</item>
+        <item>Phim ảnh</item>
+        <item>Anime</item>
+        <item>Hội họa</item>
+        <item>Bóng rổ</item>
+        <item>Câu cá</item>
+        <item>Võ thuật</item>
+    </string-array>
+
+    <string-array name="tag_color">
+        <item>#ffff00</item>
+        <item>#f57382</item>
+        <item>#69beeb</item>
+        <item>#e1fafa</item>
+        <item>#e1a03c</item>
+    </string-array>
     <string name="hobby_photo">Nhiếp ảnh</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
