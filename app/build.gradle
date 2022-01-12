@@ -129,4 +129,7 @@ dependencies {
     implementation "com.github.pgreze:android-reactions:1.6"
     implementation 'com.github.angads25:toggle:1.1.0'
 
+    //Flexbox Layout
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
 }

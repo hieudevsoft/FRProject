@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/fragment_splash.xml" value="0.33" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_chat_image_me.xml" value="0.33" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_chat_image_partner.xml" value="0.2817028985507246" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_chat_me.xml" value="0.2817028985507246" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_chat_partner.xml" value="0.2817028985507246" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_layout_slide.xml" value="0.2817028985507246" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/item_tag_hobby.xml" value="0.2817028985507246" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15092592592592594" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_background_send.xml" value="0.22685185185185186" />
