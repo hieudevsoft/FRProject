@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_20sdp"
+        android:paddingStart="@dimen/_2sdp"
+        android:text="@string/hobby_photo"
+        android:textAlignment="textStart"
+        android:textSize="@dimen/_4ssp"
+        app:backgroundTint="@null"
+        app:cornerRadius="@dimen/_12sdp"
+        app:icon="@drawable/ic_camera"
+        app:iconGravity="start"
+        app:iconPadding="2dp"
+        app:iconSize="@dimen/_8sdp"
+        android:paddingEnd="0dp"
+        />
+
+
+</LinearLayout>

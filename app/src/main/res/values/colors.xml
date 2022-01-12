@@ -43,6 +43,7 @@
     <color name="color_white_800">#FCF0F0F0</color>
     <color name="color_dark_800">#FF101010</color>
     <color name="color_dark_500">#1C1C1C</color>
+    <color name="color_red_700">#d32f2f</color>
 
 
 </resources>

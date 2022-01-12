@@ -80,7 +80,7 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_12sdp"
@@ -90,7 +90,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/_450sdp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -105,12 +105,12 @@
                     <ImageView
                         android:id="@+id/img_avatar_profile"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_500sdp"
+                        android:layout_height="@dimen/_450sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_avatar2" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_other_username"
+                        android:id="@+id/tv_other_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -124,36 +124,51 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_dob_sexual_other_user"
+                        android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_other_username"
+                        android:layout_below="@+id/tv_other_name"
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:fontFamily="@font/nunito_light"
-                        android:text="Gioi tinh, tuoi"
+                        android:text="Address"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_16ssp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_des_other_user"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_dob_sexual_other_user"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/nunito_light"
-                        android:text="'description ....."
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/TEXT_SIZE_SMALL"
-                        android:textStyle="bold" />
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center_horizontal">
 
+                        <ImageButton
+                            android:id="@+id/btn_close"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:background="@drawable/custom_bg_avatar"
+                            android:backgroundTint="@color/color_grey_300"
+                            android:clickable="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_close" />
 
+                        <ImageButton
+                            android:id="@+id/btn_love"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:background="@drawable/custom_bg_avatar"
+                            android:backgroundTint="@color/color_grey_300"
+                            android:clickable="true"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_heart_redcolor" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
