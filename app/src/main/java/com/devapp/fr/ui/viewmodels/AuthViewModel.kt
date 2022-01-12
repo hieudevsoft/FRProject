@@ -58,4 +58,31 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    //email is exist?
+    //update images user profile
+    private val _stateUpdateImagesUserProfile:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateUpdateImagesUserProfile:StateFlow<ResourceRemote<Boolean>> = _stateUpdateImagesUserProfile
+    fun resetStateImagesUserProfile() {
+        _stateUpdateImagesUserProfile.value = ResourceRemote.Idle
+    }
+    fun updateImagesUserProfile(email:String,listImage:List<String>){
+        _stateUpdateImagesUserProfile.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateUpdateImagesUserProfile.value = fireStoreService.updateImages(email,listImage)
+        }
+    }
+
+    //login
+    private val _stateLogin:MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateLogin:StateFlow<ResourceRemote<String>> = _stateLogin
+    fun resetStateLogin() {
+        _stateLogin.value = ResourceRemote.Idle
+    }
+    fun loginWitEmailAndPassword(email:String,password:String){
+        _stateEmailExist.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateEmailExist.value = fireStoreService.loginWithEmailAndPassword(email,password)
+        }
+    }
+
 }

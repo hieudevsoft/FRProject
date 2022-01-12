@@ -101,12 +101,13 @@
                     android:id="@+id/ly_other_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:id="@+id/img_avatar_profile"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_500sdp"
-                        android:src="@drawable/img_avatar2"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_avatar2" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tv_other_username"

@@ -79,4 +79,56 @@ class FireStoreService @Inject constructor(private val context: Context) {
         return res
     }
 
+    suspend fun loginWithEmailAndPassword(
+        email: String,
+        password:String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<String> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection
+                    .whereEqualTo("email", email)
+                    .whereEqualTo("password",password)
+                    .get()
+                    .await()
+                if (snapShot.documents.isNotEmpty())
+                    ResourceRemote.Success("success find")
+                else ResourceRemote.Empty
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun updateImages(
+        email: String,
+        listImage:List<String>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("email", email).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        it.update(profile,"images",listImage)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
 }
