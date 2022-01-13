@@ -106,14 +106,14 @@ class FireStoreService @Inject constructor(private val context: Context) {
     }
 
     suspend fun updateImages(
-        email: String,
+        id: String,
         listImage:List<String>,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
     ): ResourceRemote<Boolean> {
         val collection = Firebase.firestore.collection("profiles")
         val res = withContext(dispatcher) {
             try {
-                val snapShot = collection.whereEqualTo("email", email).get().await()
+                val snapShot = collection.whereEqualTo("id", id).get().await()
                 Firebase.firestore.runTransaction {
                     if (snapShot.documents.isNotEmpty()){
                         val profile = collection.document(snapShot.documents[0].id)

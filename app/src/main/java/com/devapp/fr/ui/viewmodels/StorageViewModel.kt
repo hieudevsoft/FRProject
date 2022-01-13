@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.network.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,10 +24,10 @@ class StorageViewModel @Inject constructor(app:Application, private val storage:
     fun resetStateAddImage() {
         _stateAddImage.value = ResourceRemote.Idle
     }
-    fun addImage(id: String,uriImage:Uri){
+    fun addImage(id: String,listImageName:List<String>,vararg uriImage:Uri){
         _stateAddImage.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateAddImage.value = storage.addImage(id,uriImage)
+            _stateAddImage.value = storage.addImage(id,Dispatchers.IO, listImageName,*uriImage)
         }
     }
 

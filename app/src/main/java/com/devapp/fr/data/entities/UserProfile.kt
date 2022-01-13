@@ -9,8 +9,9 @@ class UserProfile(
     var gender:Int=0,
     var dob:String="",
     var address:String="",
-    //var images:List<String>?= mutableListOf(),
+    var images:List<String>?= mutableListOf(),
     var interests:List<String>?= mutableListOf(),
+    var topics:List<String>?= mutableListOf(),
     override var id:String=""
 ): BaseAccount(id,email,password) {
 }

@@ -1,21 +1,16 @@
 package com.devapp.fr.ui.fragments.configProfile
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.devapp.fr.R
-import com.devapp.fr.databinding.FragmentLovesBinding
 import com.devapp.fr.databinding.FragmentProcessConfigBinding
 import com.devapp.fr.ui.activities.ConfigProfileActivity
-import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.util.UiHelper.findOnClickListener
-import com.devapp.fr.util.animations.AnimationHelper
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 

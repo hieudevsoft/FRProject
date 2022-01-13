@@ -48,7 +48,7 @@ class FragmentPassword : BaseFragment<FragmentPasswordBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
             pref.savePassword(binding.edtPassword.text.toString().trim())
-            pref.saveIsLogin(false)
+            pref.saveProcessRegister(5)
             it.startAnimClick()
             findNavController().navigate(FragmentPasswordDirections.actionFragmentPasswordToFragmentImage())
         }

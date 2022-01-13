@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher
@@ -20,13 +21,16 @@ class StorageService @Inject constructor(private val context:Context) {
 
     suspend fun addImage(
         id: String,
-        uriImage:Uri,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        listName:List<String>,
+        vararg uriImage:Uri,
     ): ResourceRemote<String> {
         val ref = Firebase.storage.reference
         val res = withContext(dispatcher) {
             try {
-                ref.child("images/$id").putFile(uriImage)
+                uriImage.forEachIndexed { index, uri ->
+                    ref.child("images/$id/${listName[index]}").putFile(uri).await()
+                }
                 ResourceRemote.Success("success")
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

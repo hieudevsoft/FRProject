@@ -79,5 +79,16 @@
         android:id="@+id/fragmentImage"
         android:name="com.devapp.fr.ui.fragments.configProfile.FragmentImage"
         android:label="fragment_image"
-        tools:layout="@layout/fragment_image" />
+        tools:layout="@layout/fragment_image" >
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentImage_to_fragmentTerms"
+            app:destination="@id/fragmentTerms" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTerms"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentTerms"
+        android:label="fragment_terms"
+        tools:layout="@layout/fragment_terms" />
 </navigation>

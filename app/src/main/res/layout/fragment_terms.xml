@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.configProfile.FragmentTerms">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/LARGEST_SPACE">
+
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:src="@drawable/ic_heart"
+            app:tint="@color/background_dark_mode" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:text="Cam Kết Trung Thực"
+            android:textColor="@color/background_dark_mode"
+            android:textSize="@dimen/TEXT_SIZE_NORMAL"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:text="Hẹn hò là việc rối ren. Chúng tôi tin rừng sự trung thực làm cho mọi thứ tốt hơn cho mọi người. "
+            android:textColor="@color/light_gray"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:text="Hãy là chính mình. Chia sẻ con người thật, ảnh chưa qua chỉnh sửa."
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hãy trung thực về những gì bạn đang tìm kiếm. Nếu bạn thẳng thắn với mọi người, bạn có nhiều khả năng nhận được điều tương tự."
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:text="Giao tiếp tử tế. Trò chuyện thân thiện và tôn trọng mọi người."
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:fontFamily="@font/varelaround_regular"
+            android:text="Tận hưởng cuộc hành trình. Chúc bạn luôn hạnh phúc!"
+            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_join"
+            android:layout_marginTop="@dimen/LARGEST_SPACE"
+            android:layout_width="wrap_content"
+            android:text="Tham gia!"
+            app:cornerRadius="@dimen/CORNER_RADIUS_SMALL"
+            android:padding="@dimen/PADDING_SMALLEST"
+            android:fontFamily="@font/nunito_extra_bold"
+            android:textAllCaps="false"
+            android:insetBottom="@dimen/_2sdp"
+            android:insetTop="@dimen/_2sdp"
+            android:backgroundTint="@color/background_dark_mode"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</FrameLayout>

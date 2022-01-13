@@ -82,6 +82,14 @@ class SharedPreferencesHelper @Inject constructor(context: Context) {
         return pref.getBoolean(Constants.KEY_IS_LOGIN,false)
     }
 
+    fun saveProcessRegister(step:Int) {
+        pref.edit().putInt(Constants.KEY_PROCESS_REGISTER,step).apply()
+    }
+
+    fun readProcessRegister(): Int {
+        return pref.getInt(Constants.KEY_PROCESS_REGISTER,0)
+    }
+
     fun saveIsRegister(isRegister:Boolean) {
         pref.edit().putBoolean(Constants.KEY_IS_REGISTER,isRegister).apply()
     }

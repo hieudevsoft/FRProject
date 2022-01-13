@@ -14,8 +14,14 @@ import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.getStringText
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentAddress : BaseFragment<FragmentAdressBinding>() {
+    @Inject
+    lateinit var prefs:SharedPreferencesHelper
     override fun onSetupView() {
         binding.apply {
             edtAddress.setText((requireActivity() as ConfigProfileActivity).sharedPrefs.readAddress())
@@ -31,6 +37,7 @@ class FragmentAddress : BaseFragment<FragmentAdressBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
+            prefs.saveProcessRegister(3)
             it.startAnimClick()
             (requireActivity() as ConfigProfileActivity).sharedPrefs.saveAddress(binding.edtAddress.getStringText())
             findNavController().navigate(FragmentAddressDirections.actionFragmentAddressToFragmentEmail())

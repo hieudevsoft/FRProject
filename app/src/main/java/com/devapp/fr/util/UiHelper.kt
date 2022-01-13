@@ -241,8 +241,6 @@ object UiHelper {
     fun View.toGone() = run { this.visibility = View.GONE }
     fun View.toVisible() = run { this.visibility = View.VISIBLE }
     fun Activity.setColorStatusBar(color:Int) {
-        val window: Window = this.window
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = color
     }

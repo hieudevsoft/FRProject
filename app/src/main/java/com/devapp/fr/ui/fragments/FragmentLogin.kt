@@ -62,8 +62,8 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
                     }
 
                     is ResourceRemote.Success->{
-                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSettings())
                         Toast.makeText(requireContext(), "Đăng nhập thành công ~", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSettings())
                     }
 
                     is ResourceRemote.Error->{

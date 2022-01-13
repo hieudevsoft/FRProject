@@ -15,8 +15,14 @@ import com.devapp.fr.databinding.FragmentNickNameBinding
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentNickName : BaseFragment<FragmentNickNameBinding>() {
+    @Inject
+    lateinit var pref:SharedPreferencesHelper
     override fun onSetupView() {
         binding.apply {
             val name = (requireActivity() as ConfigProfileActivity).sharedPrefs.readNameConfig()
@@ -35,6 +41,7 @@ class FragmentNickName : BaseFragment<FragmentNickNameBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnContinue.setOnClickListener {
             it.startAnimClick()
+            pref.saveProcessRegister(1)
             val data = binding.edtName.text.toString()
             findNavController().navigate(FragmentNickNameDirections.actionFragmentNickNameToFragmentDateOfBirth(data))
             (requireActivity() as ConfigProfileActivity).sharedPrefs.saveNameConfig(data)

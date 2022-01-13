@@ -19,10 +19,13 @@ import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.Validation
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
+
 class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
+
     private lateinit var sharedPref: SharedPreferencesHelper
     val TAG = "FragmentDateOfBirth"
     override fun onAttach(context: Context) {
@@ -154,6 +157,7 @@ class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
                     "${binding.edtItem1Year.getStringText()}${binding.edtItem2Year.getStringText()}" +
                     "${binding.edtItem3Year.getStringText()}${binding.edtItem4Year.getStringText()}"
             if(Validation.validateDobField(date)){
+                sharedPref.saveProcessRegister(2)
                 Log.d(TAG, "handleEvent: $date ${Validation.validateDobField(date)}")
                 sharedPref.saveDobConfig(date)
                 findNavController().navigate(FragmentDateOfBirthDirections.actionFragmentDateOfBirthToFragmentAddress())

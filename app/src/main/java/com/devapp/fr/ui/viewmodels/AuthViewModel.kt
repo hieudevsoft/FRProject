@@ -65,10 +65,10 @@ class AuthViewModel @Inject constructor(
     fun resetStateImagesUserProfile() {
         _stateUpdateImagesUserProfile.value = ResourceRemote.Idle
     }
-    fun updateImagesUserProfile(email:String,listImage:List<String>){
+    fun updateImagesUserProfile(id:String,listImage:List<String>){
         _stateUpdateImagesUserProfile.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateUpdateImagesUserProfile.value = fireStoreService.updateImages(email,listImage)
+            _stateUpdateImagesUserProfile.value = fireStoreService.updateImages(id,listImage)
         }
     }
 

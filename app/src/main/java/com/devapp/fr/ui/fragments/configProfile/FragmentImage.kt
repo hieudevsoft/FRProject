@@ -3,12 +3,16 @@ package com.devapp.fr.ui.fragments.configProfile
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.entities.UserProfile
@@ -51,6 +55,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
     private lateinit var dialogLoading:CustomDialog
     private var listImage:MutableList<String> = mutableListOf("","")
     private var listUri:MutableList<Uri> = mutableListOf("".toUri(),"".toUri())
+    private var idOfUser:String=""
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dialogLoading = CustomDialog(R.layout.dialog_loading)
@@ -85,7 +90,9 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
                 binding.btnContinue -> {
                     this.startAnimClick()
-                    storageViewModel.downloadAllImagesById("123")
+                    prefs.saveProcessRegister(6)
+                    idOfUser = UUID.randomUUID().toString()
+                    storageViewModel.addImage(idOfUser,listImage,listUri[0],listUri[1])
                 }
             }
         }
@@ -98,7 +105,6 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
         val name = prefs.readNameConfig()
         val dob = prefs.readDobConfig()
         val address = prefs.readAddress()
-
         authViewModel.addUserProfile(
             UserProfile(
                 email!!,
@@ -107,7 +113,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                 gender,
                 dob,
                 address,
-                id = UUID.randomUUID().toString()
+                id = idOfUser
             )
         )
     }
@@ -116,6 +122,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
         job.cancel()
         authViewModel.resetStateAddUserProfile()
         authViewModel.resetStateGetUserProfile()
+        storageViewModel.resetStateAddImage()
         dialogLoading.onDestroyView()
         super.onDestroyView()
     }
@@ -174,6 +181,33 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
     private fun subscriberObserver() {
         lifecycleScope.launchWhenResumed {
+            storageViewModel.stateAddImage.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        saveUserToFirebase()
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                        Log.d(TAG, "subscriberObserver: ${it.message}")
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
             authViewModel.stateAddUserProfile.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
@@ -181,7 +215,8 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                     }
 
                     is ResourceRemote.Success->{
-                        binding.root.showSnackbar("Join app successfully~")
+                        Log.d(TAG, "subscriberObserver: save successfully")
+                        storageViewModel.downloadAllImagesById(idOfUser)
                         dialogLoading.dismiss()
                     }
 
@@ -196,6 +231,64 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                 }
             }
         }
+        lifecycleScope.launchWhenResumed {
+            storageViewModel.stateDownloadAllImageById.collectLatest {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        authViewModel.updateImagesUserProfile(idOfUser,it.data)
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            authViewModel.stateUpdateImagesUserProfile.collect {
+                when(it){
+                    is ResourceRemote.Loading->{
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success->{
+                        Log.d(TAG, "subscriberObserver: update images successfully")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            findNavController().navigate(FragmentImageDirections.actionFragmentImageToFragmentTerms())
+                            resetStateLocal()
+                        },1000)
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Error->{
+                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                        dialogLoading.dismiss()
+                    }
+
+                    is ResourceRemote.Empty->{
+                        Log.d(TAG, "subscriberObserver: empty")
+                    }
+
+                    is ResourceRemote.Idle->{
+
+                    }
+                }
+            }
+        }
+
         lifecycleScope.launchWhenResumed {
             authViewModel.stateGetUserProfile.collectLatest {
                 when(it){
@@ -223,86 +316,15 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                 }
             }
         }
-        lifecycleScope.launchWhenResumed {
-            storageViewModel.stateAddImage.collectLatest {
-                when(it){
-                    is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
-                    }
+    }
 
-                    is ResourceRemote.Success->{
-                        Log.d(TAG, "subscriberObserver: ${it.data}")
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Error->{
-                        dialogLoading.dismiss()
-                        Log.d(TAG, "subscriberObserver: ${it.message}")
-                    }
-
-                    is ResourceRemote.Empty->{
-                        Log.d(TAG, "subscriberObserver: empty")
-                    }
-
-                    is ResourceRemote.Idle->{
-
-                    }
-                }
-            }
-        }
-        lifecycleScope.launchWhenResumed {
-            storageViewModel.stateDownloadAllImageById.collectLatest {
-                when(it){
-                    is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
-                    }
-
-                    is ResourceRemote.Success->{
-                        authViewModel.updateImagesUserProfile("hieuht0001@gmail.com",it.data)
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Error->{
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Empty->{
-                        Log.d(TAG, "subscriberObserver: empty")
-                    }
-
-                    is ResourceRemote.Idle->{
-
-                    }
-                }
-            }
-        }
-        lifecycleScope.launchWhenResumed {
-            authViewModel.stateUpdateImagesUserProfile.collect {
-                when(it){
-                    is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
-                    }
-
-                    is ResourceRemote.Success->{
-                        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Error->{
-                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
-                        dialogLoading.dismiss()
-                    }
-
-                    is ResourceRemote.Empty->{
-                        Log.d(TAG, "subscriberObserver: empty")
-                    }
-
-                    is ResourceRemote.Idle->{
-
-                    }
-                }
-            }
-        }
+    private fun resetStateLocal() {
+        prefs.saveProcessRegister(7)
+        prefs.saveAddress("")
+        prefs.saveNameConfig("")
+        prefs.saveGender(0)
+        prefs.saveEmail("")
+        prefs.saveDobConfig("")
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
