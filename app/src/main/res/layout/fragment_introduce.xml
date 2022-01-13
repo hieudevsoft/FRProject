@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.information.FragmentIntroduce">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:srcCompat="@drawable/img_introduce" />
+
+    <TextView
+        android:id="@+id/tv_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:fontFamily="@font/varelaround_regular"
+        android:text="Giới thiệu bản thân \ncủa bạn"
+        android:textColor="@color/black"
+        android:textSize="@dimen/TEXT_SIZE_MEDIUM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_introduce" />
+
+    <EditText
+        android:id="@+id/edt_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/MEDIUM_SPACE"
+        android:fontFamily="@font/varelaround_regular"
+        android:hint="Đừng ngại !"
+        android:paddingStart="@dimen/PADDING_SMALL"
+        android:paddingTop="@dimen/LARGE_SPACE"
+        android:paddingBottom="@dimen/LARGEST_SPACE"
+        android:textCursorDrawable="@drawable/custom_cursor"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_introduce" />
+
+    <TextView
+        android:id="@+id/tv_number_character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/LARGE_SPACE"
+        android:fontFamily="@font/varelaround_regular"
+        android:text="500 ký tự"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_introduce" />
+</androidx.constraintlayout.widget.ConstraintLayout>
