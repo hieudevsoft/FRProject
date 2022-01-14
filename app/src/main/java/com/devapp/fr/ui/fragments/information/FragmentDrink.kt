@@ -10,17 +10,17 @@ import com.devapp.fr.R
 import com.devapp.fr.adapters.RadioAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.RadioModel
-import com.devapp.fr.databinding.FragmentChooseGenderBinding
+import com.devapp.fr.databinding.FragmentDrinkBinding
 
-class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
-    val TAG = "FragmentChooseGender"
-    private lateinit var radioAdapter:RadioAdapter
+class FragmentDrink : BaseFragment<FragmentDrinkBinding>() {
+    val TAG = "FragmentDrink"
+    private lateinit var radioAdapter: RadioAdapter
     override fun onSetupView() {
         radioAdapter = RadioAdapter {
-            index,isChecked->
+                index,isChecked->
             Log.d(TAG, "onSetupView: $index,$isChecked")
         }
-        binding.rcvGender.apply {
+        binding.rcvDrink.apply {
             itemAnimator = null
             adapter = radioAdapter
         }
@@ -33,15 +33,10 @@ class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
     }
 
     fun getListGender() = listOf(
-        RadioModel("Giới tính thẳng"),
-        RadioModel("Gay"),
-        RadioModel("Đồng tính nữ"),
-        RadioModel("Lưỡng tính"),
-        RadioModel("Vô tính"),
-        RadioModel("Á tính"),
-        RadioModel("Toàn tính luyến ái"),
-        RadioModel("Queer"),
-        RadioModel("Đang tự hỏi"),
-        RadioModel("Tôi không muốn nói")
+        RadioModel("Có"),
+        RadioModel("Không"),
+        RadioModel("Thỉnh thoảng"),
+        RadioModel("Tôi không muốn nói"),
+
     )
 }

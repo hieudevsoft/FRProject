@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.information.FragmentChooseGender">
+    tools:context=".ui.fragments.information.FragmentDrink">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/img_gender"
+                    android:id="@+id/img_drink"
                     android:scaleType="fitXY"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
@@ -42,7 +42,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0"
-                    app:srcCompat="@drawable/img_gender" />
+                    app:srcCompat="@drawable/img_drink" />
 
                 <TextView
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -51,12 +51,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/MEDIUM_SPACE"
                     android:fontFamily="@font/varelaround_regular"
-                    android:text="Giới tính của bạn là gì?"
+                    android:text="Bạn uống rượu bia?"
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_SIZE_MEDIUM"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_gender" />
+                    app:layout_constraintTop_toBottomOf="@id/img_drink" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -64,13 +64,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_gender"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="10"
-        tools:listitem="@layout/layout_item_radio" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_drink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/layout_item_radio" />
     </androidx.core.widget.NestedScrollView>
 
 

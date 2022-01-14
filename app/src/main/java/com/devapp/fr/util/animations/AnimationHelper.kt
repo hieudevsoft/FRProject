@@ -8,4 +8,10 @@ object AnimationHelper {
     fun View.startAnimClick(){
         this.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.animation_click))
     }
+    fun View.setOnClickWithAnimationListener(listenerCallBack:(View)->Unit){
+        this.setOnClickListener {
+            it.startAnimClick()
+            listenerCallBack(it)
+        }
+    }
 }

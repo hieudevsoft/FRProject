@@ -240,6 +240,7 @@ object UiHelper {
 
     fun View.toGone() = run { this.visibility = View.GONE }
     fun View.toVisible() = run { this.visibility = View.VISIBLE }
+    fun View.toInvisible() = run { this.visibility = View.INVISIBLE }
     fun Activity.setColorStatusBar(color:Int) {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = color

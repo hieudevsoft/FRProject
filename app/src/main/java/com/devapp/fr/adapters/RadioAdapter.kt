@@ -9,7 +9,7 @@ import com.devapp.fr.data.models.RadioModel
 import com.devapp.fr.databinding.LayoutItemRadioBinding
 
 
-class RadioAdapter(private val onCheckedChange:(Boolean)->Unit): RecyclerView.Adapter<RadioAdapter.ViewHolder>() {
+class RadioAdapter(private val onCheckedChange:(Int,Boolean)->Unit): RecyclerView.Adapter<RadioAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: LayoutItemRadioBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: RadioModel){
@@ -47,12 +47,12 @@ class RadioAdapter(private val onCheckedChange:(Boolean)->Unit): RecyclerView.Ad
         val item = differ.currentList[position]
         holder.bind(item)
         holder.binding.radio.setOnCheckedChangeListener { _, b ->
-            onCheckedChange(b)
+            onCheckedChange(position,b)
             if (b) resetStateRadio(position)
         }
     }
 
-    fun resetStateRadio(position: Int){
+    private fun resetStateRadio(position: Int){
         differ.currentList.forEachIndexed { index, radioModel ->
             if(position!=index) {
                 radioModel.isChecked = false
@@ -60,6 +60,11 @@ class RadioAdapter(private val onCheckedChange:(Boolean)->Unit): RecyclerView.Ad
             }
 
         }
+    }
+
+    fun setItemChecked(position:Int){
+        differ.currentList[position].isChecked = true
+        notifyItemChanged(position)
     }
 
     override fun getItemCount(): Int {
