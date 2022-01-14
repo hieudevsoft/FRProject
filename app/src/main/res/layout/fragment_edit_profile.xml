@@ -21,7 +21,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@color/background_dark_mode"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="@string/my_profile">
+            app:title="@string/edit_profile">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -195,6 +195,58 @@
             <androidx.cardview.widget.CardView
                 android:clickable="true"
                 android:focusable="true"
+                android:id="@+id/ly_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:paddingVertical="@dimen/_8sdp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ic_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_next"
+                        app:tint="@color/black"
+                        app:useMaterialThemeColors="true" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_dob"
+                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="Ngày sinh" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_des_dob"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:text="'@date of birth"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:clickable="true"
+                android:focusable="true"
                 android:id="@+id/ly_sexuality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,7 +261,7 @@
                     android:paddingVertical="@dimen/_8sdp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next2"
+                        android:id="@+id/ic_next3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -247,6 +299,111 @@
             <androidx.cardview.widget.CardView
                 android:clickable="true"
                 android:focusable="true"
+                android:id="@+id/ly_hobby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:paddingVertical="@dimen/_8sdp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ic_next4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_next"
+                        app:tint="@color/black"
+                        app:useMaterialThemeColors="true" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_hobby"
+                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="Sở thích" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_des_hobby"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:text="'@hobby"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/ly_describe_yourself"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/_8sdp"
+                    android:paddingVertical="@dimen/_8sdp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ic_next5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_next"
+                        app:tint="@color/black"
+                        app:useMaterialThemeColors="true" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_describe_yourself"
+                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="Mô tả bản thân" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_des_yourself"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:text="'@describe_yourself"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:clickable="true"
+                android:focusable="true"
                 android:id="@+id/ly_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -261,7 +418,7 @@
                     android:paddingVertical="@dimen/_8sdp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next3"
+                        android:id="@+id/ic_next6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -287,11 +444,11 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_des_address"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_light"
-                            android:text="'@address" />
+                            android:text="'@address"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -313,7 +470,7 @@
                     android:paddingVertical="@dimen/_8sdp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next4"
+                        android:id="@+id/ic_next7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -365,7 +522,7 @@
                     android:paddingVertical="@dimen/_8sdp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next5"
+                        android:id="@+id/ic_next8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

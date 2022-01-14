@@ -15,6 +15,7 @@
     <string name="login_note">Đăng nhập bằng Email mà bạn đã đăng ký</string>
     <string name="signup_note">Đăng ký tài khoản bằng email</string>
     <string name="my_profile">Hồ sơ của bạn</string>
+    <string name="edit_profile">Chỉnh sửa hồ sơ của bạn</string>
 
     <string name="profile">Thông tin cá nhân</string>
     <string name="friend">Lời mời kết nối</string>
@@ -41,6 +42,38 @@
         <item>Wow</item>
         <item>Buồn</item>
         <item>Tức</item>
+    </string-array>
+
+    //hobby tag
+    <string-array name="hobby">
+        <item>Ănuống</item>
+        <item>Nhiếpảnh</item>
+        <item>Bóngđá</item>
+        <item>Âmnhạc</item>
+        <item>Phimảnh</item>
+        <item>Anime</item>
+        <item>Hộihọa</item>
+        <item>Bóngrổ</item>
+        <item>Câucá</item>
+        <item>Võthuật</item>
+        <item>Cườiđùa</item>
+        <item>Tìnhyêu</item>
+    </string-array>
+
+    <string-array name="tag_color">
+        <item>#ff6d00</item>
+        <item>#ff1744</item>
+        <item>#3d5afe</item>
+        <item>#00c853</item>
+        <item>#212121</item>
+    </string-array>
+
+    <string-array name="tag_color_hint">
+        <item>#E9B37F</item>
+        <item>#D78188</item>
+        <item>#B1B3DD</item>
+        <item>#9ADBA9</item>
+        <item>#787676</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

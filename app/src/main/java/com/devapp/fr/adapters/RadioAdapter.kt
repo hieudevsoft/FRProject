@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.devapp.fr.data.models.RadioModel
+import com.devapp.fr.data.models.items.RadioItem
 import com.devapp.fr.databinding.LayoutItemRadioBinding
 
 
 class RadioAdapter(private val onCheckedChange:(Int,Boolean)->Unit): RecyclerView.Adapter<RadioAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: LayoutItemRadioBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(item: RadioModel){
+        fun bind(item: RadioItem){
             binding.radio.apply {
                 isChecked= item.isChecked
                 text = item.text
@@ -20,13 +20,13 @@ class RadioAdapter(private val onCheckedChange:(Int,Boolean)->Unit): RecyclerVie
         }
     }
 
-    private val diffUtilItemCallBack = object:DiffUtil.ItemCallback<RadioModel>(){
+    private val diffUtilItemCallBack = object:DiffUtil.ItemCallback<RadioItem>(){
 
-        override fun areItemsTheSame(oldItem: RadioModel, newItem: RadioModel): Boolean {
+        override fun areItemsTheSame(oldItem: RadioItem, newItem: RadioItem): Boolean {
             return oldItem.text == newItem.text
         }
 
-        override fun areContentsTheSame(oldItem: RadioModel, newItem: RadioModel): Boolean {
+        override fun areContentsTheSame(oldItem: RadioItem, newItem: RadioItem): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
@@ -34,7 +34,7 @@ class RadioAdapter(private val onCheckedChange:(Int,Boolean)->Unit): RecyclerVie
 
     private val differ = AsyncListDiffer(this,diffUtilItemCallBack)
 
-    fun submitList(list:List<RadioModel>){
+    fun submitList(list:List<RadioItem>){
         differ.submitList(list)
     }
 

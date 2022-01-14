@@ -62,6 +62,7 @@
             android:layout_toEndOf="@id/card_btn_prev"
             android:indeterminateBehavior="cycle"
             android:indeterminateDuration="500"
+            android:max="130"
             app:indeterminateAnimationType="disjoint"
             app:indicatorColor="@color/background_dark_mode"
             app:indicatorDirectionLinear="startToEnd"

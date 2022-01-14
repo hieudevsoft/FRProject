@@ -2,14 +2,10 @@ package com.devapp.fr.ui.fragments.information
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.devapp.fr.R
 import com.devapp.fr.adapters.RadioAdapter
 import com.devapp.fr.app.BaseFragment
-import com.devapp.fr.data.models.RadioModel
+import com.devapp.fr.data.models.items.RadioItem
 import com.devapp.fr.databinding.FragmentChooseGenderBinding
 
 class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
@@ -32,16 +28,16 @@ class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun getListGender() = listOf(
-        RadioModel("Giới tính thẳng"),
-        RadioModel("Gay"),
-        RadioModel("Đồng tính nữ"),
-        RadioModel("Lưỡng tính"),
-        RadioModel("Vô tính"),
-        RadioModel("Á tính"),
-        RadioModel("Toàn tính luyến ái"),
-        RadioModel("Queer"),
-        RadioModel("Đang tự hỏi"),
-        RadioModel("Tôi không muốn nói")
+    private fun getListGender() = listOf(
+        RadioItem("Giới tính thẳng"),
+        RadioItem("Gay"),
+        RadioItem("Đồng tính nữ"),
+        RadioItem("Lưỡng tính"),
+        RadioItem("Vô tính"),
+        RadioItem("Á tính"),
+        RadioItem("Toàn tính luyến ái"),
+        RadioItem("Queer"),
+        RadioItem("Đang tự hỏi"),
+        RadioItem("Tôi không muốn nói")
     )
 }

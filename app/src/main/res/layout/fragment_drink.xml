@@ -34,7 +34,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_drink"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
                     app:layout_constraintBottom_toBottomOf="parent"

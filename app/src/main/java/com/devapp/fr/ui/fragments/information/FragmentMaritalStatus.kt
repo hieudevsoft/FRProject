@@ -3,10 +3,9 @@ package com.devapp.fr.ui.fragments.information
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.devapp.fr.adapters.RadioAdapter
 import com.devapp.fr.app.BaseFragment
-import com.devapp.fr.data.models.RadioModel
+import com.devapp.fr.data.models.items.RadioItem
 import com.devapp.fr.databinding.FragmentMaritalStatusBinding
 
 class FragmentMaritalStatus : BaseFragment<FragmentMaritalStatusBinding>() {
@@ -30,10 +29,10 @@ class FragmentMaritalStatus : BaseFragment<FragmentMaritalStatusBinding>() {
     }
 
     fun getListGender() = listOf(
-        RadioModel("Độc thân"),
-        RadioModel("Đang hẹn hò"),
-        RadioModel("Phức tạp"),
-        RadioModel("Đang mở lòng"),
-        RadioModel("Tôi không muốn nói"),
+        RadioItem("Độc thân"),
+        RadioItem("Đang hẹn hò"),
+        RadioItem("Phức tạp"),
+        RadioItem("Đang mở lòng"),
+        RadioItem("Tôi không muốn nói"),
     )
 }

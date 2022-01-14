@@ -3,6 +3,7 @@ package com.devapp.fr.ui.activities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -21,6 +22,7 @@ import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 
 class InformationUserActivity : AppCompatActivity() {
+    val TAG = "InformationUserActivity"
     private lateinit var binding : ActivityInformationUserBinding
     private lateinit var introduceViewPagerAdapter: IntroduceViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,11 @@ class InformationUserActivity : AppCompatActivity() {
             cardBtnContinue.setOnClickWithAnimationListener {
                 val currentPosition = introduceViewpager2.currentItem
                 introduceViewpager2.currentItem = currentPosition+1
+            }
+
+            btnClose.setOnClickListener {
+                val listInterestSelected = (introduceViewPagerAdapter.getFragmentAtPosition(7) as FragmentInterest).getListInterestSelected()
+                Log.d(TAG, "handleEvent: $listInterestSelected")
             }
         }
     }
@@ -72,7 +79,13 @@ class InformationUserActivity : AppCompatActivity() {
             FragmentTall(),
             FragmentSchool(),
             FragmentUserJob(),
-            FragmentDrink()
+            FragmentDrink(),
+            FragmentInterest(),
+            FragmentSmoke(),
+            FragmentChild(),
+            FragmentCertificate(),
+            FragmentPet(),
+            FragmentReligion(),
         )
     }
 }

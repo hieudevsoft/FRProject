@@ -23,7 +23,7 @@ class IntroduceViewPagerAdapter(
         return holder[position]?.get()!!
     }
 
-    private fun getFragmentAtPosition(position:Int): Fragment {
+    fun getFragmentAtPosition(position:Int): Fragment {
         return holder[position]?.get()!!
     }
 }
