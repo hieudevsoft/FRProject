@@ -9,7 +9,6 @@ plugins {
 
 android {
     compileSdk 31
-    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.devapp.fr"
         minSdk 26
@@ -132,7 +131,7 @@ dependencies {
     implementation "com.github.pgreze:android-reactions:1.6"
     implementation 'com.github.angads25:toggle:1.1.0'
     implementation 'com.eyalbira.loadingdots:loading-dots:1.0.2'
-
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
     //Flexbox Layout
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

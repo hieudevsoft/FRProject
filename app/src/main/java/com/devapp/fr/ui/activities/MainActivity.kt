@@ -46,7 +46,11 @@ class MainActivity : ThemeActivity() {
         setColorStatusBar(getColor(R.color.white))
         //Mapping bottomAppbar
         bottomBar = binding.bottomBar
-
+        bottomBar.onTabSelected={
+            if(it.title.contains("setting",true)) navHostFragment.findNavController().navigate(R.id.fragmentSettings)
+            else if(it.title.contains("chats",true)) navHostFragment.findNavController().navigate(R.id.fragmentInbox)
+            else navHostFragment.findNavController().navigate(R.id.fragmentLoves)
+        }
         //Get NavHostFragment
         navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
@@ -106,5 +110,9 @@ class MainActivity : ThemeActivity() {
             indicatorColor = indColor
         }
         binding.root.background = color
+    }
+
+    override fun onBackPressed() {
+
     }
 }

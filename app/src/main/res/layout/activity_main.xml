@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activities.MainActivity">
@@ -40,7 +41,7 @@
             app:abb_indicatorLocation="bottom"
             app:abb_indicatorMargin="16dp"
             app:abb_rippleEnabled="true"
-            app:abb_selectedIndex="1"
+            app:abb_selectedIndex="0"
             app:abb_selectedTabType="icon"
             app:abb_tabs="@menu/menu_tabs"
             app:abb_textAppearance="@style/CustomTextBottomBar" />
