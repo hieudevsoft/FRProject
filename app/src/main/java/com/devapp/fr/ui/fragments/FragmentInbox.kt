@@ -10,15 +10,19 @@ import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.ChatsMessageAdapter
 import com.devapp.fr.data.models.MessageType
+import com.devapp.fr.data.models.messages.MessageAudio
 import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
 import com.devapp.fr.ui.activities.FullScreenImageActivity
+import com.devapp.fr.util.Constants.RC_MEDIA
+import com.devapp.fr.util.MediaHelper
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper.GONE
 import com.devapp.fr.util.UiHelper.VISIBLE
@@ -27,6 +31,8 @@ import com.devapp.fr.util.UiHelper.multilineIme
 import com.devapp.fr.util.UiHelper.showSnackbar
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
@@ -36,7 +42,6 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
     val TAG = "FragmentInbox"
     private var _binding: FragmentInboxBinding? = null
     private val binding get() = _binding!!
-    private var isVoice = false
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,12 +74,13 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
     private fun handleEventElements() {
         binding.apply {
             ibVoiceTemp.setOnClickListener {
-                Log.d(TAG, "handleEventElements: Click")
                 pulIbVoice.apply {
                     it.GONE()
                     VISIBLE()
                     start()
                 }
+                if(PermissionHelper.hasPermissionAudio(requireContext())) startRecording()
+                else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
             }
 
             ibVoice.setOnClickListener {
@@ -83,6 +89,7 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
                     GONE()
                     ibVoiceTemp.VISIBLE()
                 }
+                stopRecording()
             }
 
             edtSendMessage.multilineIme(IME_ACTION_SEND) {
@@ -94,11 +101,28 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
             }
 
             ibCamera.setOnClickListener {
+                if(PermissionHelper.hasPermissionBottomPicker(requireContext())) openBottomImagePicker() else
                 PermissionHelper.requestPermissionBottomPicker(this@FragmentInbox)
             }
             recyclerViewChat.scrollToPosition(chatsMessageAdapter.itemCount - 1)
 
         }
+    }
+
+    private fun startRecording() {
+        MediaHelper.startRecording(requireContext())
+    }
+
+    private fun stopRecording(){
+        MediaHelper.stopRecording(requireContext())
+        val newVoice = MessageAudio("111","111",MessageType.AUDIO,true,MediaHelper.mFileName)
+        MediaHelper.initMediaPlayer(newVoice.getContent<String>())
+        newVoice.duration = MediaHelper.getMediaPlayer()?.duration
+        Log.d(TAG, "stopRecording: ${newVoice}")
+        val list = chatsMessageAdapter.differ.currentList.toMutableList()
+        list.add(newVoice)
+        chatsMessageAdapter.submitList(list)
+        binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount)
     }
 
     override fun onRequestPermissionsResult(
@@ -118,7 +142,7 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
                 MessageText(
                     id = UUID.randomUUID().toString(),
                     message = content,
-                    isMe = isVoice,
+                    isMe = true,
                     type = MessageType.TEXT
                 )
             )
@@ -153,6 +177,45 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
                 "image_fullscreen"
             )
             startActivity(intent, options.toBundle())
+        }
+        chatsMessageAdapter.setAudioClickListener {pos,item->
+            if(item.isPlaying){
+                lifecycleScope.launchWhenResumed {
+                    var isCanPlaying = true
+                    while (isCanPlaying){
+                        if(callBackStop(pos)) {
+                            isCanPlaying = false
+                            MediaHelper.stopPlayingAudio()
+                            MediaHelper.initMediaPlayer(item.getContent<String>())
+                            cancel()
+                        } else isCanPlaying = true
+                        delay(1000)
+                    }
+                }
+                MediaHelper.playingAudio()
+                item.isPlaying = true
+            }
+            else {
+                MediaHelper.pausePlayingAudio()
+                item.isPlaying = false
+                chatsMessageAdapter.notifyItemChanged(pos)
+                Log.d(TAG, "initRecyclerView: ${item.offsetPlaying}")
+            }
+        }
+    }
+
+    private val callBackStop = fun(pos:Int):Boolean{
+        val currentPos = MediaHelper.getMediaPlayer()?.currentPosition
+        val item = chatsMessageAdapter.getItemAtPosition(pos)
+        if(currentPos==(item as MessageAudio).duration){
+            item.offsetPlaying=0
+            item.isPlaying = false
+            Log.d(TAG, "initRecyclerView call back: ${item.offsetPlaying}")
+            chatsMessageAdapter.notifyItemChanged(pos)
+            return true
+        }else{
+            item.offsetPlaying = currentPos
+            return false
         }
     }
 
@@ -203,13 +266,10 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if (!isVoice) {
-            openBottomImagePicker();
-        }
+        if(requestCode == RC_MEDIA)  openBottomImagePicker() else startRecording()
     }
 
     private fun openBottomImagePicker() {
-        if (PermissionHelper.hasPermissionBottomPicker(requireContext())) {
             val tedBottomPicker =
                 TedBottomPicker.with(requireActivity())
                     .setOnMultiImageSelectedListener {
@@ -237,16 +297,15 @@ class FragmentInbox : Fragment(R.layout.fragment_inbox), EasyPermissions.Permiss
                     .setEmptySelectionText("Trống")
                     .create()
             tedBottomPicker.show(childFragmentManager)
-        } else {
-            binding.root.showSnackbar("Need Permission")
-        }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
         } else {
+            if(requestCode==RC_MEDIA)
             PermissionHelper.requestPermissionBottomPicker(this)
+            else PermissionHelper.requestPermissionAudio(this)
         }
     }
 }

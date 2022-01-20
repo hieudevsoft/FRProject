@@ -7,7 +7,10 @@ data class MessageAudio(
     override val userId:String="",
     override var type: MessageType,
     override var isMe:Boolean=true,
-    var audio:String,
+    private var audio:String?=null,
+    var isPlaying:Boolean = false,
+    var offsetPlaying:Int? = 0,
+    var duration:Int?=null
 ):MessageModel(id,userId,type) {
     override fun <T> getContent(): T {
         return audio as T;

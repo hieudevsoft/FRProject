@@ -9,7 +9,7 @@ import com.devapp.fr.R
 
 object GlideApp {
     fun loadImage(uri:String,imageView:ImageView,fragment:Fragment){
-        val context = imageView.context
+        imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
             .placeholder(R.drawable.ic_react_wow)

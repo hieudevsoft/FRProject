@@ -20,14 +20,8 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.devapp.fr.R
 import com.devapp.fr.data.models.MessageType
-import com.devapp.fr.data.models.messages.MessageImage
-import com.devapp.fr.data.models.messages.MessageModel
-import com.devapp.fr.data.models.messages.MessageText
-import com.devapp.fr.data.models.messages.Reaction
-import com.devapp.fr.databinding.ItemChatImageMeBinding
-import com.devapp.fr.databinding.ItemChatImagePartnerBinding
-import com.devapp.fr.databinding.ItemChatMeBinding
-import com.devapp.fr.databinding.ItemChatPartnerBinding
+import com.devapp.fr.data.models.messages.*
+import com.devapp.fr.databinding.*
 import com.devapp.fr.util.Constants
 import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.GONE
@@ -139,8 +133,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             resource: Bitmap,
                             transition: Transition<in Bitmap>?
                         ) {
-                            val maxSize =
-                                binding.root.context.resources.getDimension(R.dimen.MAX_SIZE_IMAGE_MASSAGE)
+                            val maxSize = binding.root.context.resources.getDimension(R.dimen.MAX_SIZE_IMAGE_MASSAGE)
                             val result = UiHelper.scaleDown(resource, maxSize, true)
                             Log.d(
                                 TAG,
@@ -163,7 +156,6 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private inner class ViewHolderImagePartner(val binding: ItemChatImagePartnerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: MessageImage) {
-            var isClicked = false
             binding.tvTimePartner.GONE()
             binding.tvTimePartner.text = data.time
             val reactionMe = data.react.first()
@@ -218,6 +210,29 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     })
             }
 
+        }
+    }
+
+    private inner class ViewHolderAudioMe(val binding:ItemVoiceMeBinding):RecyclerView.ViewHolder(binding.root){
+        fun bind(data:MessageAudio){
+            val reactionMe = data.react.first()
+            val reactionPartner = data.react.last()
+            if (reactionMe.count != 0) {
+                binding.apply {
+                    cardViewReactionOne.VISIBLE()
+                    imgReactionOne.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionMe.react))
+                    tvCountReactionOne.text = reactionMe.count.toString()
+                }
+            } else binding.cardViewReactionOne.GONE()
+            if (reactionPartner.count != 0) {
+                binding.apply {
+                    cardViewReactionTwo.VISIBLE()
+                    imgReactionTwo.setImageResource(UiHelper.getSymbolReactionImageByPosition(reactionPartner.react))
+                    tvCountReactionTwo.text = reactionPartner.count.toString()
+                }
+            } else binding.cardViewReactionTwo.GONE()
+            binding.tvDurationAudio.text = "[ ${data.duration?.div(1000)}'' ]"
+            binding.ibAudio.setImageResource(if(!data.isPlaying) R.drawable.ic_play else R.drawable.ic_pause)
         }
     }
 
@@ -279,6 +294,10 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 view = layoutInflater.inflate(R.layout.item_chat_image_partner, parent, false)
                 vh = ViewHolderImagePartner(ItemChatImagePartnerBinding.bind(view))
             }
+            Constants.AUDIO_FROM_ME -> {
+            view = layoutInflater.inflate(R.layout.item_voice_me, parent, false)
+            vh = ViewHolderAudioMe(ItemVoiceMeBinding.bind(view))
+        }
         }
         return vh
     }
@@ -292,27 +311,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.bind(item as MessageText)
                 val binding = holder.binding
                 handleEventTextMe(binding.root.context,binding){reaction->
-                    if(reaction!=-1){
-                        if (item.isMe&&item.react[0].react==reaction) {
-                            binding.cardViewReactionOne.VISIBLE()
-                            val count = item.react.first().count+1
-                            val item = item.react.first()
-                            item.count = count
-                        }else if(!item.isMe&&item.react[1].react==reaction) {
-                            binding.cardViewReactionTwo.VISIBLE()
-                            val count = item.react.last().count+1
-                            val item = item.react.last()
-                            item.count = count
-                        } else if(item.isMe){
-                            val item = item.react.first()
-                            item.count = 1
-                            item.react = reaction
-                        } else {
-                            val item = item.react.last()
-                            item.count = 1
-                            item.react = reaction
-                        }
-                    }
+                    handleReaction(binding.cardViewReactionOne,binding.cardViewReactionTwo, item,reaction)
                     notifyItemChanged(position)
                 }
             }
@@ -320,27 +319,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.bind(item as MessageText)
                 val binding = holder.binding
                 handleEventTextPartner(binding.root.context, binding) { reaction ->
-                    if(reaction!=-1){
-                        if (item.isMe&&item.react[0].react==reaction) {
-                            binding.cardViewReactionOne.VISIBLE()
-                            val count = item.react.first().count+1
-                            val item = item.react.first()
-                            item.count = count
-                        }else if(!item.isMe&&item.react[1].react==reaction) {
-                            binding.cardViewReactionTwo.VISIBLE()
-                            val count = item.react.last().count+1
-                            val item = item.react.last()
-                            item.count = count
-                        } else if(item.isMe){
-                            val item = item.react.first()
-                            item.count = 1
-                            item.react = reaction
-                        } else {
-                            val item = item.react.last()
-                            item.count = 1
-                            item.react = reaction
-                        }
-                    }
+                    handleReaction(binding.cardViewReactionOne,binding.cardViewReactionTwo, item,reaction)
                     notifyItemChanged(position)
                 }
             }
@@ -349,27 +328,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.bind(itemResult)
                 val binding = holder.binding
                 handleEventImageMe(binding.root.context, binding,itemResult.urlImage) { reaction ->
-                    if(reaction!=-1){
-                        if (itemResult.isMe&&itemResult.react[0].react==reaction) {
-                            binding.cardViewReactionOne.VISIBLE()
-                            val count = itemResult.react.first().count+1
-                            val item = itemResult.react.first()
-                            item.count = count
-                        }else if(!itemResult.isMe&&itemResult.react[1].react==reaction) {
-                            binding.cardViewReactionTwo.VISIBLE()
-                            val count = itemResult.react.last().count+1
-                            val item = itemResult.react.last()
-                            item.count = count
-                        } else if(itemResult.isMe){
-                            val item = itemResult.react.first()
-                            item.count = 1
-                            item.react = reaction
-                        } else {
-                            val item = itemResult.react.last()
-                            item.count = 1
-                            item.react = reaction
-                        }
-                    }
+                    handleReaction(binding.cardViewReactionOne,binding.cardViewReactionTwo, item,reaction)
                     notifyItemChanged(position)
                 }
             }
@@ -378,33 +337,58 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.bind(itemResult)
                 val binding = holder.binding
                 handleEventImagePartner(binding.root.context, binding,itemResult.urlImage) { reaction ->
-                    if(reaction!=-1){
-                        if (itemResult.isMe&&itemResult.react[0].react==reaction) {
-                            binding.cardViewReactionOne.VISIBLE()
-                            val count = itemResult.react.first().count+1
-                            val item = itemResult.react.first()
-                            item.count = count
-                        }else if(!itemResult.isMe&&itemResult.react[1].react==reaction) {
-                            binding.cardViewReactionTwo.VISIBLE()
-                            val count = itemResult.react.last().count+1
-                            val item = itemResult.react.last()
-                            item.count = count
-                        } else if(itemResult.isMe){
-                            val item = itemResult.react.first()
-                            item.count = 1
-                            item.react = reaction
-                        } else {
-                            val item = itemResult.react.last()
-                            item.count = 1
-                            item.react = reaction
-                        }
-                    }
+                    handleReaction(binding.cardViewReactionOne,binding.cardViewReactionTwo, item,reaction)
                     notifyItemChanged(position)
+                }
+            }
+            is ViewHolderAudioMe->{
+                val itemResult = item as MessageAudio
+                holder.bind(itemResult)
+                val binding = holder.binding
+                handleEventVoiceMe(binding.root.context,binding,itemResult.isPlaying,{
+                    reaction->
+                    handleReaction(binding.cardViewReactionOne,binding.cardViewReactionTwo, item,reaction)
+                    notifyItemChanged(position)
+                }){
+                    item.isPlaying = it
+                    if(it)
+                    notifyItemChanged(position)
+                    onAudioClick?.let { it(position,itemResult) }
                 }
             }
         }
     }
 
+    private var onAudioClick:((Int,MessageAudio)->Unit?)?=null
+    fun setAudioClickListener(listener:(Int,MessageAudio)->Unit){
+        onAudioClick = listener
+    }
+
+    private fun handleReaction(cardOne:View,cardTwo:View,itemResult:MessageModel,reaction: Int) {
+        if(reaction!=-1){
+            if (itemResult.isMe&&itemResult.react[0].react==reaction) {
+                cardOne.VISIBLE()
+                val count = itemResult.react.first().count+1
+                val item = itemResult.react.first()
+                item.count = count
+            }else if(!itemResult.isMe&&itemResult.react[1].react==reaction) {
+                cardTwo.VISIBLE()
+                val count = itemResult.react.last().count+1
+                val item = itemResult.react.last()
+                item.count = count
+            } else if(itemResult.isMe){
+                val item = itemResult.react.first()
+                item.count = 1
+                item.react = reaction
+            } else {
+                val item = itemResult.react.last()
+                item.count = 1
+                item.react = reaction
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun handleEventTextMe(
         context: Context,
         binding: ItemChatMeBinding,
@@ -433,6 +417,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             true
         }
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun handleEventTextPartner(
@@ -532,6 +517,47 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         binding.lyEye.setOnClickListener {
             onItemImageClicked?.let {
                 it(binding.imagePartner, urlImage)
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun handleEventVoiceMe(
+        context: Context,
+        binding: ItemVoiceMeBinding,
+        isPlaying:Boolean,
+        callBack: (Int) -> Unit,
+        callBackAudio: (Boolean) -> Unit,
+    ) {
+        val popup = ReactionPopup(
+            context,
+            UiHelper.configReactionPopUp(context, true),
+            object : ReactionSelectedListener {
+                override fun invoke(position: Int): Boolean {
+                    callBack(position)
+                    Log.d(TAG, "invoke: $position")
+                    return true
+                }
+
+            })
+        binding.cardViewAudioMe.setOnTouchListener { view, event ->
+            popup.onTouch(view, event)
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (binding.tvTimeMe.isVisible) {
+                        binding.tvTimeMe.GONE()
+                    } else binding.tvTimeMe.VISIBLE()
+                }
+            }
+            true
+        }
+        binding.ibAudio.setOnClickListener {
+            if(isPlaying){
+                binding.ibAudio.setImageResource(R.drawable.ic_play)
+                callBackAudio(false)
+            } else {
+                callBackAudio(true)
+                binding.ibAudio.setImageResource(R.drawable.ic_pause)
             }
         }
     }
