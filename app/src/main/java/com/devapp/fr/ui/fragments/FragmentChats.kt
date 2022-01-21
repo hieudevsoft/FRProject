@@ -7,35 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.devapp.fr.R
+import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentChatsBinding
 
-class FragmentChats : Fragment(R.layout.fragment_chats) {
+class FragmentChats : BaseFragment<FragmentChatsBinding>() {
+
     val TAG = "FragmentChats"
-    private var _binding: FragmentChatsBinding? = null
-    private val binding get() = _binding!!
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentChatsBinding.inflate(inflater)
-        return binding.root
+    override fun onSetupView() {
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
 
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
-    }
-
-    override fun onDestroyView() {
-        Log.d(TAG, "onDestroyView")
-        super.onDestroyView()
-    }
 
 
 }

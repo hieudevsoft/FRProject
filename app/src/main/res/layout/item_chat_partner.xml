@@ -26,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginBottom="@dimen/LARGEST_SPACE"
             android:clickable="true"
             android:layout_marginTop="@dimen/MARGIN_SMALL"
             android:focusable="true"
@@ -66,6 +65,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:elevation="1dp"
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/MARGIN_LARGEST"
             android:layout_gravity="bottom|end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">

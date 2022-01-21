@@ -47,9 +47,11 @@ class MainActivity : ThemeActivity() {
         //Mapping bottomAppbar
         bottomBar = binding.bottomBar
         bottomBar.onTabSelected={
-            if(it.title.contains("setting",true)) navHostFragment.findNavController().navigate(R.id.fragmentSettings)
-            else if(it.title.contains("chats",true)) navHostFragment.findNavController().navigate(R.id.fragmentChats)
-            else navHostFragment.findNavController().navigate(R.id.fragmentLoves)
+            when {
+                it.title.contains("setting",true) -> navHostFragment.findNavController().navigate(R.id.fragmentSettings)
+                it.title.contains("chats",true) -> navHostFragment.findNavController().navigate(R.id.fragmentChats)
+                else -> navHostFragment.findNavController().navigate(R.id.fragmentLoves)
+            }
         }
         //Get NavHostFragment
         navHostFragment =

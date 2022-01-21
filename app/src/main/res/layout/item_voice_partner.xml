@@ -17,7 +17,7 @@
             android:id="@+id/imgPartnerBody"
             android:src="@drawable/ic_food"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/MARGIN_SMALL"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:layout_width="@dimen/AVATAR_MESSAGE_BODY_SIZE"
             android:layout_height="@dimen/AVATAR_MESSAGE_BODY_SIZE"/>
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,8 +25,7 @@
             android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/MARGIN_SMALL"
-            android:layout_marginStart="@dimen/MARGIN_SMALL"
-            android:layout_marginBottom="@dimen/LARGEST_SPACE"
+            android:layout_marginStart="@dimen/_18sdp"
             android:layout_height="wrap_content">
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardViewAudioPartner"
@@ -49,6 +48,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvDurationAudio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:fontFamily="@font/nunito_regular"
+                android:text="60''"
+                android:gravity="center_horizontal"
+                android:textColor="@color/color_grey"
+                android:textSize="@dimen/TEXT_SIZE_SMALL" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.textview.MaterialTextView
@@ -66,6 +77,7 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:elevation="1dp"
+            android:layout_marginTop="@dimen/MARGIN_LARGEST"
             android:orientation="horizontal"
             android:layout_gravity="bottom|end"
             android:layout_width="wrap_content"
@@ -74,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/cardViewReactionOne"
                 app:cardUseCompatPadding="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/SMALLEST_RADIUS"
                 >
@@ -113,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardViewReactionTwo"
                 app:cardUseCompatPadding="true"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardCornerRadius="@dimen/SMALLEST_RADIUS"
                 >
 

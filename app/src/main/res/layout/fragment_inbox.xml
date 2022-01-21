@@ -1,32 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinateLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:measureWithLargestChild="true"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            android:fitsSystemWindows="true"
+            android:measureAllChildren="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleCollapseMode="scale"
+            app:titleEnabled="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/LARGEST_SPACE"
+                android:paddingTop="@dimen/LARGEST_SPACE">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ib_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_partner"
+                    android:layout_width="@dimen/SIZE_IMAGE_INBOX"
+                    android:layout_height="@dimen/SIZE_IMAGE_INBOX"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_child"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                    android:fontFamily="@font/varelaround_regular"
+                    android:gravity="center"
+                    android:text="Khách"
+                    android:textColor="@color/background_dark_mode"
+                    android:textSize="@dimen/TEXT_SIZE_SMALL"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_partner" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_bias="0"
-        android:padding="@dimen/MEDIUM_SPACE"
-        app:layout_constraintBottom_toTopOf="@id/lyBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/MEDIUM_SPACE"
+        android:paddingEnd="@dimen/MEDIUM_SPACE"
+        android:paddingBottom="?attr/actionBarSize"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintVertical_bias="0" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/lyBox"
-        android:layout_margin="@dimen/SMALL_SPACE"
-        android:layout_marginBottom="@dimen/NORMAL_SPACE"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="@dimen/SMALL_SPACE"
+        android:layout_marginEnd="@dimen/SMALL_SPACE"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:weightSum="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:weightSum="10">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
@@ -34,6 +104,7 @@
             android:layout_gravity="center"
             android:layout_weight="2"
             android:gravity="center">
+
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/ibVoiceTemp"
                 android:layout_width="@dimen/SIZE_ICON_24"
@@ -45,18 +116,18 @@
 
             <pl.bclogic.pulsator4droid.library.PulsatorLayout
                 android:id="@+id/pulIbVoice"
-                android:visibility="gone"
                 android:layout_width="@dimen/SIZE_ICON_24"
                 android:layout_height="@dimen/SIZE_ICON_24"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone"
+                app:pulse_color="@color/color_blue_500"
                 app:pulse_count="3"
                 app:pulse_duration="1500"
-                app:pulse_color="@color/color_blue_500"
-                app:pulse_startFromScratch="true"
                 app:pulse_interpolator="Linear"
                 app:pulse_repeat="0"
-                android:gravity="center">
+                app:pulse_startFromScratch="true">
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ibVoice"
@@ -79,9 +150,9 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtSendMessage"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/SMALL_SPACE"
-            android:layout_height="wrap_content"
             android:layout_weight="6"
             android:background="@drawable/custom_background_send"
             android:backgroundTint="@color/color_white_500"
@@ -106,17 +177,16 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/color_orange_500"
-                app:cardCornerRadius="@dimen/LARGE_RADIUS"
-                app:cardUseCompatPadding="true">
+                app:cardCornerRadius="@dimen/_20sdp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/SIZE_COL_PROFILE"
+                    android:layout_height="@dimen/SIZE_COL_PROFILE"
                     android:layout_gravity="center"
-                    android:padding="@dimen/MEDIUM_SPACE"
+                    android:padding="@dimen/LAYOUT_PADDING"
                     android:src="@drawable/ic_send" />
 
             </com.google.android.material.card.MaterialCardView>
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
