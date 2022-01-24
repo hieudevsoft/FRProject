@@ -66,7 +66,7 @@
         <entry key="app/src/main/res/layout/fragment_interest.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_introduce.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_loves.xml" value="0.161231884057971" />
+        <entry key="app/src/main/res/layout/fragment_loves.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_main_view_pager.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_marital_status.xml" value="0.26927083333333335" />
         <entry key="app/src/main/res/layout/fragment_myprofile.xml" value="0.25" />
@@ -96,6 +96,7 @@
         <entry key="app/src/main/res/layout/item_voice_partner.xml" value="1.1" />
         <entry key="app/src/main/res/layout/layout_chat_voice.xml" value="0.26403985507246375" />
         <entry key="app/src/main/res/layout/layout_chat_voice_me.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/layout_item_radio.xml" value="0.5" />
         <entry key="app/src/main/res/layout/mask_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/test.xml" value="0.33" />

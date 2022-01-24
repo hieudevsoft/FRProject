@@ -16,6 +16,8 @@ import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentChatsBinding
 import com.devapp.fr.databinding.FragmentLovesBinding
 import com.devapp.fr.databinding.FragmentSettingsBinding
+import com.devapp.fr.util.UiHelper.toGone
+import com.devapp.fr.util.UiHelper.toVisible
 import com.yuyakaido.android.cardstackview.*
 
 class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
@@ -97,25 +99,45 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
-        Log.d(TAG, "onCardDragging: ${direction?.name} $ratio")
+        if(direction?.name!!.contains("left",true)){
+            binding.cardLove.toGone()
+            binding.cardCancel.toVisible()
+            binding.cardCancel.alpha = if(ratio<0.2) 0f else ratio
+        } else {
+            binding.cardCancel.toGone()
+            binding.cardLove.toVisible()
+            binding.cardLove.alpha=if(ratio<0.2) 0f else ratio
+        }
+        Log.d(TAG, "onCardDragging: $ratio")
     }
 
     override fun onCardSwiped(direction: Direction?) {
+        goneCardOperation()
         Log.d(TAG, "onCardSwiped: ${direction?.name}")
         if (direction?.name!!.contains("RIGHT", true))
             setupLinearProgress(binding.progressBarEnergy.progress + 1)
     }
 
+    private fun goneCardOperation() {
+        binding.apply {
+            cardLove.toGone()
+            cardCancel.toGone()
+        }
+    }
+
     override fun onCardRewound() {
         Log.d(TAG, "onCardRewound: Card Rewound")
+        goneCardOperation()
         setupLinearProgress(binding.progressBarEnergy.progress - 1)
     }
 
     override fun onCardCanceled() {
+        goneCardOperation()
         Log.d(TAG, "onCardCanceled: Card Cancel")
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
+        goneCardOperation()
         Log.d(TAG, "onCardAppeared: $view $position")
         if(position==0) binding.imgHeart.setImageResource(R.drawable.ic_heart)
         else binding.imgHeart.setImageResource(R.drawable.ic_rewind)
@@ -126,6 +148,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
     override fun onCardDisappeared(view: View?, position: Int) {
         Log.d(TAG, "onCardDisappeared: $view $position")
+        goneCardOperation()
     }
 
 }
