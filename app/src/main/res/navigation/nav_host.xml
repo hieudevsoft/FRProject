@@ -42,6 +42,13 @@
             app:destination="@id/fragmentProfile"
             app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentSettings_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
     </fragment>
     <fragment
 

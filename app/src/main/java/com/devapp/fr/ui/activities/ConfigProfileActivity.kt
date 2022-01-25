@@ -65,6 +65,11 @@ class ConfigProfileActivity : AppCompatActivity() {
 
     private val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
         when(destination.id){
+
+            R.id.fragmentProcessConfig->{
+                binding.progressBarStep.setProgress(0,true)
+            }
+
             R.id.fragmentNickName->{
                 binding.progressBarStep.setProgress(20,true)
             }

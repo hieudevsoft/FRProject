@@ -29,8 +29,7 @@ class MainActivity : ThemeActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var bottomBar: AnimatedBottomBar
     private lateinit var navHostFragment: NavHostFragment
-    @Inject
-    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
     override fun getStartTheme(): AppTheme {
         //Init SharedPreferencesHelper
@@ -67,13 +66,15 @@ class MainActivity : ThemeActivity() {
         //Handle NavHost
         handleNavHostFragment()
 
+        //save state login
+        saveStateLogin()
     }
 
-    override fun onResume() {
+    private fun saveStateLogin() {
         val isLogin = sharedPreferencesHelper.readIsLogin()
-        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentProfile)
-        super.onResume()
+        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentSettings)
     }
+
 
     override fun syncTheme(appTheme: AppTheme) {}
     private fun handleNavHostFragment() {

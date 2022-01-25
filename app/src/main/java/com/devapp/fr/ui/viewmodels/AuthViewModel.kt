@@ -79,9 +79,9 @@ class AuthViewModel @Inject constructor(
         _stateLogin.value = ResourceRemote.Idle
     }
     fun loginWitEmailAndPassword(email:String,password:String){
-        _stateEmailExist.value = ResourceRemote.Loading
+        _stateLogin.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateEmailExist.value = fireStoreService.loginWithEmailAndPassword(email,password)
+            _stateLogin.value = fireStoreService.loginWithEmailAndPassword(email,password)
         }
     }
 

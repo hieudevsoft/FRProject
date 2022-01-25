@@ -1,6 +1,7 @@
 package com.devapp.fr.network
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher

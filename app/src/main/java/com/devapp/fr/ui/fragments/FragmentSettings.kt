@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
+import com.devapp.fr.util.UiHelper.findOnClickListener
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
@@ -61,6 +63,7 @@ class FragmentSettings : ThemeFragment() {
             }
         }
 
+
         //Init switch
         binding.switchDarkMode.isOn = sharedPreferencesHelper.readDarkMode()
 
@@ -84,6 +87,14 @@ class FragmentSettings : ThemeFragment() {
             if(!b)
             ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
             else ThemeManager.instance.changeTheme(DarkTheme(), Coordinate(300,300),600)
+        }
+        findOnClickListener(binding.cardLogout){
+            when(this){
+                binding.cardLogout->{
+                    sharedPreferencesHelper.saveIsLogin(false)
+                    findNavController().navigate(FragmentSettingsDirections.actionFragmentSettingsToFragmentLogin())
+                }
+            }
         }
     }
 
