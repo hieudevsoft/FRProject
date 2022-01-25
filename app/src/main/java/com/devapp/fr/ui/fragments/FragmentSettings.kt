@@ -7,15 +7,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
 import com.devapp.fr.util.UiHelper.findOnClickListener
+import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
@@ -34,6 +37,7 @@ class FragmentSettings : ThemeFragment() {
     private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private lateinit var dataStore: DataStore<Preferences>
+    private val args:FragmentSettingsArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,6 +77,22 @@ class FragmentSettings : ThemeFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun getIdUser():String {
+        var value = ""
+        args.let {
+            if(it.id.isNotEmpty()){
+                value = it.id
+            } else{
+                if(sharedPreferencesHelper.readIdUserLogin()!!.isNotEmpty()){
+                    value = sharedPreferencesHelper.readIdUserLogin()!!
+                }else{
+                    Log.d(TAG, "handleLoginEvent: error because not login")
+                }
+            }
+        }
+        return value
+    }
+
     override fun syncTheme(appTheme: AppTheme) {
         val theme = appTheme as MyAppTheme
         binding.tvSettings.setTextColor(theme.textColor(requireContext()))
@@ -88,11 +108,19 @@ class FragmentSettings : ThemeFragment() {
             ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
             else ThemeManager.instance.changeTheme(DarkTheme(), Coordinate(300,300),600)
         }
-        findOnClickListener(binding.cardLogout){
+        findOnClickListener(binding.cardLogout,binding.cardShowProfile){
             when(this){
                 binding.cardLogout->{
+                    binding.cardLogout.startAnimClick()
                     sharedPreferencesHelper.saveIsLogin(false)
+                    Toast.makeText(requireActivity(), "Đăng xuất thành công ~", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(FragmentSettingsDirections.actionFragmentSettingsToFragmentLogin())
+                }
+                binding.cardShowProfile->{
+                    binding.cardShowProfile.startAnimClick()
+                    if(getIdUser().isNotEmpty()){
+                        findNavController().navigate(FragmentSettingsDirections.actionFragmentSettingsToFragmentProfile(getIdUser()))
+                    }
                 }
             }
         }

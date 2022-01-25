@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FR"
         android:usesCleartextTraffic="true"
-        android:windowSoftInputMode="stateHidden|adjustResize|adjustUnspecified">
+        android:windowSoftInputMode="stateHidden|adjustUnspecified">
         <activity
             android:name=".ui.activities.InformationUserActivity"
             android:exported="true"

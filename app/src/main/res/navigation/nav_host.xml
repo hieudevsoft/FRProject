@@ -49,6 +49,10 @@
             app:popExitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentSettings_to_fragmentLogin"
             app:destination="@id/fragmentLogin" />
+        <argument
+            android:name="id"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
 
@@ -67,7 +71,7 @@
         android:label="FragmentInbox" />
     <fragment
         android:id="@+id/fragmentProfile"
-        android:name="com.devapp.fr.ui.fragments.FragmentMyProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentProfile"
         android:label="FragmentProfile" >
         <action
             android:id="@+id/action_fragmentProfile_to_fragmentSettings"
@@ -77,6 +81,10 @@
         <action
             android:id="@+id/action_fragmentProfile_to_fragmentEditProfile"
             app:destination="@id/fragmentEditProfile" />
+        <argument
+            android:defaultValue=""
+            android:name="id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLoves"

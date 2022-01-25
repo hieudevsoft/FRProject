@@ -94,7 +94,7 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     .get()
                     .await()
                 if (snapShot.documents.isNotEmpty())
-                    ResourceRemote.Success("success find")
+                    ResourceRemote.Success(snapShot.documents.first().toObject(UserProfile::class.java)!!.id)
                 else ResourceRemote.Empty
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

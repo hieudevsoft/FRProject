@@ -29,6 +29,7 @@ import com.devapp.fr.util.UiHelper.GONE
 import com.devapp.fr.util.UiHelper.VISIBLE
 import com.devapp.fr.util.UiHelper.hideKeyboard
 import com.devapp.fr.util.UiHelper.multilineIme
+import com.devapp.fr.util.UiHelper.sendImageToFullScreenImageActivity
 import com.devapp.fr.util.UiHelper.showSnackbar
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
@@ -162,14 +163,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             scrollToPosition(chatsMessageAdapter.itemCount+1)
         }
         chatsMessageAdapter.setOnItemImageClickListener { view, url ->
-            val intent = Intent(requireActivity(), FullScreenImageActivity::class.java)
-            intent.putExtra("url", url)
-            val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                requireActivity(),
-                view,
-                "image_fullscreen"
-            )
-            startActivity(intent, options.toBundle())
+            requireActivity().sendImageToFullScreenImageActivity(view)
         }
         Log.d(TAG, "initRecyclerView: ${chatsMessageAdapter.differ.currentList.size}")
     }

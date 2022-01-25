@@ -97,4 +97,13 @@ class SharedPreferencesHelper @Inject constructor(context: Context) {
     fun readIsRegister(): Boolean {
         return pref.getBoolean(Constants.KEY_IS_REGISTER,false)
     }
+
+    fun saveIdUserLogin(id:String){
+        return pref.edit().putString(Constants.KEY_ID_LOGIN,id).apply()
+    }
+
+    fun readIdUserLogin(): String? {
+        return pref.getString(Constants.KEY_ID_LOGIN,"")
+    }
+
 }

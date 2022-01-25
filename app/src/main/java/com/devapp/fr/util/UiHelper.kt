@@ -35,15 +35,15 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.math.roundToInt
 import android.view.animation.DecelerateInterpolator
 import android.animation.ObjectAnimator
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.view.Window
 import android.view.WindowManager
-
-
-
-
-
-
-
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.app.ActivityOptionsCompat
+import com.devapp.fr.ui.activities.FullScreenImageActivity
+import de.hdodenhof.circleimageview.CircleImageView
+import java.io.FileOutputStream
 
 object UiHelper {
     fun makeIndicatorCircle(
@@ -244,5 +244,40 @@ object UiHelper {
     fun Activity.setColorStatusBar(color:Int) {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = color
+    }
+
+    fun Activity.sendImageToFullScreenImageActivity(view:View){
+        val intent = Intent(this, FullScreenImageActivity::class.java)
+        val fileTemp = "imageSend.png"
+        val stream: FileOutputStream = openFileOutput(fileTemp, Context.MODE_PRIVATE)
+        val bmp:Bitmap = when (view) {
+            is ImageView -> {
+                (view.drawable as BitmapDrawable).bitmap
+            }
+            is CircleImageView -> {
+                (view.drawable as BitmapDrawable).bitmap
+            }
+            else -> ((view as AppCompatImageView).drawable as BitmapDrawable).bitmap
+        }
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        stream.close()
+        val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            view,
+            "image_fullscreen"
+        )
+        intent.putExtra("image",fileTemp)
+        startActivity(intent, options.toBundle())
+    }
+
+    fun Activity.sendImageToFullScreenImageActivity(view:View,url:String){
+        val intent = Intent(this, FullScreenImageActivity::class.java)
+        val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            view,
+            "image_fullscreen"
+        )
+        intent.putExtra("url",url)
+        startActivity(intent, options.toBundle())
     }
 }

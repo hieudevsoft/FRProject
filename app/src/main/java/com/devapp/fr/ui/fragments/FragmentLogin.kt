@@ -22,6 +22,7 @@ import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -60,7 +61,10 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                         ).show()
                         dialogLoading.dismiss()
                         prefs.saveIsLogin(true)
-                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSettings())
+                        prefs.saveIdUserLogin(it.data)
+                        Log.d(TAG, "subscriberObserver: ${it.data}")
+                        delay(1000)
+                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSettings(it.data))
                     }
 
                     is ResourceRemote.Error -> {
@@ -100,12 +104,12 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
 
             edtEmail.setOnKeyListener { view, _, _ ->
                 view.setBackgroundResource(R.drawable.custom_bg_edittext_login_focus)
-                true
+                false
             }
 
             edtPassword.setOnKeyListener { view, _, _ ->
                 view.setBackgroundResource(R.drawable.custom_bg_edittext_login_focus)
-                true
+                false
             }
 
 

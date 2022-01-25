@@ -107,12 +107,12 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
         val address = prefs.readAddress()
         authViewModel.addUserProfile(
             UserProfile(
-                email!!,
-                password!!,
-                name,
-                gender,
-                dob,
-                address,
+                email=email!!,
+                password = password!!,
+                name = name,
+                gender = gender,
+                dob = dob,
+                address = address,
                 id = idOfUser
             )
         )

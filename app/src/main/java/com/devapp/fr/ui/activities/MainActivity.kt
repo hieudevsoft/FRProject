@@ -82,8 +82,10 @@ class MainActivity : ThemeActivity() {
             if (destination.id == R.id.fragmentSplash||destination.id==R.id.fragmentInbox
                 ||destination.id == R.id.fragmentLogin||destination.id==R.id.fragmentProfile
             ) {
+                binding.root.fitsSystemWindows = false
                 bottomBar.visibility = View.GONE
             } else {
+                binding.root.fitsSystemWindows = true
                 bottomBar.visibility = View.VISIBLE
             }
         }
