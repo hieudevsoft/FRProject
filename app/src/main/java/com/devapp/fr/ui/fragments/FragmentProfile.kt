@@ -101,6 +101,9 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
             btnBack.setOnClickWithAnimationListener {
                 findNavController().popBackStack()
             }
+            lyEditProfile.setOnClickWithAnimationListener {
+                findNavController().navigate(FragmentProfileDirections.actionFragmentProfileToFragmentEditProfile(args.id))
+            }
         }
     }
 

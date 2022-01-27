@@ -41,7 +41,11 @@
         <entry key="app/src/main/res/drawable/ic_chat.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/ic_food.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/drawable/ic_heart_redcolor.xml" value="0.24947916666666667" />
+        <entry key="app/src/main/res/drawable/ic_kid.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/drawable/ic_next.xml" value="0.34479166666666666" />
+        <entry key="app/src/main/res/drawable/ic_send.xml" value="0.34479166666666666" />
+        <entry key="app/src/main/res/drawable/ic_tall.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/drawable/item_chat_me.xml" value="0.11851851851851852" />
         <entry key="app/src/main/res/drawable/layout_item_radio.xml" value="0.2760416666666667" />
         <entry key="app/src/main/res/layout/activity_config_profile.xml" value="0.15" />
@@ -58,7 +62,7 @@
         <entry key="app/src/main/res/layout/fragment_choose_gender.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_choose_image.xml" value="0.21829710144927536" />
         <entry key="app/src/main/res/layout/fragment_drink.xml" value="0.23489583333333333" />
-        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_email.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_frament_date_of_birth.xml" value="0.5149911816578483" />
         <entry key="app/src/main/res/layout/fragment_full_screen_image.xml" value="0.1" />
@@ -91,6 +95,7 @@
         <entry key="app/src/main/res/layout/item_chat_me.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_image_profile.xml" value="0.6154910096818811" />
+        <entry key="app/src/main/res/layout/item_information.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
         <entry key="app/src/main/res/layout/item_tag_hobby.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_tag_interest.xml" value="0.5" />

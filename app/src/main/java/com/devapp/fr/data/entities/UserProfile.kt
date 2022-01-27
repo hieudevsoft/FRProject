@@ -14,7 +14,6 @@ class UserProfile(
     var address:String="",
     var images:List<String>?= mutableListOf(),
     var interests:List<String>?= mutableListOf(),
-    var topics:List<String>?= mutableListOf(),
     override var id:String=""
 ): BaseAccount(id,email,password) {
 }

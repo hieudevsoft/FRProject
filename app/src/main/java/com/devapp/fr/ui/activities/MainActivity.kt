@@ -81,6 +81,7 @@ class MainActivity : ThemeActivity() {
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.fragmentSplash||destination.id==R.id.fragmentInbox
                 ||destination.id == R.id.fragmentLogin||destination.id==R.id.fragmentProfile
+                ||destination.id==R.id.fragmentEditProfile
             ) {
                 binding.root.fitsSystemWindows = false
                 bottomBar.visibility = View.GONE

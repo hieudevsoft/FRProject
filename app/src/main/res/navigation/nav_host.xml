@@ -79,6 +79,10 @@
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_right" />
         <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentProfile_to_fragmentEditProfile"
             app:destination="@id/fragmentEditProfile" />
         <argument
@@ -93,7 +97,12 @@
     <fragment
         android:id="@+id/fragmentEditProfile"
         android:name="com.devapp.fr.ui.fragments.FragmentEditProfile"
-        android:label="FragmentEditProfile" />
+        android:label="FragmentEditProfile" >
+        <argument
+            android:defaultValue=""
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentOtherProfile"
         android:name="com.devapp.fr.ui.fragments.FragmentOtherProfile"

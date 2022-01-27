@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/LARGEST_SPACE"
+    android:layout_height="wrap_content">
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_header"
+        android:text="Cao"
+        android:gravity="center"
+        android:drawablePadding="@dimen/MARGIN_SMALLEST"
+        android:drawableTint="@color/color_grey"
+        android:drawableStart="@drawable/ic_tall"
+        android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:drawableEnd="@drawable/ic_next"
+        android:id="@+id/tv_footer"
+        android:gravity="center"
+        android:drawableTint="@color/color_grey"
+        android:text="Thêm"
+        android:textColor="@color/color_blue_500"
+        android:layout_gravity="end"
+        android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

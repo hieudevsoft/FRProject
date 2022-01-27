@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -12,14 +11,11 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:elevation="0dp"
-        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@color/background_dark_mode"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="@string/edit_profile">
 
@@ -31,20 +27,19 @@
                     android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_12sdp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_back"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_close"
                     app:tint="@color/black"
-                    app:useMaterialThemeColors="true"
-                    android:clickable="true"/>
+                    app:useMaterialThemeColors="true" />
 
                 <TextView
                     android:id="@+id/tv_edit_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="0dp"
-                    android:layout_toEndOf="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:fontFamily="@font/nunito_extra_bold"
                     android:gravity="center"
                     android:text="Chỉnh sửa hồ sơ"
@@ -80,67 +75,23 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/MEDIUM_SPACE">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/ly_image_profile"
+            <com.google.android.material.button.MaterialButton
+                android:textAllCaps="false"
+                android:textSize="@dimen/TEXT_SIZE_NORMAL"
+                android:insetTop="0dp"
+                android:backgroundTint="@color/background_dark_mode"
+                android:insetBottom="0dp"
+                android:id="@+id/btn_add_media"
+                app:cornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                android:padding="@dimen/PADDING_SMALL"
+                android:text="Thêm ảnh cho hồ sơ của bạn"
+                app:elevation="@dimen/_2sdp"
+                android:elevation="@dimen/_2sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/ly_image_profile1"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/_180sdp"
-                        android:layout_weight="1"
-                        app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                        app:cardUseCompatPadding="true">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/ic_image_profile"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/img_avatar" />
-
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:id="@+id/ly_image_profile2"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/_180sdp"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                        app:cardUseCompatPadding="true">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/ic_add_image_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/ic_add_photo"
-                                app:tint="@color/black" />
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.cardview.widget.CardView>
+                android:layout_height="wrap_content"/>
 
             <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/MARGIN_SMALL"
                 android:clickable="true"
                 android:focusable="true"
                 android:id="@+id/ly_username"
@@ -157,7 +108,7 @@
                     android:paddingVertical="@dimen/_8sdp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next1"
+                        android:id="@+id/ic_next_user_basic_information"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -174,20 +125,23 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_username"
+                            android:id="@+id/tv_username_age"
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Tên người dùng" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Hiệu,21"
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_username"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+                            android:id="@+id/tv_gender_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/MARGIN_SMALLEST"
                             android:fontFamily="@font/nunito_light"
-                            android:text="'@username" />
+                            android:text="Nam, Bac Giang"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -226,19 +180,31 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_dob"
+                            android:id="@+id/tv_job"
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Ngày sinh" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Công việc và Học vấn"
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_dob"
+                            android:id="@+id/tv_des_job"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/MARGIN_SMALLEST"
                             android:fontFamily="@font/nunito_light"
-                            android:text="'@date of birth"
+                            android:text="Những gì bạn làm không định nghĩa được về bạn,\nnhưng sẽ giúp bạn bè hiểu thêm về bạn "
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_detail_job"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/MARGIN_SMALL"
+                            android:text="Thêm công việc và học vấn"
+                            android:textColor="@color/color_blue_500"
                             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
@@ -278,20 +244,23 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_sexuality"
+                            android:id="@+id/tv_purpose"
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Giới tính" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Điều mà tôi thực sự muốn "
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_sexuality"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+                            android:id="@+id/tv_des_purpose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="Nam/Nữ/Khác" />
+                            android:layout_marginTop="@dimen/MARGIN_SMALLEST"
+                            android:text="Cho chúng tôi biết thêm về bạn..."
+                            android:textColor="@color/color_blue_500"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -334,15 +303,27 @@
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Sở thích" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Sở thích của tôi"
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_des_hobby"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/MARGIN_SMALLEST"
                             android:fontFamily="@font/nunito_light"
-                            android:text="'@hobby"
+                            android:text="Thêm sở thích để tìm những người cùng đam mê \nvới bạn "
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_detail_hobby"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/MARGIN_SMALL"
+                            android:text="Thêm sở thích"
+                            android:textColor="@color/color_blue_500"
                             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
@@ -387,15 +368,18 @@
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Mô tả bản thân" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Miêu tả bản thân"
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_des_yourself"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="'@describe_yourself"
+                            android:layout_marginTop="@dimen/MARGIN_SMALLEST"
+                            android:text="Cho chúng tôi biết thêm về bạn..."
+                            android:textColor="@color/color_blue_500"
                             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </RelativeLayout>
@@ -404,7 +388,7 @@
             <androidx.cardview.widget.CardView
                 android:clickable="true"
                 android:focusable="true"
-                android:id="@+id/ly_address"
+                android:id="@+id/ly_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"
@@ -417,249 +401,35 @@
                     android:paddingHorizontal="@dimen/_8sdp"
                     android:paddingVertical="@dimen/_8sdp">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_next"
-                        app:tint="@color/black"
-                        app:useMaterialThemeColors="true" />
-
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_address"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Địa chỉ" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="'@address"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/ly_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="@dimen/_8sdp"
-                    android:paddingVertical="@dimen/_8sdp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_next"
-                        app:tint="@color/black"
-                        app:useMaterialThemeColors="true" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_email"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Địa chỉ email" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_email"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="'@email_address" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/ly_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="@dimen/_8sdp"
-                    android:paddingVertical="@dimen/_8sdp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ic_next8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_next"
-                        app:tint="@color/black"
-                        app:useMaterialThemeColors="true" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_password"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Mật khẩu" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_password"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="********" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:clickable="true"
-                android:focusable="true"
-                android:id="@+id/ly_answer_queston"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                app:cardUseCompatPadding="true">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/_8sdp"
-                    android:paddingVertical="@dimen/_8sdp">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_question"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Trả lời các câu hỏi"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/TEXT_SIZE_NORMAL"/>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginStart="@dimen/_8sdp"
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_answer1"
+                            android:id="@+id/tv_information"
                             style="@style/TextAppearance.MaterialComponents.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Câu hỏi 1" />
+                            android:fontFamily="@font/nunito_extra_bold"
+                            android:text="Thông tin"
+                            android:textSize="@dimen/TEXT_SIZE_SMALL"
+                            android:textStyle="bold" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_answer1"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                            android:layout_width="wrap_content"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rc_information"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="Trả lời câu hỏi 1" />
+                            android:layout_marginTop="@dimen/MARGIN_SMALL"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="10"
+                            tools:listitem="@layout/item_information" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_answer2"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Câu hỏi 2" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_answer2"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="Trả lời câu hỏi 2" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_answer3"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_semibold"
-                            android:text="Câu hỏi 3" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_des_answer3"
-                            android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="Trả lời câu hỏi 3" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
