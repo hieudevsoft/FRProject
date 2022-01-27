@@ -1,21 +1,15 @@
-package com.devapp.fr.ui.fragments
+package com.devapp.fr.ui.fragments.homes
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.devapp.fr.R
 import com.devapp.fr.adapters.CardStackViewAdapter
 import com.devapp.fr.app.BaseFragment
-import com.devapp.fr.databinding.FragmentChatsBinding
 import com.devapp.fr.databinding.FragmentLovesBinding
-import com.devapp.fr.databinding.FragmentSettingsBinding
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.yuyakaido.android.cardstackview.*

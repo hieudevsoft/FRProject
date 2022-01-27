@@ -1,4 +1,4 @@
-package com.devapp.fr.ui.fragments
+package com.devapp.fr.ui.fragments.homes
 
 import android.os.Bundle
 import android.util.Log

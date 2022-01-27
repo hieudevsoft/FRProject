@@ -1,4 +1,4 @@
-package com.devapp.fr.ui.fragments
+package com.devapp.fr.ui.fragments.authencation
 
 import android.content.Context
 import android.content.Intent
@@ -64,7 +64,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                         prefs.saveIdUserLogin(it.data)
                         Log.d(TAG, "subscriberObserver: ${it.data}")
                         delay(1000)
-                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentSettings(it.data))
+                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentMainViewPager(it.data))
                     }
 
                     is ResourceRemote.Error -> {

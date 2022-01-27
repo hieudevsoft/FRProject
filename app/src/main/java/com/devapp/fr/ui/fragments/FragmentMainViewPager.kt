@@ -2,6 +2,7 @@ package com.devapp.fr.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,29 +11,42 @@ import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
 import com.devapp.fr.ui.activities.MainActivity
-import com.devapp.fr.util.storages.DataStoreHelper
-import com.devapp.fr.util.animations.PageTransformHelper
+import com.devapp.fr.ui.fragments.homes.FragmentChats
+import com.devapp.fr.ui.fragments.homes.FragmentLoves
+import com.devapp.fr.ui.fragments.homes.FragmentSettings
 import com.devapp.fr.util.UiHelper
+import com.devapp.fr.util.animations.PageTransformHelper
+import com.devapp.fr.util.storages.DataStoreHelper
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import nl.joery.animatedbottombar.AnimatedBottomBar
+import javax.inject.Inject
 
-class FragmentMainViewPager : ThemeFragment() {
+@AndroidEntryPoint
+class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     val TAG = "FragmentMainViewPager"
     private var _binding: FragmentMainViewPagerBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bottomBar:AnimatedBottomBar
-    private lateinit var mainViewPager:MainViewPagerAdapter
+    private lateinit var bottomBar: AnimatedBottomBar
+    private lateinit var mainViewPager: MainViewPagerAdapter
     private lateinit var dataStoreHelper: DataStoreHelper
-    private lateinit var dataStore:DataStore<androidx.datastore.preferences.core.Preferences>
+    private lateinit var dataStore: DataStore<androidx.datastore.preferences.core.Preferences>
+    private lateinit var fragmentSettings: FragmentSettings
+    private val args: FragmentMainViewPagerArgs by navArgs()
+
+    @Inject
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +65,7 @@ class FragmentMainViewPager : ThemeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //Get Bottom Bar from MainActivity
-        if(requireActivity() is MainActivity){
+        if (requireActivity() is MainActivity) {
             bottomBar = (requireActivity() as MainActivity).bottomBar
         }
 
@@ -63,6 +77,7 @@ class FragmentMainViewPager : ThemeFragment() {
 
         //Retrieve data
         subscribersObserve()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -71,8 +86,8 @@ class FragmentMainViewPager : ThemeFragment() {
         binding.mainViewPager.setBackgroundColor(theme.backgroundColor(requireContext()))
     }
 
-    private fun handleOnBackPress(isDarkMode:Boolean) {
-        val callback = object: OnBackPressedCallback(true) {
+    private fun handleOnBackPress(isDarkMode: Boolean) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 UiHelper.triggerBottomAlertDialog(
                     requireActivity(),
@@ -81,8 +96,7 @@ class FragmentMainViewPager : ThemeFragment() {
                     "OK",
                     "NO",
                     isDarkMode
-                ){
-                        dialogInterface, _ ->
+                ) { dialogInterface, _ ->
                     dialogInterface.dismiss()
                     requireActivity().finish()
                 }
@@ -92,19 +106,36 @@ class FragmentMainViewPager : ThemeFragment() {
     }
 
     private fun initializeMainViewPager() {
-        mainViewPager = MainViewPagerAdapter(makeListFragment(),childFragmentManager,lifecycle)
+        mainViewPager = MainViewPagerAdapter(makeListFragment(), childFragmentManager, lifecycle)
         binding.mainViewPager.apply {
             adapter = mainViewPager
             setPageTransformer(PageTransformHelper.TabletPageTransformer())
         }
     }
 
+    private fun getIdUser(): String {
+        var value = ""
+        args.let {
+            if (it.id.isNotEmpty()) {
+                value = it.id
+            } else {
+                if (sharedPreferencesHelper.readIdUserLogin()!!.isNotEmpty()) {
+                    value = sharedPreferencesHelper.readIdUserLogin()!!
+                } else {
+                    Log.d(TAG, "handleLoginEvent: error because not login")
+                }
+            }
+        }
+        return value
+    }
 
-
-    private fun subscribersObserve(){
+    private fun subscribersObserve() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             dataStoreHelper.getDarkMode(dataStore).collectLatest {
-                binding.mainViewPager.background = if(it) ContextCompat.getDrawable(requireContext(), R.color.background_dark_mode) else
+                binding.mainViewPager.background = if (it) ContextCompat.getDrawable(
+                    requireContext(),
+                    R.color.background_dark_mode
+                ) else
                     ContextCompat.getDrawable(requireContext(), R.color.background_light_mode)
                 handleOnBackPress(it)
 
@@ -118,15 +149,29 @@ class FragmentMainViewPager : ThemeFragment() {
         super.onDestroy()
     }
 
-    private fun makeListFragment ():List<Fragment>{
+    private fun makeListFragment(): List<Fragment> {
+        fragmentSettings = FragmentSettings(this)
         return listOf(
-            FragmentSettings(),
+            fragmentSettings,
             FragmentChats(),
             FragmentLoves()
         )
     }
 
     override fun onDestroyView() {
+        Log.d(TAG, "onDestroyView")
         super.onDestroyView()
+    }
+
+    override fun onCardProfileClickListener() {
+        if (getIdUser().isNotEmpty()) findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentProfile(
+                getIdUser()
+            )
+        )
+    }
+
+    override fun onCardLogoutClickListener() {
+        findNavController().navigate(FragmentMainViewPagerDirections.actionFragmentSettingsToFragmentLogin())
     }
 }

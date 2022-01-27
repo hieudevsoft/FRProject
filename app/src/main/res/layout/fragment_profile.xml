@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:elevation="0dp"
         app:elevation="0dp">
@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
+            android:paddingTop="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="@string/my_profile">
 
@@ -32,7 +32,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:clickable="true"
-                    android:src="@drawable/ic_back"
+                    android:src="@drawable/ic_arrow_back_24"
                     app:tint="@color/black"
                     app:useMaterialThemeColors="true" />
 
@@ -40,11 +40,12 @@
                     android:id="@+id/tv_myprofile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
                     android:layout_marginStart="0dp"
-                    android:layout_toEndOf="@+id/btn_back"
                     android:fontFamily="@font/nunito_extra_bold"
                     android:gravity="center"
                     android:text="@string/my_profile"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_20sdp" />
             </RelativeLayout>

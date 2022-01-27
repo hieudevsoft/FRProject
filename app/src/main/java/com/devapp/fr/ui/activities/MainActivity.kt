@@ -4,7 +4,12 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -42,16 +47,13 @@ class MainActivity : ThemeActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setColorStatusBar(getColor(R.color.white))
+
+        //set insets
+        setInsetsWindow()
+
         //Mapping bottomAppbar
         bottomBar = binding.bottomBar
-        bottomBar.onTabSelected={
-            when {
-                it.title.contains("setting",true) -> navHostFragment.findNavController().navigate(R.id.fragmentSettings)
-                it.title.contains("chats",true) -> navHostFragment.findNavController().navigate(R.id.fragmentChats)
-                else -> navHostFragment.findNavController().navigate(R.id.fragmentLoves)
-            }
-        }
+
         //Get NavHostFragment
         navHostFragment =
             supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
@@ -70,9 +72,24 @@ class MainActivity : ThemeActivity() {
         saveStateLogin()
     }
 
+    private fun setInsetsWindow() {
+        WindowCompat.setDecorFitsSystemWindows(window,false)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root){
+                view,windowInsets->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
     private fun saveStateLogin() {
         val isLogin = sharedPreferencesHelper.readIsLogin()
-        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentSettings)
+        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentMainViewPager)
     }
 
 
@@ -86,7 +103,6 @@ class MainActivity : ThemeActivity() {
                 binding.root.fitsSystemWindows = false
                 bottomBar.visibility = View.GONE
             } else {
-                binding.root.fitsSystemWindows = true
                 bottomBar.visibility = View.VISIBLE
             }
         }
@@ -118,7 +134,4 @@ class MainActivity : ThemeActivity() {
         binding.root.background = color
     }
 
-    override fun onBackPressed() {
-
-    }
 }

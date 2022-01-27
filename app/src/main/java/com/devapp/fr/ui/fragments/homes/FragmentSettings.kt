@@ -1,7 +1,6 @@
-package com.devapp.fr.ui.fragments
+package com.devapp.fr.ui.fragments.homes
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +16,8 @@ import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
+import com.devapp.fr.ui.fragments.FragmentMainViewPager
+import com.devapp.fr.ui.fragments.FragmentMainViewPagerDirections
 import com.devapp.fr.util.UiHelper.findOnClickListener
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.DataStoreHelper
@@ -30,14 +31,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class FragmentSettings : ThemeFragment() {
+class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(){
     val TAG = "FragmentSettings"
     private var _binding:FragmentSettingsBinding?=null
     private val binding get() = _binding!!
     private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private lateinit var dataStore: DataStore<Preferences>
-    private val args:FragmentSettingsArgs by navArgs()
+    interface EventListener{
+        fun onCardProfileClickListener()
+        fun onCardLogoutClickListener()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,21 +81,6 @@ class FragmentSettings : ThemeFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getIdUser():String {
-        var value = ""
-        args.let {
-            if(it.id.isNotEmpty()){
-                value = it.id
-            } else{
-                if(sharedPreferencesHelper.readIdUserLogin()!!.isNotEmpty()){
-                    value = sharedPreferencesHelper.readIdUserLogin()!!
-                }else{
-                    Log.d(TAG, "handleLoginEvent: error because not login")
-                }
-            }
-        }
-        return value
-    }
 
     override fun syncTheme(appTheme: AppTheme) {
         val theme = appTheme as MyAppTheme
@@ -114,13 +103,11 @@ class FragmentSettings : ThemeFragment() {
                     binding.cardLogout.startAnimClick()
                     sharedPreferencesHelper.saveIsLogin(false)
                     Toast.makeText(requireActivity(), "Đăng xuất thành công ~", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(FragmentSettingsDirections.actionFragmentSettingsToFragmentLogin())
+                    eventListener.onCardLogoutClickListener()
                 }
                 binding.cardShowProfile->{
                     binding.cardShowProfile.startAnimClick()
-                    if(getIdUser().isNotEmpty()){
-                        findNavController().navigate(FragmentSettingsDirections.actionFragmentSettingsToFragmentProfile(getIdUser()))
-                    }
+                    eventListener.onCardProfileClickListener()
                 }
             }
         }

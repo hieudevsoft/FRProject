@@ -1,16 +1,10 @@
-package com.devapp.fr.ui.fragments
+package com.devapp.fr.ui.fragments.homes
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
-import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.ChatsMessageAdapter
@@ -21,7 +15,6 @@ import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
-import com.devapp.fr.ui.activities.FullScreenImageActivity
 import com.devapp.fr.util.Constants.RC_MEDIA
 import com.devapp.fr.util.MediaHelper
 import com.devapp.fr.util.PermissionHelper
@@ -33,8 +26,6 @@ import com.devapp.fr.util.UiHelper.sendImageToFullScreenImageActivity
 import com.devapp.fr.util.UiHelper.showSnackbar
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
