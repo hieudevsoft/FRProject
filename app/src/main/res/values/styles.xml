@@ -126,5 +126,11 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="ImageButtonBack.Style.Normal" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="srcCompat">@drawable/ic_back</item>
+        <item name="android:layout_margin">@dimen/MEDIUM_SPACE</item>
+        <item name="android:paddingTop">?attr/actionBarSize</item>
+    </style>
 
 </resources>

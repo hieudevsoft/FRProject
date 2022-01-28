@@ -17,6 +17,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="@string/settings">
 
@@ -25,7 +26,6 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:paddingTop="?attr/actionBarSize"
                     android:id="@+id/tv_settings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

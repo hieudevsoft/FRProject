@@ -47,8 +47,8 @@ class RadioAdapter(private val onCheckedChange:(Int,Boolean)->Unit): RecyclerVie
         val item = differ.currentList[position]
         holder.bind(item)
         holder.binding.radio.setOnCheckedChangeListener { _, b ->
-            onCheckedChange(position,b)
             if (b) resetStateRadio(position)
+            onCheckedChange(position,b)
         }
     }
 

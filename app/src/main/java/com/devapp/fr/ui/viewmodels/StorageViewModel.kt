@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.network.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
