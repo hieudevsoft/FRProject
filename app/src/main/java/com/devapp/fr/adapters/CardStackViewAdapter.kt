@@ -14,7 +14,6 @@ class CardStackViewAdapter(
     private val onLoveCallBack:((View)->Unit)?=null,
 
 ):RecyclerView.Adapter<CardStackViewAdapter.ViewHolder>() {
-
     inner class ViewHolder(val binding:LayoutItemCardBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item:String) {
 

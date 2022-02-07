@@ -96,14 +96,12 @@ class MainActivity : ThemeActivity() {
     override fun syncTheme(appTheme: AppTheme) {}
     private fun handleNavHostFragment() {
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.fragmentSplash||destination.id==R.id.fragmentInbox
-                ||destination.id == R.id.fragmentLogin||destination.id==R.id.fragmentProfile
-                ||destination.id==R.id.fragmentEditProfile
+            if (destination.id==R.id.fragmentSettings||destination.id==R.id.fragmentChats||destination.id==R.id.fragmentLoves 
             ) {
+                bottomBar.visibility = View.VISIBLE
+            } else {
                 binding.root.fitsSystemWindows = false
                 bottomBar.visibility = View.GONE
-            } else {
-                bottomBar.visibility = View.VISIBLE
             }
         }
     }

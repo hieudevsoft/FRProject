@@ -120,8 +120,54 @@
             android:id="@+id/action_fragmentEditProfile_to_fragmentChild"
             app:destination="@id/fragmentChild" />
         <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentEditProfile_to_fragmentDrink"
             app:destination="@id/fragmentDrink" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentMaritalStatus"
+            app:destination="@id/fragmentMaritalStatus" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentChooseGender"
+            app:destination="@id/fragmentChooseGender" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentSmoke"
+            app:destination="@id/fragmentSmoke" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentPet"
+            app:destination="@id/fragmentPet" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_FragmentReligion"
+            app:destination="@id/FragmentReligion" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentCertificate"
+            app:destination="@id/fragmentCertificate" />
     </fragment>
     <fragment
         app:enterAnim="@anim/anim_slide_in_left"
@@ -159,6 +205,67 @@
             android:name="isSingleNavigate"
             app:argType="boolean"/>
     </fragment>
+    <fragment
+        android:id="@+id/fragmentMaritalStatus"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentMaritalStatus"
+        android:label="fragment_marital_status"
+        tools:layout="@layout/fragment_marital_status" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentChooseGender"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentChooseGender"
+        android:label="fragment_choose_gender"
+        tools:layout="@layout/fragment_choose_gender" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSmoke"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentSmoke"
+        android:label="fragment_smoke"
+        tools:layout="@layout/fragment_smoke" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
 
+    <fragment
+        android:id="@+id/fragmentPet"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentPet"
+        android:label="fragment_pet"
+        tools:layout="@layout/fragment_pet" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragmentReligion"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentReligion"
+        android:label="fragment_religion"
+        tools:layout="@layout/fragment_religion" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCertificate"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentCertificate"
+        android:label="fragment_certificate"
+        tools:layout="@layout/fragment_certificate" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+    </fragment>
 
 </navigation>
