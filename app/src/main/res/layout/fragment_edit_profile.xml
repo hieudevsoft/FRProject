@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_12sdp"
         android:fillViewport="true"
+        android:id="@+id/nestedScrollView"
         android:measureAllChildren="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

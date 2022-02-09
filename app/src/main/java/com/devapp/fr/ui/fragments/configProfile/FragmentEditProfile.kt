@@ -3,24 +3,19 @@ package com.devapp.fr.ui.fragments.configProfile
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.devapp.fr.R
 import com.devapp.fr.adapters.InformationAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.items.InformationItem
 import com.devapp.fr.databinding.FragmentEditProfileBinding
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.DataHelper
+import com.devapp.fr.util.DataHelper.getListItemInformation
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -36,7 +31,8 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
         subscriberObserver()
     }
 
-    private fun subscriberObserver() {
+    private fun subscriberObserver()
+    {
 
         sharedViewModel.getListItemInformation().observe(viewLifecycleOwner){
             informationAdapter.submitList(it)
@@ -93,6 +89,108 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                     }
                 }
         }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowMaritalStatus()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listMaritalStatus = DataHelper.getListMaritalStatus()
+                        val data = listMaritalStatus[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 3){
+                                resetAdapter(pos,if(it==listMaritalStatus.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowChooseGender()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listChooseGender = DataHelper.getListGender()
+                        val data = listChooseGender[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 4){
+                                resetAdapter(pos,if(it==listChooseGender.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowMaritalStatus()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listSmoke = DataHelper.getListSmoke()
+                        val data = listSmoke[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 5){
+                                resetAdapter(pos,if(it==listSmoke.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowPet()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listPet = DataHelper.getListPet()
+                        val data = listPet[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 6){
+                                resetAdapter(pos,if(it==listPet.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowReligion()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listReligion = DataHelper.getListReligion()
+                        val data = listReligion[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 7){
+                                resetAdapter(pos,if(it==listReligion.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedFlowCertificate()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listCertificate = DataHelper.getListCertificate()
+                        val data = listCertificate[it].text
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 8){
+                                resetAdapter(pos,if(it==listCertificate.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
     }
 
     private fun resetAdapter(pos:Int, data:String){
@@ -107,13 +205,45 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                     sharedViewModel.setPositionInformation(0)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentTall(true))
                 }
+
                 1-> {
                     sharedViewModel.setPositionInformation(1)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentChild(true))
                 }
+
                 2-> {
                     sharedViewModel.setPositionInformation(2)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentDrink(true))
+                }
+
+                3-> {
+                    sharedViewModel.setPositionInformation(3)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentMaritalStatus(true))
+                }
+
+                4-> {
+                    sharedViewModel.setPositionInformation(4)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentChooseGender(true))
+                }
+
+                5-> {
+                    sharedViewModel.setPositionInformation(5)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentSmoke(true))
+                }
+
+                6-> {
+                    sharedViewModel.setPositionInformation(6)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentPet(true))
+                }
+
+                7-> {
+                    sharedViewModel.setPositionInformation(7)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentReligion(true))
+                }
+
+                8-> {
+                    sharedViewModel.setPositionInformation(8)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentCertificate(true))
                 }
             }
         }
@@ -122,25 +252,30 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
     private fun setupRecyclerViewInformation() {
         informationAdapter = InformationAdapter()
         binding.rcInformation.adapter = informationAdapter
+        binding.rcInformation.isNestedScrollingEnabled = false
         sharedViewModel.setListItemInformation(getListItemInformation())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.btnBack.setOnClickWithAnimationListener { findNavController().popBackStack() }
+        binding.apply {
+            btnBack.setOnClickWithAnimationListener { findNavController().popBackStack() }
+            nestedScrollView.setOnScrollChangeListener {
+                    _, _, scrollY, _, _ ->
+                sharedViewModel.currentNestedScrollPosition = scrollY
+                Log.d(TAG, "onViewCreated: ${sharedViewModel.currentNestedScrollPosition}")
+            }
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getListItemInformation() = listOf(
-        InformationItem(R.drawable.ic_tall,"Cao",""),
-        InformationItem(R.drawable.ic_kid,"Trẻ con",""),
-        InformationItem(R.drawable.ic_beer,"Rượu bia",""),
-        InformationItem(R.drawable.ic_status_marry,"Về hôn nhân",""),
-        InformationItem(R.drawable.ic_gender,"Giới tính",""),
-        InformationItem(R.drawable.ic_smoking,"Hút thuốc",""),
-        InformationItem(R.drawable.ic_pet,"Thú cưng",""),
-        InformationItem(R.drawable.ic_religion,"Tôn giáo",""),
-        InformationItem(R.drawable.ic_certificate,"Học vấn",""),
-        InformationItem(R.drawable.ic_personality,"Tính cách",""),
-    )
+    override fun onResume() {
 
+        binding.nestedScrollView.apply {
+            isSmoothScrollingEnabled = true
+            startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL)
+            smoothScrollTo(0,sharedViewModel.currentNestedScrollPosition)
+        }
+        super.onResume()
+    }
 }
