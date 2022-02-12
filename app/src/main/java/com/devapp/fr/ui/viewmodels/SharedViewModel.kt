@@ -117,4 +117,44 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedFlowIntroduce:MutableSharedFlow<String> = MutableSharedFlow(1)
+    fun getSharedFlowIntroduce() = _sharedFlowIntroduce.asSharedFlow()
+    fun setSharedFlowIntroduce(value:String){
+        viewModelScope.launch {
+            _sharedFlowIntroduce.emit(value)
+        }
+    }
+
+    private val _sharedFlowInterest:MutableSharedFlow<List<Int>> = MutableSharedFlow(1)
+    fun getSharedFlowInterest() = _sharedFlowInterest.asSharedFlow()
+    fun setSharedFlowInterest(list:List<Int>){
+        viewModelScope.launch {
+            _sharedFlowInterest.emit(list)
+        }
+    }
+
+    private val _sharedFlowSexuality:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedFlowSexuality() = _sharedFlowSexuality.asSharedFlow()
+    fun setSharedFlowSexuality(value:Int){
+        viewModelScope.launch {
+            _sharedFlowSexuality.emit(value)
+        }
+    }
+
+    private val _sharedFlowJob:MutableSharedFlow<String> = MutableSharedFlow(1)
+    fun getSharedFlowJob() = _sharedFlowJob.asSharedFlow()
+    fun setSharedFlowJob(value:String){
+        viewModelScope.launch {
+            _sharedFlowJob.emit(value)
+        }
+    }
+
+    private val _sharedFlowBasicInformation:MutableSharedFlow<HashMap<Int,Any>> = MutableSharedFlow(1)
+    fun getSharedFlowBasicInformation() = _sharedFlowBasicInformation.asSharedFlow()
+    fun setSharedFlowBasicInformation(value:HashMap<Int,Any>){
+        viewModelScope.launch {
+            _sharedFlowBasicInformation.emit(value)
+        }
+    }
+
 }

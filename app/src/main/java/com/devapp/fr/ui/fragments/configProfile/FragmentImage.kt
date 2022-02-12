@@ -11,18 +11,16 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.FragmentImageBinding
 import com.devapp.fr.network.ResourceRemote
-import com.devapp.fr.ui.activities.ConfigProfileActivity
-import com.devapp.fr.ui.viewmodels.AuthViewModel
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.StorageViewModel
 import com.devapp.fr.util.Constants
-import com.devapp.fr.util.CustomDialog
+import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper.enableOrNot
@@ -31,7 +29,6 @@ import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import kotlinx.coroutines.*
@@ -41,7 +38,6 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 @AndroidEntryPoint
 class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.PermissionCallbacks {
@@ -50,9 +46,9 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
     val TAG = "FragmentImage"
     private var isChooseImageOne: Boolean? = null
     private lateinit var job: Job
-    private val authViewModel:AuthViewModel by viewModels()
+    private val authViewModel:AuthAndProfileViewModel by viewModels()
     private val storageViewModel:StorageViewModel by viewModels()
-    private lateinit var dialogLoading:CustomDialog
+    private lateinit var dialogLoading: CustomDialog
     private var listImage:MutableList<String> = mutableListOf("","")
     private var listUri:MutableList<Uri> = mutableListOf("".toUri(),"".toUri())
     private var idOfUser:String=""

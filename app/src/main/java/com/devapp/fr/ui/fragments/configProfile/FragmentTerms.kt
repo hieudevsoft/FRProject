@@ -49,7 +49,7 @@ class FragmentTerms : BaseFragment<FragmentTermsBinding>() {
                     },TIME_READ)
                 }else{
                     prefs.saveProcessRegister(8)
-                    startActivity(Intent(requireActivity(), InformationUserActivity::class.java))
+                    requireActivity().finish()
                 }
             }
         }

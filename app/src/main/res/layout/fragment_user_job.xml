@@ -4,20 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/LARGEST_SPACE"
     tools:context=".ui.fragments.information.FragmentUserJob">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <FrameLayout
         android:id="@+id/img_company"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="@dimen/_180sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:srcCompat="@drawable/img_company" />
+        app:layout_constraintVertical_bias="0">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/img_company" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_back"
+            style="@style/ImageButtonBack.Style.Normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_title"

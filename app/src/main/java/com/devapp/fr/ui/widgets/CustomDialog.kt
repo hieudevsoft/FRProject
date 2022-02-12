@@ -1,4 +1,4 @@
-package com.devapp.fr.util
+package com.devapp.fr.ui.widgets
 
 import android.app.AlertDialog
 import android.app.Dialog

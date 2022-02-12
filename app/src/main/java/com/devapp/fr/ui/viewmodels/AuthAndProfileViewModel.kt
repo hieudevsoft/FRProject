@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthAndProfileViewModel @Inject constructor(
     private val app:Application,
     private val fireStoreService:FireStoreService
 ):AndroidViewModel(app) {
@@ -83,6 +83,32 @@ class AuthViewModel @Inject constructor(
         _stateLogin.value = ResourceRemote.Loading
         viewModelScope.launch {
             _stateLogin.value = fireStoreService.loginWithEmailAndPassword(email,password)
+        }
+    }
+
+    //update basic information
+    private val _stateBasicInformation:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateBasicInformation:StateFlow<ResourceRemote<Boolean>> = _stateBasicInformation
+    fun resetStateBasicInformation() {
+        _stateBasicInformation.value = ResourceRemote.Idle
+    }
+    fun updateBasicInformation(id:String,mapBasicInformation:HashMap<Int,Any>){
+        _stateBasicInformation.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateBasicInformation.value = fireStoreService.updateBasicInformation(id,mapBasicInformation)
+        }
+    }
+
+    //update by field name
+    private val _stateFieldName:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateFieldName:StateFlow<ResourceRemote<Boolean>> = _stateFieldName
+    fun resetStateFieldName() {
+        _stateFieldName.value = ResourceRemote.Idle
+    }
+    fun <T> updateByFiledName(id:String,fieldName:String,data:T){
+        _stateFieldName.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateFieldName.value = fireStoreService.updateFieldByName(id,fieldName,data)
         }
     }
 

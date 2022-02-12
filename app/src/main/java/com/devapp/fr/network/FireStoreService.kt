@@ -132,4 +132,60 @@ class FireStoreService @Inject constructor(private val context: Context) {
         return res
     }
 
+    suspend fun updateBasicInformation(
+        id:String,
+        mapBasicInformation:HashMap<Int,Any>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        it.update(profile,"name",mapBasicInformation[0] as String)
+                        it.update(profile,"dob",mapBasicInformation[1] as String)
+                        it.update(profile,"address",mapBasicInformation[2] as String)
+                        it.update(profile,"gender",mapBasicInformation[3] as Int)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun <T> updateFieldByName(
+        id:String,
+        fileName:String,
+        data:T,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        it.update(profile,fileName,data)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
 }

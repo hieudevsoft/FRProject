@@ -59,7 +59,10 @@ class InterestAdapter : RecyclerView.Adapter<InterestAdapter.ViewHolder>() {
         }
     }
 
-
+    fun setItemSelected(pos:Int){
+        getItemAtPosition(pos).isSelected = true
+        notifyItemChanged(pos)
+    }
 
     override fun getItemCount(): Int {
         return differ.currentList.size

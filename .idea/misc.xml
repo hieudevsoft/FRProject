@@ -48,6 +48,7 @@
         <entry key="app/src/main/res/drawable/ic_tall.xml" value="0.34479166666666666" />
         <entry key="app/src/main/res/drawable/item_chat_me.xml" value="0.11851851851851852" />
         <entry key="app/src/main/res/drawable/layout_item_radio.xml" value="0.2760416666666667" />
+        <entry key="app/src/main/res/drawable/rounded_corners_dialog_shape.xml" value="0.1785" />
         <entry key="app/src/main/res/layout/activity_config_profile.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_full_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_full_screen_image.xml" value="0.1" />
@@ -55,7 +56,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_adress.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_basic_information.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/layout/fragment_basic_information.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_basic_information2.xml" value="0.26766304347826086" />
         <entry key="app/src/main/res/layout/fragment_certificate.xml" value="0.2817028985507246" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.12545289855072464" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.33" />
@@ -104,6 +106,7 @@
         <entry key="app/src/main/res/layout/item_voice_partner.xml" value="1.1" />
         <entry key="app/src/main/res/layout/layout_chat_voice.xml" value="0.26403985507246375" />
         <entry key="app/src/main/res/layout/layout_chat_voice_me.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_dialog_sexuality.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/layout_item_radio.xml" value="0.5" />
         <entry key="app/src/main/res/layout/mask_layout.xml" value="0.1" />
