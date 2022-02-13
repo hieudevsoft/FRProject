@@ -3,6 +3,7 @@ package com.devapp.fr.ui.fragments.configProfile
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.activityViewModels
@@ -69,14 +70,18 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
             sharedViewModel.getSharedFlowTall()
                 .distinctUntilChanged()
                 .collectLatest {
+                    var trueData = it
+                    if(trueData>1000) trueData -= 1001
                     val data = "${
-                        if(it==91) "<91"
-                        else if(it==220) ">220"
-                        else it.toString()
+                        when (trueData) {
+                            91 -> "<91"
+                            220 -> ">220"
+                            else -> trueData.toString()
+                        }
                     } cm"
                     sharedViewModel.getPositionInformation().value?.let { pos ->
-                        if(pos==0) {
-                            resetAdapter(pos,if(it!=-1) data else "")
+                        if(pos==0 || it>1000) {
+                            resetAdapter(0,if(trueData!=-1) data else "")
                             sharedViewModel.setListItemInformation(listTemp)
                         }
                     }
@@ -88,13 +93,14 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentPosChild = it
+                    if(currentPosChild>=1000) currentPosChild-=1001
                     Log.d(TAG, "subscriberObserver: $it")
-                    if(it!=-1){
+                    if(currentPosChild!=-1){
                         val listChild = DataHelper.getListChild()
-                        val data = listChild[it].text
+                        val data = listChild[currentPosChild].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos==1){
-                                resetAdapter(pos,if(it==listChild.size-1) "" else data)
+                            if(pos==1||it>=1000){
+                                resetAdapter(1,if(currentPosChild==listChild.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -107,12 +113,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentPosDrink = it
-                    if(it!=-1){
+                    if(currentPosDrink>=1000) currentPosDrink-=1001
+                    if(currentPosDrink!=-1){
                         val listDrink = DataHelper.getListDrink()
-                        val data = listDrink[it].text
+                        val data = listDrink[currentPosDrink].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos==2){
-                                resetAdapter(pos,if(it==listDrink.size-1) "" else data)
+                            if(pos==2||it>=1000){
+                                resetAdapter(2,if(currentPosDrink==listDrink.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -125,12 +132,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentPosMaritalStatus = it
-                    if(it!=-1){
+                    if(currentPosMaritalStatus>=1000) currentPosMaritalStatus-=1001
+                    if(currentPosMaritalStatus!=-1){
                         val listMaritalStatus = DataHelper.getListMaritalStatus()
-                        val data = listMaritalStatus[it].text
+                        val data = listMaritalStatus[currentPosMaritalStatus].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 3){
-                                resetAdapter(pos,if(it==listMaritalStatus.size-1) "" else data)
+                            if(pos == 3||it>=1000){
+                                resetAdapter(3,if(currentPosMaritalStatus==listMaritalStatus.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -143,12 +151,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentChooseGender = it
-                    if(it!=-1){
+                    if(currentChooseGender>=1000) currentChooseGender-=1001
+                    if(currentChooseGender!=-1){
                         val listChooseGender = DataHelper.getListGender()
-                        val data = listChooseGender[it].text
+                        val data = listChooseGender[currentChooseGender].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 4){
-                                resetAdapter(pos,if(it==listChooseGender.size-1) "" else data)
+                            if(pos == 4||it>=1000){
+                                resetAdapter(4,if(currentChooseGender==listChooseGender.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -161,12 +170,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentPosSmoke = it
-                    if(it!=-1){
+                    if(currentPosSmoke>=1000) currentPosSmoke-=1001
+                    if(currentPosSmoke!=-1){
                         val listSmoke = DataHelper.getListSmoke()
-                        val data = listSmoke[it].text
+                        val data = listSmoke[currentPosSmoke].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 5){
-                                resetAdapter(pos,if(it==listSmoke.size-1) "" else data)
+                            if(pos == 5||it>=1000){
+                                resetAdapter(5,if(currentPosSmoke==listSmoke.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -178,13 +188,14 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
             sharedViewModel.getSharedFlowPet()
                 .distinctUntilChanged()
                 .collectLatest {
-                    currentPosPet = -1
-                    if(it!=-1){
+                    currentPosPet = it
+                    if(currentPosPet>=1000) currentPosPet-=1001
+                    if(currentPosPet!=-1){
                         val listPet = DataHelper.getListPet()
-                        val data = listPet[it].text
+                        val data = listPet[currentPosPet].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 6){
-                                resetAdapter(pos,if(it==listPet.size-1) "" else data)
+                            if(pos == 6||it>=1000){
+                                resetAdapter(6,if(currentPosPet==listPet.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -197,12 +208,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentPosReligion = it
-                    if(it!=-1){
+                    if(currentPosReligion>=1000) currentPosReligion-=1001
+                    if(currentPosReligion!=-1){
                         val listReligion = DataHelper.getListReligion()
-                        val data = listReligion[it].text
+                        val data = listReligion[currentPosReligion].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 7){
-                                resetAdapter(pos,if(it==listReligion.size-1) "" else data)
+                            if(pos == 7||it>=1000){
+                                resetAdapter(7,if(currentPosReligion==listReligion.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -215,12 +227,13 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 .distinctUntilChanged()
                 .collectLatest {
                     currentCertificate = it
-                    if(it!=-1){
+                    if(currentCertificate>=1000) currentCertificate-=1001
+                    if(currentCertificate!=-1){
                         val listCertificate = DataHelper.getListCertificate()
-                        val data = listCertificate[it].text
+                        val data = listCertificate[currentCertificate].text
                         sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 8){
-                                resetAdapter(pos,if(it==listCertificate.size-1) "" else data)
+                            if(pos == 8||it>=1000){
+                                resetAdapter(8,if(currentCertificate==listCertificate.size-1) "" else data)
                                 sharedViewModel.setListItemInformation(listTemp)
                             }
                         }
@@ -368,7 +381,7 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
         informationAdapter = InformationAdapter()
         binding.rcInformation.adapter = informationAdapter
         binding.rcInformation.isNestedScrollingEnabled = false
-        sharedViewModel.setListItemInformation(getListItemInformation())
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

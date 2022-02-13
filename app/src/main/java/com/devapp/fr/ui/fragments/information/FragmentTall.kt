@@ -69,11 +69,13 @@ class FragmentTall : BaseFragment<FragmentTallBinding>() {
                 sharedViewModel.getSharedFlowTall()
                     .distinctUntilChanged()
                     .collectLatest {
-                        if (it != -1) {
+                        var trueData = it
+                        trueData=if(trueData>=1000) trueData-1001 else trueData
+                        if (trueData != -1) {
                             val data = "${
-                                if (it == 91) "<91"
-                                else if (it == 220) ">220"
-                                else it.toString()
+                                if (trueData == 91) "<91"
+                                else if (trueData == 220) ">220"
+                                else trueData.toString()
                             } cm"
                             binding.tvTall.text = data
                             binding.seekBar.setProgress(it, true)

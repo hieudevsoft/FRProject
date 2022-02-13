@@ -19,9 +19,11 @@ import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationList
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentDrink : BaseFragment<FragmentDrinkBinding>() {
     val TAG = "FragmentDrink"
     private lateinit var radioAdapter: RadioAdapter

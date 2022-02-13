@@ -16,6 +16,7 @@ import com.devapp.fr.databinding.FragmentProfileBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.util.DataHelper
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.UiHelper.sendImageToFullScreenImageActivity
 import com.devapp.fr.util.UiHelper.toGone
@@ -98,15 +99,17 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
             sharedViewModel.setSharedFlowIntroduce(data.bio)
             
             data.additionInformation?.let {
-                sharedViewModel.setSharedFlowTall(it.tall)
-                sharedViewModel.setSharedFlowChild(it.child)
-                sharedViewModel.setSharedFlowDrink(it.drink)
-                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus)
-                sharedViewModel.setSharedFlowChooseGender(it.trueGender)
-                sharedViewModel.setSharedFlowSmoke(it.smoking)
-                sharedViewModel.setSharedFlowPet(it.pet)
-                sharedViewModel.setSharedFlowReligion(it.religion)
-                sharedViewModel.setSharedFlowCertificate(it.certificate)
+                sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())
+                sharedViewModel.setPositionInformation(-1)
+                sharedViewModel.setSharedFlowTall(it.tall+1001)
+                sharedViewModel.setSharedFlowChild(it.child+1001)
+                sharedViewModel.setSharedFlowDrink(it.drink+1001)
+                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus+1001)
+                sharedViewModel.setSharedFlowChooseGender(it.trueGender+1001)
+                sharedViewModel.setSharedFlowSmoke(it.smoking+1001)
+                sharedViewModel.setSharedFlowPet(it.pet+1001)
+                sharedViewModel.setSharedFlowReligion(it.religion+1001)
+                sharedViewModel.setSharedFlowCertificate(it.certificate+1001)
             }
         }
     }
