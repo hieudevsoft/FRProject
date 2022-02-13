@@ -3,6 +3,7 @@ package com.devapp.fr.network
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.devapp.fr.data.entities.AdditionInformation
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher
 import com.google.firebase.firestore.ktx.firestore
@@ -175,6 +176,36 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     if (snapShot.documents.isNotEmpty()){
                         val profile = collection.document(snapShot.documents[0].id)
                         it.update(profile,fileName,data)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun updateFieldAdditionalInformation(
+        id:String,
+        property:String,
+        data:Int,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        var additionalInformation = snapShot.documents[0].toObject(UserProfile::class.java)?.additionInformation
+                        if(additionalInformation==null) additionalInformation = AdditionInformation()
+                        additionalInformation.setNewDataByName(property,data)
+                        it.update(profile,"additionInformation",additionalInformation)
                     }
                 }
                 ResourceRemote.Success(true)

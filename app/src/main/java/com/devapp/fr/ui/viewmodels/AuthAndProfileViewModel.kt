@@ -112,4 +112,17 @@ class AuthAndProfileViewModel @Inject constructor(
         }
     }
 
+    //update additional information by field name
+    private val _stateAdditionalInformation:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateAdditionalInformation:StateFlow<ResourceRemote<Boolean>> = _stateAdditionalInformation
+    fun resetStateAdditionalInformation() {
+        _stateAdditionalInformation.value = ResourceRemote.Idle
+    }
+    fun updateAdditionalInformation(id:String,fieldName:String,data:Int){
+        _stateAdditionalInformation.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateAdditionalInformation.value = fireStoreService.updateFieldAdditionalInformation(id,fieldName,data)
+        }
+    }
+
 }

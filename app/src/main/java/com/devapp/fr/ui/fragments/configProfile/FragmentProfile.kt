@@ -96,6 +96,18 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
             sharedViewModel.setSharedFlowSexuality(data.purpose)
             sharedViewModel.setSharedFlowInterest(data.interests?: mutableListOf())
             sharedViewModel.setSharedFlowIntroduce(data.bio)
+            
+            data.additionInformation?.let {
+                sharedViewModel.setSharedFlowTall(it.tall)
+                sharedViewModel.setSharedFlowChild(it.child)
+                sharedViewModel.setSharedFlowDrink(it.drink)
+                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus)
+                sharedViewModel.setSharedFlowChooseGender(it.trueGender)
+                sharedViewModel.setSharedFlowSmoke(it.smoking)
+                sharedViewModel.setSharedFlowPet(it.pet)
+                sharedViewModel.setSharedFlowReligion(it.religion)
+                sharedViewModel.setSharedFlowCertificate(it.certificate)
+            }
         }
     }
 
