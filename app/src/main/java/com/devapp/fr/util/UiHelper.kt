@@ -218,7 +218,7 @@ object UiHelper {
         this.isEnabled = enable
     }
 
-    fun AppCompatEditText.getStringText() = this.text.toString()
+    fun AppCompatEditText.getStringText() = this.text.toString().trim()
     fun AppCompatEditText.setEmptyText() = this.setText("")
     fun EditText.getStringText() = this.text.toString()
     fun EditText.setEmptyText() = this.setText("")

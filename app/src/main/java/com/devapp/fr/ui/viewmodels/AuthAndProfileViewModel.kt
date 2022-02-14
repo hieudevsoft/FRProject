@@ -125,4 +125,17 @@ class AuthAndProfileViewModel @Inject constructor(
         }
     }
 
+    //get all profile by not equals gender,id and limit result
+    private val _sateGetAllProfileSwipe:MutableStateFlow<ResourceRemote<List<UserProfile>>> = MutableStateFlow(ResourceRemote.Idle)
+    val sateGetAllProfileSwipe:StateFlow<ResourceRemote<List<UserProfile>>> = _sateGetAllProfileSwipe
+    fun resetSateGetAllProfileSwipe() {
+        _sateGetAllProfileSwipe.value = ResourceRemote.Idle
+    }
+    fun getAllProfileSwipe(id:String,gender:Int,limit:Long){
+        _sateGetAllProfileSwipe.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _sateGetAllProfileSwipe.value = fireStoreService.getAllUserProfileByLimit(id, gender,limit)
+        }
+    }
+
 }

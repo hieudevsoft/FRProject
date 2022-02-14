@@ -16,12 +16,14 @@ import androidx.navigation.fragment.navArgs
 import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
+import com.devapp.fr.app.toBinding
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.homes.FragmentChats
 import com.devapp.fr.ui.fragments.homes.FragmentLoves
 import com.devapp.fr.ui.fragments.homes.FragmentSettings
 import com.devapp.fr.util.UiHelper
+import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
@@ -37,7 +39,7 @@ import javax.inject.Inject
 class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     val TAG = "FragmentMainViewPager"
     private var _binding: FragmentMainViewPagerBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private lateinit var bottomBar: AnimatedBottomBar
     private lateinit var mainViewPager: MainViewPagerAdapter
     private lateinit var dataStoreHelper: DataStoreHelper
@@ -74,6 +76,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
         //Setup ViewPager2 with bottom bar
         bottomBar.setupWithViewPager2(binding.mainViewPager)
+        bottomBar.toVisible()
 
         //Retrieve data
         subscribersObserve()

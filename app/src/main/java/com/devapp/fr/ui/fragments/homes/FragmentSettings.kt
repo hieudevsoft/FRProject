@@ -73,7 +73,7 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
 
 
         //Init switch
-        binding.switchDarkMode.isOn = sharedPreferencesHelper.readDarkMode()
+        //binding.switchDarkMode.isOn = sharedPreferencesHelper.readDarkMode()
 
         //Handle event elements
         handleEventElement()
@@ -90,13 +90,13 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
     }
 
     private fun handleEventElement() {
-        binding.switchDarkMode.setOnToggledListener { _, b ->
-            triggerSaveDarkMode(b)
-            sharedPreferencesHelper.saveDarkMode(b)
-            if(!b)
-            ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
-            else ThemeManager.instance.changeTheme(DarkTheme(), Coordinate(300,300),600)
-        }
+//        binding.switchDarkMode.setOnToggledListener { _, b ->
+//            triggerSaveDarkMode(b)
+//            sharedPreferencesHelper.saveDarkMode(b)
+//            if(!b)
+//            ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
+//            else ThemeManager.instance.changeTheme(DarkTheme(), Coordinate(300,300),600)
+//        }
         findOnClickListener(binding.cardLogout,binding.cardShowProfile){
             when(this){
                 binding.cardLogout->{
@@ -113,11 +113,11 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
         }
     }
 
-    fun triggerSaveDarkMode(value:Boolean){
-        viewLifecycleOwner.lifecycleScope.launch {
-            dataStoreHelper.saveDarkMode(dataStore,value)
-        }
-    }
+//    fun triggerSaveDarkMode(value:Boolean){
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            dataStoreHelper.saveDarkMode(dataStore,value)
+//        }
+//    }
 
     private fun setupTheme(isDarkMode:Boolean) {
         if(isDarkMode){

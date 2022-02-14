@@ -1,61 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView android:id="@+id/card_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_root"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/SIZE_AVATAR"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/_6sdp"
-        app:cardElevation="@dimen/_2sdp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/fr_img_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+    android:layout_height="@dimen/SIZE_AVATAR"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/_6sdp"
+    app:cardElevation="@dimen/_2sdp"
+    app:cardUseCompatPadding="true"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/fr_img_2"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_inside_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:transitionName="image_fullscreen" />
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_margin="@dimen/SMALL_SPACE"
-                android:background="@drawable/custom_bg_avatar"
-                android:backgroundTint="@color/background_dark_mode"
-                android:id="@+id/ly_like"
-                android:layout_gravity="bottom|right"
-                android:paddingHorizontal="@dimen/MEDIUM_SPACE"
-                android:paddingVertical="@dimen/SMALL_SPACE"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_number_like"
-                    android:text="20"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/TEXT_SIZE_SMALL"
-                    android:fontFamily="@font/varelaround_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:id="@+id/img_like"
-                    android:layout_marginStart="@dimen/SMALL_SPACE"
-                    android:src="@drawable/ic_heart"
-                    android:layout_width="@dimen/_14ssp"
-                    android:layout_height="@dimen/_14sdp"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
-</FrameLayout>

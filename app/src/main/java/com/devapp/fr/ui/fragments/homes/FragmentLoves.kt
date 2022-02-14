@@ -6,14 +6,28 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.devapp.fr.R
 import com.devapp.fr.adapters.CardStackViewAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentLovesBinding
+import com.devapp.fr.network.ResourceRemote
+import com.devapp.fr.ui.activities.MainActivity
+import com.devapp.fr.ui.fragments.FragmentMainViewPager
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.util.Constants.LIMIT_REQUEST_SWIPE
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.yuyakaido.android.cardstackview.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     val TAG = "FragmentLoves"
     val DEFAULT_VISIBLE_COUNT = 3
@@ -24,9 +38,19 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
     private lateinit var cardStackViewAdapter: CardStackViewAdapter
     private lateinit var cardStackLayoutManager: CardStackLayoutManager
-    private lateinit var settingSwipe:SwipeAnimationSetting.Builder
-    private lateinit var settingRewind:RewindAnimationSetting.Builder
+    private lateinit var settingSwipe: SwipeAnimationSetting.Builder
+    private lateinit var settingRewind: RewindAnimationSetting.Builder
+    private lateinit var parent: FragmentMainViewPager
+
+    @Inject
+    lateinit var prefs: SharedPreferencesHelper
+    private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
+    private lateinit var loadingDialog: CustomDialog
+
     override fun onSetupView() {
+        parent = (parentFragment as FragmentMainViewPager)
+        loadingDialog = CustomDialog(R.layout.dialog_loading)
+        subscribeObserver()
         binding.apply {
             setupCardStackViewLayoutManger()
             setupCardStackView()
@@ -38,25 +62,36 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     }
 
     private fun setupCardStackView() {
-        cardStackViewAdapter = CardStackViewAdapter({
-            swipeWithDirection(Direction.Left)
-        }){
-            swipeWithDirection(Direction.Right)
-        }
-        cardStackViewAdapter.submitList(listOf("Hieu", "gi do", "afdsfs", "afdsfa"))
+        cardStackViewAdapter = CardStackViewAdapter(
+            this,
+            {
+                swipeWithDirection(Direction.Left)
+            }, {
+                swipeWithDirection(Direction.Right)
+            }, { view, user ->
 
-        binding.progressBarEnergy.max = cardStackViewAdapter.itemCount
-        binding.progressBarEnergy.min = 1
+            }) {
+            parent.binding.mainViewPager.isUserInputEnabled = false
+        }
+        try {
+            val user = (requireActivity() as MainActivity).getUser()
+            user?.let {
+                authAndProfileViewModel.getAllProfileSwipe(user.id, user.gender, LIMIT_REQUEST_SWIPE)
+            }
+        } catch (e: Exception) {
+
+        }
 
         binding.cardStackView.apply {
             layoutManager = cardStackLayoutManager
             adapter = cardStackViewAdapter
         }
-        Log.d(TAG, "setupCardStackView: size of list: ${cardStackViewAdapter.itemCount}")
     }
 
-    fun swipeWithDirection(direction: Direction){
-        cardStackLayoutManager.setSwipeAnimationSetting(settingSwipe.setDirection(direction).build())
+    fun swipeWithDirection(direction: Direction) {
+        cardStackLayoutManager.setSwipeAnimationSetting(
+            settingSwipe.setDirection(direction).build()
+        )
         binding.cardStackView.swipe()
     }
 
@@ -93,14 +128,14 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
-        if(direction?.name!!.contains("left",true)){
+        if (direction?.name!!.contains("left", true)) {
             binding.cardLove.toGone()
             binding.cardCancel.toVisible()
-            binding.cardCancel.alpha = if(ratio<0.2) 0f else ratio
+            binding.cardCancel.alpha = if (ratio < 0.2) 0f else ratio
         } else {
             binding.cardCancel.toGone()
             binding.cardLove.toVisible()
-            binding.cardLove.alpha=if(ratio<0.2) 0f else ratio
+            binding.cardLove.alpha = if (ratio < 0.2) 0f else ratio
         }
         Log.d(TAG, "onCardDragging: $ratio")
     }
@@ -110,6 +145,13 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         Log.d(TAG, "onCardSwiped: ${direction?.name}")
         if (direction?.name!!.contains("RIGHT", true))
             setupLinearProgress(binding.progressBarEnergy.progress + 1)
+        else {
+            try {
+                setupLinearProgress(binding.progressBarEnergy.progress - 1)
+            } catch (e: Exception) {
+
+            }
+        }
     }
 
     private fun goneCardOperation() {
@@ -122,27 +164,71 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     override fun onCardRewound() {
         Log.d(TAG, "onCardRewound: Card Rewound")
         goneCardOperation()
-        setupLinearProgress(binding.progressBarEnergy.progress - 1)
+        //setupLinearProgress(binding.progressBarEnergy.progress - 1)
     }
 
     override fun onCardCanceled() {
         goneCardOperation()
+        parent.binding.mainViewPager.isUserInputEnabled = true
         Log.d(TAG, "onCardCanceled: Card Cancel")
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
         goneCardOperation()
         Log.d(TAG, "onCardAppeared: $view $position")
-        if(position==0) binding.imgHeart.setImageResource(R.drawable.ic_heart)
+        if (position == 0) binding.imgHeart.setImageResource(R.drawable.ic_heart)
         else binding.imgHeart.setImageResource(R.drawable.ic_rewind)
         binding.imgHeart.setOnClickListener {
-            if(position!=0) binding.cardStackView.rewind()
+            if (position != 0) binding.cardStackView.rewind()
         }
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
         Log.d(TAG, "onCardDisappeared: $view $position")
         goneCardOperation()
+    }
+
+    private fun subscribeObserver() {
+        launchRepeatOnLifeCycleWhenStarted {
+
+            authAndProfileViewModel.sateGetAllProfileSwipe.collect {
+                when (it) {
+                    is ResourceRemote.Loading -> {
+                        loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                        Log.d(TAG, "subscriberObserver: loading...")
+                    }
+
+                    is ResourceRemote.Success -> {
+                        loadingDialog.dismiss()
+                        binding.cardStackView.toVisible()
+                        cardStackViewAdapter.submitList(it.data)
+                        binding.progressBarEnergy.max = cardStackViewAdapter.itemCount
+                        binding.progressBarEnergy.min = 0
+                        Log.d(TAG, "setupCardStackView: ${cardStackViewAdapter.itemCount}")
+                    }
+
+                    is ResourceRemote.Error -> {
+                        loadingDialog.dismiss()
+                        binding.cardStackView.toGone()
+                        Log.d(TAG, "subscribeObserver: ${it.message}")
+                        Toast.makeText(
+                            requireContext(),
+                            "Kiểm tra lại kết nối mạng!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        authAndProfileViewModel.resetSateGetAllProfileSwipe()
+        super.onDestroyView()
     }
 
 }

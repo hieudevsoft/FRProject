@@ -60,6 +60,39 @@ class FireStoreService @Inject constructor(private val context: Context) {
         return res
     }
 
+    suspend fun getAllUserProfileByLimit(
+        id: String,
+        gender:Int,
+        limit:Long,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<List<UserProfile>> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val queriesSnapshot = collection
+                    .whereNotEqualTo("gender",gender)
+                    .limit(limit)
+                    .get()
+                    .await()
+                val listResult = mutableListOf<UserProfile>()
+                queriesSnapshot.documents.forEach {
+                    val item = it.toObject<UserProfile>()
+                    if (item != null) {
+                        if(item.id!=id) listResult.add(item)
+                    }
+                }
+                ResourceRemote.Success(listResult)
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(null, e.message)
+            }
+        }
+        return res
+    }
+
     suspend fun isEmailExist(
         email: String,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO

@@ -53,15 +53,9 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
             imgInsideCard.setOnClickWithAnimationListener {view->
                 onItemClickListener?.let { it(view,item) }
             }
-            lyLike.setOnClickWithAnimationListener {
-                val isLike = imgLike.drawable.constantState==ContextCompat.getDrawable(fragment.requireContext(),
-                    R.drawable.ic_heart_redcolor)?.constantState
-                imgLike.setImageResource(if(isLike) R.drawable.ic_heart else R.drawable.ic_heart_redcolor)
-            }
         }
 
     }
-
     private var onItemClickListener:((View,String)->Unit)?=null
 
     fun setOnItemClickListener(listener:(View,String)->Unit){

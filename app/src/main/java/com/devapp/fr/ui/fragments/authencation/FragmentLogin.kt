@@ -62,6 +62,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                         dialogLoading.dismiss()
                         prefs.saveIsLogin(true)
                         prefs.saveIdUserLogin(it.data)
+                        authViewModel.getUserProfile(it.data)
                         Log.d(TAG, "subscriberObserver: ${it.data}")
                         delay(1000)
                         findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentMainViewPager(it.data))
