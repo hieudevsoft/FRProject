@@ -134,6 +134,8 @@ dependencies {
     implementation 'com.github.angads25:toggle:1.1.0'
     implementation 'com.eyalbira.loadingdots:loading-dots:1.0.2'
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+    implementation 'com.airbnb.android:lottie:4.2.1'
+
 
     //Flexbox Layout
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

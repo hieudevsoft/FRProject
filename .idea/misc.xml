@@ -86,7 +86,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_religion.xml" value="0.276268115942029" />
         <entry key="app/src/main/res/layout/fragment_school.xml" value="0.1921875" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_smoke.xml" value="0.18645833333333334" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16" />
@@ -97,7 +97,7 @@
         <entry key="app/src/main/res/layout/item_chat_image_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_me.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_partner.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/item_image_profile.xml" value="0.6154910096818811" />
+        <entry key="app/src/main/res/layout/item_image_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_information.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
         <entry key="app/src/main/res/layout/item_tag_hobby.xml" value="0.67" />
@@ -107,7 +107,7 @@
         <entry key="app/src/main/res/layout/layout_chat_voice.xml" value="0.26403985507246375" />
         <entry key="app/src/main/res/layout/layout_chat_voice_me.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_dialog_sexuality.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.9" />
         <entry key="app/src/main/res/layout/layout_item_radio.xml" value="0.5" />
         <entry key="app/src/main/res/layout/mask_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/test.xml" value="0.33" />

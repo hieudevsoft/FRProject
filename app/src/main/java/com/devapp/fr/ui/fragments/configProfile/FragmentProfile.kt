@@ -33,12 +33,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
     val TAG = "FragmentProfile"
     private val args: FragmentProfileArgs by navArgs()
-    private val authViewModel: AuthAndProfileViewModel by viewModels()
     private lateinit var profileImageAdapter: ProfileImagesAdapter
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val sharedViewModel:SharedViewModel by activityViewModels()
     override fun onSetupView() {
         Log.d(TAG, "onSetupView")
-        authViewModel.getUserProfile(args.id)
         setupProfileImageAdapter()
     }
 
@@ -56,71 +54,17 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         handleEvent()
-        subscribeObserver()
+        updateUiProfile()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun subscribeObserver() {
-        launchRepeatOnLifeCycleWhenStarted {
-
-            authViewModel.stateGetUserProfile.collect {
-                when (it) {
-                    is ResourceRemote.Loading -> {
-                        Log.d(TAG, "subscriberObserver: loading...")
-                    }
-
-                    is ResourceRemote.Success -> {
-                        binding.lyLoading.toGone()
-                        binding.lyProfile.toVisible()
-                        updateSharedViewModel(it.data)
-                        updateUiProfile(it.data)
-                    }
-
-                    is ResourceRemote.Error -> {
-                        binding.lyLoading.toVisible()
-                        Toast.makeText(requireContext(), "Có lỗi xảy ra ~", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    else -> {
-
-                    }
-                }
-
-            }
-        }
-    }
-
-    private fun updateSharedViewModel(data: UserProfile?) {
-        data?.let {
-            sharedViewModel.setSharedFlowBasicInformation(hashMapOf(0 to data.name,1 to data.dob,2 to data.address,3 to data.gender))
-            sharedViewModel.setSharedFlowJob(data.job)
-            sharedViewModel.setSharedFlowSexuality(data.purpose)
-            sharedViewModel.setSharedFlowInterest(data.interests?: mutableListOf())
-            sharedViewModel.setSharedFlowIntroduce(data.bio)
-            
-            data.additionInformation?.let {
-                sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())
-                sharedViewModel.setPositionInformation(-1)
-                sharedViewModel.setSharedFlowTall(it.tall+1001)
-                sharedViewModel.setSharedFlowChild(it.child+1001)
-                sharedViewModel.setSharedFlowDrink(it.drink+1001)
-                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus+1001)
-                sharedViewModel.setSharedFlowChooseGender(it.trueGender+1001)
-                sharedViewModel.setSharedFlowSmoke(it.smoking+1001)
-                sharedViewModel.setSharedFlowPet(it.pet+1001)
-                sharedViewModel.setSharedFlowReligion(it.religion+1001)
-                sharedViewModel.setSharedFlowCertificate(it.certificate+1001)
-            }
-        }
-    }
-
-    private fun updateUiProfile(data: UserProfile?) {
-        data?.let {
+    private fun updateUiProfile() {
             binding.apply {
                 launchRepeatOnLifeCycleWhenResumed {
                     sharedViewModel.getSharedFlowIntroduce()
                         .distinctUntilChanged()
                         .collectLatest {
+                            Log.d(TAG, "updateUiProfile: $it")
                             tvDesProfile.text = it.ifEmpty { "..." }
                         }
                 }
@@ -128,15 +72,23 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
                     sharedViewModel.getSharedFlowBasicInformation()
                         .distinctUntilChanged()
                         .collectLatest {
+                            binding.apply {
+                                lyLoading.toGone()
+                                lyProfile.toVisible()
+                            }
                             tvName.text = it[0] as String
                         }
                 }
-                data.images?.let {
-                    GlideApp.loadImage(it[0], icAvatar, this@FragmentProfile)
-                    profileImageAdapter.submitList(it)
+                launchRepeatOnLifeCycleWhenResumed {
+                    sharedViewModel.getSharedFlowImage()
+                        .distinctUntilChanged()
+                        .collectLatest {
+                            GlideApp.loadImage(it[0], icAvatar, this@FragmentProfile)
+                            profileImageAdapter.submitList(it)
+                        }
                 }
             }
-        }
+
     }
 
     private fun handleEvent() {
@@ -154,9 +106,5 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    override fun onDestroyView() {
-        authViewModel.resetStateGetUserProfile()
-        super.onDestroyView()
-    }
 
 }

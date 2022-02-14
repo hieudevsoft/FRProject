@@ -1,7 +1,9 @@
 package com.devapp.fr.util.extensions
 
+import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -31,3 +33,5 @@ fun Fragment.launchRepeatOnLifeCycleWhenResumed(callBack:suspend (CoroutineScope
         }
     }
 }
+
+
