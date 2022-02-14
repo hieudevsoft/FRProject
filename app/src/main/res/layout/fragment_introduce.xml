@@ -3,21 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="@dimen/LARGEST_SPACE"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.information.FragmentIntroduce">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/img_introduce"
-        android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="@dimen/_180sdp"
+    <FrameLayout
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:srcCompat="@drawable/img_introduce" />
+        android:id="@+id/img_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/_180sdp"
+            app:srcCompat="@drawable/img_introduce" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_back"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ImageButtonBack.Style.Normal"
+            />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_title"

@@ -14,8 +14,8 @@ import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentLoginBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
-import com.devapp.fr.ui.viewmodels.AuthViewModel
-import com.devapp.fr.util.CustomDialog
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.NetworkHelper
 import com.devapp.fr.util.UiHelper.hideKeyboard
 import com.devapp.fr.util.UiHelper.showSnackbar
@@ -30,7 +30,7 @@ import javax.inject.Inject
 class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
     val TAG = "FragmentLogin"
     private lateinit var dialogLoading: CustomDialog
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthAndProfileViewModel by viewModels()
     @Inject
     lateinit var prefs:SharedPreferencesHelper
     override fun onAttach(context: Context) {

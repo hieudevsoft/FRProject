@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentMainViewPager">
+    app:startDestination="@id/fragmentViewOtherProfile">
 
     <fragment
         android:id="@+id/fragmentMainViewPager"
@@ -168,6 +168,34 @@
             app:popExitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentEditProfile_to_fragmentCertificate"
             app:destination="@id/fragmentCertificate" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentIntroduce"
+            app:destination="@id/fragmentIntroduce" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentInterest"
+            app:destination="@id/fragmentInterest" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentUserJob"
+            app:destination="@id/fragmentUserJob" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentBasicInformation"
+            app:destination="@id/fragmentBasicInformation" />
     </fragment>
     <fragment
         app:enterAnim="@anim/anim_slide_in_left"
@@ -194,6 +222,10 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDrink"
@@ -204,6 +236,10 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMaritalStatus"
@@ -214,6 +250,9 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentChooseGender"
@@ -224,6 +263,9 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSmoke"
@@ -234,6 +276,9 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
 
     <fragment
@@ -245,6 +290,9 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
 
     <fragment
@@ -256,6 +304,9 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCertificate"
@@ -266,6 +317,66 @@
             android:defaultValue="false"
             android:name="isSingleNavigate"
             app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentIntroduce"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentIntroduce"
+        android:label="fragment_introduce"
+        tools:layout="@layout/fragment_introduce" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:defaultValue=""
+            android:name="id"
+            app:argType="string"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentInterest"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentInterest"
+        android:label="fragment_interest"
+        tools:layout="@layout/fragment_interest" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentUserJob"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentUserJob"
+        android:label="fragment_user_job"
+        tools:layout="@layout/fragment_user_job" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_basic_information"
+        android:id="@+id/fragmentBasicInformation"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentBasicInformation"
+        android:label="FragmentBasicInformation" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentViewOtherProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
+        android:label="FragmentViewOtherProfile" />
 
 </navigation>

@@ -22,6 +22,8 @@ import com.devapp.fr.util.storages.SharedPreferencesHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
@@ -150,13 +152,14 @@ class FragmentDateOfBirth : BaseFragment<FragmentFramentDateOfBirthBinding>() {
             }
         }
         binding.btnContinue.setOnClickListener {
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
             jobButton.cancel()
             it.startAnimClick()
             val date = "${binding.edtItem1Day.getStringText()}${binding.edtItem2Day.getStringText()}/" +
                     "${binding.edtItem1Month.getStringText()}${binding.edtItem2Month.getStringText()}/" +
                     "${binding.edtItem1Year.getStringText()}${binding.edtItem2Year.getStringText()}" +
                     "${binding.edtItem3Year.getStringText()}${binding.edtItem4Year.getStringText()}"
-            if(Validation.validateDobField(date)){
+            if(Validation.validateDobField(date) && ((simpleDateFormat.parse(date).time/Calendar.getInstance().time.time))<1){
                 sharedPref.saveProcessRegister(2)
                 Log.d(TAG, "handleEvent: $date ${Validation.validateDobField(date)}")
                 sharedPref.saveDobConfig(date)

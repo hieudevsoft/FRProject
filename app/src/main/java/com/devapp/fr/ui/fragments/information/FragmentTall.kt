@@ -12,24 +12,38 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentTallBinding
+import com.devapp.fr.network.ResourceRemote
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
+import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentTall : BaseFragment<FragmentTallBinding>() {
     val TAG = "FragmentTall"
     private val args: FragmentTallArgs by navArgs()
+    @Inject
+    lateinit var prefs:SharedPreferencesHelper
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
+    private lateinit var dialogLoading: CustomDialog
     override fun onSetupView() {
+        dialogLoading = CustomDialog(R.layout.dialog_loading)
+        subscribeObserver()
         binding.apply {
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 @SuppressLint("SetTextI18n")
@@ -76,13 +90,52 @@ class FragmentTall : BaseFragment<FragmentTallBinding>() {
         if (args.isSingleNavigate) binding.ibBack.toVisible()
         binding.ibBack.setOnClickWithAnimationListener {
             if (binding.radio.isChecked) {
+                authAndProfileViewModel.updateAdditionalInformation(prefs.readIdUserLogin()!!,"tall",-1)
                 sharedViewModel.setSharedFlowTall(-1)
             } else {
                 sharedViewModel.setSharedFlowTall(binding.seekBar.progress)
+                authAndProfileViewModel.updateAdditionalInformation(prefs.readIdUserLogin()!!,"tall",binding.seekBar.progress)
             }
-            findNavController().popBackStack()
         }
         super.onViewCreated(view, savedInstanceState)
     }
+
+    private fun subscribeObserver() {
+        launchRepeatOnLifeCycleWhenStarted {
+            authAndProfileViewModel.stateAdditionalInformation.collect {
+                when (it) {
+                    is ResourceRemote.Loading -> {
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success -> {
+                        dialogLoading.dismiss()
+                        if (binding.radio.isChecked) {
+                            sharedViewModel.setSharedFlowTall(-1)
+                        } else {
+                            sharedViewModel.setSharedFlowTall(binding.seekBar.progress)
+                        }
+                        showToast("Cập nhật thành công ~")
+                        findNavController().popBackStack()
+                    }
+
+                    is ResourceRemote.Error -> {
+                        showToast("Có lỗi xảy ra ~")
+                        findNavController().popBackStack()
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        authAndProfileViewModel.resetStateAdditionalInformation()
+        super.onDestroyView()
+    }
+
 
 }

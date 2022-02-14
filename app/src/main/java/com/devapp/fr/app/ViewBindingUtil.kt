@@ -81,3 +81,5 @@ internal fun <V : ViewBinding> BaseFragment<V>.getBinding(
 ): V {
     return findClass().getBinding(inflater, container)
 }
+
+

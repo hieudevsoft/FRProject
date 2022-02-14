@@ -96,4 +96,14 @@ internal object DataHelper {
         InformationItem(R.drawable.ic_certificate,"Học vấn",""),
         InformationItem(R.drawable.ic_personality,"Tính cách",""),
     )
+
+    internal fun getListSexuality() = listOf(
+        RadioItem("Chat và gặp gỡ người mới"),
+        RadioItem("Hẹn hò"),
+        RadioItem("Hẹn hò nghiêm túc"),
+        RadioItem("Xem điều gì xảy ra"),
+        RadioItem("Tìm mối quan hệ lâu dài"),
+        RadioItem("Tôi không muốn nói"),
+    )
+
 }
