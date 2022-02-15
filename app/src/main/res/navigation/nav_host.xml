@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentMainViewPager">
+    app:startDestination="@id/fragmentQuiz">
 
     <fragment
         android:id="@+id/fragmentMainViewPager"
@@ -105,6 +105,10 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentQuiz"
+        android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuiz"
+        android:label="FragmentQuiz" />
 
 
 </navigation>

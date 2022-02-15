@@ -3,7 +3,7 @@ buildscript {
 
     //Define version for libs
     ext {
-        safe_arg_sersion = "2.4.0-beta02"
+        safe_arg_sersion = "2.5.0-alpha01"
         dagger_hilt_version = "2.38.1"
         gps_version = "1.1.1"
         room_version = "2.3.0"
@@ -36,7 +36,7 @@ buildscript {
         maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safe_arg_sersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
