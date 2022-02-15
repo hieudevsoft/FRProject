@@ -8,6 +8,7 @@ import com.devapp.fr.network.FireStoreService
 import com.devapp.fr.network.ResourceRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -131,11 +132,50 @@ class AuthAndProfileViewModel @Inject constructor(
     fun resetSateGetAllProfileSwipe() {
         _sateGetAllProfileSwipe.value = ResourceRemote.Idle
     }
-    fun getAllProfileSwipe(id:String,gender:Int,limit:Long){
+    fun getAllProfileSwipe(ids:List<String>,gender:Int,limit:Long){
         _sateGetAllProfileSwipe.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _sateGetAllProfileSwipe.value = fireStoreService.getAllUserProfileByLimit(id, gender,limit)
+            _sateGetAllProfileSwipe.value = fireStoreService.getAllUserProfileByLimit(ids, gender,limit)
         }
     }
 
+    //get all profile by not equals gender,id and limit result
+    private val _sateSendNotificationToPartner:MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(ResourceRemote.Idle)
+    val sateSendNotificationToPartner:StateFlow<ResourceRemote<String>> = _sateSendNotificationToPartner
+    fun resetSateSendNotificationToPartner() {
+        _sateSendNotificationToPartner.value = ResourceRemote.Idle
+    }
+    fun sendNotificationsToPartner(partnerId:String,ownerId:String){
+        _sateSendNotificationToPartner.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _sateSendNotificationToPartner.value = fireStoreService.sendNotificationForPartner(partnerId,ownerId)
+        }
+    }
+
+    //get all profile by owner waiting accept
+    fun getAllProfileWaitingAccept(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
+        viewModelScope.launch {
+            fireStoreService.getAllUserWaitingAcceptById(id,Dispatchers.IO,snapshotCallBack)
+        }
+    }
+
+    //get all profile by owner match
+    fun getAllProfileMatch(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
+        viewModelScope.launch {
+            fireStoreService.getAllUserSendNotificationToMe(id,Dispatchers.IO,snapshotCallBack)
+        }
+    }
+
+    //accept or cancel Notification
+    private val _stateAcceptOrCancel:MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateAcceptOrCancel:StateFlow<ResourceRemote<String>> = _stateAcceptOrCancel
+    fun resetSateAcceptOrCancel() {
+        _stateAcceptOrCancel.value = ResourceRemote.Idle
+    }
+    fun acceptOrCancel(partnerId:String,ownerId:String,isAccept:Boolean){
+        _stateAcceptOrCancel.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateAcceptOrCancel.value = fireStoreService.acceptOrCancelInviteMatch(partnerId,ownerId,isAccept)
+        }
+    }
 }

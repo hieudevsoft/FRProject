@@ -9,39 +9,44 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
-import com.devapp.fr.app.DarkTheme
-import com.devapp.fr.app.LightTheme
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
-import com.devapp.fr.ui.fragments.FragmentMainViewPager
-import com.devapp.fr.ui.fragments.FragmentMainViewPagerDirections
+import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper.findOnClickListener
+import com.devapp.fr.util.UiHelper.toGone
+import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
-import com.dolatkia.animatedThemeManager.Coordinate
 import com.dolatkia.animatedThemeManager.ThemeFragment
-import com.dolatkia.animatedThemeManager.ThemeManager
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
 
-
-class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(){
+@AndroidEntryPoint
+class FragmentSettings(private val eventListener: EventListener) : ThemeFragment() {
     val TAG = "FragmentSettings"
-    private var _binding:FragmentSettingsBinding?=null
+    private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private lateinit var dataStore: DataStore<Preferences>
-    interface EventListener{
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    interface EventListener {
         fun onCardProfileClickListener()
         fun onCardLogoutClickListener()
+        fun onCardWaitingAcceptClickListener()
+        fun onCardNotificationMatchClickListener()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +65,7 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //Init SharedPreferencesHelper
-        sharedPreferencesHelper= SharedPreferencesHelper(requireParentFragment().requireContext())
+        sharedPreferencesHelper = SharedPreferencesHelper(requireParentFragment().requireContext())
 
         //Setup Theme
         lifecycleScope.launchWhenStarted {
@@ -78,7 +83,37 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
         //Handle event elements
         handleEventElement()
 
+        subscriberObserver()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun subscriberObserver() {
+        launchRepeatOnLifeCycleWhenCreated{
+            sharedViewModel.getSharedFlowListUserWaitingAccept()
+                .distinctUntilChanged()
+                .collect {
+                    if (it.isNotEmpty()) {
+                        binding.apply {
+                            tvNumberWaitingAccept.toVisible()
+                            tvNumberWaitingAccept.text =
+                                if (it.size > 99) "99+" else it.size.toString()
+                        }
+                    } else binding.tvNumberWaitingAccept.toGone()
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            sharedViewModel.getSharedFlowListUserMatch()
+                .distinctUntilChanged()
+                .collect {
+                    if (it.isNotEmpty()) {
+                        binding.apply {
+                            tvCountMatch.toVisible()
+                            tvCountMatch.text = if (it.size > 99) "99+" else it.size.toString()
+                        }
+                    } else binding.tvCountMatch.toGone()
+                }
+        }
     }
 
 
@@ -97,17 +132,32 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
 //            ThemeManager.instance.changeTheme(LightTheme(), Coordinate(300,300),600)
 //            else ThemeManager.instance.changeTheme(DarkTheme(), Coordinate(300,300),600)
 //        }
-        findOnClickListener(binding.cardLogout,binding.cardShowProfile){
-            when(this){
-                binding.cardLogout->{
+        findOnClickListener(
+            binding.lyNotifications,
+            binding.cardLogout,
+            binding.cardShowProfile,
+            binding.lyWaitingAccept
+        ) {
+            when (this) {
+                binding.cardLogout -> {
                     binding.cardLogout.startAnimClick()
                     sharedPreferencesHelper.saveIsLogin(false)
-                    Toast.makeText(requireActivity(), "Đăng xuất thành công ~", Toast.LENGTH_SHORT).show()
+                    sharedPreferencesHelper.saveIdUserLogin("")
+                    Toast.makeText(requireActivity(), "Đăng xuất thành công ~", Toast.LENGTH_SHORT)
+                        .show()
                     eventListener.onCardLogoutClickListener()
                 }
-                binding.cardShowProfile->{
+                binding.cardShowProfile -> {
                     binding.cardShowProfile.startAnimClick()
                     eventListener.onCardProfileClickListener()
+                }
+                binding.lyWaitingAccept -> {
+                    binding.lyWaitingAccept.startAnimClick()
+                    eventListener.onCardWaitingAcceptClickListener()
+                }
+                binding.lyNotifications -> {
+                    binding.lyNotifications.startAnimClick()
+                    eventListener.onCardNotificationMatchClickListener()
                 }
             }
         }
@@ -119,10 +169,10 @@ class FragmentSettings(private val eventListener:EventListener) : ThemeFragment(
 //        }
 //    }
 
-    private fun setupTheme(isDarkMode:Boolean) {
-        if(isDarkMode){
+    private fun setupTheme(isDarkMode: Boolean) {
+        if (isDarkMode) {
             // DARK MODE
-        } else{
+        } else {
             //LIGHT MODE
         }
     }

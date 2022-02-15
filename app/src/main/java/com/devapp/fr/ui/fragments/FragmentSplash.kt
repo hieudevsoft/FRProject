@@ -19,7 +19,9 @@ import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.animations.PageTransformHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.UiHelper
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentSplash : Fragment(R.layout.fragment_splash) {
 
     private var _binding: FragmentSplashBinding? = null

@@ -29,10 +29,12 @@ import com.devapp.fr.databinding.ActivityMainBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.util.Constants
 import com.devapp.fr.util.DataHelper
 import com.devapp.fr.util.UiHelper.setColorStatusBar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.DataStoreHelper
@@ -95,7 +97,13 @@ class MainActivity : ThemeActivity() {
         saveStateLogin()
 
         //get userprofile
-        prefs.readIdUserLogin()?.let { authViewModel.getUserProfile(it) }
+        prefs.readIdUserLogin()?.let {
+            authViewModel.getUserProfile(it)
+            authViewModel.getAllProfileMatch(it){
+                sharedViewModel.setSharedFlowListUserMatch(it)
+            }
+        }
+
         subscribeObserver()
     }
 
@@ -111,6 +119,11 @@ class MainActivity : ThemeActivity() {
                         is ResourceRemote.Success -> {
                             user = it.data
                             updateSharedViewModel(it.data)
+                            authViewModel.getAllProfileWaitingAccept(it.data!!.id){
+                                val listIds = it.map { it.id }.toMutableList().also { it.add(prefs.readIdUserLogin().toString()) }
+                                authViewModel.getAllProfileSwipe(listIds,user!!.gender, Constants.LIMIT_REQUEST_SWIPE)
+                                sharedViewModel.setSharedFlowListUserWaitingAccept(it)
+                            }
                             Log.d(TAG, "observer user: ${it.data?.name}")
                         }
 
@@ -121,10 +134,10 @@ class MainActivity : ThemeActivity() {
 
                         }
                     }
-
                 }
             }
         }
+
     }
 
     private fun updateSharedViewModel(data: UserProfile?) {
@@ -135,9 +148,9 @@ class MainActivity : ThemeActivity() {
             sharedViewModel.setSharedFlowInterest(data.interests?: mutableListOf())
             sharedViewModel.setSharedFlowIntroduce(data.bio)
             sharedViewModel.setSharedFlowImage(data.images?: emptyList())
+            sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())
 
             data.additionInformation?.let {
-                sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())
                 sharedViewModel.setPositionInformation(-1)
                 sharedViewModel.setSharedFlowTall(it.tall+1001)
                 sharedViewModel.setSharedFlowChild(it.child+1001)
@@ -154,6 +167,7 @@ class MainActivity : ThemeActivity() {
 
     override fun onDestroy() {
         authViewModel.resetStateGetUserProfile()
+        authViewModel.resetSateGetAllProfileSwipe()
         super.onDestroy()
     }
 
@@ -216,5 +230,6 @@ class MainActivity : ThemeActivity() {
         }
         binding.root.background = color
     }
+
 
 }

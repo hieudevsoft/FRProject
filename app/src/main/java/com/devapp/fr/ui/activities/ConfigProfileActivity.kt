@@ -58,7 +58,7 @@ class ConfigProfileActivity : AppCompatActivity() {
             6-> navHostFragment.findNavController().navigate(R.id.fragmentImage)
             7-> navHostFragment.findNavController().navigate(R.id.fragmentTerms)
             else->{
-                startActivity(Intent(this,InformationUserActivity::class.java))
+                navHostFragment.findNavController().navigate(R.id.fragmentTerms)
             }
         }
     }
