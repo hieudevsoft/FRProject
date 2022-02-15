@@ -3,11 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-<<<<<<< HEAD
+
     app:startDestination="@id/fragmentQuiz">
-=======
-    app:startDestination="@id/fragmentViewOtherProfile">
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
 
     <fragment
         android:id="@+id/fragmentMainViewPager"

@@ -48,6 +48,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
     var mChar5 : String = ""
     var userPersonalities : String = ""
 
+    private lateinit var question1 : QuizData
+    private lateinit var question2 : QuizData
+    private lateinit var question3 : QuizData
+
+
     override fun onSetupView() {
         mQuestionList = QuizConstants.getQuestion()
         setQuestion()
@@ -56,12 +61,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
 
 
 
-
     }
     private fun setQuestion() {
-        val question1 = mQuestionList!![mCurrentPosition - 3]
-        val question2 = mQuestionList!![mCurrentPosition - 2]
-        val question3 = mQuestionList!![mCurrentPosition - 1]
+        question1 = mQuestionList!![mCurrentPosition - 3]
+        question2 = mQuestionList!![mCurrentPosition - 2]
+        question3 = mQuestionList!![mCurrentPosition - 1]
         binding.txQuiz1.text = question1.question.toString()
         binding.txQuiz2.text = question2.question.toString()
         binding.txQuiz3.text = question3.question.toString()
@@ -70,9 +74,9 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
     private fun calculate( ) {
         //Display questions
 
-            val question1 = mQuestionList!![mCurrentPosition - 3]
-            val question2 = mQuestionList!![mCurrentPosition - 2]
-            val question3 = mQuestionList!![mCurrentPosition - 1]
+            question1 = mQuestionList!![mCurrentPosition - 3]
+            question2 = mQuestionList!![mCurrentPosition - 2]
+            question3 = mQuestionList!![mCurrentPosition - 1]
 
 
 
@@ -1319,13 +1323,13 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     Prospecting += mProspecting[0] + mProspecting[1] + mProspecting[2]
                     Assertive += mAssertive[0] + mAssertive[1] + mAssertive[2]
                     Turbulent += mTurbulent[0] + mTurbulent[1] + mTurbulent[2]
-                    Toast.makeText(
-                        requireActivity(),
-                        "Introvert $Introvert Extravert $Extravert Intuitive $Intuitive Observant $Observant" +
-                                "Thinking $Thinking Feeling $Feeling Judging $Judging Prospecting $Prospecting Assertive $Assertive TUrbulent $Turbulent",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+//                    Toast.makeText(
+//                        requireActivity(),
+//                        "Introvert $Introvert Extravert $Extravert Intuitive $Intuitive Observant $Observant" +
+//                                "Thinking $Thinking Feeling $Feeling Judging $Judging Prospecting $Prospecting Assertive $Assertive TUrbulent $Turbulent",
+//                        Toast.LENGTH_LONG
+//                    )
+//                        .show()
 
                 }
                 else {

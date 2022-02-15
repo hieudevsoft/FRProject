@@ -4,7 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
-<<<<<<< HEAD
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/drawable-v24/custom_button_quiz_circle_disagree_selected.xml" value="0.157" />
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/drawable-v24/custom_button_quiz_circle_neutral_selected.xml" value="0.157" />
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/drawable/custom_button_quiz_circle.xml" value="0.18" />
@@ -16,22 +15,14 @@
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/drawable/ic_check_done.xml" value="0.157" />
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/activity_main.xml" value="0.1875" />
         <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/fragment_quiz.xml" value="0.25" />
+        <entry key="..\:/Android/Project/FRProject/app/src/main/res/layout/fragment_quiz_result.xml" value="0.2864471996579735" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15092592592592594" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_background_send.xml" value="0.22685185185185186" />
-=======
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15092592592592594" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/circle_text_view.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_background_send.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_background_send_message.xml" value="0.25384615384615383" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_avatar.xml" value="0.23076923076923078" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_btn_add_person.xml" value="0.25384615384615383" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_button_login.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_button_login_back_dark.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_button_login_back_light.xml" value="0.23076923076923078" />
-<<<<<<< HEAD
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_item_setting.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_profile_dark.xml" value="0.22685185185185186" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_rounded_6.xml" value="0.22685185185185186" />
@@ -43,16 +34,6 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_check_done.xml" value="0.22407407407407406" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_close.xml" value="0.23025641025641025" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_eye.xml" value="0.22407407407407406" />
-=======
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_button_login_disable.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_edittext_login.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_edittext_login_focus.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_item_setting.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_rounded_6.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_view_other_profile.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_bg_view_photo.xml" value="0.25384615384615383" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/custom_cursor.xml" value="0.25384615384615383" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_food.xml" value="0.15092592592592594" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_heart.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_heart_broken.xml" value="0.22407407407407406" />
@@ -60,7 +41,6 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_light_night.xml" value="0.22407407407407406" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_logout.xml" value="0.22407407407407406" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_next.xml" value="0.23076923076923078" />
-<<<<<<< HEAD
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/drawable/ic_replay.xml" value="0.23076923076923078" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/activity_config_profile.xml" value="0.21557971014492755" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/activity_main.xml" value="0.21195652173913043" />
@@ -69,12 +49,6 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_edit_profile.xml" value="0.21822916666666667" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_email.xml" value="0.21195652173913043" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_login.xml" value="0.21195652173913043" />
-=======
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/activity_information_user.xml" value="0.24166666666666667" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_basic_information.xml" value="0.24166666666666667" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_chats.xml" value="0.12183383991894631" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_main_view_pager.xml" value="0.12183383991894631" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_myprofile.xml" value="0.264" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_nick_name.xml" value="0.21195652173913043" />
@@ -84,16 +58,8 @@
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_splash.xml" value="0.12183383991894631" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/fragment_view_profile.xml" value="0.264" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_information.xml" value="0.24166666666666667" />
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_layout_slide.xml" value="0.2" />
-<<<<<<< HEAD
         <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_tag_hobby.xml" value="0.4" />
-=======
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_other_information.xml" value="0.264" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/item_photos.xml" value="0.24166666666666667" />
-        <entry key="..\:/Apps/Android/FRProject/app/src/main/res/layout/layout_dialog_sexuality.xml" value="0.24166666666666667" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.1814814814814815" />
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_focuss.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/drawable/custom_background_send.xml" value="0.14375" />
@@ -125,51 +91,16 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_loves.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/fragment_main_view_pager.xml" value="0.1" />
-<<<<<<< HEAD
         <entry key="app/src/main/res/layout/fragment_nick_name.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_process_config.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.15" />
-=======
-        <entry key="app/src/main/res/layout/fragment_marital_status.xml" value="0.26927083333333335" />
-        <entry key="app/src/main/res/layout/fragment_myprofile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_nick_name.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_other_profile.xml" value="0.10235507246376811" />
-        <entry key="app/src/main/res/layout/fragment_password.xml" value="0.2554347826086957" />
-        <entry key="app/src/main/res/layout/fragment_pet.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_process_config.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_religion.xml" value="0.276268115942029" />
-        <entry key="app/src/main/res/layout/fragment_school.xml" value="0.1921875" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.33" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.16" />
         <entry key="app/src/main/res/layout/item_chat_image_me.xml" value="2.4313725490196076" />
         <entry key="app/src/main/res/layout/item_chat_image_partner.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_me.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_chat_partner.xml" value="0.5" />
-<<<<<<< HEAD
         <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
-=======
-        <entry key="app/src/main/res/layout/item_image_profile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_information.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/item_layout_slide.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/item_tag_hobby.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/item_tag_interest.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/item_voice_me.xml" value="0.32864583333333336" />
-        <entry key="app/src/main/res/layout/item_voice_partner.xml" value="1.1" />
-        <entry key="app/src/main/res/layout/layout_chat_voice.xml" value="0.26403985507246375" />
-        <entry key="app/src/main/res/layout/layout_chat_voice_me.xml" value="0.33" />
-<<<<<<< HEAD
-        <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.19610507246376813" />
-=======
-        <entry key="app/src/main/res/layout/layout_dialog_sexuality.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/layout_item_card.xml" value="0.9" />
->>>>>>> 2815fc296fe87a57a1308873a2a8ab7f57da8b77
-        <entry key="app/src/main/res/layout/layout_item_radio.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/mask_layout.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/test.xml" value="0.33" />
->>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
         <entry key="app/src/main/res/menu/menu_tabs.xml" value="0.140625" />
       </map>
     </option>
