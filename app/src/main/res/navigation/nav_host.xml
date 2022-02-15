@@ -362,6 +362,7 @@
             app:argType="string" />
     </fragment>
     <fragment
+<<<<<<< HEAD
         android:id="@+id/fragmentWaitingAccept"
         android:name="com.devapp.fr.ui.fragments.others.FragmentWaitingAccept"
         android:label="fragment_waiting_accept"
@@ -373,5 +374,10 @@
         android:name="com.devapp.fr.ui.fragments.others.FragmentNotificationMatch"
         android:label="fragment_notification_match"
         tools:layout="@layout/fragment_notification_match" />
+        <fragment
+        android:id="@+id/fragmentViewOtherProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
+        android:label="FragmentViewOtherProfile" />
+
 
 </navigation>

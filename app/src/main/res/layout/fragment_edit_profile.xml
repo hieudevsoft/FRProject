@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/LARGE_SPACE"
                     android:clickable="true"
                     android:src="@drawable/ic_close"
                     app:tint="@color/black"
