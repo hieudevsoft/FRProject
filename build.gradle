@@ -36,8 +36,10 @@ buildscript {
         maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
+
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safe_arg_sersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
         classpath 'com.google.gms:google-services:4.3.10'

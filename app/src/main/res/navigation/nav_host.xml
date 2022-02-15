@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
+<<<<<<< HEAD
     app:startDestination="@id/fragmentQuiz">
+=======
+    app:startDestination="@id/fragmentViewOtherProfile">
+>>>>>>> 23b0764f502b8d22e54d01ab94b1a85aae2c6689
 
     <fragment
         android:id="@+id/fragmentMainViewPager"
@@ -104,11 +109,282 @@
             android:defaultValue=""
             android:name="id"
             app:argType="string" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentTall"
+            app:destination="@id/fragmentTall" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentChild"
+            app:destination="@id/fragmentChild" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentDrink"
+            app:destination="@id/fragmentDrink" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentMaritalStatus"
+            app:destination="@id/fragmentMaritalStatus" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentChooseGender"
+            app:destination="@id/fragmentChooseGender" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentSmoke"
+            app:destination="@id/fragmentSmoke" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentPet"
+            app:destination="@id/fragmentPet" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_FragmentReligion"
+            app:destination="@id/FragmentReligion" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentCertificate"
+            app:destination="@id/fragmentCertificate" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentIntroduce"
+            app:destination="@id/fragmentIntroduce" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentInterest"
+            app:destination="@id/fragmentInterest" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentUserJob"
+            app:destination="@id/fragmentUserJob" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            app:popEnterAnim="@anim/anim_slide_in_right"
+            app:popExitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentEditProfile_to_fragmentBasicInformation"
+            app:destination="@id/fragmentBasicInformation" />
+    </fragment>
+    <fragment
+        app:enterAnim="@anim/anim_slide_in_left"
+        app:exitAnim="@anim/anim_slide_out_right"
+        app:popEnterAnim="@anim/anim_slide_in_right"
+        app:popExitAnim="@anim/anim_slide_out_left"
+        android:id="@+id/fragmentTall"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentTall"
+        android:label="fragment_tall"
+        tools:layout="@layout/fragment_tall" >
+
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentChild"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentChild"
+        android:label="fragment_child"
+        tools:layout="@layout/fragment_child" >
+
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDrink"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentDrink"
+        android:label="fragment_drink"
+        tools:layout="@layout/fragment_drink" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMaritalStatus"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentMaritalStatus"
+        android:label="fragment_marital_status"
+        tools:layout="@layout/fragment_marital_status" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentChooseGender"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentChooseGender"
+        android:label="fragment_choose_gender"
+        tools:layout="@layout/fragment_choose_gender" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSmoke"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentSmoke"
+        android:label="fragment_smoke"
+        tools:layout="@layout/fragment_smoke" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/fragmentQuiz"
         android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuiz"
         android:label="FragmentQuiz" />
 
+    <fragment
+        android:id="@+id/fragmentPet"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentPet"
+        android:label="fragment_pet"
+        tools:layout="@layout/fragment_pet" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragmentReligion"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentReligion"
+        android:label="fragment_religion"
+        tools:layout="@layout/fragment_religion" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCertificate"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentCertificate"
+        android:label="fragment_certificate"
+        tools:layout="@layout/fragment_certificate" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentIntroduce"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentIntroduce"
+        android:label="fragment_introduce"
+        tools:layout="@layout/fragment_introduce" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:defaultValue=""
+            android:name="id"
+            app:argType="string"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentInterest"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentInterest"
+        android:label="fragment_interest"
+        tools:layout="@layout/fragment_interest" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="selected"
+            android:defaultValue="-1" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentUserJob"
+        android:name="com.devapp.fr.ui.fragments.information.FragmentUserJob"
+        android:label="fragment_user_job"
+        tools:layout="@layout/fragment_user_job" >
+        <argument
+            android:defaultValue="false"
+            android:name="isSingleNavigate"
+            app:argType="boolean"/>
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_basic_information"
+        android:id="@+id/fragmentBasicInformation"
+        android:name="com.devapp.fr.ui.fragments.configProfile.FragmentBasicInformation"
+        android:label="FragmentBasicInformation" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentViewOtherProfile"
+        android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
+        android:label="FragmentViewOtherProfile" />
 
 </navigation>

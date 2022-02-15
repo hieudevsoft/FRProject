@@ -7,13 +7,14 @@ import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.network.FireStoreService
 import com.devapp.fr.network.ResourceRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthAndProfileViewModel @Inject constructor(
     private val app:Application,
     private val fireStoreService:FireStoreService
 ):AndroidViewModel(app) {
@@ -82,6 +83,58 @@ class AuthViewModel @Inject constructor(
         _stateLogin.value = ResourceRemote.Loading
         viewModelScope.launch {
             _stateLogin.value = fireStoreService.loginWithEmailAndPassword(email,password)
+        }
+    }
+
+    //update basic information
+    private val _stateBasicInformation:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateBasicInformation:StateFlow<ResourceRemote<Boolean>> = _stateBasicInformation
+    fun resetStateBasicInformation() {
+        _stateBasicInformation.value = ResourceRemote.Idle
+    }
+    fun updateBasicInformation(id:String,mapBasicInformation:HashMap<Int,Any>){
+        _stateBasicInformation.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateBasicInformation.value = fireStoreService.updateBasicInformation(id,mapBasicInformation)
+        }
+    }
+
+    //update by field name
+    private val _stateFieldName:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateFieldName:StateFlow<ResourceRemote<Boolean>> = _stateFieldName
+    fun resetStateFieldName() {
+        _stateFieldName.value = ResourceRemote.Idle
+    }
+    fun <T> updateByFiledName(id:String,fieldName:String,data:T){
+        _stateFieldName.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateFieldName.value = fireStoreService.updateFieldByName(id,fieldName,data)
+        }
+    }
+
+    //update additional information by field name
+    private val _stateAdditionalInformation:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
+    val stateAdditionalInformation:StateFlow<ResourceRemote<Boolean>> = _stateAdditionalInformation
+    fun resetStateAdditionalInformation() {
+        _stateAdditionalInformation.value = ResourceRemote.Idle
+    }
+    fun updateAdditionalInformation(id:String,fieldName:String,data:Int){
+        _stateAdditionalInformation.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateAdditionalInformation.value = fireStoreService.updateFieldAdditionalInformation(id,fieldName,data)
+        }
+    }
+
+    //get all profile by not equals gender,id and limit result
+    private val _sateGetAllProfileSwipe:MutableStateFlow<ResourceRemote<List<UserProfile>>> = MutableStateFlow(ResourceRemote.Idle)
+    val sateGetAllProfileSwipe:StateFlow<ResourceRemote<List<UserProfile>>> = _sateGetAllProfileSwipe
+    fun resetSateGetAllProfileSwipe() {
+        _sateGetAllProfileSwipe.value = ResourceRemote.Idle
+    }
+    fun getAllProfileSwipe(id:String,gender:Int,limit:Long){
+        _sateGetAllProfileSwipe.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _sateGetAllProfileSwipe.value = fireStoreService.getAllUserProfileByLimit(id, gender,limit)
         }
     }
 

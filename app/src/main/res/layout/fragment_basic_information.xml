@@ -1,13 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.edits.FragmentBasicInformation">
-
-    <TextView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="0dp"
+        app:elevation="0dp">
 
-</FrameLayout>
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="@string/edit_profile">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_close"
+                    app:tint="@color/black"
+                    app:useMaterialThemeColors="true" />
+
+                <TextView
+                    android:id="@+id/tv_edit_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nunito_extra_bold"
+                    android:gravity="center"
+                    android:text="Thông tin cá nhân"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20sdp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/btn_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_check_done"
+                    app:tint="@color/black"
+                    app:useMaterialThemeColors="true" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:fillViewport="true"
+        android:id="@+id/nestedScrollView"
+        android:measureAllChildren="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/MEDIUM_SPACE">
+
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/varelaround_regular"
+                android:hint="Tên"
+                android:paddingStart="@dimen/PADDING_SMALL"
+                android:paddingTop="@dimen/LARGE_SPACE"
+                android:paddingBottom="@dimen/LARGEST_SPACE"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSize="@dimen/TEXT_SIZE_SMALL"/>
+
+            <EditText
+                android:id="@+id/edt_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/varelaround_regular"
+                android:hint="Sinh nhật"
+                android:paddingStart="@dimen/PADDING_SMALL"
+                android:paddingTop="@dimen/LARGE_SPACE"
+                android:paddingBottom="@dimen/LARGEST_SPACE"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSize="@dimen/TEXT_SIZE_SMALL"/>
+
+            <EditText
+                android:id="@+id/edt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/MEDIUM_SPACE"
+                android:fontFamily="@font/varelaround_regular"
+                android:hint="Địa chỉ"
+                android:paddingStart="@dimen/PADDING_SMALL"
+                android:paddingTop="@dimen/LARGE_SPACE"
+                android:paddingBottom="@dimen/LARGEST_SPACE"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:textSize="@dimen/TEXT_SIZE_SMALL"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_gender"
+                app:singleSelection="true"
+                android:layout_width="match_parent"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/male"
+                    style="@style/CustomChipStyleLanguage"
+                    android:text="Nam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/female"
+                    style="@style/CustomChipStyleLanguage"
+                    android:text="Nữ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.chip.ChipGroup>
+
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

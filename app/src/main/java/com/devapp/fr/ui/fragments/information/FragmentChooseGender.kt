@@ -1,43 +1,99 @@
 package com.devapp.fr.ui.fragments.information
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.devapp.fr.R
 import com.devapp.fr.adapters.RadioAdapter
 import com.devapp.fr.app.BaseFragment
-import com.devapp.fr.data.models.items.RadioItem
 import com.devapp.fr.databinding.FragmentChooseGenderBinding
+import com.devapp.fr.network.ResourceRemote
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.util.DataHelper.getListGender
+import com.devapp.fr.util.UiHelper.toVisible
+import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
+import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
     val TAG = "FragmentChooseGender"
     private lateinit var radioAdapter:RadioAdapter
+    private val args:FragmentChooseGenderArgs by navArgs()
+    private val sharedViewModel:SharedViewModel by activityViewModels()
+    private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
+    private lateinit var dialogLoading: CustomDialog
+    private var currentPositionChoose = -1
+    @Inject
+    lateinit var prefs: SharedPreferencesHelper
     override fun onSetupView() {
+        dialogLoading = CustomDialog(R.layout.dialog_loading)
+        subscribeObserver()
         radioAdapter = RadioAdapter {
-            index,isChecked->
-            Log.d(TAG, "onSetupView: $index,$isChecked")
+                index, _ ->
+            currentPositionChoose = index
         }
         binding.rcvGender.apply {
             itemAnimator = null
             adapter = radioAdapter
         }
-        radioAdapter.submitList(getListGender())
-
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (args.isSingleNavigate) binding.ibBack.toVisible()
+        if (args.selected!=-1) {
+            val listSubmit = getListGender()
+                .also { it[args.selected].isChecked = true }
+            radioAdapter.submitList(listSubmit)
+        } else radioAdapter.submitList(getListGender())
+
+        binding.ibBack.setOnClickWithAnimationListener {
+            authAndProfileViewModel.updateAdditionalInformation(prefs.readIdUserLogin()!!,"trueGender",currentPositionChoose)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getListGender() = listOf(
-        RadioItem("Giới tính thẳng"),
-        RadioItem("Gay"),
-        RadioItem("Đồng tính nữ"),
-        RadioItem("Lưỡng tính"),
-        RadioItem("Vô tính"),
-        RadioItem("Á tính"),
-        RadioItem("Toàn tính luyến ái"),
-        RadioItem("Queer"),
-        RadioItem("Đang tự hỏi"),
-        RadioItem("Tôi không muốn nói")
-    )
+    private fun subscribeObserver() {
+        launchRepeatOnLifeCycleWhenStarted {
+            authAndProfileViewModel.stateAdditionalInformation.collect {
+                when (it) {
+                    is ResourceRemote.Loading -> {
+                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                    }
+
+                    is ResourceRemote.Success -> {
+                        dialogLoading.dismiss()
+                        sharedViewModel.setSharedFlowChooseGender(currentPositionChoose)
+                        showToast("Cập nhật thành công ~")
+                        findNavController().popBackStack()
+                    }
+
+                    is ResourceRemote.Error -> {
+                        showToast("Có lỗi xảy ra ~")
+                        findNavController().popBackStack()
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        authAndProfileViewModel.resetStateAdditionalInformation()
+        super.onDestroyView()
+    }
+
+
 }

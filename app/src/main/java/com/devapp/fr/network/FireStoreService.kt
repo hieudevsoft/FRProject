@@ -3,6 +3,7 @@ package com.devapp.fr.network
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.devapp.fr.data.entities.AdditionInformation
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher
 import com.google.firebase.firestore.ktx.firestore
@@ -48,6 +49,39 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     .get()
                     .await()
                 ResourceRemote.Success(queriesSnapshot.documents[0].toObject<UserProfile>())
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(null, e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun getAllUserProfileByLimit(
+        id: String,
+        gender:Int,
+        limit:Long,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<List<UserProfile>> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val queriesSnapshot = collection
+                    .whereNotEqualTo("gender",gender)
+                    .limit(limit)
+                    .get()
+                    .await()
+                val listResult = mutableListOf<UserProfile>()
+                queriesSnapshot.documents.forEach {
+                    val item = it.toObject<UserProfile>()
+                    if (item != null) {
+                        if(item.id!=id) listResult.add(item)
+                    }
+                }
+                ResourceRemote.Success(listResult)
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -119,6 +153,92 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     if (snapShot.documents.isNotEmpty()){
                         val profile = collection.document(snapShot.documents[0].id)
                         it.update(profile,"images",listImage)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun updateBasicInformation(
+        id:String,
+        mapBasicInformation:HashMap<Int,Any>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        it.update(profile,"name",mapBasicInformation[0] as String)
+                        it.update(profile,"dob",mapBasicInformation[1] as String)
+                        it.update(profile,"address",mapBasicInformation[2] as String)
+                        it.update(profile,"gender",mapBasicInformation[3] as Int)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun <T> updateFieldByName(
+        id:String,
+        fileName:String,
+        data:T,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        it.update(profile,fileName,data)
+                    }
+                }
+                ResourceRemote.Success(true)
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun updateFieldAdditionalInformation(
+        id:String,
+        property:String,
+        data:Int,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                val snapShot = collection.whereEqualTo("id", id).get().await()
+                Firebase.firestore.runTransaction {
+                    if (snapShot.documents.isNotEmpty()){
+                        val profile = collection.document(snapShot.documents[0].id)
+                        var additionalInformation = snapShot.documents[0].toObject(UserProfile::class.java)?.additionInformation
+                        if(additionalInformation==null) additionalInformation = AdditionInformation()
+                        additionalInformation.setNewDataByName(property,data)
+                        it.update(profile,"additionInformation",additionalInformation)
                     }
                 }
                 ResourceRemote.Success(true)
