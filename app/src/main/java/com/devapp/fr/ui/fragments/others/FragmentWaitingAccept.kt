@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
@@ -26,11 +28,14 @@ import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.Constants
+import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -41,9 +46,10 @@ class FragmentWaitingAccept: BaseFragment<FragmentWaitingAcceptBinding>() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var waitingAcceptAdapter:WaitingAcceptAdapter
     override fun onSetupView() {
-        waitingAcceptAdapter = WaitingAcceptAdapter(this){view,data->}
+        waitingAcceptAdapter = WaitingAcceptAdapter(this)
+        {view,data-> requireActivity().sendDataToViewPartnerProfile(view,data.images!![0],data)}
         binding.rcWaitingAccept.apply {
-            itemAnimator = null
+            itemAnimator = SlideInLeftAnimator(DecelerateInterpolator())
             layoutManager = GridLayoutManager(requireContext(),2)
             adapter = waitingAcceptAdapter
         }

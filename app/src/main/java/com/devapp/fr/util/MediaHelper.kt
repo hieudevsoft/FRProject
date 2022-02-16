@@ -50,7 +50,6 @@ object MediaHelper {
         }
     }
 
-
     fun initMediaPlayer(mPath:String){
         mediaPlayer = MediaPlayer()
         mediaPlayer!!.setAudioAttributes(AudioAttributes.Builder()
@@ -61,7 +60,6 @@ object MediaHelper {
         mediaPlayer!!.setDataSource(mPath)
         mediaPlayer?.prepare()
     }
-
 
     fun playingAudio(){
         try {

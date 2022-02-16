@@ -31,12 +31,7 @@ class FullScreenImageActivity : AppCompatActivity() {
                     this
                 )
             }
-
-        }
-        val isDarkMode = SharedPreferencesHelper(this).readDarkMode()
-        isDarkMode.let {
-            if (it) binding.root.setBackgroundColor(resources.getColor(R.color.background_dark_mode))
-            else binding.root.setBackgroundColor(resources.getColor(R.color.background_light_mode))
         }
     }
+
 }

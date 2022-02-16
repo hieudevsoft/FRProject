@@ -41,7 +41,9 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
+import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.ui.activities.FullScreenImageActivity
+import com.devapp.fr.ui.activities.ViewPartnerActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.FileOutputStream
 
@@ -278,6 +280,43 @@ object UiHelper {
             "image_fullscreen"
         )
         intent.putExtra("url",url)
+        startActivity(intent, options.toBundle())
+    }
+
+    fun Activity.sendDataToViewPartnerProfile(view:View,data:UserProfile){
+        val intent = Intent(this, ViewPartnerActivity::class.java)
+        val fileTemp = "imageSend.png"
+        val stream: FileOutputStream = openFileOutput(fileTemp, Context.MODE_PRIVATE)
+        val bmp:Bitmap = when (view) {
+            is ImageView -> {
+                (view.drawable as BitmapDrawable).bitmap
+            }
+            is CircleImageView -> {
+                (view.drawable as BitmapDrawable).bitmap
+            }
+            else -> ((view as AppCompatImageView).drawable as BitmapDrawable).bitmap
+        }
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        stream.close()
+        val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            view,
+            "image_fullscreen"
+        )
+        intent.putExtra("image",fileTemp)
+        intent.putExtra("data",data)
+        startActivity(intent, options.toBundle())
+    }
+
+    fun Activity.sendDataToViewPartnerProfile(view:View,url:String,data:UserProfile){
+        val intent = Intent(this, ViewPartnerActivity::class.java)
+        val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            view,
+            "image_fullscreen"
+        )
+        intent.putExtra("url",url)
+        intent.putExtra("data",data)
         startActivity(intent, options.toBundle())
     }
 }

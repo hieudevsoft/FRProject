@@ -20,6 +20,7 @@ import com.devapp.fr.util.extensions.convertLongToDateVn
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -27,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>() {
@@ -36,6 +38,8 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
     private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
     private lateinit var dialogLoading: CustomDialog
     private val args:FragmentBasicInformationArgs by navArgs()
+    @Inject
+    lateinit var prefs:SharedPreferencesHelper
     override fun onSetupView() {
         dialogLoading = CustomDialog(R.layout.dialog_loading)
         statusBtnDone()

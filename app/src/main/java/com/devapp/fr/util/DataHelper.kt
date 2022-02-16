@@ -20,7 +20,6 @@ internal object DataHelper {
         RadioItem("Tôi không muốn nói"),
         )
 
-
     internal fun getListMaritalStatus() = listOf(
         RadioItem("Độc thân"),
         RadioItem("Đang hẹn hò"),

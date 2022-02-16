@@ -1,20 +1,17 @@
 package com.devapp.fr.ui.activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
@@ -26,16 +23,15 @@ import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.ActivityMainBinding
+import com.devapp.fr.network.NotificationService
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.Constants
 import com.devapp.fr.util.DataHelper
-import com.devapp.fr.util.UiHelper.setColorStatusBar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
-import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
-import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
@@ -57,7 +53,10 @@ class MainActivity : ThemeActivity() {
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private val authViewModel: AuthAndProfileViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
+    private val realTimeViewModel: RealTimeViewModel by viewModels()
     private var user:UserProfile?=null
+    var listName:MutableList<String> = mutableListOf()
+    var listUri:MutableList<String> = mutableListOf()
     fun getUser() = user
     @Inject
     lateinit var prefs:SharedPreferencesHelper
@@ -72,7 +71,6 @@ class MainActivity : ThemeActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         //set insets
         setInsetsWindow()
 
@@ -98,18 +96,26 @@ class MainActivity : ThemeActivity() {
 
         //get userprofile
         prefs.readIdUserLogin()?.let {
-            authViewModel.getUserProfile(it)
-            authViewModel.getAllProfileMatch(it){
-                sharedViewModel.setSharedFlowListUserMatch(it)
+            getUserProfile(it)
+            realTimeViewModel.readNotificationWhenPartnerReply(it){
+                if(it.message!=null)
+                startService(Intent(this,NotificationService::class.java).putExtra(
+                    "data",it.message+", "+it.time
+                ))
             }
         }
 
+        //subscriber observer
         subscribeObserver()
     }
 
+    private fun getUserProfile(id:String){
+        authViewModel.getUserProfile(id)
+    }
+
     private fun subscribeObserver() {
-        lifecycle.coroutineScope.launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+        lifecycle.coroutineScope.launchWhenCreated {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
                 authViewModel.stateGetUserProfile.collect {
                     when (it) {
                         is ResourceRemote.Loading -> {
@@ -119,10 +125,18 @@ class MainActivity : ThemeActivity() {
                         is ResourceRemote.Success -> {
                             user = it.data
                             updateSharedViewModel(it.data)
-                            authViewModel.getAllProfileWaitingAccept(it.data!!.id){
-                                val listIds = it.map { it.id }.toMutableList().also { it.add(prefs.readIdUserLogin().toString()) }
-                                authViewModel.getAllProfileSwipe(listIds,user!!.gender, Constants.LIMIT_REQUEST_SWIPE)
-                                sharedViewModel.setSharedFlowListUserWaitingAccept(it)
+                            authViewModel.getAllProfileWaitingAccept(it.data!!.id){listWaitingAccept->
+                                Log.d(TAG, "subscribeObserver: $listWaitingAccept")
+                                sharedViewModel.setSharedFlowListUserWaitingAccept(listWaitingAccept)
+                                authViewModel.getAllProfileMatch(it.data!!.id){
+                                    sharedViewModel.setSharedFlowListUserMatch(it)
+                                    val listIdsWaitingAccept = listWaitingAccept.map { it.id }.toMutableList().also { it.add(prefs.readIdUserLogin().toString()) }
+                                    val listIdsUserMatch = it.map { it.id }.toMutableList()
+                                    listIdsWaitingAccept.addAll(listIdsUserMatch)
+                                    Log.d(TAG, "subscribeObserver: $listIdsWaitingAccept")
+                                    authViewModel.getAllProfileSwipe(listIdsWaitingAccept,user!!.gender, Constants.LIMIT_REQUEST_SWIPE)
+                                }
+
                             }
                             Log.d(TAG, "observer user: ${it.data?.name}")
                         }
@@ -141,6 +155,7 @@ class MainActivity : ThemeActivity() {
     }
 
     private fun updateSharedViewModel(data: UserProfile?) {
+        Log.d("FragmentProfile", "updateSharedViewModel")
         data?.let {
             sharedViewModel.setSharedFlowBasicInformation(hashMapOf(0 to data.name,1 to data.dob,2 to data.address,3 to data.gender))
             sharedViewModel.setSharedFlowJob(data.job)
@@ -164,6 +179,7 @@ class MainActivity : ThemeActivity() {
             }
         }
     }
+
 
     override fun onDestroy() {
         authViewModel.resetStateGetUserProfile()
@@ -230,6 +246,5 @@ class MainActivity : ThemeActivity() {
         }
         binding.root.background = color
     }
-
 
 }

@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class StorageService @Inject constructor(private val context:Context) {
 
-    suspend fun addImage(
+    suspend fun addImagesById(
         id: String,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
         listName:List<String>,
@@ -59,6 +59,42 @@ class StorageService @Inject constructor(private val context:Context) {
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                 }
                 ResourceRemote.Error(null,e.message)
+            }
+        }
+        return res
+    }
+
+    suspend fun deleteImageByNameOrUrl(
+        id: String,
+        isByName:Boolean,
+        nameFile:String="",
+        url:String="",
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<Boolean> {
+        Log.d("FragmentProfile", "deleteImageByNameOrUrl: $id")
+        val ref = Firebase.storage.reference
+        val res = withContext(dispatcher) {
+            try {
+                if(isByName){
+                    ref.child("images/$id/$nameFile").delete().await()
+                    ResourceRemote.Success(true)
+                }else{
+                    Log.d("FragmentProfile", "deleteImageByNameOrUrl: $id")
+                    val images = ref.child("images/$id").listAll().await()
+                    images.items.forEach {
+                        if(it.downloadUrl.await().toString().contains(url)){
+                            it.delete().await()
+                            return@forEach
+                        }
+                    }
+                    ResourceRemote.Success(true)
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(false,e.message)
             }
         }
         return res

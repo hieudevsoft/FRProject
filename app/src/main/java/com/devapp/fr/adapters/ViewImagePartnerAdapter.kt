@@ -1,24 +1,20 @@
 package com.devapp.fr.adapters
 
-import android.app.Activity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.devapp.fr.databinding.ItemImageProfileBinding
-import androidx.fragment.app.Fragment
-import com.devapp.fr.R
+import com.devapp.fr.databinding.LayoutItemImageViewProfileBinding
+import com.devapp.fr.ui.activities.ViewPartnerActivity
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 
 
-class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter<ProfileImagesAdapter.ViewHolder>() {
+class ViewImagePartnerAdapter(private val fragment: ViewPartnerActivity) : RecyclerView.Adapter<ViewImagePartnerAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ItemImageProfileBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: LayoutItemImageViewProfileBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(data: String){
             GlideApp.loadImage(data,binding.imgInsideCard, fragment)
         }
@@ -45,7 +41,7 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
     fun getCurrentList() = differ.currentList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemImageProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(LayoutItemImageViewProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     fun getItemAtPosition(position:Int) = differ.currentList[position]
@@ -57,21 +53,13 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
             imgInsideCard.setOnClickWithAnimationListener {view->
                 onItemClickListener?.let { it(view,item) }
             }
-            imgInsideCard.setOnLongClickListener {view->
-                onItemLongClickListener?.let { it(view,item,position) }
-                true
-            }
         }
 
     }
     private var onItemClickListener:((View,String)->Unit)?=null
-    private var onItemLongClickListener:((View,String,Int)->Unit)?=null
 
     fun setOnItemClickListener(listener:(View,String)->Unit){
         onItemClickListener = listener
-    }
-    fun setOnLogItemClickListener(listener:(View,String,Int)->Unit){
-        onItemLongClickListener = listener
     }
 
     override fun getItemCount(): Int {

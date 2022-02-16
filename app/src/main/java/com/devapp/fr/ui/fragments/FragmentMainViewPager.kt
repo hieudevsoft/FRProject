@@ -48,10 +48,8 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     private lateinit var dataStore: DataStore<androidx.datastore.preferences.core.Preferences>
     private lateinit var fragmentSettings: FragmentSettings
     private val args: FragmentMainViewPagerArgs by navArgs()
-
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -99,10 +97,10 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
             override fun handleOnBackPressed() {
                 UiHelper.triggerBottomAlertDialog(
                     requireActivity(),
-                    "Exit",
-                    "Do you want exit app ?",
-                    "OK",
-                    "NO",
+                    "Thoát ?",
+                    "Bạn muốn thoát ứng dụng ?",
+                    "Có",
+                    "Không",
                     isDarkMode
                 ) { dialogInterface, _ ->
                     dialogInterface.dismiss()
@@ -191,5 +189,15 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
         findNavController().navigate(
             FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentNotificationMatch()
         )
+    }
+
+    override fun onCardAboutsUsClickListener() {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentAbousUs()
+        )
+    }
+
+    override fun onCardHelpClickListener() {
+
     }
 }

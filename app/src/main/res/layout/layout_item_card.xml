@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:transitionName="image_fullscreen"
             android:id="@+id/img_avatar_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
