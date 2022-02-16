@@ -28,7 +28,6 @@ import android.widget.ImageView
 import androidx.core.view.ViewCompat
 import com.github.pgreze.reactions.PopupGravity
 import com.github.pgreze.reactions.ReactionsConfig
-import com.github.pgreze.reactions.ReactionsConfigBuilder
 import com.github.pgreze.reactions.dsl.reactionConfig
 import com.github.pgreze.reactions.dsl.reactions
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -37,7 +36,6 @@ import android.view.animation.DecelerateInterpolator
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
-import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
@@ -283,7 +281,7 @@ object UiHelper {
         startActivity(intent, options.toBundle())
     }
 
-    fun Activity.sendDataToViewPartnerProfile(view:View,data:UserProfile){
+    fun Activity.sendDataToViewPartnerProfile(view: View, data: UserProfile){
         val intent = Intent(this, ViewPartnerActivity::class.java)
         val fileTemp = "imageSend.png"
         val stream: FileOutputStream = openFileOutput(fileTemp, Context.MODE_PRIVATE)
@@ -308,7 +306,7 @@ object UiHelper {
         startActivity(intent, options.toBundle())
     }
 
-    fun Activity.sendDataToViewPartnerProfile(view:View,url:String,data:UserProfile){
+    fun Activity.sendDataToViewPartnerProfile(view: View, url: String, data: UserProfile){
         val intent = Intent(this, ViewPartnerActivity::class.java)
         val options: ActivityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
             this,

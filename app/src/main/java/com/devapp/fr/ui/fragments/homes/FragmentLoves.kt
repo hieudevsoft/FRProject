@@ -6,7 +6,6 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.devapp.fr.R
@@ -19,8 +18,6 @@ import com.devapp.fr.ui.fragments.FragmentMainViewPager
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
-import com.devapp.fr.util.Constants.LIMIT_REQUEST_SWIPE
-import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
@@ -30,8 +27,6 @@ import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator
-import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
-import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 

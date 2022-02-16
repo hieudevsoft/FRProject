@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <com.google.android.material.appbar.AppBarLayout
@@ -33,7 +34,7 @@
                     android:layout_marginStart="@dimen/LARGE_SPACE"
                     android:clickable="true"
                     android:src="@drawable/ic_close"
-                    app:tint="@color/black"
+                    app:tint="@color/blue"
                     app:useMaterialThemeColors="true" />
 
                 <TextView

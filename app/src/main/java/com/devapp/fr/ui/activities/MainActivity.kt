@@ -161,6 +161,7 @@ class MainActivity : ThemeActivity() {
             sharedViewModel.setSharedFlowJob(data.job)
             sharedViewModel.setSharedFlowSexuality(data.purpose)
             sharedViewModel.setSharedFlowInterest(data.interests?: mutableListOf())
+            data.interests?.let { it -> prefs.saveInterest(it.joinToString("&")) }
             sharedViewModel.setSharedFlowIntroduce(data.bio)
             sharedViewModel.setSharedFlowImage(data.images?: emptyList())
             sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())

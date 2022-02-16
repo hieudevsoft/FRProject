@@ -21,12 +21,16 @@ import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationList
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.google.android.flexbox.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     val TAG = "FragmentInterest"
     private lateinit var interestAdapter: InterestAdapter
@@ -34,11 +38,13 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private lateinit var dialogLoading: CustomDialog
+    @Inject
+    lateinit var pref:SharedPreferencesHelper
     override fun onSetupView() {
         dialogLoading = CustomDialog(R.layout.dialog_loading)
         subscribeObserver()
         val flexLayoutManager = FlexboxLayoutManager(requireContext(),FlexDirection.ROW,FlexWrap.WRAP)
-        flexLayoutManager.justifyContent = JustifyContent.SPACE_BETWEEN
+        flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
         interestAdapter = InterestAdapter()
         binding.rcvInterest.apply {
@@ -99,6 +105,7 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
 
                     is ResourceRemote.Success -> {
                         dialogLoading.dismiss()
+                        pref.saveInterest(getListInterestSelected().joinToString("&"))
                         sharedViewModel.setSharedFlowInterest(getListInterestSelected())
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

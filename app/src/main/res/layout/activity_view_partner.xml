@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,16 +35,19 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_above="@id/card_bottom"
         android:id="@+id/rc_image"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/_30sdp" />
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:id="@+id/card_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/_220sdp"
         android:clickable="true"
         android:focusable="true"
         app:cardBackgroundColor="@color/white"
@@ -53,8 +56,161 @@
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:padding="@dimen/PADDING_SMALL"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ly_basic_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_username_age"
+                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="Hiệu,21"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:textSize="@dimen/TEXT_SIZE_MEDIUM"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_address"
+                        android:drawableTint="@color/background_dark_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:paddingLeft="-4dp"
+                        android:layout_marginTop="@dimen/MARGIN_SMALLEST"
+                        android:fontFamily="@font/nunito_regular"
+                        android:drawableStart="@drawable/ic_location"
+                        android:text="Bac Giang"
+                        android:textSize="@dimen/TEXT_SIZE_SMALL" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/nunito_regular"
+                        android:singleLine="true"
+                        android:layout_marginTop="@dimen/MARGIN_SMALLEST"
+                        android:text=" - Nam"
+                        android:textSize="@dimen/TEXT_SIZE_SMALL" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.airbnb.lottie.LottieAnimationView
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/ly_basic_information"
+                app:layout_constraintTop_toTopOf="@id/ly_basic_information"
+                app:layout_constraintStart_toEndOf="@id/ly_basic_information"
+                android:id="@+id/box_animation"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerInParent="true"
+                app:lottie_autoPlay="true"
+                app:lottie_enableMergePathsForKitKatAndAbove="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/blink_love"
+                app:lottie_renderMode="hardware"
+                app:lottie_repeatMode="restart" />
+
+            <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+                android:id="@+id/circular_progress"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:layout_constraintTop_toTopOf="@id/box_animation"
+                app:layout_constraintBottom_toBottomOf="@id/box_animation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:progressBackgroundColor="@color/light_gray"
+                app:progressColor="@color/background_dark_mode"
+                app:progressBackgroundStrokeWidth="@dimen/_4sdp"
+                app:progressStrokeWidth="@dimen/_6sdp"
+                app:drawDot="false"
+                app:textSize="@dimen/TEXT_SIZE_SMALLEST"
+                app:formattingPattern="&#37;.1f"
+                app:direction="clockwise"
+                app:progressCap="round"
+                app:enableProgressAnimation="true"
+                app:fillBackground="false"
+                 />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_interest"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/varelaround_regular"
+                android:singleLine="true"
+                android:text="Sở thích"
+                android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/ly_basic_information"
+                app:layout_constraintTop_toBottomOf="@id/circular_progress" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_number_similar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/nunito_light"
+                android:singleLine="true"
+                android:text="3 sở thích tương đồng"
+                android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+                android:textStyle="bold"
+                android:textColor="@color/purple_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_interest"
+                app:layout_constraintTop_toBottomOf="@id/ly_basic_information" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/MARGIN_SMALL"
+                android:id="@+id/rcv_interest"
+                app:layout_constraintBottom_toTopOf="@id/flt_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_interest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/flt_button"
+                app:borderWidth="0dp"
+                app:rippleColor="@color/white"
+                android:src="@drawable/ic_person"
+                app:tint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:tint="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="@dimen/MARGIN_SMALLEST"
+                android:layout_height="wrap_content"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-</FrameLayout>
+
+    <FrameLayout
+        android:elevation="@dimen/_1sdp"
+        android:id="@+id/fr_fragment"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>

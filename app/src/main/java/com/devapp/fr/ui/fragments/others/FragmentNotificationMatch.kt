@@ -1,18 +1,13 @@
 package com.devapp.fr.ui.fragments.others
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.NotificationsMatchAdapter
-import com.devapp.fr.adapters.WaitingAcceptAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.items.Notification
 import com.devapp.fr.databinding.FragmentNotificationMatchBinding
@@ -21,7 +16,6 @@ import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
-import com.devapp.fr.util.Constants
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
@@ -59,7 +53,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
                 authAndProfileViewModel.acceptOrCancel(adapter.getItemAtPostion(position).id,prefs.readIdUserLogin().toString(),true)
             },
             {
-                view,data->requireActivity().sendDataToViewPartnerProfile(view,data.images!![0],data)
+                view,data->requireActivity().sendDataToViewPartnerProfile(view,data)
             }
         )
         binding.rcNotifications.apply {
