@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.devapp.fr.R
 import com.devapp.fr.adapters.ProfileImagesAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.entities.UserProfile

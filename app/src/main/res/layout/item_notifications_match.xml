@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/_180sdp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -29,35 +29,37 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_14sdp"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="..."
-            android:singleLine="true"
             android:ellipsize="marquee"
+            android:fontFamily="@font/nunito_semibold"
+            android:singleLine="true"
+            android:text="..."
+            android:layout_marginEnd="@dimen/PADDING_SMALL"
             android:textColor="@color/white"
             android:textSize="@dimen/TEXT_SIZE_NORMAL"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_address"
-            android:singleLine="true"
-            android:ellipsize="marquee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_other_name"
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:paddingVertical="@dimen/_2sdp"
-            android:drawableTint="@color/blue"
-            android:paddingEnd="@dimen/MARGIN_SMALL"
-            android:paddingStart="@dimen/MARGIN_SMALLEST"
-            android:fontFamily="@font/nunito_light"
-            android:text="..."
+            android:background="@drawable/custom_bg_rounded_6"
+            android:backgroundTint="@color/background_dark_mode"
             android:drawableStart="@drawable/ic_heart"
             android:drawablePadding="@dimen/PADDING_SMALLEST"
+            android:drawableTint="@color/blue"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/nunito_light"
+            android:paddingVertical="@dimen/_2sdp"
+            android:paddingStart="@dimen/MARGIN_SMALLEST"
+            android:paddingEnd="@dimen/MARGIN_SMALL"
+            android:singleLine="true"
+            android:text="..."
+            android:layout_marginEnd="@dimen/PADDING_SMALL"
             android:textColor="@color/white"
-            android:backgroundTint="@color/background_dark_mode"
-            android:background="@drawable/custom_bg_rounded_6"
             android:textSize="@dimen/TEXT_SIZE_SMALL"
             android:textStyle="bold" />
 
@@ -67,7 +69,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/MARGIN_MEDIUM"
             android:gravity="center_horizontal">
 
             <com.google.android.material.card.MaterialCardView
@@ -111,8 +112,20 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/ic_heart" />
             </com.google.android.material.card.MaterialCardView>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/box_animation"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_centerInParent="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/blink_love"
+            app:lottie_renderMode="hardware"
+            app:lottie_repeatMode="restart" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

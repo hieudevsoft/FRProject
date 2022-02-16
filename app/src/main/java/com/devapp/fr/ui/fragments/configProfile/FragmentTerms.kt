@@ -15,7 +15,6 @@ import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.FragmentTermsBinding
-import com.devapp.fr.ui.activities.InformationUserActivity
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.animations.AnimationHelper.startAnimClick
 import com.devapp.fr.util.storages.SharedPreferencesHelper
@@ -48,7 +47,7 @@ class FragmentTerms : BaseFragment<FragmentTermsBinding>() {
                         it.enableOrNot(true)
                     },TIME_READ)
                 }else{
-                    prefs.saveProcessRegister(8)
+                    prefs.saveProcessRegister(0)
                     requireActivity().finish()
                 }
             }

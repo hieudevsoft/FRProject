@@ -3,19 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentLogin">
+    app:startDestination="@id/fragmentMainViewPager">
+
 
     <fragment
+        tools:layout="@layout/fragment_main_view_pager"
         android:id="@+id/fragmentMainViewPager"
         android:name="com.devapp.fr.ui.fragments.FragmentMainViewPager"
         android:label="FragmentMainViewPager" >
-        <action
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_right"
-            app:popEnterAnim="@anim/anim_slide_in_right"
-            app:popExitAnim="@anim/anim_slide_out_left"
-            android:id="@+id/action_fragmentSettings_to_fragmentLogin"
-            app:destination="@id/fragmentLogin" />
         <argument
             android:name="id"
             android:defaultValue=""
@@ -25,21 +20,19 @@
             app:exitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentMainViewPager_to_fragmentProfile"
             app:destination="@id/fragmentProfile" />
-    </fragment>
-    <fragment
-        android:id="@+id/fragmentSplash"
-        android:name="com.devapp.fr.ui.fragments.FragmentSplash"
-        android:label="FragmentSplash" >
         <action
-            android:id="@+id/action_fragmentSplash_to_fragmentLogin"
-            app:destination="@id/fragmentLogin"
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentWaitingAccept"
+            app:destination="@id/fragmentWaitingAccept"
             app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_right"
-            app:popEnterAnim="@anim/anim_slide_in_right"
-            app:popExitAnim="@anim/anim_slide_out_left"
-            />
+            app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentNotificationMatch"
+            app:destination="@id/fragmentNotificationMatch"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_chats"
         android:id="@+id/fragmentChats"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentChats"
         android:label="FragmentChats" >
@@ -52,27 +45,20 @@
             app:popExitAnim="@anim/anim_slide_out_left" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_settings"
         android:id="@+id/fragmentSettings"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentSettings"
         android:label="FragmentSettings" >
 
     </fragment>
-    <fragment
 
-        android:id="@+id/fragmentLogin"
-        android:name="com.devapp.fr.ui.fragments.authencation.FragmentLogin"
-        android:label="FragmentLogin" >
-        <action
-            android:id="@+id/action_fragmentLogin_to_fragmentMainViewPager"
-            app:destination="@id/fragmentMainViewPager"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_right" />
-    </fragment>
     <fragment
+        tools:layout="@layout/fragment_inbox"
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentInbox"
         android:label="FragmentInbox" />
     <fragment
+        tools:layout="@layout/fragment_profile"
         android:id="@+id/fragmentProfile"
         android:name="com.devapp.fr.ui.fragments.configProfile.FragmentProfile"
         android:label="FragmentProfile" >
@@ -94,10 +80,12 @@
             app:argType="string" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_loves"
         android:id="@+id/fragmentLoves"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentLoves"
         android:label="FragmentLoves" />
     <fragment
+        tools:layout="@layout/fragment_edit_profile"
         android:id="@+id/fragmentEditProfile"
         android:name="com.devapp.fr.ui.fragments.configProfile.FragmentEditProfile"
         android:label="FragmentEditProfile" >
@@ -375,8 +363,21 @@
             app:argType="string" />
     </fragment>
     <fragment
+        android:id="@+id/fragmentWaitingAccept"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentWaitingAccept"
+        android:label="fragment_waiting_accept"
+        tools:layout="@layout/fragment_waiting_accept" >
+        <argument android:name="id" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentNotificationMatch"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentNotificationMatch"
+        android:label="fragment_notification_match"
+        tools:layout="@layout/fragment_notification_match" />
+        <fragment
         android:id="@+id/fragmentViewOtherProfile"
         android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
         android:label="FragmentViewOtherProfile" />
+
 
 </navigation>
