@@ -3,13 +3,14 @@
     android:layout_width="wrap_content"
     android:padding="@dimen/PADDING_SMALLEST"
     android:layout_marginBottom="@dimen/MEDIUM_SPACE"
+    android:layout_marginEnd="@dimen/MARGIN_SMALLEST"
     android:background="@drawable/custom_tag_hobby"
     android:layout_height="wrap_content">
 
     <com.google.android.material.textview.MaterialTextView
         android:text="#spot"
         android:id="@+id/tv_interest"
-        android:fontFamily="@font/varelaround_regular"
+        android:fontFamily="@font/nunito_regular"
         android:textSize="@dimen/TEXT_SIZE_SMALL"
         android:textColor="@color/black"
         android:layout_width="wrap_content"

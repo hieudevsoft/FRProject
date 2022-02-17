@@ -106,4 +106,12 @@ class SharedPreferencesHelper @Inject constructor(context: Context) {
         return pref.getString(Constants.KEY_ID_LOGIN,"")
     }
 
+    fun saveInterest(interest:String){
+        return pref.edit().putString(Constants.KEY_INTEREST,interest).apply()
+    }
+
+    fun readInterest(): String? {
+        return pref.getString(Constants.KEY_INTEREST,"")
+    }
+
 }

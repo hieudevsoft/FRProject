@@ -27,7 +27,7 @@
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
     <dimen name="SIZE_ICON_SLIDE">@dimen/_200sdp</dimen>
-    <dimen name="SIZE_AVATAR">@dimen/_130sdp</dimen>
+    <dimen name="SIZE_AVATAR">@dimen/_120sdp</dimen>
     <dimen name="SIZE_IMAGE_INBOX">@dimen/_70sdp</dimen>
     <dimen name="SIZE_IMAGE_CHAT">@dimen/_42sdp</dimen>
     <dimen name="BUTTON_BACK_SIZE">@dimen/_36sdp</dimen>

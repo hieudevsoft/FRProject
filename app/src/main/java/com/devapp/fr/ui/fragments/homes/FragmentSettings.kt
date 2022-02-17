@@ -1,6 +1,8 @@
 package com.devapp.fr.ui.fragments.homes
 
+import android.app.Notification
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +15,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.databinding.FragmentSettingsBinding
+import com.devapp.fr.network.NotificationService
+import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper.findOnClickListener
 import com.devapp.fr.util.UiHelper.toGone
@@ -29,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentSettings(private val eventListener: EventListener) : ThemeFragment() {
@@ -39,12 +44,15 @@ class FragmentSettings(private val eventListener: EventListener) : ThemeFragment
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private lateinit var dataStore: DataStore<Preferences>
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
+    @Inject
+    lateinit var pref:SharedPreferencesHelper
     interface EventListener {
         fun onCardProfileClickListener()
         fun onCardLogoutClickListener()
         fun onCardWaitingAcceptClickListener()
         fun onCardNotificationMatchClickListener()
+        fun onCardAboutsUsClickListener()
+        fun onCardHelpClickListener()
     }
 
     override fun onCreateView(
@@ -136,7 +144,9 @@ class FragmentSettings(private val eventListener: EventListener) : ThemeFragment
             binding.lyNotifications,
             binding.cardLogout,
             binding.cardShowProfile,
-            binding.lyWaitingAccept
+            binding.lyWaitingAccept,
+            binding.lyAboutUs,
+            binding.lyHelp,
         ) {
             when (this) {
                 binding.cardLogout -> {
@@ -158,6 +168,14 @@ class FragmentSettings(private val eventListener: EventListener) : ThemeFragment
                 binding.lyNotifications -> {
                     binding.lyNotifications.startAnimClick()
                     eventListener.onCardNotificationMatchClickListener()
+                }
+                binding.lyAboutUs->{
+                    binding.lyAboutUs.startAnimClick()
+                    eventListener.onCardAboutsUsClickListener()
+                }
+                binding.lyHelp->{
+                    binding.lyHelp.startAnimClick()
+                    eventListener.onCardHelpClickListener()
                 }
             }
         }

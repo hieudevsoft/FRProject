@@ -275,6 +275,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:gravity="center"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
@@ -289,11 +290,11 @@
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/tv_des_help"
-                                android:textAlignment="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_light"
                                 android:text="Giúp bạn dễ dàng trải nghiệm"
+                                android:textAlignment="center"
                                 android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </RelativeLayout>
@@ -338,6 +339,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginTop="@dimen/_16sdp"
                             android:gravity="center"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
@@ -354,6 +356,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_light"
+                                android:gravity="center"
                                 android:text="Bạn có thể xem thông tin về đội ngũ phát triển"
                                 android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
                         </androidx.appcompat.widget.LinearLayoutCompat>

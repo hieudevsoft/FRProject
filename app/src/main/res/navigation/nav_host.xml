@@ -30,6 +30,11 @@
             app:destination="@id/fragmentNotificationMatch"
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentAbousUs"
+            app:destination="@id/fragmentAbousUs"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_chats"
@@ -374,10 +379,11 @@
         android:name="com.devapp.fr.ui.fragments.others.FragmentNotificationMatch"
         android:label="fragment_notification_match"
         tools:layout="@layout/fragment_notification_match" />
-        <fragment
-        android:id="@+id/fragmentViewOtherProfile"
-        android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
-        android:label="FragmentViewOtherProfile" />
+    <fragment
+        android:id="@+id/fragmentAbousUs"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentAbousUs"
+        android:label="fragment_abous_us"
+        tools:layout="@layout/fragment_abous_us" />
 
 
 </navigation>

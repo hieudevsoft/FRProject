@@ -64,7 +64,7 @@ class AuthAndProfileViewModel @Inject constructor(
     //update images user profile
     private val _stateUpdateImagesUserProfile:MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(ResourceRemote.Idle)
     val stateUpdateImagesUserProfile:StateFlow<ResourceRemote<Boolean>> = _stateUpdateImagesUserProfile
-    fun resetStateImagesUserProfile() {
+    fun resetStateUpdateImagesUserProfile() {
         _stateUpdateImagesUserProfile.value = ResourceRemote.Idle
     }
     fun updateImagesUserProfile(id:String,listImage:List<String>){
@@ -159,10 +159,17 @@ class AuthAndProfileViewModel @Inject constructor(
         }
     }
 
-    //get all profile by owner match
+    //get all profile by owner accept or cancel match
     fun getAllProfileMatch(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
         viewModelScope.launch {
             fireStoreService.getAllUserSendNotificationToMe(id,Dispatchers.IO,snapshotCallBack)
+        }
+    }
+
+    //get all profile by owner match
+    fun getAllUserMatch(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
+        viewModelScope.launch {
+            fireStoreService.getAllUserMatchesMe(id,Dispatchers.IO,snapshotCallBack)
         }
     }
 
