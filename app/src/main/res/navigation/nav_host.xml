@@ -5,6 +5,7 @@
     android:id="@+id/nav_host"
     app:startDestination="@id/fragmentMainViewPager">
 
+
     <fragment
         tools:layout="@layout/fragment_main_view_pager"
         android:id="@+id/fragmentMainViewPager"
