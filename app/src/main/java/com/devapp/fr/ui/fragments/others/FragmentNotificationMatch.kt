@@ -116,8 +116,14 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         authAndProfileViewModel.resetSateAcceptOrCancel()
+        loadingDialog.onDestroyView()
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        loadingDialog.onDestroy()
         super.onDestroy()
     }
 }

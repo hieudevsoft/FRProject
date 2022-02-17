@@ -162,8 +162,9 @@ class ViewPartnerActivity : AppCompatActivity() {
             )
         }
         if(listInterestMe!![0].isNotEmpty()){
-            listInterestMe.forEach {
-                if(user.interests!!.contains(it.toInt())) listShow[it.toInt()].isSelected = true
+            listInterestMe.forEachIndexed { index, s ->
+                if(user.interests!!.contains(s.toInt()))
+                    listShow[user.interests!!.indexOf(s.toInt())].isSelected = true
             }
         }
         return listShow.toList()

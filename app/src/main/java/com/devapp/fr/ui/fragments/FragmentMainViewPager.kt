@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
@@ -27,6 +29,7 @@ import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
+import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
@@ -81,6 +84,21 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
         //Retrieve data
         subscribersObserve()
+
+        binding.mainViewPager.registerOnPageChangeCallback(object:
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when(position){
+                    1->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.purple_200)
+                    2->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_dark_mode)
+                    else->{
+                        bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_light_mode)
+                    }
+                }
+                super.onPageSelected(position)
+            }
+
+        })
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -174,6 +192,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     override fun onCardLogoutClickListener() {
+        sharedPreferencesHelper.saveIsLogin(false)
         requireActivity().finish()
     }
 

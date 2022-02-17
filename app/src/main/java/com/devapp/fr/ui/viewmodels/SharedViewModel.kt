@@ -182,4 +182,12 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedFlowListUserMatchByMe:MutableSharedFlow<List<UserProfile>> = MutableSharedFlow(1)
+    fun getSharedFlowListUserMatchByMe() = _sharedFlowListUserMatchByMe.asSharedFlow()
+    fun setSharedFlowListUserMatchByMe(list:List<UserProfile>){
+        viewModelScope.launch {
+            _sharedFlowListUserMatchByMe.emit(list)
+        }
+    }
+
 }

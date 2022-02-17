@@ -22,6 +22,7 @@ import com.devapp.fr.R
 import com.devapp.fr.app.DarkTheme
 import com.devapp.fr.app.LightTheme
 import com.devapp.fr.data.entities.UserProfile
+import com.devapp.fr.data.models.items.AccountOnline
 import com.devapp.fr.databinding.ActivityMainBinding
 import com.devapp.fr.network.NotificationService
 import com.devapp.fr.network.ResourceRemote
@@ -41,6 +42,7 @@ import com.dolatkia.animatedThemeManager.ThemeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import javax.inject.Inject
 
@@ -103,11 +105,20 @@ class MainActivity : ThemeActivity() {
                     "data",it.message+", "+it.time
                 ))
             }
+            authViewModel.getAllUserMatch(it){
+                sharedViewModel.setSharedFlowListUserMatchByMe(it)
+            }
         }
 
         //subscriber observer
         subscribeObserver()
+        subscribeObserverRealtime()
     }
+
+    private fun subscribeObserverRealtime() {
+
+    }
+
 
     private fun getUserProfile(id:String){
         authViewModel.getUserProfile(id)
@@ -185,7 +196,26 @@ class MainActivity : ThemeActivity() {
     override fun onDestroy() {
         authViewModel.resetStateGetUserProfile()
         authViewModel.resetSateGetAllProfileSwipe()
+
         super.onDestroy()
+    }
+
+    override fun onResume() {
+        if(prefs.readIdUserLogin()!=null){
+            realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!,true))
+        }
+        super.onResume()
+    }
+
+    override fun onStop() {
+        try {
+            if(prefs.readIdUserLogin()!=null){
+                realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!,false))
+            }
+        }catch (e:Exception){
+            realTimeViewModel.sendStatusOnOff(AccountOnline("fake",false))
+        }
+        super.onStop()
     }
 
     private fun setInsetsWindow() {

@@ -504,4 +504,5 @@ class FireStoreService @Inject constructor(private val context: Context) {
             }
         }
     }
+
 }

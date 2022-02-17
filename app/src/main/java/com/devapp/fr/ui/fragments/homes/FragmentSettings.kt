@@ -152,7 +152,6 @@ class FragmentSettings(private val eventListener: EventListener) : ThemeFragment
                 binding.cardLogout -> {
                     binding.cardLogout.startAnimClick()
                     sharedPreferencesHelper.saveIsLogin(false)
-                    sharedPreferencesHelper.saveIdUserLogin("")
                     Toast.makeText(requireActivity(), "Đăng xuất thành công ~", Toast.LENGTH_SHORT)
                         .show()
                     eventListener.onCardLogoutClickListener()

@@ -20,8 +20,10 @@ class UserProfile(
     var interests:List<Int>?= mutableListOf(),
     var additionInformation:AdditionInformation?=null,
     var images:List<String>?= mutableListOf(),
-    public override var id:String=""
-): BaseAccount(id,email,password)
+    public override var id:String="",
+): BaseAccount(id,email,password){
+    var isOnline = false
+}
 
 data class AdditionInformation(
     var tall:Int=-1,
