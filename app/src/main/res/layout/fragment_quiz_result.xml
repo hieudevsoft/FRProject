@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#E1F8EE">
+    android:background="#E1F8EE"
+    android:padding="@dimen/LAYOUT_PADDING">
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="@dimen/_300sdp"
         android:layout_height="@dimen/_300sdp"
