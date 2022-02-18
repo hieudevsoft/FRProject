@@ -3,30 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinateLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    android:background="@color/color_grey_200">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:elevation="0dp"
         android:measureWithLargestChild="true"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp"
-        app:elevation="0dp">
+        app:contentInsetStart="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
             android:fitsSystemWindows="true"
             android:measureAllChildren="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:titleCollapseMode="scale"
-            app:titleEnabled="false">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,42 +31,74 @@
                 android:paddingStart="@dimen/LARGEST_SPACE"
                 android:paddingTop="@dimen/LARGEST_SPACE">
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/ib_back"
+                <FrameLayout
+                    android:id="@+id/ly_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_back" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_partner"
-                    android:layout_width="@dimen/SIZE_IMAGE_INBOX"
-                    android:layout_height="@dimen/SIZE_IMAGE_INBOX"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_child"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_partner"
+                        android:layout_width="@dimen/SIZE_IMAGE_INBOX"
+                        android:layout_height="@dimen/SIZE_IMAGE_INBOX"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_child"
+                        app:civ_border_color="@color/background_dark_mode"
+                        app:civ_border_width="@dimen/_1sdp" />
+
+                    <FrameLayout
+                        android:id="@+id/ly_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end">
+
+                        <View
+                            android:id="@+id/dot_online"
+                            android:layout_width="@dimen/_8sdp"
+                            android:layout_height="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:background="@drawable/custom_dot_online"
+                            android:visibility="visible" />
+                    </FrameLayout>
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/MEDIUM_SPACE"
-                    android:fontFamily="@font/varelaround_regular"
+                    android:fontFamily="@font/nunito_semibold"
                     android:gravity="center"
                     android:text="Khách"
+                    app:layout_constraintVertical_bias=".1"
                     android:textColor="@color/background_dark_mode"
+                    android:textSize="@dimen/TEXT_SIZE_NORMAL"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ly_header" />
+
+                <TextView
+                    android:id="@+id/tv_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/MARGIN_SMALL"
+                    android:fontFamily="@font/nunito_extra_bold"
+                    android:gravity="center"
+                    android:text="Online"
+                    android:textColor="@color/green_online"
                     android:textSize="@dimen/TEXT_SIZE_SMALL"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/img_partner" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_name" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

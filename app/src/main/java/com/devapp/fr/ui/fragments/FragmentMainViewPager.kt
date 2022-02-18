@@ -20,12 +20,14 @@ import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
 import com.devapp.fr.app.toBinding
+import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.homes.FragmentChats
 import com.devapp.fr.ui.fragments.homes.FragmentLoves
 import com.devapp.fr.ui.fragments.homes.FragmentSettings
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
@@ -41,7 +43,7 @@ import nl.joery.animatedbottombar.AnimatedBottomBar
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
+class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,FragmentChats.EventListener {
     val TAG = "FragmentMainViewPager"
     private var _binding: FragmentMainViewPagerBinding? = null
     val binding get() = _binding!!
@@ -49,7 +51,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     private lateinit var mainViewPager: MainViewPagerAdapter
     private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var dataStore: DataStore<androidx.datastore.preferences.core.Preferences>
-    private lateinit var fragmentSettings: FragmentSettings
+    private val sharedViewModel:SharedViewModel by activityViewModels()
     private val args: FragmentMainViewPagerArgs by navArgs()
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -89,7 +91,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 when(position){
-                    1->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.purple_200)
+                    1->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.drawable.custom_chats_bg)
                     2->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_dark_mode)
                     else->{
                         bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_light_mode)
@@ -100,6 +102,10 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
         })
 
+        sharedViewModel.getPositionMainViewPager().observe(this){
+            bottomBar.selectTabAt(it,true)
+            binding.mainViewPager.setCurrentItem(it,true)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -175,10 +181,9 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     private fun makeListFragment(): List<Fragment> {
-        fragmentSettings = FragmentSettings(this)
         return listOf(
-            fragmentSettings,
-            FragmentChats(),
+            FragmentSettings(this),
+            FragmentChats(this),
             FragmentLoves()
         )
     }
@@ -218,5 +223,11 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
     override fun onCardHelpClickListener() {
 
+    }
+
+    override fun onCardChatClickListener(user: UserProfile) {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentInbox(user)
+        )
     }
 }

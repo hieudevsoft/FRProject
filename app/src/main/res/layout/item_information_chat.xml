@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="@dimen/MEDIUM_RADIUS"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:padding="@dimen/LAYOUT_PADDING"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:adjustViewBounds="true"
+        app:shapeAppearance="@style/customRoundedImageView"
+        app:shapeAppearanceOverlay="@style/customRoundedImageView"
+        android:id="@+id/img_avatar"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_avatar2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_marginTop="@dimen/_12sdp"
+            android:gravity="center"
+            android:id="@+id/tv_name_age"
+            android:singleLine="true"
+            android:fontFamily="@font/nunito_regular"
+            android:ellipsize="marquee"
+            android:text="..."
+            android:textSize="@dimen/TEXT_SIZE_NORMAL"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:id="@+id/tv_gender_address"
+            android:fontFamily="@font/nunito_light"
+            android:ellipsize="marquee"
+            android:text="..."
+            android:textSize="@dimen/TEXT_SIZE_SMALL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bio"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:fontFamily="@font/nunito_light"
+            android:text="..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

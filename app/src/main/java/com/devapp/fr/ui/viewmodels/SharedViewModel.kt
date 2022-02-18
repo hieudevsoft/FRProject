@@ -38,6 +38,14 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _positionMainViewPager:MutableLiveData<Int> = MutableLiveData()
+    fun getPositionMainViewPager():LiveData<Int> = _positionMainViewPager
+    fun setPositionMainViewPager(value:Int){
+        viewModelScope.launch {
+            _positionMainViewPager.postValue(value)
+        }
+    }
+
     private val _listItemInformation:MutableLiveData<List<InformationItem>> = MutableLiveData()
     fun getListItemInformation():LiveData<List<InformationItem>> = _listItemInformation
     fun setListItemInformation(value:List<InformationItem>){

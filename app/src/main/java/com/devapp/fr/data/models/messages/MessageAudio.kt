@@ -2,6 +2,7 @@ package com.devapp.fr.data.models.messages
 
 import android.media.MediaPlayer
 import android.util.Log
+import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.util.MediaHelper
 import java.io.IOException
@@ -11,9 +12,10 @@ data class MessageAudio(
     override val userId:String="",
     override var type: MessageType,
     override var isMe:Boolean=true,
-    private var audio:String?=null,
+    private var audio:String,
     var isPlaying:Boolean = false,
-    var duration:Int?=null
+    var duration:Int,
+    var isVoicing:Boolean=false
 ):MessageModel(id,userId,type) {
     val TAG = "MessageAudio"
     private var mediaPlayer:MediaPlayer?=null
@@ -22,10 +24,14 @@ data class MessageAudio(
         return audio as T;
     }
 
+    override fun convertToMessageUpload(): MessageUpload {
+        return MessageUpload(id,userId,type,isMe,"","",isPlaying,duration,audio,time,isVoicing)
+    }
+
     init {
         MediaHelper.initMediaPlayer(getContent<String>())
         MediaHelper.getMediaPlayer()?.let { mediaPlayer = it }
-        duration = mediaPlayer?.duration
+        duration = mediaPlayer?.duration!!
     }
 
 

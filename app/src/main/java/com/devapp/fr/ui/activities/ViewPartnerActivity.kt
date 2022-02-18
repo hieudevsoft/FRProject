@@ -201,7 +201,4 @@ class ViewPartnerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-
-    }
 }

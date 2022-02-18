@@ -37,20 +37,17 @@
             app:destination="@id/fragmentAbousUs"
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentInbox"
+            app:destination="@id/fragmentInbox"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_chats"
         android:id="@+id/fragmentChats"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentChats"
-        android:label="FragmentChats" >
-        <action
-            android:id="@+id/action_fragmentChats_to_fragmentInbox"
-            app:destination="@id/fragmentInbox"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_right"
-            app:popEnterAnim="@anim/anim_slide_in_right"
-            app:popExitAnim="@anim/anim_slide_out_left" />
-    </fragment>
+        android:label="FragmentChats" />
     <fragment
         tools:layout="@layout/fragment_settings"
         android:id="@+id/fragmentSettings"
@@ -63,7 +60,14 @@
         tools:layout="@layout/fragment_inbox"
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentInbox"
-        android:label="FragmentInbox" />
+        android:label="FragmentInbox" >
+
+        <argument
+            android:name="data"
+            app:argType="com.devapp.fr.data.entities.UserProfile"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_profile"
         android:id="@+id/fragmentProfile"

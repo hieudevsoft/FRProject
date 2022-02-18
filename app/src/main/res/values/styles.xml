@@ -178,4 +178,9 @@
         <item name="cornerSizeTopRight">@dimen/_20sdp</item>
         <item name="cornerSizeTopLeft">@dimen/_20sdp</item>
     </style>
+
+    <style name="customRoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_12sdp</item>
+    </style>
 </resources>
