@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 
 class CustomDialog(private val res:Int): DialogFragment() {
 
@@ -39,5 +40,13 @@ class CustomDialog(private val res:Int): DialogFragment() {
 
     fun setOnViewCallBackListener(callback: ((View) -> Unit)){
         viewCallBack = callback
+    }
+
+    override fun show(manager: FragmentManager, tag: String?) {
+        try{
+            if(!isAdded) super.show(manager,tag)
+        }catch (e:Exception){
+
+        }
     }
 }

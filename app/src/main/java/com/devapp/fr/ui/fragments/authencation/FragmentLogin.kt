@@ -14,6 +14,7 @@ import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentLoginBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
+import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.NetworkHelper
@@ -40,6 +41,9 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         subscriberObserver()
+        if(prefs.readIsLogin()){
+            startActivity(Intent(requireActivity(),MainActivity::class.java))
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -62,10 +66,10 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                         dialogLoading.dismiss()
                         prefs.saveIsLogin(true)
                         prefs.saveIdUserLogin(it.data)
-                        authViewModel.getUserProfile(it.data)
+                        prefs.saveProcessRegister(0)
                         Log.d(TAG, "subscriberObserver: ${it.data}")
                         delay(1000)
-                        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToFragmentMainViewPager(it.data))
+                        startActivity(Intent(requireActivity(),MainActivity::class.java))
                     }
 
                     is ResourceRemote.Error -> {

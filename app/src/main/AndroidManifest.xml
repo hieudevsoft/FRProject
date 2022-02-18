@@ -25,12 +25,15 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden|adjustUnspecified">
         <activity
-            android:name=".ui.activities.InformationUserActivity"
-            android:exported="true"
+            android:name=".ui.activities.LoginActivity"
             android:screenOrientation="portrait"
-            >
-
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.activities.ConfigProfileActivity"
             android:exported="true"
@@ -45,11 +48,8 @@
             android:name=".ui.activities.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

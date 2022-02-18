@@ -36,6 +36,6 @@ object Constants {
     //Other constant
     const val DEFAULT_DELAY_STATUS = 500
 
-    const val LIMIT_REQUEST_SWIPE = 20L
+    const val LIMIT_REQUEST_SWIPE = 100L
 
 }

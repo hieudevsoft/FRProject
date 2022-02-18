@@ -80,4 +80,22 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--Persona description-->
+    <string name="architect">Bạn là người giàu trí tưởng tượng và có đầu óc suy nghĩ một cách chiến lược, luôn có kế hoạch cho mọi thứ</string>
+    <string name="logician">Bạn là người có đầu óc sáng tạo, với khát khao cháy bỏng dành cho tri thức </string>
+    <string name="commander">Bạn là nhà lãnh đạo giàu trí tưởng tượng nhưng cũng rất táo bạo và mạnh mẽ, bạn luôn tìm ra cách giải quyết vấn đề mà không từ bỏ</string>
+    <string name="debater">Bạn là người thông minh và tò mò về mọi thứ, bạn luôn khao khát những thử thách về tri thức</string>
+    <string name="advocate">Bạn là người trầm tính và bí ẩn, nhưng cũng là một nhà tư tưởng đầy cảm hứng và nhiệt huyết</string>
+    <string name="mediator">Bạn là người thơ mộng, tốt bụng và giàu lòng vị tha, bạn luôn sẵn lòng giúp đỡ người khác</string>
+    <string name="protagonist">Cuốn hút và giỏi tạo cảm hứng, lời nói của bạn như có phép thôi miên người nghe</string>
+    <string name="campaigner">Yêu tự do, giỏi giao tiếp, sáng tạo và nhiệt tình, bạn là người luôn lạc quan trong mọi hoàn cảnh</string>
+    <string name="logistician">Bạn là người thực tế, suy nghĩ một cách logic và khoa học, bạn luôn tỏ ra đáng tin cậy đối với những người xung quanh</string>
+    <string name="defender">Tận tâm và ấm áp, bạn luôn sẵn sàng bảo vệ những người mà bạn yêu thương</string>
+    <string name="executive">Bạn là nhà quản trị xuất sắc nhất, bạn giỏi quản lý không chỉ công việc mà cả con người </string>
+    <string name="consul">Bạn là người cực kỳ nổi bật, hòa đồng và luôn quan tâm tới người khác</string>
+    <string name="virtuoso">Bạn là người thích vọc vạch mọi thứ, luôn táo bạo, thực tế và tò mò. Vậy nên bạn thông thạo rất nhiều công việc</string>
+    <string name="adventurer">Bạn có máu nghệ sĩ trong người, luôn sẵn sàng khám phá và trải nghiệm những thứ mới mẻ</string>
+    <string name="entrepreneur">Bạn thông minh, nhiệt huyết và táo bạo, bạn luôn sống hết mình nhưng cuộc sống đó cũng đầy mạo hiểm và thử thách</string>
+    <string name="entertainer">Bạn là mẫu người ngẫu hứng, năng động và nhiệt huyết, cuộc sống không bao giờ buồn chán đối với bạn</string>
+
 </resources>

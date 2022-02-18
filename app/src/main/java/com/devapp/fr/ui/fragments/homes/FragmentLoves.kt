@@ -16,11 +16,13 @@ import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.FragmentMainViewPager
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
 import com.devapp.fr.util.Constants.LIMIT_REQUEST_SWIPE
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
+import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,10 +43,12 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     private lateinit var settingSwipe: SwipeAnimationSetting.Builder
     private lateinit var settingRewind: RewindAnimationSetting.Builder
     private lateinit var parent: FragmentMainViewPager
+    private var currentPosition:Int = 0
 
     @Inject
     lateinit var prefs: SharedPreferencesHelper
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var loadingDialog: CustomDialog
 
     override fun onSetupView() {
@@ -65,9 +69,11 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         cardStackViewAdapter = CardStackViewAdapter(
             this,
             {
+                binding.cardStackView.isEnabled = false
                 swipeWithDirection(Direction.Left)
             }, {
                 swipeWithDirection(Direction.Right)
+                binding.cardStackView.isEnabled = false
             }, { view, user ->
 
             }) {
@@ -76,7 +82,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         try {
             val user = (requireActivity() as MainActivity).getUser()
             user?.let {
-                authAndProfileViewModel.getAllProfileSwipe(user.id, user.gender, LIMIT_REQUEST_SWIPE)
+
             }
         } catch (e: Exception) {
 
@@ -88,11 +94,12 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
     }
 
-    fun swipeWithDirection(direction: Direction) {
+    private fun swipeWithDirection(direction: Direction) {
         cardStackLayoutManager.setSwipeAnimationSetting(
             settingSwipe.setDirection(direction).build()
         )
         binding.cardStackView.swipe()
+
     }
 
     private fun setupCardStackViewLayoutManger() {
@@ -143,11 +150,14 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     override fun onCardSwiped(direction: Direction?) {
         goneCardOperation()
         Log.d(TAG, "onCardSwiped: ${direction?.name}")
-        if (direction?.name!!.contains("RIGHT", true))
+        if (direction?.name!!.contains("RIGHT", true)){
             setupLinearProgress(binding.progressBarEnergy.progress + 1)
+            authAndProfileViewModel.sendNotificationsToPartner(cardStackViewAdapter.getItemAtPostion(currentPosition).id,prefs.readIdUserLogin()!!)
+        }
         else {
             try {
                 setupLinearProgress(binding.progressBarEnergy.progress - 1)
+                currentPosition+=1
             } catch (e: Exception) {
 
             }
@@ -164,7 +174,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     override fun onCardRewound() {
         Log.d(TAG, "onCardRewound: Card Rewound")
         goneCardOperation()
-        //setupLinearProgress(binding.progressBarEnergy.progress - 1)
+        currentPosition-=1
     }
 
     override fun onCardCanceled() {
@@ -194,12 +204,21 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
             authAndProfileViewModel.sateGetAllProfileSwipe.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                        try {
+                            loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                        }catch (e:Exception){
+
+                        }
                         Log.d(TAG, "subscriberObserver: loading...")
                     }
 
                     is ResourceRemote.Success -> {
-                        loadingDialog.dismiss()
+                        try {
+                            loadingDialog.dismiss()
+                            binding.cardStackView.isEnabled = true
+                        }catch (e:Exception){
+
+                        }
                         binding.cardStackView.toVisible()
                         cardStackViewAdapter.submitList(it.data)
                         binding.progressBarEnergy.max = cardStackViewAdapter.itemCount
@@ -208,7 +227,11 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                     }
 
                     is ResourceRemote.Error -> {
-                        loadingDialog.dismiss()
+                        try {
+                            loadingDialog.dismiss()
+                        }catch (e:Exception){
+
+                        }
                         binding.cardStackView.toGone()
                         Log.d(TAG, "subscribeObserver: ${it.message}")
                         Toast.makeText(
@@ -223,12 +246,52 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                 }
 
             }
-        }
-    }
 
-    override fun onDestroyView() {
-        authAndProfileViewModel.resetSateGetAllProfileSwipe()
-        super.onDestroyView()
+            launchRepeatOnLifeCycleWhenStarted {
+
+                authAndProfileViewModel.sateSendNotificationToPartner.collect {
+                    when (it) {
+                        is ResourceRemote.Loading -> {
+                            try {
+                                loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                            }catch (e:Exception){
+
+                            }
+                            Log.d(TAG, "subscriberObserver noti: loading...")
+                        }
+
+                        is ResourceRemote.Success -> {
+                            try {
+                                loadingDialog.dismiss()
+                            }catch (e:Exception){
+
+                            }
+                            loadingDialog.dismiss()
+                            currentPosition+=1
+                            showToast("Đợi phản hồi từ đối phương nhé ~")
+                        }
+
+                        is ResourceRemote.Error -> {
+                            try {
+                                loadingDialog.dismiss()
+                            }catch (e:Exception){
+
+                            }
+                            Log.d(TAG, "subscribeObserver: ${it.message}")
+                            Toast.makeText(
+                                requireContext(),
+                                "Kiểm tra lại kết nối mạng!!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> {
+
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 }

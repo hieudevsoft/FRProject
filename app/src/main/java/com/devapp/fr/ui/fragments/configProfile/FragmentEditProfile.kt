@@ -14,6 +14,8 @@ import com.devapp.fr.adapters.InformationAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.items.InformationItem
 import com.devapp.fr.databinding.FragmentEditProfileBinding
+import com.devapp.fr.ui.fragments.quiz.FragmentQuiz
+import com.devapp.fr.ui.fragments.quiz.FragmentQuizDirections
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.SexualityBottomDialogFragment
 import com.devapp.fr.util.DataHelper
@@ -40,6 +42,7 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
     private var currentPosPet = -1
     private var currentCertificate = -1
     private var currentPosReligion = -1
+    private var currentPosQuiz = -1
     private val args:FragmentEditProfileArgs by navArgs()
     override fun onSetupView() {
         setupRecyclerViewInformation()
@@ -345,6 +348,10 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 8-> {
                     sharedViewModel.setPositionInformation(8)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentCertificate(true,currentCertificate))
+                }
+                9-> {
+                    sharedViewModel.setPositionInformation(9)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentQuiz())
                 }
             }
         }

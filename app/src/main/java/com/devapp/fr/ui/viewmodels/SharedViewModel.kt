@@ -3,6 +3,7 @@ package com.devapp.fr.ui.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.devapp.fr.adapters.InformationAdapter
+import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.data.models.items.InformationItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -165,5 +166,20 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedFlowListUserWaitingAccept:MutableSharedFlow<List<UserProfile>> = MutableSharedFlow(1)
+    fun getSharedFlowListUserWaitingAccept() = _sharedFlowListUserWaitingAccept.asSharedFlow()
+    fun setSharedFlowListUserWaitingAccept(list:List<UserProfile>){
+        viewModelScope.launch {
+            _sharedFlowListUserWaitingAccept.emit(list)
+        }
+    }
+
+    private val _sharedFlowListUserMatch:MutableSharedFlow<List<UserProfile>> = MutableSharedFlow(1)
+    fun getSharedFlowListUserMatch() = _sharedFlowListUserMatch.asSharedFlow()
+    fun setSharedFlowListUserMatch(list:List<UserProfile>){
+        viewModelScope.launch {
+            _sharedFlowListUserMatch.emit(list)
+        }
+    }
 
 }

@@ -13,7 +13,7 @@ object QuizConstants {
             2,
             "Bạn dành nhiều thời gian khám phá những chủ đề linh tinh khiến bạn hứng thú",
             QuizData.QuestionType.Energy,
-            0
+            1
         )
         val q3 = QuizData(
             3,
@@ -37,7 +37,7 @@ object QuizConstants {
             6,
             "Ở những sự kiện xã hội, bạn hiếm khi giới thiệu bản thân với người lạ mà chỉ nói chuyện với người quen",
             QuizData.QuestionType.Mind,
-            0
+            1
         )
         val q7 = QuizData(
             7,
@@ -73,13 +73,13 @@ object QuizConstants {
             12,
             "Bạn không hứng thú với việc cảm thụ và phân tích các tác phẩm nghệ thuật",
             QuizData.QuestionType.Energy,
-            1
+            0
         )
         val q13 = QuizData(
             13,
             "Bạn có xu hướng nghe theo bộ não thay vì trái tim",
             QuizData.QuestionType.Nature,
-            0
+            1
         )
         val q14 = QuizData(
             14,
@@ -91,7 +91,7 @@ object QuizConstants {
             15,
             "Bạn hiếm khi lo lắng về việc có gây ấn tượng tốt với những người mình gặp hay không",
             QuizData.QuestionType.Identity,
-            0
+            1
         )
         val q16 = QuizData(
             16,
@@ -109,7 +109,7 @@ object QuizConstants {
             18,
             "Bạn thấy hạnh phúc vì giúp người khác đạt được thành công hơn là hạnh phúc vì thành quả của chính mình",
             QuizData.QuestionType.Nature,
-            1
+            0
         )
         val q19 = QuizData(
             19,
@@ -161,9 +161,9 @@ object QuizConstants {
         )
         val q27 = QuizData(
             27,
-            "Bạn có xu hướng tránh thu hút sự chú ý tới bản thân",
-            QuizData.QuestionType.Mind,
-            1
+            "Bạn là người sống tình cảm",
+            QuizData.QuestionType.Nature,
+            0
         )
         val q28 = QuizData(
             28,
@@ -239,15 +239,15 @@ object QuizConstants {
         )
         val q40 = QuizData(
             40,
-            "Bạn thích lên kế hoạch chi tiết mỗi ngày",
+            "Bạn thích lên kế hoạch công việc mỗi ngày",
             QuizData.QuestionType.Tactics,
             1
         )
         val q41 = QuizData(
             41,
-            "Bạn thích lên kế hoạch chi tiết mỗi ngày",
-            QuizData.QuestionType.Tactics,
-            1
+            "Bạn tránh khiến cho người khác trông xấu xa, dù người đó có lỗi",
+            QuizData.QuestionType.Nature,
+            0
         )
         val q42 = QuizData(
             42,
@@ -264,7 +264,7 @@ object QuizConstants {
         val q44 = QuizData(
             44,
             "Bạn thường dành nhiều thời gian để cố thấu hiểu quan điểm của người khác",
-            QuizData.QuestionType.Nature,
+            QuizData.QuestionType.Energy,
             1
         )
         val q45 = QuizData(
@@ -283,7 +283,7 @@ object QuizConstants {
             47,
             "Bạn vẫn còn thấy áy náy vì những sai lầm phạm phải từ rất lâu về trước",
             QuizData.QuestionType.Identity,
-            1
+            0
         )
         val q48 = QuizData(
             48,
@@ -320,7 +320,7 @@ object QuizConstants {
             53,
             "Bạn cho rằng ngẫm nghĩ về những câu hỏi triết học trừu tượng thật là vô bổ",
             QuizData.QuestionType.Energy,
-            1
+            0
         )
         val q54 = QuizData(
             54,
@@ -363,7 +363,7 @@ object QuizConstants {
             60,
             "Bạn tự tin rằng mọi chuyện rồi sẽ ổn thôi",
             QuizData.QuestionType.Identity,
-            0
+            1
         )
         questionList.add(q1)
         questionList.add(q2)

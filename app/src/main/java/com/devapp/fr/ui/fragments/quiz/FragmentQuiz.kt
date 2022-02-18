@@ -1,14 +1,24 @@
 package com.devapp.fr.ui.fragments.quiz
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.quiz.QuizConstants
 import com.devapp.fr.data.models.quiz.QuizData
 import com.devapp.fr.databinding.FragmentQuizBinding
+import com.devapp.fr.databinding.FragmentQuizResultBinding
 import com.google.firebase.firestore.util.Assert
 import kotlinx.coroutines.NonDisposableHandle.parent
 import java.lang.AssertionError
@@ -94,11 +104,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                 {
                     mExtravert[0] = 0
                     mIntrovert[0] = 0
-                    if (question1.TypeReference == 0 ) {
+                    if (question1.TypeReference == 1 ) {
 
                         mIntrovert[0] +=1
                     }
-                    else if (question1.TypeReference == 1 ) {
+                    else if (question1.TypeReference == 0 ) {
 
                         mExtravert[0] += 1
                     }
@@ -368,11 +378,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntrovert[1] =0
                     mExtravert[1] =0
                     if (question2.TypeReference == 1) {
-                        mIntrovert[1] = 0
+                        mIntrovert[1] +=2
 
                     }
                     else if (question2.TypeReference == 0) {
-                        mExtravert[1] = 0
+                        mExtravert[1] +=2
 
                     }
                 }
@@ -380,11 +390,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mObservant[1] =0
                     mIntuitive[1] =0
                     if (question2.TypeReference == 1) {
-                        mIntuitive[1] =0
+                        mIntuitive[1] +=2
 
                     }
                     else if (question2.TypeReference == 0) {
-                        mObservant[1] = 0
+                        mObservant[1] +=2
 
                     }
                 }
@@ -393,11 +403,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mThinking[1] =0
                     mFeeling[1] =0
                     if (question2.TypeReference == 1 ) {
-                        mThinking[1] = 0
+                        mThinking[1] +=2
 
                     }
                     else if (question2.TypeReference == 0 ) {
-                        mFeeling[1] = 0
+                        mFeeling[1] +=2
 
                     }
                 }
@@ -406,11 +416,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mJudging[1] =0
                     mProspecting[1] =0
                     if (question2.TypeReference == 1) {
-                        mJudging[1] = 0
+                        mJudging[1] +=2
 
                     }
                     else if (question2.TypeReference == 0 ) {
-                        mProspecting[1] = 0
+                        mProspecting[1] +=2
 
                     }
                 }
@@ -419,11 +429,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mTurbulent[1] =0
                     mAssertive[1] =0
                     if (question2.TypeReference == 1) {
-                        mAssertive[1] = 0
+                        mAssertive[1] +=2
 
                     }
                     else if (question2.TypeReference == 0) {
-                        mTurbulent[1] = 0
+                        mTurbulent[1] +=2
 
                     }
                 }
@@ -440,11 +450,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntrovert[2] =0
                     mExtravert[2] =0
                     if (question3.TypeReference == 1) {
-                        mIntrovert[2] = 0
+                        mIntrovert[2] +=2
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mExtravert[2] = 0
+                        mExtravert[2] +=2
 
                     }
                 }
@@ -452,11 +462,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntuitive[2] =0
                     mObservant[2] =0
                     if (question3.TypeReference == 1) {
-                        mIntuitive[2] = 0
+                        mIntuitive[2] +=2
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mObservant[2] = 0
+                        mObservant[2] +=2
 
                     }
                 }
@@ -464,11 +474,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mThinking[2] =0
                     mFeeling[2] =0
                     if (question3.TypeReference == 1) {
-                        mThinking[2] = 0
+                        mThinking[2] +=2
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mFeeling[2] = 0
+                        mFeeling[2] +=2
 
                     }
                 }
@@ -476,11 +486,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mJudging[2] =0
                     mProspecting[2] =0
                     if (question3.TypeReference == 1) {
-                        mJudging[2] = 0
+                        mJudging[2] +=2
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mProspecting[2] = 0
+                        mProspecting[2] +=2
 
                     }
                 }
@@ -488,11 +498,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mAssertive[2] =0
                     mTurbulent[2] =0
                     if (question3.TypeReference ==1) {
-                        mAssertive[2] = 0
+                        mAssertive[2] +=2
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mTurbulent[2] = 0
+                        mTurbulent[2] +=2
 
                     }
                 }
@@ -508,63 +518,63 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                 resetPoint1()
                 if (question1.questionType == QuizData.QuestionType.Mind)
                 {
-                    mIntrovert[0] += 3
-                    mExtravert[0] += 3
+                    mIntrovert[0] = 0
+                    mExtravert[0] = 0
                     if (question1.TypeReference == 1 ) {
-                        mIntrovert[0] = 0
 
+                        mIntrovert[0] += 3
                     }
                     else if (question1.TypeReference == 0 ) {
-                        mExtravert[0] = 0
 
+                        mExtravert[0] += 3
                     }
                 }
                 else if ( question1.questionType == QuizData.QuestionType.Energy ) {
-                    mIntuitive[0] +=3
-                    mObservant[0] += 3
+                    mIntuitive[0] = 0
+                    mObservant[0] = 0
                     if (question1.TypeReference == 1) {
-                        mIntuitive[0] = 0
 
+                        mIntuitive[0] +=3
                     }
                     else if (question1.TypeReference == 0) {
-                        mObservant[0] = 0
 
+                        mObservant[0] += 3
                     }
                 }
                 else if ( question1.questionType == QuizData.QuestionType.Nature) {
-                    mThinking[0] += 3
-                    mFeeling[0] += 3
+                    mThinking[0] = 0
+                    mFeeling[0] = 0
                     if (question1.TypeReference == 1) {
-                        mThinking[0] = 0
 
+                        mThinking[0] += 3
                     }
                     else if (question1.TypeReference == 0 ) {
-                        mFeeling[0] = 0
 
+                        mFeeling[0] += 3
                     }
                 }
                 else if ( question1.questionType == QuizData.QuestionType.Tactics ) {
-                    mJudging[0] += 3
-                    mProspecting[0] += 3
+                    mProspecting[0] = 0
+                    mJudging[0] = 0
                     if (question1.TypeReference == 1) {
-                        mJudging[0] = 0
 
+                        mJudging[0] += 3
                     }
                     else if (question1.TypeReference == 0) {
-                        mProspecting[0] = 0
 
+                        mProspecting[0] += 3
                     }
                 }
                 else if ( question1.questionType == QuizData.QuestionType.Identity ) {
-                    mTurbulent[0] += 3
-                    mAssertive[0] += 3
+                    mTurbulent[0] = 0
+                    mAssertive[0] = 0
                     if (question1.TypeReference == 1) {
-                        mAssertive[0] = 0
 
+                        mAssertive[0] += 3
                     }
                     else if (question1.TypeReference == 0 ) {
-                        mTurbulent[0] = 0
 
+                        mTurbulent[0] += 3
                     }
                 }
             }
@@ -577,63 +587,63 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                 resetPoint2()
                 if (question2.questionType == QuizData.QuestionType.Mind)
                 {
-                    mExtravert[1] += 3
-                    mIntrovert[1] += 3
+                    mIntrovert[1] = 0
+                    mExtravert[1] = 0
                     if (question2.TypeReference == 1 ) {
-                        mIntrovert[1] = 0
 
+                        mIntrovert[1] += 3
                     }
                     else if (question2.TypeReference == 0 ) {
-                        mExtravert[1] = 0
 
+                        mExtravert[1] += 3
                     }
                 }
                 else if ( question2.questionType == QuizData.QuestionType.Energy ) {
-                    mIntuitive[1] += 3
-                    mObservant[1] += 3
+                    mObservant[1] = 0
+                    mIntuitive[1] = 0
                     if (question2.TypeReference == 1) {
-                        mIntuitive[1] = 0
 
+                        mIntuitive[1] += 3
                     }
                     else if (question2.TypeReference == 0) {
-                        mObservant[1] = 0
 
+                        mObservant[1] += 3
                     }
                 }
                 else if ( question2.questionType == QuizData.QuestionType.Nature) {
-                    mFeeling[1] += 3
-                    mThinking[1] += 3
+                    mThinking[1] = 0
+                    mFeeling[1] = 0
                     if (question1.TypeReference == 1) {
-                        mThinking[1] = 0
 
+                        mThinking[1] += 3
                     }
                     else if (question2.TypeReference == 0 ) {
-                        mFeeling[1] = 0
 
+                        mFeeling[1] += 3
                     }
                 }
                 else if ( question2.questionType == QuizData.QuestionType.Tactics ) {
-                    mJudging[1] += 3
-                    mJudging[1] += 3
+                    mJudging[1] = 0
+                    mJudging[1] = 0
                     if (question2.TypeReference == 1) {
-                        mJudging[1] = 0
 
+                        mJudging[1] += 3
                     }
                     else if (question2.TypeReference == 0) {
-                        mJudging[1] = 0
 
+                        mProspecting[1] += 3
                     }
                 }
                 else if ( question2.questionType == QuizData.QuestionType.Identity ) {
-                    mTurbulent[1] += 3
-                    mAssertive[1] += 3
+                    mAssertive[1] = 0
+                    mTurbulent[1] = 0
                     if (question2.TypeReference == 1) {
+                        mAssertive[1] += 3
 
-                        mAssertive[1] = 0
                     }
                     else if (question2.TypeReference == 0 ) {
-                        mTurbulent[1] = 0
 
+                        mTurbulent[1] += 3
                     }
                 }
             }
@@ -649,11 +659,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntrovert[2] =0
                     mExtravert[2] =0
                     if (question3.TypeReference == 1 ) {
-                        mTurbulent[2] = 0
+                        mIntrovert[2] +=3
 
                     }
                     else if (question3.TypeReference == 0 ) {
-                        mExtravert[2] = 0
+                        mExtravert[2] +=3
 
                     }
                 }
@@ -661,11 +671,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntuitive[2] =0
                     mObservant[2] =0
                     if (question3.TypeReference == 1) {
-                        mIntuitive[2] = 0
+                        mIntuitive[2] +=3
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mObservant[2] = 0
+                        mObservant[2] +=3
 
                     }
                 }
@@ -673,11 +683,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mThinking[2] =0
                     mFeeling[2] =0
                     if (question3.TypeReference == 1) {
-                        mThinking[2] = 0
+                        mThinking[2] +=3
 
                     }
                     else if (question3.TypeReference == 0 ) {
-                        mFeeling[2] = 0
+                        mFeeling[2] +=3
 
                     }
                 }
@@ -685,11 +695,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mJudging[2] =0
                     mProspecting[2] =0
                     if (question3.TypeReference == 1) {
-                        mJudging[2] = 0
+                        mJudging[2] +=3
 
                     }
                     else if (question3.TypeReference == 0) {
-                        mProspecting[2] = 0
+                        mProspecting[2] +=3
 
                     }
                 }
@@ -697,11 +707,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mTurbulent[2] =0
                     mAssertive[2] =0
                     if (question3.TypeReference == 1) {
-                        mAssertive[2] = 0
+                        mAssertive[2] +=3
 
                     }
                     else if (question3.TypeReference == 0 ) {
-                        mTurbulent[2] = 0
+                        mTurbulent[2] +=3
 
                     }
                 }
@@ -720,7 +730,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntrovert[0] =0
                     mExtravert[0] =0
                     if (question1.TypeReference == 0 ) {
-                        mIntrovert[0] =0
+
                         mIntrovert[0] +=1
                     }
                     else if (question1.TypeReference == 1 ) {
@@ -732,11 +742,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mIntuitive[0] =0
                     mObservant[0] =0
                     if (question1.TypeReference == 0 ) {
-                        mIntuitive[0] = 0
+
                         mIntuitive[0] +=1
                     }
                     else if (question1.TypeReference == 1) {
-                        mObservant[0] = 0
+
                         mObservant[0] +=1
                     }
                 }
@@ -744,11 +754,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mThinking[0] =0
                     mFeeling[0]=0
                     if (question1.TypeReference == 0 ) {
-                        mThinking[0] = 0
+
                         mThinking[0] += 1
                     }
                     else if (question1.TypeReference == 1 ) {
-                        mFeeling[0] = 0
+
                         mFeeling[0] +=1
                     }
                 }
@@ -756,11 +766,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     mJudging[0] =0
                     mProspecting[0] =0
                     if (question1.TypeReference == 0 ) {
-                        mJudging[0] = 0
+
                         mJudging[0] +=1
                     }
                     else if (question1.TypeReference == 1 ) {
-                        mProspecting[0] = 0
+
                         mJudging[0] +=1
                     }
                 }
@@ -1306,10 +1316,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
 
             //next button
             binding.btnNext.setOnClickListener {
+                var controller = findNavController()
                 if (mCurrentPosition < mQuestionList!!.size ) {
                     mCurrentPosition += 3
                     setQuestion()
-                    Toast.makeText(requireActivity(), "${question1.questionType} + ${question2.questionType} + ${question3.questionType}", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireActivity(), "${question1.questionType} + ${question2.questionType} + ${question3.questionType}", Toast.LENGTH_LONG).show()
                     defaultOptionViewLine1()
                     defaultOptionViewLine2()
                     defaultOptionViewLine3()
@@ -1363,8 +1374,11 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     } else if (Turbulent > Assertive) {
                         mChar5 = "-T"
                     }
-                    userPersonalities = "mChar1" + "mChar2" + "mChar3" + "mChar4" + "mChar5"
+                    userPersonalities = "$mChar1" + "$mChar2" + "$mChar3" + "$mChar4" + "$mChar5"
                     Toast.makeText(requireActivity(), "$userPersonalities", Toast.LENGTH_LONG).show()
+                    val result = userPersonalities
+                    val action = FragmentQuizDirections.actionFragmentQuizToFragmentQuizResult(result)
+                    controller.navigate(action)
 
                 }
                 }

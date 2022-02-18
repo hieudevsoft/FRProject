@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark_mode"
+    android:background="#E1F8EE"
     android:padding="@dimen/PADDING_SMALL">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:src="@drawable/ic_back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:tint="@color/black" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:layout_marginLeft="@dimen/MARGIN_SMALLEST"
         android:fontFamily="@font/nunito_semibold"
         android:text="Test "
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/btn_back"
         app:layout_constraintLeft_toRightOf="@id/btn_back"
         app:layout_constraintTop_toTopOf="@id/btn_back" />
@@ -31,7 +31,7 @@
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
         android:src="@drawable/ic_about_us"
-        android:tint="@color/white"
+        android:tint="@color/black"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UseAppTint" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arial_rounded_mt"
         android:text="Enter quiz here"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -104,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đúng"
-        android:textColor="@color/white"
+        android:textColor="@color/color_agree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <Button
         android:layout_width="@dimen/_26sdp"
@@ -149,7 +149,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sai"
-        android:textColor="@color/white"
+        android:textColor="@color/color_disagree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <TextView
         android:id="@+id/tx_quiz2"
@@ -157,7 +157,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arial_rounded_mt"
         android:text="Enter quiz here"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         android:textStyle="bold"
 
         app:layout_constraintLeft_toLeftOf="parent"
@@ -218,7 +218,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đúng"
-        android:textColor="@color/white"
+        android:textColor="@color/color_agree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <Button
         android:layout_width="@dimen/_26sdp"
@@ -263,7 +263,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sai"
-        android:textColor="@color/white"
+        android:textColor="@color/color_disagree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <TextView
         android:id="@+id/tx_quiz3"
@@ -271,7 +271,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arial_rounded_mt"
         android:text="Enter quiz here"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         android:textStyle="bold"
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -331,7 +331,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đúng"
-        android:textColor="@color/white"
+        android:textColor="@color/color_agree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <Button
         android:layout_width="@dimen/_26sdp"
@@ -376,7 +376,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sai"
-        android:textColor="@color/white"
+        android:textColor="@color/color_disagree"
         android:layout_marginTop="@dimen/MARGIN_SMALLEST"/>
     <ImageView
         app:layout_constraintTop_toBottomOf="@id/btn_middle3"
@@ -387,7 +387,7 @@
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_next_2"
-        app:tint="@color/white"
+        app:tint="#576071"
         android:id="@+id/btn_next"/>
     <TextView
         app:layout_constraintLeft_toLeftOf="@id/btn_next"
@@ -397,7 +397,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         android:id="@+id/tx_question"/>
     <TextView
         app:layout_constraintLeft_toRightOf="@id/tx_question"
@@ -406,7 +406,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         android:layout_marginLeft="@dimen/_1sdp"
         android:id="@+id/sharp"/>
 
@@ -414,7 +414,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="60"
-        android:textColor="@color/white"
+        android:textColor="#576071"
         app:layout_constraintBottom_toBottomOf="@id/sharp"
         app:layout_constraintLeft_toRightOf="@id/sharp"
         app:layout_constraintTop_toTopOf="@id/sharp"

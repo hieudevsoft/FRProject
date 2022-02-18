@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,6 +23,7 @@ import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.homes.FragmentChats
 import com.devapp.fr.ui.fragments.homes.FragmentLoves
 import com.devapp.fr.ui.fragments.homes.FragmentSettings
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
@@ -49,6 +51,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,7 +68,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        Log.d(TAG, "onViewCreated")
         //Get Bottom Bar from MainActivity
         if (requireActivity() is MainActivity) {
             bottomBar = (requireActivity() as MainActivity).bottomBar
@@ -86,7 +89,9 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
 
     override fun syncTheme(appTheme: AppTheme) {
         val theme = appTheme as MyAppTheme
-        binding.mainViewPager.setBackgroundColor(theme.backgroundColor(requireContext()))
+        binding.mainViewPager.apply {
+            setBackgroundColor(theme.backgroundColor(requireContext()))
+        }
     }
 
     private fun handleOnBackPress(isDarkMode: Boolean) {
@@ -113,6 +118,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
         binding.mainViewPager.apply {
             adapter = mainViewPager
             setPageTransformer(PageTransformHelper.TabletPageTransformer())
+            offscreenPageLimit = 3
         }
     }
 
@@ -161,11 +167,6 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
         )
     }
 
-    override fun onDestroyView() {
-        Log.d(TAG, "onDestroyView")
-        super.onDestroyView()
-    }
-
     override fun onCardProfileClickListener() {
         if (getIdUser().isNotEmpty()) findNavController().navigate(
             FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentProfile(
@@ -175,6 +176,20 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     override fun onCardLogoutClickListener() {
-        findNavController().navigate(FragmentMainViewPagerDirections.actionFragmentSettingsToFragmentLogin())
+        requireActivity().finish()
+    }
+
+    override fun onCardWaitingAcceptClickListener() {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentWaitingAccept(
+                getIdUser()
+            )
+        )
+    }
+
+    override fun onCardNotificationMatchClickListener() {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentNotificationMatch()
+        )
     }
 }

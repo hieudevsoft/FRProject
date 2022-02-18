@@ -49,7 +49,7 @@
         android:measureAllChildren="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -61,7 +61,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/ly_theme_mode"
+                    android:id="@+id/ly_notifications"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_120sdp"
                     android:layout_weight="1"
@@ -174,65 +174,70 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/ly_about_us"
+                    android:id="@+id/ly_waiting_accept"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_120sdp"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
                     app:cardUseCompatPadding="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingHorizontal="@dimen/_8sdp"
-                        android:paddingVertical="@dimen/_8sdp">
+                        android:padding="@dimen/MEDIUM_SPACE">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/ic_about_us"
+                        <ImageView
+                            android:id="@+id/ic_waiting_accept"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/ic_about_us"
-                            app:tint="@color/black"
-                            app:useMaterialThemeColors="true" />
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:src="@drawable/ic_plane"
+                            app:tint="@color/black" />
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_number_waiting_accept"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/ic_about_us"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/circle_text_view"
+                            android:backgroundTint="@color/background_dark_mode"
+                            android:fontFamily="@font/nunito_light"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:text="15"
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_about_us"
-                                style="@style/TextAppearance.MaterialComponents.Body1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/_8sdp"
-                                android:fontFamily="@font/nunito_semibold"
-                                android:text="@string/about" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_waiting_accept"
+                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ic_waiting_accept"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="Lời mời đã gửi " />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_des_about_us"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito_light"
-                                android:text="Bạn có thể xem thông tin về đội ngũ phát triển"
-                                android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_des_waiting_accept"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_waiting_accept"
+                            android:fontFamily="@font/nunito_light"
+                            android:gravity="center"
+                            android:text="Bạn có thể xem đã gửi lời mời kết đối với ai tại đây ~"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -293,27 +298,122 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_logout"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
-                app:cardUseCompatPadding="true"
-                app:contentPadding="@dimen/_6sdp">
+                android:orientation="horizontal">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ly_about_us"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                    app:cardUseCompatPadding="true">
 
-                <ImageView
-                    android:layout_width="@dimen/SIZE_ICON_24"
-                    android:layout_height="@dimen/SIZE_ICON_24"
-                    android:padding="@dimen/_6sdp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/logout" />
-            </androidx.cardview.widget.CardView>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_8sdp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/ic_about_us"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/ic_about_us"
+                            app:tint="@color/black"
+                            app:useMaterialThemeColors="true" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ic_about_us"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_about_us"
+                                style="@style/TextAppearance.MaterialComponents.Body1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_8sdp"
+                                android:fontFamily="@font/nunito_semibold"
+                                android:text="@string/about" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tv_des_about_us"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_light"
+                                android:text="Bạn có thể xem thông tin về đội ngũ phát triển"
+                                android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_logout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/CORNER_RADIUS_SMALL"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/MEDIUM_SPACE">
+
+                        <ImageView
+                            android:id="@+id/ic_logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:src="@drawable/ic_logout"
+                            app:tint="@color/black" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_logout"
+                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ic_logout"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/_6sdp"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="Đăng xuất" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/des_logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_logout"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/nunito_light"
+                            android:text="Tạm biệt, hẹn gặp lại ~"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <com.airbnb.lottie.LottieAnimationView
                 app:lottie_autoPlay="true"
                 app:lottie_repeatMode="restart"
@@ -324,9 +424,9 @@
                 app:lottie_rawRes="@raw/date_love"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="@dimen/_150sdp"/>
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
 

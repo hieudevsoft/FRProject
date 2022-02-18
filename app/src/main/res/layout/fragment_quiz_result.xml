@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#E1F8EE">
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_300sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:lottie_rawRes="@raw/lottie_engineer"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:id="@+id/img_personality"/>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/img_personality"
+        app:layout_constraintLeft_toLeftOf="@id/img_personality"
+        app:layout_constraintRight_toRightOf="@id/img_personality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter text here"
+        android:textAllCaps="true"
+        android:textColor="#93619a"
+        android:fontFamily="@font/arial_rounded_mt"
+        android:id="@+id/tx_personalityType"
+        android:textSize="@dimen/TEXT_SIZE_NORMAL"
+        android:gravity="center|center_horizontal"
+        android:textStyle="bold"
+        />
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/tx_personalityType"
+        app:layout_constraintLeft_toLeftOf="@id/tx_personalityType"
+        app:layout_constraintRight_toRightOf="@id/tx_personalityType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Text here"
+        android:textColor="@color/black"
+        android:textSize="@dimen/TEXT_SIZE_SMALLEST"
+        android:layout_marginTop="@dimen/MARGIN_SMALLEST"
+        android:id="@+id/tx_persona"
+        android:textStyle="bold"/>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/tx_persona"
+        app:layout_constraintLeft_toLeftOf="@id/tx_persona"
+        app:layout_constraintRight_toRightOf="@id/tx_persona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Text here"
+        android:textColor="#7f8586"
+        android:textSize="@dimen/TEXT_SIZE_SMALL"
+        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:id="@+id/txDescription"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
