@@ -17,7 +17,7 @@ import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.FragmentMainViewPager
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
@@ -206,7 +206,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                 when (it) {
                     is ResourceRemote.Loading -> {
                         try {
-                            showLoadingDialog()
+                            loadingDialog.show()
                         }catch (e:Exception){
 
                         }
@@ -215,7 +215,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                     is ResourceRemote.Success -> {
                         try {
-                            hideLoadingDialog()
+                            loadingDialog.dismiss()
                             binding.cardStackView.isEnabled = true
                         }catch (e:Exception){
 
@@ -229,7 +229,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                     is ResourceRemote.Error -> {
                         try {
-                            hideLoadingDialog()
+                            loadingDialog.dismiss()
                         }catch (e:Exception){
 
                         }
@@ -253,7 +253,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                     when (it) {
                         is ResourceRemote.Loading -> {
                             try {
-                                showLoadingDialog()
+                                loadingDialog.show()
                             }catch (e:Exception){
 
                             }
@@ -262,18 +262,18 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                         is ResourceRemote.Success -> {
                             try {
-                                hideLoadingDialog()
+                                loadingDialog.dismiss()
                             }catch (e:Exception){
 
                             }
-                            hideLoadingDialog()
+                            loadingDialog.dismiss()
                             currentPosition+=1
                             showToast("Đợi phản hồi từ đối phương nhé ~")
                         }
 
                         is ResourceRemote.Error -> {
                             try {
-                                hideLoadingDialog()
+                                loadingDialog.dismiss()
                             }catch (e:Exception){
 
                             }

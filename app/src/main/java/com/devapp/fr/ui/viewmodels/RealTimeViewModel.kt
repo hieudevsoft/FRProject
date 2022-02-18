@@ -2,22 +2,18 @@ package com.devapp.fr.ui.viewmodels
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.items.AccountOnline
 import com.devapp.fr.data.models.items.Notification
+import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.di.IoDispatcher
 import com.devapp.fr.network.RealTimeService
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -94,6 +90,48 @@ class RealTimeViewModel @Inject constructor(
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
         viewModelScope.launch {
             _stateFlowUpdateLastMessage.value = realTimeService.updateLastMessage(senderRoom,recieverRoom,lastObj)
+        }
+    }
+
+    private val _stateFlowUpdateActing:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateUpdateActing:StateFlow<Boolean?> =_stateFlowUpdateActing
+    fun updateActing(
+        recieverRoom:String,
+        acting:String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
+        viewModelScope.launch {
+            _stateFlowUpdateActing.value = realTimeService.updateActing(recieverRoom,acting)
+        }
+    }
+
+    private val _stateFlowReadActing:MutableStateFlow<String?> = MutableStateFlow(null)
+    val stateReadActing:StateFlow<String?> =_stateFlowReadActing
+    fun readActing(
+        senderRoom:String,
+      ){
+        viewModelScope.launch {
+            realTimeService.readActing(senderRoom,{_stateFlowReadActing.value = it},{_stateFlowReadActing.value = null})
+        }
+    }
+
+    private val _stateFlowSendMessageToFirebase:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateSendMessageToFirebase:StateFlow<Boolean?> =_stateFlowSendMessageToFirebase
+    fun sendMessageToFirebase(senderRoom: String,recieverRoom: String,data:MessageUpload){
+        viewModelScope.launch {
+            _stateFlowSendMessageToFirebase.value = realTimeService.sendMessageToFirebase(senderRoom,recieverRoom,data)
+            _stateFlowSendMessageToFirebase.value = null
+        }
+    }
+
+    private val _stateFlowGetListMessage:MutableStateFlow<List<MessageModel>?> = MutableStateFlow(emptyList())
+    val stateGetListMessage:StateFlow<List<MessageModel>?> =_stateFlowGetListMessage
+    fun getListMessage(senderRoom: String){
+        viewModelScope.launch {
+            realTimeService.getListMessage(senderRoom,{
+                _stateFlowGetListMessage.value = it.toList()
+            },{
+                _stateFlowGetListMessage.value = null
+            })
         }
     }
 }

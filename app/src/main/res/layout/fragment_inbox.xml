@@ -71,26 +71,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/MARGIN_SMALL"
                 android:fontFamily="@font/nunito_semibold"
-                android:gravity="center"
-                android:text="@string/app_name"
+                android:text="Bui Huy Hieu"
+                android:gravity="bottom"
                 android:textColor="@color/white"
                 android:textSize="@dimen/TEXT_SIZE_NORMAL"
                 app:layout_constraintBottom_toTopOf="@id/anchor_center"
                 app:layout_constraintStart_toEndOf="@id/ly_header" />
 
             <TextView
-
                 android:id="@+id/tv_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_extra_bold"
                 android:gravity="center"
-                android:text="ok"
+                android:text="online"
                 android:textColor="@color/green_online"
                 android:textSize="@dimen/TEXT_SIZE_SMALL"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_name"
                 app:layout_constraintTop_toBottomOf="@id/anchor_center" />
+
+            <com.eyalbira.loadingdots.LoadingDots
+                android:gravity="center"
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/MARGIN_SMALLEST"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
+                app:layout_constraintStart_toEndOf="@id/tv_name"
+                app:LoadingDots_auto_play="true"
+                app:LoadingDots_dots_color="@color/color_white_800"
+                app:LoadingDots_dots_count="3"
+                app:LoadingDots_dots_size="@dimen/_4sdp"
+                app:LoadingDots_dots_space="@dimen/_3sdp"
+                app:LoadingDots_jump_duration="200"
+                app:LoadingDots_jump_height="4dp"
+                app:LoadingDots_loop_duration="800"
+                app:LoadingDots_loop_start_delay="100" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
@@ -115,13 +135,13 @@
         android:id="@+id/lyBox"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/SMALL_SPACE"
         android:layout_marginEnd="@dimen/SMALL_SPACE"
         android:background="@color/color_white_800"
         android:gravity="center_vertical"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -176,7 +196,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtSendMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/SMALL_SPACE"
             android:layout_weight="6"

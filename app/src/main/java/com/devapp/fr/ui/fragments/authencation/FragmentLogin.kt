@@ -16,7 +16,7 @@ import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.NetworkHelper
 import com.devapp.fr.util.UiHelper.hideKeyboard
 import com.devapp.fr.util.UiHelper.showSnackbar
@@ -30,12 +30,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
     val TAG = "FragmentLogin"
-    private lateinit var dialogLoading: CustomDialog
+
     private val authViewModel: AuthAndProfileViewModel by viewModels()
     @Inject
     lateinit var prefs:SharedPreferencesHelper
     override fun onAttach(context: Context) {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         super.onAttach(context)
     }
 
@@ -54,7 +54,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
 
                     is ResourceRemote.Loading -> {
                         Log.d(TAG, "subscriberObserver: loading...")
-                        dialogLoading.show(childFragmentManager, dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
@@ -63,7 +63,7 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                             "Đăng nhập thành công ~",
                             Toast.LENGTH_SHORT
                         ).show()
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         prefs.saveIsLogin(true)
                         prefs.saveIdUserLogin(it.data)
                         prefs.saveProcessRegister(0)
@@ -73,12 +73,12 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
                     }
 
                     is ResourceRemote.Error -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         Toast.makeText(requireContext(), "Có lỗi xảy ra ~", Toast.LENGTH_SHORT).show()
                     }
 
                     is ResourceRemote.Empty -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         binding.apply {
                             root.showSnackbar("Sai thông tin đăng nhập!")
                             edtEmail.setBackgroundResource(R.drawable.custom_bg_edittext_login_error)

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"/>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_margin="@dimen/MARGIN_MEDIUM"
+        android:layout_margin="@dimen/MARGIN_LARGE"
         android:id="@+id/ly_ic_back"
         android:layout_width="@dimen/_46sdp"
         android:layout_height="@dimen/_46sdp"
@@ -208,9 +208,9 @@
     </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout
-        android:elevation="@dimen/_1sdp"
         android:id="@+id/fr_fragment"
-        android:background="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:elevation="@dimen/_1sdp" />
 </RelativeLayout>

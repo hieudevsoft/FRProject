@@ -4,30 +4,22 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.ChatsMessageAdapter
 import com.devapp.fr.app.BaseFragment
-import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.data.models.messages.MessageAudio
-import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
@@ -46,47 +38,36 @@ import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
-import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.storages.SharedPreferencesHelper
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.log
 
 
 @AndroidEntryPoint
 class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
     val TAG = "FragmentInbox"
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
-    private val args:FragmentInboxArgs by navArgs()
-    private lateinit var listMessage:MutableList<MessageModel>
-    private lateinit var database:FirebaseDatabase
-    private lateinit var storage:FirebaseStorage
+    private val args: FragmentInboxArgs by navArgs()
 
     @Inject
-    lateinit var prefs:SharedPreferencesHelper
-    private val realTimeViewModel:RealTimeViewModel by activityViewModels()
-    private val sharedViewModel:SharedViewModel by activityViewModels()
+    lateinit var prefs: SharedPreferencesHelper
+    private val realTimeViewModel: RealTimeViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     @SuppressLint("ResourceAsColor")
     override fun onSetupView() {
-        WindowCompat.setDecorFitsSystemWindows(requireActivity().window,true)
         initRecyclerView()
-        database = FirebaseDatabase.getInstance()
-        storage = FirebaseStorage.getInstance()
         handleOnBackPress()
         args.data?.let {
-            it.images?.get(0)?.let { GlideApp.loadImage(it,binding.imgPartner, this) }
+            it.images?.get(0)?.let { GlideApp.loadImage(it, binding.imgPartner, this) }
             val anim: Animation = AlphaAnimation(0.0f, 1.0f)
             anim.duration = 500
             anim.startOffset = 20
@@ -96,29 +77,37 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 dotOnline.startAnimation(anim)
                 tvName.text = it.name
             }
-            realTimeViewModel.checkUserOnOffbyId(it.id)
             subscriberObserver()
         }
-
     }
 
     private fun subscriberObserver() {
-        launchRepeatOnLifeCycleWhenCreated {scope->
+        launchRepeatOnLifeCycleWhenCreated { scope ->
             realTimeViewModel.stateFlowUserOnOff.collectLatest {
-                if(it == true){
+                if (it == true) {
                     binding.apply {
                         lyDot.toVisible()
                         tvOnline.apply {
                             text = "Online"
-                            setTextColor(ContextCompat.getColor(requireContext(),R.color.green_online))
+                            setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green_online
+                                )
+                            )
                         }
                     }
-                }else{
+                } else {
                     binding.apply {
                         lyDot.toGone()
                         tvOnline.apply {
                             text = "Offline"
-                            setTextColor(ContextCompat.getColor(requireContext(),R.color.gray_offline))
+                            setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.gray_offline
+                                )
+                            )
                         }
                     }
                 }
@@ -128,14 +117,60 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         launchRepeatOnLifeCycleWhenCreated {
             realTimeViewModel.stateUpdateLastMessage.collectLatest {
                 it?.let {
-                    if(it) Log.d(TAG, "subscriberObserver: Update Last Message Successfully....")
+                    if (it) Log.d(TAG, "subscriberObserver: Update Last Message Successfully....")
+                }
+            }
+        }
+
+        launchRepeatOnLifeCycleWhenResumed {
+            realTimeViewModel.stateSendMessageToFirebase
+                .collect {
+                it?.let {
+                    if (it) {
+                        Log.d(TAG, "subscriberObserver: send message successfully ~")
+                        binding.edtSendMessage.apply {
+                            hideKeyboard()
+                            clearFocus()
+                            setText("")
+                        }
+                    } else {
+                        binding.root.showSnackbar("Oops!!")
+                    }
+                }
+            }
+        }
+
+        launchRepeatOnLifeCycleWhenResumed {
+            realTimeViewModel.stateGetListMessage.collectLatest {
+                if (it == null) {
+                    binding.root.showSnackbar("Có gì đó không ổn! :(")
+                } else {
+                    chatsMessageAdapter.submitList(it)
+                }
+            }
+        }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.stateUpdateActing.collect {
+                it?.let {
+                    if (it) Log.d(TAG, "subscriberObserver: update acting...")
+                }
+            }
+        }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.stateReadActing.collect {
+                it?.let {
+                    if (it.isEmpty()) binding.loading.toGone() else {
+                        binding.loading.toVisible()
+                    }
                 }
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getListMessage()
+        callClientApi()
         handleEventElements()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -148,7 +183,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                     VISIBLE()
                     start()
                 }
-                if(PermissionHelper.hasPermissionAudio(requireContext())) startRecording()
+                if (PermissionHelper.hasPermissionAudio(requireContext())) startRecording()
                 else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
             }
 
@@ -169,9 +204,14 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 handleSendMessage()
             }
 
+            edtSendMessage.addTextChangedListener {
+                if(it!=null)
+                realTimeViewModel.updateActing(chatsMessageAdapter.reciverRoom,if(it.isEmpty()) "" else "đang nhập ...")
+            }
+
             ibCamera.setOnClickListener {
-                if(PermissionHelper.hasPermissionBottomPicker(requireContext())) openBottomImagePicker() else
-                PermissionHelper.requestPermissionBottomPicker(this@FragmentInbox)
+                if (PermissionHelper.hasPermissionBottomPicker(requireContext())) openBottomImagePicker() else
+                    PermissionHelper.requestPermissionBottomPicker(this@FragmentInbox)
             }
         }
     }
@@ -180,60 +220,48 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         MediaHelper.startRecording(requireContext())
     }
 
-    private fun stopRecording(){
+    private fun stopRecording() {
         MediaHelper.stopRecording(requireContext())
-        val newVoice = MessageAudio("111","111",MessageType.AUDIO,false,MediaHelper.mFileName,false,0)
+        val newVoice =
+            MessageAudio("111", "111", MessageType.AUDIO, false, MediaHelper.mFileName, false, 0)
         val list = chatsMessageAdapter.differ.currentList.toMutableList()
         list.add(newVoice)
         chatsMessageAdapter.submitList(list)
-        binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount+1)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount + 1)
     }
 
     private fun handleSendMessage() {
         val content = binding.edtSendMessage.text.toString()
         if (content.isNotEmpty()) {
-            val randomKey = database.reference.push().key!!
-            val message = MessageText(randomKey,prefs.readIdUserLogin()!!,MessageType.TEXT, message = content).convertToMessageUpload()
-            val lastMsgObj = hashMapOf<String,Any>()
+            val message = MessageText(
+                "",
+                prefs.readIdUserLogin()!!,
+                MessageType.TEXT,
+                message = content
+            ).convertToMessageUpload()
+            val lastMsgObj = hashMapOf<String, Any>()
             lastMsgObj["lastMsg"] = message.message
             lastMsgObj["lastMsgTime"] = message.time
-            realTimeViewModel.updateLastMessage(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,lastMsgObj)
-
-            database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                    binding.edtSendMessage.apply {
-                        hideKeyboard()
-                        clearFocus()
-                        setText("")
-                    }
-                }.addOnFailureListener {
-                    binding.root.showSnackbar("Đối phương chưa nhận được tin nhắn đâu :(")
-                }.addOnCanceledListener {
-                    binding.root.showSnackbar("Có lỗi xảy ra rồi :(")
-                }
-            }.addOnFailureListener {
-                binding.root.showSnackbar("Có thể lỗi mạng đó :(")
-            }.addOnCanceledListener {
-                binding.root.showSnackbar("Gửi đi chưa thành công :(")
-            }
-        }
-        else{
+            realTimeViewModel.updateLastMessage(
+                chatsMessageAdapter.senderRoom,
+                chatsMessageAdapter.reciverRoom,
+                lastMsgObj
+            )
+            realTimeViewModel.sendMessageToFirebase(
+                chatsMessageAdapter.senderRoom,
+                chatsMessageAdapter.reciverRoom,
+                message
+            )
+        } else {
             binding.root.showSnackbar("Bạn nên gửi lời yêu thương đi ~")
         }
     }
 
     private fun initRecyclerView() {
-        chatsMessageAdapter = ChatsMessageAdapter(this@FragmentInbox,prefs.readIdUserLogin(),args.data?.id,
-            args.data?.images?.get(0).toString())
+        chatsMessageAdapter = ChatsMessageAdapter(
+            this@FragmentInbox, prefs.readIdUserLogin(), args.data?.id,
+            args.data?.images?.get(0).toString()
+        )
         binding.recyclerViewChat.apply {
             adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
                 setDuration(1000)
@@ -248,35 +276,10 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         }
     }
 
-    private fun getListMessage() {
-        database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation")
-            .addValueEventListener(object:ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    try {
-                        listMessage.clear()
-                    }catch (e:Exception){
-                        listMessage = mutableListOf()
-                    }
-                    snapshot.children.forEach {
-                        val message : MessageUpload? = it.getValue(MessageUpload::class.java)
-                        if (message != null) {
-                            listMessage.add(message.convertToMessageModel(message.type))
-                        }
-                    }
-                    chatsMessageAdapter.submitList(listMessage.toList())
-                    Log.d(TAG, "onDataChange: ${listMessage.size}")
-//                    binding.recyclerViewChat.postDelayed ({
-//                        val y: Float = binding.recyclerViewChat.y + binding.recyclerViewChat.getChildAt(listMessage.size).y
-//                        binding.nestedScrollView.smoothScrollTo(0, y.toInt())
-//                    },1000)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    binding.root.showSnackbar("Kiếm tra lại kết nối mạng!! ${error.message}")
-                }
-
-            })
-
+    private fun callClientApi() {
+        args.data?.let { realTimeViewModel.checkUserOnOffbyId(it.id) }
+        realTimeViewModel.getListMessage(chatsMessageAdapter.senderRoom)
+        realTimeViewModel.readActing(chatsMessageAdapter.senderRoom)
     }
 
     private fun handleOnBackPress() {
@@ -289,34 +292,43 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if(requestCode == RC_MEDIA)  openBottomImagePicker() else startRecording()
+    private fun openBottomImagePicker() {
+        val tedBottomPicker =
+            TedBottomPicker.with(requireActivity())
+                .setOnMultiImageSelectedListener {
+                    it.forEach { uri ->
+
+                    }
+                }
+                .setOnErrorListener {
+                    binding.root.showSnackbar(it)
+                }
+                .setTitle(R.string.select_image)
+                .setCompleteButtonText(R.string.selected_done)
+                .setEmptySelectionText("Trống")
+                .create()
+        tedBottomPicker.show(childFragmentManager)
     }
 
-    private fun openBottomImagePicker() {
-            val tedBottomPicker =
-                TedBottomPicker.with(requireActivity())
-                    .setOnMultiImageSelectedListener {
-                        it.forEach { uri ->
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
-                        }
-                    }
-                    .setOnErrorListener {
-                        binding.root.showSnackbar(it)
-                    }
-                    .setTitle(R.string.select_image)
-                    .setCompleteButtonText(R.string.selected_done)
-                    .setEmptySelectionText("Trống")
-                    .create()
-            tedBottomPicker.show(childFragmentManager)
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        if (requestCode == RC_MEDIA) openBottomImagePicker() else startRecording()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
         } else {
-            if(requestCode==RC_MEDIA)
-            PermissionHelper.requestPermissionBottomPicker(this)
+            if (requestCode == RC_MEDIA)
+                PermissionHelper.requestPermissionBottomPicker(this)
             else PermissionHelper.requestPermissionAudio(this)
         }
     }

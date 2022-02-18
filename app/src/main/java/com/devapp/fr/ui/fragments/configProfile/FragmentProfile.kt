@@ -21,7 +21,7 @@ import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.viewmodels.StorageViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper
@@ -175,7 +175,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                 .collectLatest {
                     when(it){
                         is ResourceRemote.Loading->{
-                            showLoadingDialog()
+                            loadingDialog.show()
                         }
                         is ResourceRemote.Success->{
                             fireStorageViewModel.updateImagesUserProfile(args.id,it.data)
@@ -204,12 +204,12 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                             binding.root.showSnackbar("Thêm thành công ~")
                         }
                         sharedViewModel.setSharedFlowImage(currentList.toList())
-                        hideLoadingDialog()
+                        loadingDialog.dismiss()
                     }
 
                     is ResourceRemote.Error->{
                         Toast.makeText(requireContext(), "Có lỗi xảy ra ~", Toast.LENGTH_SHORT).show()
-                        hideLoadingDialog()
+                        loadingDialog.dismiss()
                     }
 
                     is ResourceRemote.Empty->{

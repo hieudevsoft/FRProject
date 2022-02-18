@@ -4,7 +4,7 @@ import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.data.models.messages.*
 
 data class MessageUpload(
-    val id: String,
+    var id: String,
     val userId: String = "",
     var type: MessageType,
     var isMe: Boolean,
@@ -15,25 +15,24 @@ data class MessageUpload(
     var audio: String = "",
     var time: String,
     val react: MutableList<Reaction>,
-    var isActing: Boolean,
 ) {
     constructor() : this(
         "", "", MessageType.TEXT, false, "", "", false, 0, "", "", mutableListOf(
             Reaction(-1, 0, true),
             Reaction(-1, 0, false)
-        ), false
+        )
     )
 
     fun convertToMessageModel(type: MessageType): MessageModel {
         return when (type) {
             MessageType.TEXT -> {
-                MessageText(id, userId, MessageType.TEXT, isMe, message,isActing).also {
+                MessageText(id, userId, MessageType.TEXT, isMe, message).also {
                     it.time = time
                     it.react = react
                 }
             }
             MessageType.IMAGE -> {
-                MessageImage(id, userId, MessageType.IMAGE, false, uriImage, isActing).also {
+                MessageImage(id, userId, MessageType.IMAGE, false, uriImage).also {
                     it.time = time
                     it.react = react
                 }
@@ -46,7 +45,6 @@ data class MessageUpload(
                 audio,
                 isPlaying,
                 duration,
-                isActing
             ).also {
                 it.time = time
                 it.react = react

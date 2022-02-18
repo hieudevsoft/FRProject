@@ -56,16 +56,17 @@ class MainActivity : ThemeActivity() {
     private val authViewModel: AuthAndProfileViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     private val realTimeViewModel: RealTimeViewModel by viewModels()
-    private var user:UserProfile?=null
-    var listName:MutableList<String> = mutableListOf()
-    var listUri:MutableList<String> = mutableListOf()
+    private var user: UserProfile? = null
+    var listName: MutableList<String> = mutableListOf()
+    var listUri: MutableList<String> = mutableListOf()
     fun getUser() = user
+
     @Inject
-    lateinit var prefs:SharedPreferencesHelper
+    lateinit var prefs: SharedPreferencesHelper
     override fun getStartTheme(): AppTheme {
         //Init SharedPreferencesHelper
-        sharedPreferencesHelper= SharedPreferencesHelper(applicationContext)
-        return if(sharedPreferencesHelper.readDarkMode()) DarkTheme()
+        sharedPreferencesHelper = SharedPreferencesHelper(applicationContext)
+        return if (sharedPreferencesHelper.readDarkMode()) DarkTheme()
         else LightTheme()
     }
 
@@ -99,14 +100,13 @@ class MainActivity : ThemeActivity() {
         //get userprofile
         prefs.readIdUserLogin()?.let {
             getUserProfile(it)
-            realTimeViewModel.readNotificationWhenPartnerReply(it){
-                if(it.message.isNotEmpty())
-                startService(Intent(this,NotificationService::class.java).putExtra(
-                    "data",it.message+", "+it.time
-                ))
-            }
-            authViewModel.getAllUserMatch(it){
-                sharedViewModel.setSharedFlowListUserMatchByMe(it)
+            realTimeViewModel.readNotificationWhenPartnerReply(it) {
+                if (it.message.isNotEmpty())
+                    startService(
+                        Intent(this, NotificationService::class.java).putExtra(
+                            "data", it.message + ", " + it.time
+                        )
+                    )
             }
         }
 
@@ -120,13 +120,13 @@ class MainActivity : ThemeActivity() {
     }
 
 
-    private fun getUserProfile(id:String){
+    private fun getUserProfile(id: String) {
         authViewModel.getUserProfile(id)
     }
 
     private fun subscribeObserver() {
         lifecycle.coroutineScope.launchWhenCreated {
-            repeatOnLifecycle(Lifecycle.State.CREATED){
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 authViewModel.stateGetUserProfile.collect {
                     when (it) {
                         is ResourceRemote.Loading -> {
@@ -135,18 +135,28 @@ class MainActivity : ThemeActivity() {
                         is ResourceRemote.Success -> {
                             user = it.data
                             updateSharedViewModel(it.data)
-                            authViewModel.getAllProfileWaitingAccept(it.data!!.id){listWaitingAccept->
-                                Log.d(TAG, "subscribeObserver: $listWaitingAccept")
+                            authViewModel.getAllProfileWaitingAccept(it.data!!.id) { listWaitingAccept ->
                                 sharedViewModel.setSharedFlowListUserWaitingAccept(listWaitingAccept)
-                                authViewModel.getAllProfileMatch(it.data!!.id){
-                                    sharedViewModel.setSharedFlowListUserMatch(it)
-                                    val listIdsWaitingAccept = listWaitingAccept.map { it.id }.toMutableList().also { it.add(prefs.readIdUserLogin().toString()) }
-                                    val listIdsUserMatch = it.map { it.id }.toMutableList()
-                                    listIdsWaitingAccept.addAll(listIdsUserMatch)
-                                    Log.d(TAG, "subscribeObserver: $listIdsWaitingAccept")
-                                    authViewModel.getAllProfileSwipe(listIdsWaitingAccept,user!!.gender, Constants.LIMIT_REQUEST_SWIPE)
-                                }
+                                authViewModel.getAllProfileMatch(it.data!!.id) { listWaitingMatch ->
+                                    sharedViewModel.setSharedFlowListUserMatch(listWaitingAccept)
+                                    authViewModel.getAllUserMatch(it.data!!.id) {
+                                        sharedViewModel.setSharedFlowListUserMatchByMe(it)
+                                        val listIdsWaitingAccept =
+                                            listWaitingAccept.map { it.id }.toMutableList()
+                                                .also { it.add(prefs.readIdUserLogin().toString()) }
+                                        val listIdsUserMatch =
+                                            listWaitingMatch.map { it.id }.toMutableList()
+                                        val listIdsAlreadyMatch = it.map { it.id }.toMutableList()
+                                        listIdsUserMatch.addAll(listIdsAlreadyMatch)
+                                        listIdsWaitingAccept.addAll(listIdsUserMatch)
+                                        authViewModel.getAllProfileSwipe(
+                                            listIdsWaitingAccept,
+                                            user!!.gender,
+                                            Constants.LIMIT_REQUEST_SWIPE
+                                        )
+                                    }
 
+                                }
                             }
                             Log.d(TAG, "observer user: ${it.data?.name}")
                         }
@@ -167,26 +177,33 @@ class MainActivity : ThemeActivity() {
     private fun updateSharedViewModel(data: UserProfile?) {
         Log.d("FragmentProfile", "updateSharedViewModel")
         data?.let {
-            sharedViewModel.setSharedFlowBasicInformation(hashMapOf(0 to data.name,1 to data.dob,2 to data.address,3 to data.gender))
+            sharedViewModel.setSharedFlowBasicInformation(
+                hashMapOf(
+                    0 to data.name,
+                    1 to data.dob,
+                    2 to data.address,
+                    3 to data.gender
+                )
+            )
             sharedViewModel.setSharedFlowJob(data.job)
             sharedViewModel.setSharedFlowSexuality(data.purpose)
-            sharedViewModel.setSharedFlowInterest(data.interests?: mutableListOf())
+            sharedViewModel.setSharedFlowInterest(data.interests ?: mutableListOf())
             data.interests?.let { it -> prefs.saveInterest(it.joinToString("&")) }
             sharedViewModel.setSharedFlowIntroduce(data.bio)
-            sharedViewModel.setSharedFlowImage(data.images?: emptyList())
+            sharedViewModel.setSharedFlowImage(data.images ?: emptyList())
             sharedViewModel.setListItemInformation(DataHelper.getListItemInformation())
 
             data.additionInformation?.let {
                 sharedViewModel.setPositionInformation(-1)
-                sharedViewModel.setSharedFlowTall(it.tall+1001)
-                sharedViewModel.setSharedFlowChild(it.child+1001)
-                sharedViewModel.setSharedFlowDrink(it.drink+1001)
-                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus+1001)
-                sharedViewModel.setSharedFlowChooseGender(it.trueGender+1001)
-                sharedViewModel.setSharedFlowSmoke(it.smoking+1001)
-                sharedViewModel.setSharedFlowPet(it.pet+1001)
-                sharedViewModel.setSharedFlowReligion(it.religion+1001)
-                sharedViewModel.setSharedFlowCertificate(it.certificate+1001)
+                sharedViewModel.setSharedFlowTall(it.tall + 1001)
+                sharedViewModel.setSharedFlowChild(it.child + 1001)
+                sharedViewModel.setSharedFlowDrink(it.drink + 1001)
+                sharedViewModel.setSharedFlowMaritalStatus(it.maritalStatus + 1001)
+                sharedViewModel.setSharedFlowChooseGender(it.trueGender + 1001)
+                sharedViewModel.setSharedFlowSmoke(it.smoking + 1001)
+                sharedViewModel.setSharedFlowPet(it.pet + 1001)
+                sharedViewModel.setSharedFlowReligion(it.religion + 1001)
+                sharedViewModel.setSharedFlowCertificate(it.certificate + 1001)
             }
         }
     }
@@ -199,27 +216,37 @@ class MainActivity : ThemeActivity() {
     }
 
     override fun onResume() {
-        if(prefs.readIdUserLogin()!=null){
-            realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!,true))
+        if (prefs.readIdUserLogin() != null) {
+            realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!, true))
         }
         super.onResume()
     }
 
     override fun onStop() {
         try {
-            if(prefs.readIdUserLogin()!=null){
-                realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!,false))
+            if (prefs.readIdUserLogin() != null) {
+                realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!, false))
             }
-        }catch (e:Exception){
-            realTimeViewModel.sendStatusOnOff(AccountOnline("fake",false))
+        } catch (e: Exception) {
+            realTimeViewModel.sendStatusOnOff(AccountOnline("fake", false))
         }
         super.onStop()
     }
 
+    override fun onPause() {
+        try {
+            if (prefs.readIdUserLogin() != null) {
+                realTimeViewModel.sendStatusOnOff(AccountOnline(prefs.readIdUserLogin()!!, false))
+            }
+        } catch (e: Exception) {
+            realTimeViewModel.sendStatusOnOff(AccountOnline("fake", false))
+        }
+        super.onPause()
+    }
+
     private fun setInsetsWindow() {
-        WindowCompat.setDecorFitsSystemWindows(window,false)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root){
-                view,windowInsets->
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = insets.left
@@ -233,14 +260,14 @@ class MainActivity : ThemeActivity() {
 
     private fun saveStateLogin() {
         val isLogin = sharedPreferencesHelper.readIsLogin()
-        if(isLogin) navHostFragment.findNavController().navigate(R.id.fragmentMainViewPager)
+        if (isLogin) navHostFragment.findNavController().navigate(R.id.fragmentMainViewPager)
     }
 
 
     override fun syncTheme(appTheme: AppTheme) {}
     private fun handleNavHostFragment() {
         navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id==R.id.fragmentSettings||destination.id==R.id.fragmentChats||destination.id==R.id.fragmentLoves 
+            if (destination.id == R.id.fragmentSettings || destination.id == R.id.fragmentChats || destination.id == R.id.fragmentLoves
             ) {
                 bottomBar.toVisible()
             } else {

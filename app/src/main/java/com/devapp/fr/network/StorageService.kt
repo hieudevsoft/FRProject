@@ -122,4 +122,25 @@ class StorageService @Inject constructor(private val context:Context) {
         }
         return res
     }
+
+    suspend fun addImageIntoStorageChasts(
+        name: String,
+        senderRoom:String,
+        recieverRoom:String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ): Boolean {
+        val ref = Firebase.storage.reference
+        val res = withContext(dispatcher) {
+            try {
+
+                true
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                false
+            }
+        }
+        return res
+    }
 }

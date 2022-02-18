@@ -1,25 +1,37 @@
 package com.devapp.fr.ui.widgets
 
+import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
-import android.graphics.Color
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.os.Build
+import android.util.DisplayMetrics
+import android.view.Display
+import android.view.Gravity
 import android.view.Window
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import java.lang.Exception
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import com.devapp.fr.R
 
-class CustomDialog(private val res:Int): DialogFragment() {
 
-    private lateinit var viewInflate: View
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewInflate = LayoutInflater.from(this.context).inflate(res,null)
-        super.onCreate(savedInstanceState)
+class LoadingDialog(private val activity:Activity) {
+    private lateinit var dialog:AlertDialog
+    fun show(){
+        val builder = AlertDialog.Builder(activity)
+        val inflater = activity.layoutInflater
+        builder.setView(inflater.inflate(R.layout.dialog_loading,null))
+        builder.setCancelable(false)
+        dialog = builder.create()
+        dialog.show()
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(dialog.window?.attributes)
+        layoutParams.width = 600
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
+        val win: Window? = dialog.window
+        win?.attributes = layoutParams
+        win?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(activity,android.R.color.transparent)))
+
     }
-
+    fun dismiss() = dialog.dismiss()
 }
