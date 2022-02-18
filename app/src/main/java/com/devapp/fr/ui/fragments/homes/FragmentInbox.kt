@@ -192,7 +192,7 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
 
             if (randomKey != null) {
                 database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").setValue(message).addOnSuccessListener {
+                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
                         binding.edtSendMessage.apply {
                             hideKeyboard()
                             clearFocus()
@@ -211,12 +211,13 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
             }
         }
         else{
-            showToast("Bạn nên gửi lời yêu thương đi ~")
+            binding.root.showSnackbar("Bạn nên gửi lời yêu thương đi ~")
         }
     }
 
     private fun initRecyclerView() {
-        chatsMessageAdapter = ChatsMessageAdapter(prefs.readIdUserLogin(),args.data?.id)
+        chatsMessageAdapter = ChatsMessageAdapter(this@FragmentInbox,prefs.readIdUserLogin(),args.data?.id,
+            args.data?.images?.get(0).toString())
         binding.recyclerViewChat.apply {
             listMessage = mutableListOf()
             chatsMessageAdapter.submitList(listMessage.toList())

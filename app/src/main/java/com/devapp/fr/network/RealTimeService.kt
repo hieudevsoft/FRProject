@@ -112,4 +112,21 @@ class RealTimeService @Inject constructor(private val context:Context) {
             })
         }
     }
+
+    suspend fun updateLastMessage(
+        senderRoom:String,
+        reciverRoom:String,
+        lastObj:HashMap<String,Any>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ):Boolean{
+        return withContext(dispatcher){
+            try {
+                refChats.child(senderRoom).updateChildren(lastObj).await()
+                refChats.child(reciverRoom).updateChildren(lastObj).await()
+                true
+            }catch (e:Exception){
+                false
+            }
+        }
+    }
 }

@@ -11,8 +11,8 @@ abstract class MessageModel(
     open var type:MessageType,
     open var isMe:Boolean=true,
     open var react:MutableList<Reaction> = mutableListOf(
-        Reaction(-1,0,true),
-        Reaction(-1,0,false)
+        Reaction(-1,0,isMe),
+        Reaction(-1,0,isMe)
     ),
     open var time:String = SimpleDateFormat("dd/MM/yyyy, hh:mm aa", Locale.getDefault()).format(Date().time)
     ) {

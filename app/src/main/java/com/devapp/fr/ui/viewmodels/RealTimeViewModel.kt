@@ -84,4 +84,16 @@ class RealTimeViewModel @Inject constructor(
             }
         }
     }
+
+    private val _stateFlowUpdateLastMessage:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateUpdateLastMessage:StateFlow<Boolean?> =_stateFlowUpdateLastMessage
+    fun updateLastMessage(
+        senderRoom:String,
+        recieverRoom:String,
+        lastObj:HashMap<String,Any>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
+        viewModelScope.launch {
+            _stateFlowUpdateLastMessage.value = realTimeService.updateLastMessage(senderRoom,recieverRoom,lastObj)
+        }
+    }
 }
