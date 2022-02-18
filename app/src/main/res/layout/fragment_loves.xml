@@ -7,7 +7,6 @@
     android:paddingHorizontal="@dimen/LARGEST_SPACE"
     android:paddingTop="@dimen/MARGIN_LARGE"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.appcompat.widget.AppCompatImageView
         app:layout_constraintBottom_toBottomOf="@id/progress_bar_energy"
         app:layout_constraintTop_toTopOf="@id/progress_bar_energy"
@@ -34,7 +33,6 @@
         app:indicatorColor="@color/white"
         app:indicatorDirectionLinear="startToEnd"
         app:trackCornerRadius="@dimen/_2sdp" />
-
     <androidx.appcompat.widget.AppCompatImageView
         app:layout_constraintTop_toTopOf="@id/progress_bar_energy"
         app:layout_constraintBottom_toBottomOf="@id/progress_bar_energy"
@@ -44,12 +42,11 @@
         android:tint="@color/white"
         android:layout_width="@dimen/_26sdp"
         android:layout_height="@dimen/_26sdp"/>
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_love"
         android:alpha="0"
-        android:layout_width="@dimen/SIZE_IMAGE_INBOX"
-        android:layout_height="@dimen/SIZE_IMAGE_INBOX"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,12 +64,11 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_heart" />
     </com.google.android.material.card.MaterialCardView>
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_cancel"
         android:alpha="0"
-        android:layout_width="@dimen/SIZE_IMAGE_INBOX"
-        android:layout_height="@dimen/SIZE_IMAGE_INBOX"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +86,6 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_close" />
     </com.google.android.material.card.MaterialCardView>
-
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         app:layout_constraintBottom_toBottomOf="parent"

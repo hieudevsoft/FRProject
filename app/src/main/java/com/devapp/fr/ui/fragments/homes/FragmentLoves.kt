@@ -50,11 +50,10 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     lateinit var prefs: SharedPreferencesHelper
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private lateinit var loadingDialog: CustomDialog
 
     override fun onSetupView() {
+
         parent = (parentFragment as FragmentMainViewPager)
-        loadingDialog = CustomDialog(R.layout.dialog_loading)
         subscribeObserver()
         binding.apply {
             setupCardStackViewLayoutManger()
@@ -207,7 +206,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                 when (it) {
                     is ResourceRemote.Loading -> {
                         try {
-                            loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                            showLoadingDialog()
                         }catch (e:Exception){
 
                         }
@@ -216,7 +215,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                     is ResourceRemote.Success -> {
                         try {
-                            loadingDialog.dismiss()
+                            hideLoadingDialog()
                             binding.cardStackView.isEnabled = true
                         }catch (e:Exception){
 
@@ -230,7 +229,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                     is ResourceRemote.Error -> {
                         try {
-                            loadingDialog.dismiss()
+                            hideLoadingDialog()
                         }catch (e:Exception){
 
                         }
@@ -250,12 +249,11 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
             }
 
             launchRepeatOnLifeCycleWhenStarted {
-
                 authAndProfileViewModel.sateSendNotificationToPartner.collect {
                     when (it) {
                         is ResourceRemote.Loading -> {
                             try {
-                                loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                                showLoadingDialog()
                             }catch (e:Exception){
 
                             }
@@ -264,18 +262,18 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
 
                         is ResourceRemote.Success -> {
                             try {
-                                loadingDialog.dismiss()
+                                hideLoadingDialog()
                             }catch (e:Exception){
 
                             }
-                            loadingDialog.dismiss()
+                            hideLoadingDialog()
                             currentPosition+=1
                             showToast("Đợi phản hồi từ đối phương nhé ~")
                         }
 
                         is ResourceRemote.Error -> {
                             try {
-                                loadingDialog.dismiss()
+                                hideLoadingDialog()
                             }catch (e:Exception){
 
                             }
@@ -296,18 +294,5 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
     }
 
-    override fun onDestroy() {
-        loadingDialog.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun onDetach() {
-        loadingDialog.onDetach()
-        super.onDetach()
-    }
-
-    override fun onDestroyView() {
-        loadingDialog.onDestroyView()
-        super.onDestroyView()
-    }
+    
 }

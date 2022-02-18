@@ -33,14 +33,12 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private lateinit var adapter:NotificationsMatchAdapter
-    private lateinit var loadingDialog:CustomDialog
     private var partnerName:String?=""
     var currentPosition = -1
     @Inject
     lateinit var prefs:SharedPreferencesHelper
     private val realTimeViewModel: RealTimeViewModel by activityViewModels()
     override fun onSetupView() {
-        loadingDialog = CustomDialog(R.layout.dialog_loading)
         adapter = NotificationsMatchAdapter(this,
             {view,position->
                 currentPosition = position
@@ -86,11 +84,11 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
             authAndProfileViewModel.stateAcceptOrCancel.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        loadingDialog.show(childFragmentManager,loadingDialog.tag)
+                        showLoadingDialog()
                     }
 
                     is ResourceRemote.Success -> {
-                        loadingDialog.dismiss()
+                        hideLoadingDialog()
                         val listNew = adapter.getListCurrent().toMutableList()
                         sharedViewModel.getSharedFlowBasicInformation().distinctUntilChanged()
                             .collectLatest {
@@ -105,7 +103,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
                     }
 
                     is ResourceRemote.Error -> {
-                        loadingDialog.dismiss()
+                        hideLoadingDialog()
                         showToast("Kiểm tra kết nối mạng!!!")
                     }
                     else -> {
@@ -117,13 +115,13 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
         authAndProfileViewModel.resetSateAcceptOrCancel()
         loadingDialog.onDestroyView()
-        super.onDestroyView()
     }
 
     override fun onDestroy() {
-        loadingDialog.onDestroy()
         super.onDestroy()
+        loadingDialog.onDestroy()
     }
 }

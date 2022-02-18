@@ -1,10 +1,12 @@
 package com.devapp.fr.ui.fragments.configProfile
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -48,7 +50,6 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val storageViewModel:StorageViewModel by activityViewModels()
     private val fireStorageViewModel:AuthAndProfileViewModel by activityViewModels()
-    private lateinit var loadingDialog:CustomDialog
     private lateinit var listName:MutableList<String>
     private lateinit var listUri:MutableList<String>
     private var currentList = mutableListOf<String>()
@@ -56,11 +57,22 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
     private var isDelete = false
 
     override fun onSetupView() {
+
         listName = (requireActivity() as MainActivity).listName
         listUri = (requireActivity() as MainActivity).listUri
-        loadingDialog = CustomDialog(R.layout.dialog_loading)
         updateUiProfile()
         setupProfileImageAdapter()
+        handleOnBackPress()
+    }
+
+    private fun handleOnBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                sharedViewModel.setPositionMainViewPager(0)
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     private fun setupProfileImageAdapter() {
@@ -79,7 +91,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                     false
                 ) { dialogInterface, _ ->
                     if(!s.contains("firebase")){
-                        storageViewModel.deleteImageByNameOrUri(args.id,true,listName[pos],"")
+                        storageViewModel.deleteImageByNameOrUri(args.id,true,listName[listUri.indexOf(s)],"")
                     }else{
                         storageViewModel.deleteImageByNameOrUri(args.id,false,"",s)
                     }
@@ -163,7 +175,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                 .collectLatest {
                     when(it){
                         is ResourceRemote.Loading->{
-                            loadingDialog.show(childFragmentManager,loadingDialog.tag)
+                            showLoadingDialog()
                         }
                         is ResourceRemote.Success->{
                             fireStorageViewModel.updateImagesUserProfile(args.id,it.data)
@@ -181,7 +193,6 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
             fireStorageViewModel.stateUpdateImagesUserProfile.collect {
                 when(it){
                     is ResourceRemote.Loading->{
-                        loadingDialog.show(childFragmentManager,loadingDialog.tag)
                     }
 
                     is ResourceRemote.Success->{
@@ -193,12 +204,12 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                             binding.root.showSnackbar("Thêm thành công ~")
                         }
                         sharedViewModel.setSharedFlowImage(currentList.toList())
-                        loadingDialog.dismiss()
+                        hideLoadingDialog()
                     }
 
                     is ResourceRemote.Error->{
                         Toast.makeText(requireContext(), "Có lỗi xảy ra ~", Toast.LENGTH_SHORT).show()
-                        loadingDialog.dismiss()
+                        hideLoadingDialog()
                     }
 
                     is ResourceRemote.Empty->{
@@ -237,7 +248,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
     private fun handleEvent() {
         binding.apply {
             btnBack.setOnClickWithAnimationListener {
-                findNavController().popBackStack()
+                (requireActivity() as MainActivity).onBackPressed()
             }
             lyEditProfile.setOnClickWithAnimationListener {
                 findNavController().navigate(
@@ -300,25 +311,13 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onResume() {
-        loadingDialog.onResume()
-        super.onResume()
-    }
-
     override fun onDestroyView() {
         Log.d(TAG, "onDestroyView: onDestroyView")
         fireStorageViewModel.resetStateUpdateImagesUserProfile()
         storageViewModel.resetStateAddImage()
         storageViewModel.resetStateDownloadAllImageById()
         storageViewModel.resetStateDeleteImageByNameOrUri()
-        loadingDialog.onDestroyView()
         super.onDestroyView()
     }
-
-    override fun onDestroy() {
-        loadingDialog.onDestroy()
-        super.onDestroy()
-    }
-
 
 }

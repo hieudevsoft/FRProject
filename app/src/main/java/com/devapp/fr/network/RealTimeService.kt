@@ -33,8 +33,6 @@ class RealTimeService @Inject constructor(private val context:Context) {
         withContext(dispatcher){
             try {
                 refsNotifications.child(partnerId).setValue(notification).await()
-                delay(DELAY_RESET)
-                refsNotifications.child(partnerId).setValue(null).await()
             }catch (e:Exception){
                 Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
             }

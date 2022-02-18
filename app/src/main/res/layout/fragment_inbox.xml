@@ -1,129 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinateLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:background="@color/color_grey_200">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:measureWithLargestChild="true"
-        app:contentInsetEnd="0dp"
-        app:contentInsetLeft="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp">
+        android:background="@color/background_dark_mode"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:measureAllChildren="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            android:paddingVertical="@dimen/LARGEST_SPACE"
+            tools:ignore="RtlSymmetry">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/ly_header"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/LARGEST_SPACE"
-                android:paddingTop="@dimen/LARGEST_SPACE">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_partner"
+                    android:layout_width="@dimen/SIZE_IMAGE_INBOX"
+                    android:layout_height="@dimen/SIZE_IMAGE_INBOX"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_child"
+                    app:civ_border_color="@color/background_dark_mode"
+                    app:civ_border_width="@dimen/_1sdp" />
 
                 <FrameLayout
-                    android:id="@+id/ly_header"
+                    android:id="@+id/ly_dot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0">
+                    android:layout_gravity="bottom|end">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_partner"
-                        android:layout_width="@dimen/SIZE_IMAGE_INBOX"
-                        android:layout_height="@dimen/SIZE_IMAGE_INBOX"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img_child"
-                        app:civ_border_color="@color/background_dark_mode"
-                        app:civ_border_width="@dimen/_1sdp" />
-
-                    <FrameLayout
-                        android:id="@+id/ly_dot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end">
-
-                        <View
-                            android:id="@+id/dot_online"
-                            android:layout_width="@dimen/_8sdp"
-                            android:layout_height="@dimen/_8sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_4sdp"
-                            android:background="@drawable/custom_dot_online"
-                            android:visibility="visible" />
-                    </FrameLayout>
+                    <View
+                        android:id="@+id/dot_online"
+                        android:layout_width="@dimen/_8sdp"
+                        android:layout_height="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:background="@drawable/custom_dot_online"
+                        android:visibility="visible" />
                 </FrameLayout>
+            </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/MEDIUM_SPACE"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:gravity="center"
-                    android:text="Khách"
-                    app:layout_constraintVertical_bias=".1"
-                    android:textColor="@color/background_dark_mode"
-                    android:textSize="@dimen/TEXT_SIZE_NORMAL"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ly_header" />
+            <View
+                android:id="@+id/anchor_center"
+                android:layout_width="@dimen/_3sdp"
+                android:layout_height="@dimen/_3sdp"
+                app:layout_constraintBottom_toBottomOf="@id/ly_header"
+                app:layout_constraintEnd_toEndOf="@id/ly_header"
+                app:layout_constraintStart_toStartOf="@id/ly_header"
+                app:layout_constraintTop_toTopOf="@id/ly_header" />
 
-                <TextView
-                    android:id="@+id/tv_online"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/MARGIN_SMALL"
-                    android:fontFamily="@font/nunito_extra_bold"
-                    android:gravity="center"
-                    android:text="Online"
-                    android:textColor="@color/green_online"
-                    android:textSize="@dimen/TEXT_SIZE_SMALL"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_name" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/MARGIN_SMALL"
+                android:fontFamily="@font/nunito_semibold"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/TEXT_SIZE_NORMAL"
+                app:layout_constraintBottom_toTopOf="@id/anchor_center"
+                app:layout_constraintStart_toEndOf="@id/ly_header" />
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+            <TextView
 
+                android:id="@+id/tv_online"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_extra_bold"
+                android:gravity="center"
+                android:text="ok"
+                android:textColor="@color/green_online"
+                android:textSize="@dimen/TEXT_SIZE_SMALL"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
+                app:layout_constraintTop_toBottomOf="@id/anchor_center" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/tool_bar"
+        android:id="@+id/nestedScrollView"
+        android:paddingStart="@dimen/MEDIUM_SPACE"
+        android:paddingEnd="@dimen/MEDIUM_SPACE"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/MEDIUM_SPACE"
-        android:paddingEnd="@dimen/MEDIUM_SPACE"
         android:paddingBottom="?attr/actionBarSize"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintVertical_bias="0" />
+         />
+    </androidx.core.widget.NestedScrollView>
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/lyBox"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom|center"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/SMALL_SPACE"
         android:layout_marginEnd="@dimen/SMALL_SPACE"
+        android:background="@color/color_white_800"
         android:gravity="center_vertical"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -178,14 +176,13 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edtSendMessage"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="@dimen/SMALL_SPACE"
             android:layout_weight="6"
             android:background="@drawable/custom_background_send"
             android:backgroundTint="@color/color_white_500"
-            android:fontFamily="@font/comfortaa_regular"
+            android:fontFamily="@font/nunito_regular"
             android:hint="Xin chào...."
             android:inputType="textMultiLine"
             android:padding="@dimen/MEDIUM_SPACE"
@@ -218,4 +215,4 @@
             </com.google.android.material.card.MaterialCardView>
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </RelativeLayout>

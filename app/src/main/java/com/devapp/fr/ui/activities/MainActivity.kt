@@ -74,7 +74,7 @@ class MainActivity : ThemeActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //set insets
-        setInsetsWindow()
+        //setInsetsWindow()
 
         //Mapping bottomAppbar
         bottomBar = binding.bottomBar
@@ -100,7 +100,7 @@ class MainActivity : ThemeActivity() {
         prefs.readIdUserLogin()?.let {
             getUserProfile(it)
             realTimeViewModel.readNotificationWhenPartnerReply(it){
-                if(it.message!=null)
+                if(it.message.isNotEmpty())
                 startService(Intent(this,NotificationService::class.java).putExtra(
                     "data",it.message+", "+it.time
                 ))
@@ -130,7 +130,6 @@ class MainActivity : ThemeActivity() {
                 authViewModel.stateGetUserProfile.collect {
                     when (it) {
                         is ResourceRemote.Loading -> {
-                            Log.d(TAG, "subscriberObserver: loading...")
                         }
 
                         is ResourceRemote.Success -> {
@@ -196,7 +195,6 @@ class MainActivity : ThemeActivity() {
     override fun onDestroy() {
         authViewModel.resetStateGetUserProfile()
         authViewModel.resetSateGetAllProfileSwipe()
-
         super.onDestroy()
     }
 
