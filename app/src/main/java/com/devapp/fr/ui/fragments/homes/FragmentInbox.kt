@@ -192,7 +192,7 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
 
             if (randomKey != null) {
                 database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").setValue(message).addOnSuccessListener {
+                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
                         binding.edtSendMessage.apply {
                             hideKeyboard()
                             clearFocus()
