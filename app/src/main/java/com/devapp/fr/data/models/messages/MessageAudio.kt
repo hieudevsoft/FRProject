@@ -25,7 +25,7 @@ data class MessageAudio(
     }
 
     override fun convertToMessageUpload(): MessageUpload {
-        return MessageUpload(id,userId,type,isMe,"","",isPlaying,duration,audio,time,isVoicing)
+        return MessageUpload(id,userId,type,isMe,"","",isPlaying,duration,audio,time,react,isVoicing)
     }
 
     init {

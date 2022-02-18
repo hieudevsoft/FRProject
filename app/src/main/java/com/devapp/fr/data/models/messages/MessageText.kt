@@ -18,6 +18,6 @@ data class MessageText(
     }
 
     override fun convertToMessageUpload(): MessageUpload {
-        return MessageUpload(id,userId,type,isMe,message,"",false,0,"",time,isTexting)
+        return MessageUpload(id,userId,type,isMe,message,"",false,0,"",time,react,isTexting)
     }
 }

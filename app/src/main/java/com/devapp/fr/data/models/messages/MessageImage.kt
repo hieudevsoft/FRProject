@@ -16,6 +16,6 @@ data class MessageImage(
     }
 
     override fun convertToMessageUpload(): MessageUpload {
-        return MessageUpload(id,userId,type,isMe,"",urlImage,false,0,"",time,isUpLoading)
+        return MessageUpload(id,userId,type,isMe,"",urlImage,false,0,"",time,react,isUpLoading)
     }
 }
