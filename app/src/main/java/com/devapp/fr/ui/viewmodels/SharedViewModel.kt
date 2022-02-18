@@ -158,7 +158,7 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    private val _sharedFlowImage:MutableSharedFlow<List<String>> = MutableSharedFlow(1)
+    private val _sharedFlowImage:MutableSharedFlow<List<String>> = MutableSharedFlow(2)
     fun getSharedFlowImage() = _sharedFlowImage.asSharedFlow()
     fun setSharedFlowImage(value:List<String>){
         viewModelScope.launch {
@@ -179,6 +179,14 @@ class SharedViewModel @Inject constructor(
     fun setSharedFlowListUserMatch(list:List<UserProfile>){
         viewModelScope.launch {
             _sharedFlowListUserMatch.emit(list)
+        }
+    }
+
+    private val _sharedFlowListUserMatchByMe:MutableSharedFlow<List<UserProfile>> = MutableSharedFlow(1)
+    fun getSharedFlowListUserMatchByMe() = _sharedFlowListUserMatchByMe.asSharedFlow()
+    fun setSharedFlowListUserMatchByMe(list:List<UserProfile>){
+        viewModelScope.launch {
+            _sharedFlowListUserMatchByMe.emit(list)
         }
     }
 

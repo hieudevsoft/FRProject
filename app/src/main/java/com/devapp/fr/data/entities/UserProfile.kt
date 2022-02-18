@@ -1,10 +1,13 @@
 package com.devapp.fr.data.entities
 
+import android.os.Parcelable
 import com.devapp.fr.data.models.authens.BaseAccount
+import java.io.Serializable
+
 
 class UserProfile(
-    override var email:String="",
-    override var password:String="",
+    public override var email:String="",
+    public override var password:String="",
     var name:String="",
     var bio:String="",
     var coins:Int=0,
@@ -17,8 +20,9 @@ class UserProfile(
     var interests:List<Int>?= mutableListOf(),
     var additionInformation:AdditionInformation?=null,
     var images:List<String>?= mutableListOf(),
-    override var id:String=""
-): BaseAccount(id,email,password) {
+    public override var id:String="",
+): BaseAccount(id,email,password){
+    var isOnline = false
 }
 
 data class AdditionInformation(
@@ -32,7 +36,7 @@ data class AdditionInformation(
     var religion:Int=-1,
     var certificate:Int=-1,
     var personality:Int=-1,
-){
+):Serializable{
     fun setNewDataByName(name:String,data:Int){
         when(name){
             "tall"->tall=data

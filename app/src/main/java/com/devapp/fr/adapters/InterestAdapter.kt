@@ -50,10 +50,9 @@ class InterestAdapter : RecyclerView.Adapter<InterestAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = differ.currentList[position]
+        if(item.isSelected) listIndexSelected.add(position) else listIndexSelected.remove(position)
         holder.bind(item)
         holder.binding.root.setOnClickListener {
-            if(item.isSelected) listIndexSelected.remove(position)
-            else listIndexSelected.add(position)
             item.isSelected = !item.isSelected
             notifyItemChanged(position)
         }

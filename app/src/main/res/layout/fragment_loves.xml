@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/LARGEST_SPACE"
+    android:background="@color/background_dark_mode"
+    android:paddingHorizontal="@dimen/LARGEST_SPACE"
+    android:paddingTop="@dimen/MARGIN_LARGE"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -12,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/img_heart"
         app:srcCompat="@drawable/ic_heart"
-        android:tint="@color/background_dark_mode"
+        android:tint="@color/white"
         android:layout_width="@dimen/_26sdp"
         android:layout_height="@dimen/_26sdp"/>
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -29,7 +31,7 @@
         android:indeterminateBehavior="cycle"
         android:indeterminateDuration="500"
         app:indeterminateAnimationType="disjoint"
-        app:indicatorColor="@color/background_dark_mode"
+        app:indicatorColor="@color/white"
         app:indicatorDirectionLinear="startToEnd"
         app:trackCornerRadius="@dimen/_2sdp" />
 
@@ -39,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/img_more"
         app:srcCompat="@drawable/ic_more"
-        android:tint="@color/background_dark_mode"
+        android:tint="@color/white"
         android:layout_width="@dimen/_26sdp"
         android:layout_height="@dimen/_26sdp"/>
 
@@ -92,7 +94,7 @@
     <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/card_stack_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="@dimen/MARGIN_MEDIUM"
+        android:layout_marginTop="@dimen/MARGIN_SMALL"
         tools:listitem="@layout/layout_item_card"
         tools:itemCount="3"
         app:layout_constraintEnd_toEndOf="@id/img_more"

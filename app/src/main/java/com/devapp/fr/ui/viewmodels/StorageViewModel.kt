@@ -25,10 +25,27 @@ class StorageViewModel @Inject constructor(app:Application, private val storage:
     fun resetStateAddImage() {
         _stateAddImage.value = ResourceRemote.Idle
     }
-    fun addImage(id: String,listImageName:List<String>,vararg uriImage:Uri){
+    fun addImagesById(id: String,listImageName:List<String>,vararg uriImage:Uri){
         _stateAddImage.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateAddImage.value = storage.addImage(id,Dispatchers.IO, listImageName,*uriImage)
+            _stateAddImage.value = storage.addImagesById(id,Dispatchers.IO, listImageName,*uriImage)
+        }
+    }
+
+    //add image
+    private val _stateDeleteImageByNameOrUri: MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(
+        ResourceRemote.Idle)
+    val stateDeleteImageByNameOrUri: StateFlow<ResourceRemote<Boolean>> = _stateDeleteImageByNameOrUri
+    fun resetStateDeleteImageByNameOrUri() {
+        _stateDeleteImageByNameOrUri.value = ResourceRemote.Idle
+    }
+    fun deleteImageByNameOrUri(id: String,
+                      isByName:Boolean,
+                      nameFile:String="",
+                      url:String=""){
+        _stateDeleteImageByNameOrUri.value = ResourceRemote.Loading
+        viewModelScope.launch {
+            _stateDeleteImageByNameOrUri.value = storage.deleteImageByNameOrUrl(id, isByName, nameFile, url)
         }
     }
 

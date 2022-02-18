@@ -2,7 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -32,36 +34,23 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/LARGEST_SPACE"
                 android:paddingHorizontal="@dimen/PADDING_SMALL">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_chat_online"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_friend"
-                        android:layout_width="@dimen/SIZE_IMAGE_CHAT"
-                        android:layout_height="@dimen/SIZE_IMAGE_CHAT"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_food"
-                        app:civ_border_color="@color/blue"
-                        app:civ_border_width="0.25dp" />
-
-                    <View
-                        android:id="@+id/dot_online"
-                        android:layout_width="@dimen/_8sdp"
-                        android:layout_height="@dimen/_8sdp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="@dimen/_2sdp"
-                        android:layout_marginBottom="@dimen/_2sdp"
-                        android:background="@drawable/custom_dot_online" />
-                </FrameLayout>
-
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_online_chat"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:backgroundTint="@color/white"
+                    android:layout_marginTop="@dimen/MARGIN_SMALL"
+                    app:layout_constraintTop_toBottomOf="@id/rc_chat_online"
+                    android:background="?attr/dividerVertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -125,7 +114,7 @@
                 android:fontFamily="@font/varelaround_regular"
                 android:maxLines="1"
                 android:text="day la title"
-                android:textColor="@color/background_dark_mode"
+                android:textColor="@color/white"
                 android:textSize="@dimen/TEXT_SIZE_NORMAL"
                 app:layout_constraintBottom_toTopOf="@id/anchor"
                 app:layout_constraintEnd_toStartOf="@id/tv_time"
@@ -141,7 +130,7 @@
                 android:fontFamily="@font/varelaround_regular"
                 android:maxLines="1"
                 android:text="day la title"
-                android:textColor="@color/color_grey"
+                android:textColor="@color/background_light_mode"
                 android:textSize="@dimen/TEXT_SIZE_SMALLEST"
                 app:layout_constraintEnd_toStartOf="@id/tv_time"
                 app:layout_constraintHorizontal_bias="0"
@@ -157,7 +146,7 @@
                 android:fontFamily="@font/varelaround_regular"
                 android:maxLines="1"
                 android:text="10:10"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/white"
                 android:textSize="@dimen/TEXT_SIZE_SMALLEST"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

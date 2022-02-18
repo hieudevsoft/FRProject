@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/LARGEST_SPACE"
             android:fontFamily="@font/varelaround_regular"
-            android:text="Hẹn hò là việc rối ren. Chúng tôi tin rừng sự trung thực làm cho mọi thứ tốt hơn cho mọi người. "
+            android:text="Với một vài người, việc hẹn hò là việc rối ren. Chúng tôi tin rằng sự thành thật của bạn làm cho đối phương dễ có cảm tình tốt hơn về bạn. "
             android:textColor="@color/light_gray"
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/LARGEST_SPACE"
             android:fontFamily="@font/varelaround_regular"
-            android:text="Hãy là chính mình. Chia sẻ con người thật, ảnh chưa qua chỉnh sửa."
+            android:text="Hãy là chính mình. Chia sẻ các hình ảnh thực về bản thân, ít qua chỉnh sửa."
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/LARGEST_SPACE"
             android:fontFamily="@font/varelaround_regular"
-            android:text="Giao tiếp tử tế. Trò chuyện thân thiện và tôn trọng mọi người."
+            android:text="Giao tiếp trò chuyện với mọi người một cách thân thiện và tôn trọng đối phương."
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/LARGEST_SPACE"
             android:fontFamily="@font/varelaround_regular"
-            android:text="Tận hưởng cuộc hành trình. Chúc bạn luôn hạnh phúc!"
+            android:text="Hãy tận hưởng cuộc hành trình tìm kiếm nửa kia của mình. Chúc bạn thành công và luôn hạnh phúc!"
             android:textSize="@dimen/TEXT_SIZE_SMALLEST" />
 
         <com.google.android.material.button.MaterialButton

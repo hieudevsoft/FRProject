@@ -88,7 +88,7 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                     this.startAnimClick()
                     prefs.saveProcessRegister(6)
                     idOfUser = UUID.randomUUID().toString()
-                    storageViewModel.addImage(idOfUser,listImage,listUri[0],listUri[1])
+                    storageViewModel.addImagesById(idOfUser,listImage,listUri[0],listUri[1])
                 }
             }
         }
@@ -117,8 +117,9 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
     override fun onDestroyView() {
         job.cancel()
         authViewModel.resetStateAddUserProfile()
-        authViewModel.resetStateGetUserProfile()
         storageViewModel.resetStateAddImage()
+        storageViewModel.resetStateDownloadAllImageById()
+        authViewModel.resetStateUpdateImagesUserProfile()
         dialogLoading.onDestroyView()
         super.onDestroyView()
     }
@@ -280,34 +281,6 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
                     is ResourceRemote.Idle->{
 
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenResumed {
-            authViewModel.stateGetUserProfile.collectLatest {
-                when(it){
-                    is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
-                    }
-
-                    is ResourceRemote.Success->{
-                        dialogLoading.dismiss()
-                        Log.d(TAG, "subscriberObserver: ${it.data?.email}")
-                    }
-
-                    is ResourceRemote.Error->{
-                        dialogLoading.dismiss()
-                        Log.d(TAG, "subscriberObserver: ${it.message}")
-                    }
-
-                    else->{
-                        try{
-                            dialogLoading.dismiss()
-                        }catch (e:Exception){
-
-                        }
                     }
                 }
             }

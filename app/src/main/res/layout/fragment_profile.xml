@@ -89,12 +89,13 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/ly_avatar"
-                        android:layout_width="@dimen/_135sdp"
-                        android:layout_height="@dimen/_135sdp"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_120sdp"
                         android:layout_centerHorizontal="true"
                         android:backgroundTint="@color/white"
-                        app:cardCornerRadius="@dimen/_67sdp"
-                        app:cardElevation="@null">
+                        app:cardCornerRadius="@dimen/_45sdp"
+                        app:cardUseCompatPadding="true"
+                       >
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/icAvatar"
@@ -134,7 +135,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/ly_coins"
+                        android:id="@+id/ly_add_image"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -150,39 +151,26 @@
                             android:padding="@dimen/MEDIUM_SPACE">
 
                             <ImageView
-                                android:id="@+id/icCoins"
+                                android:id="@+id/ic_camera"
                                 android:layout_width="@dimen/SIZE_ICON_24"
                                 android:layout_height="@dimen/SIZE_ICON_24"
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/_16sdp"
-                                android:src="@drawable/ic_coins_white"
+                                android:src="@drawable/ic_camera"
                                 app:tint="@color/black" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_coins"
+                                android:id="@+id/tv_add_image"
                                 style="@style/TextAppearance.MaterialComponents.Body1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/icCoins"
+                                android:layout_below="@+id/ic_camera"
                                 android:layout_centerInParent="true"
                                 android:layout_marginBottom="@dimen/_6sdp"
-                                android:fontFamily="@font/nunito_semibold"
                                 android:gravity="center_horizontal"
-                                android:text="Coins"
+                                android:text="Thêm ảnh"
                                 android:textStyle="bold" />
-
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_coins_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_coins"
-                                android:layout_centerHorizontal="true"
-                                android:fontFamily="@font/nunito_semibold"
-                                android:text="0"
-                                android:textAlignment="center" />
-
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -203,38 +191,26 @@
                             android:padding="@dimen/MEDIUM_SPACE">
 
                             <ImageView
-                                android:id="@+id/ic_heart"
+                                android:id="@+id/ic_image"
                                 android:layout_width="@dimen/SIZE_ICON_24"
                                 android:layout_height="@dimen/SIZE_ICON_24"
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/_16sdp"
-                                android:src="@drawable/ic_heart"
+                                android:src="@drawable/ic_image"
                                 app:tint="@color/black" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_heart"
+                                android:id="@+id/tv_image"
                                 style="@style/TextAppearance.MaterialComponents.Body1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/ic_heart"
+                                android:layout_below="@+id/ic_image"
                                 android:layout_centerInParent="true"
                                 android:layout_marginBottom="@dimen/_6sdp"
-                                android:fontFamily="@font/nunito_semibold"
                                 android:gravity="center_horizontal"
-                                android:text="Luợt thích"
+                                android:text="1024"
                                 android:textStyle="bold" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_heart_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_heart"
-                                android:layout_centerHorizontal="true"
-                                android:fontFamily="@font/nunito_semibold"
-                                android:text="0"
-                                android:textAlignment="center" />
-
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -261,7 +237,7 @@
                                 android:layout_alignParentTop="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/_16sdp"
-                                android:src="@drawable/ic_edit_profile"
+                                android:src="@drawable/ic_personality"
                                 app:tint="@color/black" />
 
                             <com.google.android.material.textview.MaterialTextView
@@ -272,9 +248,8 @@
                                 android:layout_below="@+id/ic_edit_profile"
                                 android:layout_centerInParent="true"
                                 android:layout_marginBottom="@dimen/_6sdp"
-                                android:fontFamily="@font/nunito_semibold"
                                 android:gravity="center"
-                                android:text="Chỉnh sửa hồ sơ"
+                                android:text="Sửa hồ sơ"
                                 android:textStyle="bold" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
@@ -285,16 +260,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:gravity="center"
-                        android:text="Hình ảnh"
-                        android:textAllCaps="false"
-                        android:textSize="@dimen/TEXT_SIZE_NORMAL"
-                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rc_image"

@@ -1,3 +1,9 @@
 package com.devapp.fr.data.models.authens
 
-abstract class BaseAccount(open var id:String,open var email:String,open var password:String)
+import java.io.Serializable
+
+abstract class
+BaseAccount(
+    protected open var id:String
+    , protected open var email:String
+    , protected open var password:String):Serializable

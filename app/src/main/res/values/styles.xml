@@ -170,4 +170,12 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="CustomCardBottom" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.CutTop</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MaterialCardView.CutTop" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/_20sdp</item>
+        <item name="cornerSizeTopLeft">@dimen/_20sdp</item>
+    </style>
 </resources>

@@ -18,7 +18,7 @@ import com.devapp.fr.ui.fragments.FragmentMainViewPager
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.CustomDialog
-import com.devapp.fr.util.Constants.LIMIT_REQUEST_SWIPE
+import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
@@ -26,6 +26,7 @@ import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -75,7 +76,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                 swipeWithDirection(Direction.Right)
                 binding.cardStackView.isEnabled = false
             }, { view, user ->
-
+                    requireActivity().sendDataToViewPartnerProfile(view,user)
             }) {
             parent.binding.mainViewPager.isUserInputEnabled = false
         }
@@ -89,6 +90,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
 
         binding.cardStackView.apply {
+            itemAnimator = OvershootInLeftAnimator(2f)
             layoutManager = cardStackLayoutManager
             adapter = cardStackViewAdapter
         }
@@ -294,4 +296,18 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
     }
 
+    override fun onDestroy() {
+        loadingDialog.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onDetach() {
+        loadingDialog.onDetach()
+        super.onDetach()
+    }
+
+    override fun onDestroyView() {
+        loadingDialog.onDestroyView()
+        super.onDestroyView()
+    }
 }
