@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FR"
         android:usesCleartextTraffic="true"
-        android:windowSoftInputMode="stateHidden|adjustUnspecified">
+        android:windowSoftInputMode="stateHidden|adjustResize">
         <activity
             android:name=".ui.activities.ViewPartnerActivity"
             android:screenOrientation="portrait"

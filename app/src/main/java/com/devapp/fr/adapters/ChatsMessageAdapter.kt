@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomViewTarget
@@ -34,8 +35,13 @@ import com.github.pgreze.reactions.ReactionPopup
 import com.github.pgreze.reactions.ReactionSelectedListener
 
 
-class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatsMessageAdapter(
+    private val senderId:String?=null,
+    private val recieverId:String?=null,
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TAG = "ChatsMessageAdapter"
+    val senderRoom = senderId+recieverId
+    val reciverRoom = recieverId+senderId
 
     private inner class ViewHolderMe(val binding: ItemChatMeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -319,6 +325,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         val item = differ.currentList[position]
+        item.isMe = item.userId==senderId
         return if (item.isMe) {
             when (item.type) {
                 MessageType.TEXT -> Constants.TEXT_FROM_ME
@@ -383,7 +390,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun getItemAtPosition(position: Int) = differ.currentList[position]
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = differ.currentList[position]
+        val item = getItemAtPosition(position)
         when (holder) {
             is ViewHolderMe -> {
                 holder.bind(item as MessageText)

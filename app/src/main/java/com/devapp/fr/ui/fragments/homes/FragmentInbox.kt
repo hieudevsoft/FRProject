@@ -1,21 +1,34 @@
 package com.devapp.fr.ui.fragments.homes
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
+import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.ChatsMessageAdapter
 import com.devapp.fr.app.BaseFragment
+import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.data.models.messages.MessageAudio
 import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
+import com.devapp.fr.ui.viewmodels.RealTimeViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.Constants.RC_MEDIA
+import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.MediaHelper
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper.GONE
@@ -24,38 +37,87 @@ import com.devapp.fr.util.UiHelper.hideKeyboard
 import com.devapp.fr.util.UiHelper.multilineIme
 import com.devapp.fr.util.UiHelper.sendImageToFullScreenImageActivity
 import com.devapp.fr.util.UiHelper.showSnackbar
+import com.devapp.fr.util.UiHelper.toGone
+import com.devapp.fr.util.UiHelper.toVisible
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
+import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.flow.collectLatest
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
+import javax.inject.Inject
 
 
-class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
+@AndroidEntryPoint
+class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
     val TAG = "FragmentInbox"
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
+    private val args:FragmentInboxArgs by navArgs()
+    private lateinit var listMessage:MutableList<MessageModel>
+    private lateinit var database:FirebaseDatabase
+    private lateinit var storage:FirebaseStorage
 
+    @Inject
+    lateinit var prefs:SharedPreferencesHelper
+    private val realTimeViewModel:RealTimeViewModel by activityViewModels()
+    private val sharedViewModel:SharedViewModel by activityViewModels()
+
+    @SuppressLint("ResourceAsColor")
     override fun onSetupView() {
+        initRecyclerView()
+        database = FirebaseDatabase.getInstance()
+        storage = FirebaseStorage.getInstance()
+        handleOnBackPress()
+        args.data?.let {
+            it.images?.get(0)?.let { GlideApp.loadImage(it,binding.imgPartner, this) }
+            val anim: Animation = AlphaAnimation(0.0f, 1.0f)
+            anim.duration = 500
+            anim.startOffset = 20
+            anim.repeatMode = Animation.REVERSE
+            anim.repeatCount = Animation.INFINITE
+            binding.apply {
+                dotOnline.startAnimation(anim)
+                tvName.text = it.name
+            }
+            launchRepeatOnLifeCycleWhenCreated {scope->
+                realTimeViewModel.checkUserOnOffbyId(it.id)
+                realTimeViewModel.stateFlowUserOnOff.collectLatest {
+                    if(it == true){
+                        binding.apply {
+                            lyDot.toVisible()
+                            tvOnline.apply {
+                                text = "Online"
+                                setTextColor(ContextCompat.getColor(requireContext(),R.color.green_online))
+                            }
+                        }
+                    }else{
+                        binding.apply {
+                            lyDot.toGone()
+                            tvOnline.apply {
+                                text = "Offline"
+                                setTextColor(ContextCompat.getColor(requireContext(),R.color.gray_offline))
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //Initialize RecyclerView
-        initRecyclerView()
-
-        //Init view
-        initView()
-
-        //Handle event
+        getListMessage()
         handleEventElements()
-
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun initView() {
-        binding.apply {
-
-        }
     }
 
     private fun handleEventElements() {
@@ -100,7 +162,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
 
     private fun stopRecording(){
         MediaHelper.stopRecording(requireContext())
-        val newVoice = MessageAudio("111","111",MessageType.AUDIO,false,MediaHelper.mFileName)
+        val newVoice = MessageAudio("111","111",MessageType.AUDIO,false,MediaHelper.mFileName,false,0)
         val list = chatsMessageAdapter.differ.currentList.toMutableList()
         list.add(newVoice)
         chatsMessageAdapter.submitList(list)
@@ -119,33 +181,49 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     private fun handleSendMessage() {
         val content = binding.edtSendMessage.text.toString()
         if (content.isNotEmpty()) {
-            val list = chatsMessageAdapter.differ.currentList.toMutableList()
-            list.add(
-                MessageText(
-                    id = UUID.randomUUID().toString(),
-                    message = content,
-                    isMe = true,
-                    type = MessageType.TEXT
-                )
-            )
-            chatsMessageAdapter.submitList(list.toList())
-            binding.edtSendMessage.apply {
-                hideKeyboard()
-                clearFocus()
-                setText("")
+            val message = MessageText(UUID.randomUUID().toString(),prefs.readIdUserLogin()!!,MessageType.TEXT, message = content).convertToMessageUpload()
+            val randomKey = database.reference.push().key
+            val lastMsgObj = hashMapOf<String,Any>()
+            lastMsgObj["lastMsg"] = message.message
+            lastMsgObj["lastMsgTime"] = message.time
+
+            database.reference.child("chats").child(chatsMessageAdapter.senderRoom).updateChildren(lastMsgObj)
+            database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).updateChildren(lastMsgObj)
+
+            if (randomKey != null) {
+                database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
+                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").setValue(message).addOnSuccessListener {
+                        binding.edtSendMessage.apply {
+                            hideKeyboard()
+                            clearFocus()
+                            setText("")
+                        }
+                    }.addOnFailureListener {
+                        binding.root.showSnackbar("Đối phương chưa nhận được tin nhắn đâu :(")
+                    }.addOnCanceledListener {
+                        binding.root.showSnackbar("Có lỗi xảy ra rồi :(")
+                    }
+                }.addOnFailureListener {
+                    binding.root.showSnackbar("Có thể lỗi mạng đó :(")
+                }.addOnCanceledListener {
+                    binding.root.showSnackbar("Gửi đi chưa thành công :(")
+                }
             }
-            binding.recyclerViewChat.smoothScrollToPosition(chatsMessageAdapter.differ.currentList.size+1)
+        }
+        else{
+            showToast("Bạn nên gửi lời yêu thương đi ~")
         }
     }
 
     private fun initRecyclerView() {
-        chatsMessageAdapter = ChatsMessageAdapter()
-        chatsMessageAdapter.submitList(fakeListMessage().toList())
+        chatsMessageAdapter = ChatsMessageAdapter(prefs.readIdUserLogin(),args.data?.id)
         binding.recyclerViewChat.apply {
+            listMessage = mutableListOf()
+            chatsMessageAdapter.submitList(listMessage.toList())
             adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
                 setDuration(1000)
                 setInterpolator(OvershootInterpolator())
-                setFirstOnly(false)
+                setFirstOnly(true)
             }
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false).apply {
@@ -159,49 +237,37 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         Log.d(TAG, "initRecyclerView: ${chatsMessageAdapter.differ.currentList.size}")
     }
 
+    private fun getListMessage() {
+        database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation")
+            .addValueEventListener(object:ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    listMessage.clear()
+                    snapshot.children.forEach {
+                        val message : MessageUpload? = it.getValue(MessageUpload::class.java)
+                        if (message != null) {
+                            listMessage.add(message.convertToMessageModel(message.type))
+                        }
+                    }
+                    chatsMessageAdapter.submitList(listMessage.toList())
+                    binding.recyclerViewChat.smoothScrollToPosition(chatsMessageAdapter.differ.currentList.size+1)
+                }
 
-    private fun fakeListMessage(): MutableList<MessageModel> {
-        return mutableListOf(
-            MessageText(
-                id = "1",
-                message = "Xin chào cậu tôi muốn làm quen",
-                isMe = true,
-                type = MessageType.TEXT
-            ),
-            MessageText(
-                id = "2",
-                message = "Ồ không được đâu mình có người yêu r",
-                isMe = false,
-                type = MessageType.TEXT
-            ),
-            MessageText(id = "3", message = "UKM", isMe = true, type = MessageType.TEXT),
-            MessageText(id = "4", message = "BYE", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "5", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(
-                id = "6",
-                message = "Xin chào cậu tôi muốn làm quen",
-                isMe = true,
-                type = MessageType.TEXT
-            ),
-            MessageText(
-                id = "7",
-                message = "Ồ không được đâu mình có người yêu r",
-                isMe = false,
-                type = MessageType.TEXT
-            ),
-            MessageText(id = "8", message = "UKM", isMe = true, type = MessageType.TEXT),
-            MessageText(id = "9", message = "BYE", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "10", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "11", message = "HI!", isMe = true, type = MessageType.TEXT),
-            MessageText(id = "12", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "12", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "8", message = "UKM", isMe = true, type = MessageType.TEXT),
-            MessageText(id = "111", message = "BYE", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "21", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "321", message = "HI!", isMe = true, type = MessageType.TEXT),
-            MessageText(id = "321", message = "HI!", isMe = false, type = MessageType.TEXT),
-            MessageText(id = "321", message = "HI!", isMe = false, type = MessageType.TEXT),
-        )
+                override fun onCancelled(error: DatabaseError) {
+                    binding.root.showSnackbar("Kiếm tra lại kết nối mạng!! ${error.message}")
+                }
+
+            })
+
+    }
+
+    private fun handleOnBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                sharedViewModel.setPositionMainViewPager(1)
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
@@ -212,20 +278,8 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             val tedBottomPicker =
                 TedBottomPicker.with(requireActivity())
                     .setOnMultiImageSelectedListener {
-                        val list = chatsMessageAdapter.differ.currentList.toMutableList()
-                        var test = false
                         it.forEach { uri ->
-                            test=!test
-                            list.add(
-                                MessageImage(
-                                    id = UUID.randomUUID().toString(),
-                                    urlImage = uri.toString(),
-                                    isMe = test,
-                                    type = MessageType.IMAGE
-                                )
-                            )
-                            chatsMessageAdapter.submitList(list.toList())
-                            binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount+1)
+
                         }
                     }
                     .setOnErrorListener {

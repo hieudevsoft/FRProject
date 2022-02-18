@@ -13,6 +13,8 @@
     <color name="gradient_start_purple">#E400A7</color>
     <color name="gradient_end_purple">#CC00F0</color>
     <color name="gradient_center_purple">#E670DA</color>
+    <color name="green_online">#5BF131</color>
+    <color name="gray_offline">#4D504C</color>
 
 
 <!--    Dark theme-->

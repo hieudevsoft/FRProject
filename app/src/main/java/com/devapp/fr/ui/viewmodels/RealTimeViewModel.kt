@@ -73,4 +73,15 @@ class RealTimeViewModel @Inject constructor(
             }
         }
     }
+
+    fun checkUserOnOffbyId(
+        id:String,
+        callBack:(Boolean)->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
+        viewModelScope.launch {
+            realTimeService.checkUserOnOffbyId(id,dispatcher){
+                callBack(it)
+            }
+        }
+    }
 }

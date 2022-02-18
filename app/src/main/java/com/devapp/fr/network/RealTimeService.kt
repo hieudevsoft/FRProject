@@ -20,8 +20,8 @@ import java.io.StreamCorruptedException
 
 class RealTimeService @Inject constructor(private val context:Context) {
     private val refsNotifications = FirebaseDatabase.getInstance().getReference("notifications")
-    private val refsChat = FirebaseDatabase.getInstance().getReference("room_chats")
     private val refsOnline = FirebaseDatabase.getInstance().getReference("online")
+    private val refChats = FirebaseDatabase.getInstance().reference.child("chats")
     private val DELAY_RESET = 1000L
     private val TAG = "RealTimeService"
 

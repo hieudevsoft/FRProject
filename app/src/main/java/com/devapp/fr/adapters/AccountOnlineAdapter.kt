@@ -31,7 +31,6 @@ import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationList
 
 class AccountOnlineAdapter(
     private val fragment:Fragment
-    ,private val lifeCycleScope:CoroutineScope
     ,private val realTimeViewModel: RealTimeViewModel): RecyclerView.Adapter<AccountOnlineAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemOnlineChatBinding):RecyclerView.ViewHolder(binding.root){
@@ -80,25 +79,19 @@ class AccountOnlineAdapter(
             holder.binding.root.showSnackbar("${item.name} đó ~")
             true
         }
-        realTimeViewModel.checkUserOnOffbyId(item.id)
-        lifeCycleScope.launch {
-            realTimeViewModel.stateFlowUserOnOff.collect {
-                Log.d("TAG", "onBindViewHolder: $it")
-                if (it != null) {
-                    if(it) {
-                        holder.binding.apply {
-                            imgFriend.borderColor = ContextCompat.getColor(root.context,R.color.blue)
-                            lyDot.toVisible()
-                        }
-                    } else {
-                        holder.binding.apply {
-                            imgFriend.borderColor = ContextCompat.getColor(root.context,R.color.gray)
-                            lyDot.toGone()
-                        }
-                    }
+        realTimeViewModel.checkUserOnOffbyId(item.id,{
+            if(it) {
+                holder.binding.apply {
+                    imgFriend.borderColor = ContextCompat.getColor(root.context,R.color.blue)
+                    lyDot.toVisible()
+                }
+            } else {
+                holder.binding.apply {
+                    imgFriend.borderColor = ContextCompat.getColor(root.context,R.color.gray)
+                    lyDot.toGone()
                 }
             }
-        }
+        })
     }
 
     private var onClickItemListener:((View, UserProfile)->Unit)?=null
