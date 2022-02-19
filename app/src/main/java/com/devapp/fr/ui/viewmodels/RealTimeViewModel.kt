@@ -3,6 +3,8 @@ package com.devapp.fr.ui.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.items.AccountOnline
@@ -133,5 +135,13 @@ class RealTimeViewModel @Inject constructor(
                 _stateFlowGetListMessage.value = null
             })
         }
+    }
+}
+
+class RealTimeViewModelFactory(private val app:Application,private val realTimeService:RealTimeService):ViewModelProvider.AndroidViewModelFactory(app){
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(RealTimeViewModel::class.java))
+            return RealTimeViewModel(app,realTimeService) as T
+        else throw IllegalArgumentException("Not found RealTimeViewModel class ")
     }
 }

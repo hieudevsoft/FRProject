@@ -99,19 +99,14 @@ class MainActivity : ThemeActivity() {
 
         //get userprofile
         prefs.readIdUserLogin()?.let {
-            getUserProfile(it)
             if(intent.getBooleanExtra("navigate_chat",false))
                 sharedViewModel.setPositionMainViewPager(1)
-            realTimeViewModel.readNotificationWhenPartnerReply(it) {
-                if (it!=null && it.message.isNotEmpty())
-                    startService(
-                        Intent(this, NotificationService::class.java).apply {
-                            this.putExtra("data", it.message + ", " + it.time)
-                            this.putExtra("id",it.idOwnerSend+"#"+prefs.readIdUserLogin()!!)
-                        }
-                    )
-                realTimeViewModel.sendNotificationWhenMeReply(null,prefs.readIdUserLogin()!!)
-            }
+            startService(
+                Intent(this, NotificationService::class.java).also {
+                    it.putExtra("navigate_chat",intent.getBooleanExtra("navigate_chat",false))
+                }
+            )
+            getUserProfile(it)
         }
 
         //subscriber observer

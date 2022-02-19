@@ -8,13 +8,16 @@ import android.util.Log
 import android.widget.Toast
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 class StorageService @Inject constructor(private val context:Context) {
@@ -123,24 +126,35 @@ class StorageService @Inject constructor(private val context:Context) {
         return res
     }
 
-    suspend fun addImageIntoStorageChasts(
-        name: String,
+    suspend fun addImageIntoStorageChats(
         senderRoom:String,
         recieverRoom:String,
+        uriImage:Uri,
+        onSuccessCallback:(String)->Unit,
+        onFailureCallback:()->Unit,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    ): Boolean {
+    ) {
         val ref = Firebase.storage.reference
         val res = withContext(dispatcher) {
             try {
-
-                true
+                val calendar = Calendar.getInstance()
+                val refSenderRoom = ref.child("chats").child(senderRoom).child(calendar.timeInMillis.toString())
+                val refRecieverRoom = ref.child("chats").child(recieverRoom).child(calendar.timeInMillis.toString())
+                refSenderRoom.putFile(uriImage).await()
+                refRecieverRoom.putFile(uriImage).addOnCompleteListener{
+                    if(it.isSuccessful){
+                        refRecieverRoom.downloadUrl.addOnSuccessListener {
+                            val filePath = it.toString()
+                            onSuccessCallback(filePath)
+                        }
+                    } else onFailureCallback()
+                }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                 }
-                false
+                onFailureCallback()
             }
         }
-        return res
     }
 }

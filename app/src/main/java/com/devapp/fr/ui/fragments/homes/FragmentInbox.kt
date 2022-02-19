@@ -1,6 +1,7 @@
 package com.devapp.fr.ui.fragments.homes
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,11 +21,13 @@ import com.devapp.fr.adapters.ChatsMessageAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.data.models.messages.MessageAudio
+import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.ui.viewmodels.StorageViewModel
 import com.devapp.fr.util.Constants.RC_MEDIA
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.MediaHelper
@@ -61,6 +64,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     lateinit var prefs: SharedPreferencesHelper
     private val realTimeViewModel: RealTimeViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val storageViewModel: StorageViewModel by activityViewModels()
 
     @SuppressLint("ResourceAsColor")
     override fun onSetupView() {
@@ -79,6 +83,35 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             }
             subscriberObserver()
         }
+    }
+
+    private fun initRecyclerView() {
+        chatsMessageAdapter = ChatsMessageAdapter(
+            this@FragmentInbox, prefs.readIdUserLogin(), args.data?.id,
+            args.data?.images?.get(0).toString()
+        )
+        binding.recyclerViewChat.apply {
+            adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
+                setDuration(1000)
+                setInterpolator(OvershootInterpolator())
+                setFirstOnly(true)
+            }
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+        chatsMessageAdapter.setOnItemImageClickListener { view, url ->
+            requireActivity().sendImageToFullScreenImageActivity(view)
+        }
+    }
+
+    private fun handleOnBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                sharedViewModel.setPositionMainViewPager(1)
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     private fun subscriberObserver() {
@@ -167,6 +200,32 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 }
             }
         }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            storageViewModel.stateAddImageChats.collect {
+                it?.let {
+                    val message = MessageImage(
+                        "",
+                        prefs.readIdUserLogin()!!,
+                        MessageType.IMAGE,
+                        urlImage = it.toString(),
+                    ).convertToMessageUpload()
+                    val lastMsgObj = hashMapOf<String, Any>()
+                    lastMsgObj["lastMsg"] = "Gửi ảnh..."
+                    lastMsgObj["lastMsgTime"] = message.time
+                    realTimeViewModel.updateLastMessage(
+                        chatsMessageAdapter.senderRoom,
+                        chatsMessageAdapter.reciverRoom,
+                        lastMsgObj
+                    )
+                    realTimeViewModel.sendMessageToFirebase(
+                        chatsMessageAdapter.senderRoom,
+                        chatsMessageAdapter.reciverRoom,
+                        message
+                    )
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -194,14 +253,16 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                     ibVoiceTemp.VISIBLE()
                 }
                 stopRecording()
+                MediaHelper.initMediaPlayer(MediaHelper.mFileName)
+                MediaHelper.playingAudio()
             }
 
             edtSendMessage.multilineIme(IME_ACTION_SEND) {
-                handleSendMessage()
+                handleSendMessageText()
             }
 
             cardSendMessage.setOnClickListener {
-                handleSendMessage()
+                handleSendMessageText()
             }
 
             edtSendMessage.addTextChangedListener {
@@ -222,15 +283,9 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
 
     private fun stopRecording() {
         MediaHelper.stopRecording(requireContext())
-        val newVoice =
-            MessageAudio("111", "111", MessageType.AUDIO, false, MediaHelper.mFileName, false, 0)
-        val list = chatsMessageAdapter.differ.currentList.toMutableList()
-        list.add(newVoice)
-        chatsMessageAdapter.submitList(list)
-        binding.recyclerViewChat.smoothScrollToPosition(binding.recyclerViewChat.adapter!!.itemCount + 1)
     }
 
-    private fun handleSendMessage() {
+    private fun handleSendMessageText() {
         val content = binding.edtSendMessage.text.toString()
         if (content.isNotEmpty()) {
             val message = MessageText(
@@ -256,23 +311,12 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             binding.root.showSnackbar("Bạn nên gửi lời yêu thương đi ~")
         }
     }
-
-    private fun initRecyclerView() {
-        chatsMessageAdapter = ChatsMessageAdapter(
-            this@FragmentInbox, prefs.readIdUserLogin(), args.data?.id,
-            args.data?.images?.get(0).toString()
-        )
-        binding.recyclerViewChat.apply {
-            adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
-                setDuration(1000)
-                setInterpolator(OvershootInterpolator())
-                setFirstOnly(true)
-            }
-            isNestedScrollingEnabled = false
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
-        chatsMessageAdapter.setOnItemImageClickListener { view, url ->
-            requireActivity().sendImageToFullScreenImageActivity(view)
+    private fun handleSendMessageImage(it: Uri?) {
+        if (it!=null&&it.toString().isNotEmpty()) {
+            binding.root.showSnackbar("Chờ một chút nhé ~")
+            storageViewModel.addImageChat(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,it)
+        } else {
+            binding.root.showSnackbar("Chưa chọn được ảnh ~")
         }
     }
 
@@ -282,23 +326,11 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         realTimeViewModel.readActing(chatsMessageAdapter.senderRoom)
     }
 
-    private fun handleOnBackPress() {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                sharedViewModel.setPositionMainViewPager(1)
-                findNavController().popBackStack()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(callback)
-    }
-
     private fun openBottomImagePicker() {
         val tedBottomPicker =
             TedBottomPicker.with(requireActivity())
-                .setOnMultiImageSelectedListener {
-                    it.forEach { uri ->
-
-                    }
+                .setOnImageSelectedListener {
+                    handleSendMessageImage(it)
                 }
                 .setOnErrorListener {
                     binding.root.showSnackbar(it)
@@ -331,5 +363,10 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 PermissionHelper.requestPermissionBottomPicker(this)
             else PermissionHelper.requestPermissionAudio(this)
         }
+    }
+
+    override fun onDestroyView() {
+        storageViewModel.resetStateAddImageChats()
+        super.onDestroyView()
     }
 }

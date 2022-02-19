@@ -19,23 +19,26 @@ object MediaHelper {
     private var mRecorder:MediaRecorder?=null
     private var mediaPlayer:MediaPlayer?=null
     fun getMediaPlayer() = mediaPlayer
+    init {
+        mFileName = Environment.getExternalStorageDirectory().toString()
+        mFileName+= "/my_rec.3gp"
+        mRecorder = MediaRecorder()
+    }
 
     fun startRecording(context:Context){
-        mFileName = Environment.getExternalStorageDirectory().absolutePath
-        mFileName+= "/recordTemp.3gp"
-        mRecorder = MediaRecorder()
         mRecorder?.let {
+            Toast.makeText(context, "Bat dau thiet lap....", Toast.LENGTH_SHORT).show()
             mRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
             mRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             mRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
             mRecorder!!.setOutputFile(mFileName)
             try {
                 mRecorder!!.prepare()
+                mRecorder!!.start()
+                Toast.makeText(context, "Bat dau....", Toast.LENGTH_SHORT).show()
             }catch (e:Exception){
                 Toast.makeText(context, "Co loi xay ra ~ ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(context, "Bat dau....", Toast.LENGTH_SHORT).show()
-            mRecorder!!.start()
         }?:Toast.makeText(context, "Khong ho tro ghi am....", Toast.LENGTH_SHORT).show()
 
     }

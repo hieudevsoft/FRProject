@@ -16,50 +16,83 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StorageViewModel @Inject constructor(app:Application, private val storage:StorageService):AndroidViewModel(app) {
+class StorageViewModel @Inject constructor(app: Application, private val storage: StorageService) :
+    AndroidViewModel(app) {
 
     //add image
     private val _stateAddImage: MutableStateFlow<ResourceRemote<String>> = MutableStateFlow(
-        ResourceRemote.Idle)
+        ResourceRemote.Idle
+    )
     val stateAddImage: StateFlow<ResourceRemote<String>> = _stateAddImage
     fun resetStateAddImage() {
         _stateAddImage.value = ResourceRemote.Idle
     }
-    fun addImagesById(id: String,listImageName:List<String>,vararg uriImage:Uri){
+
+    fun addImagesById(id: String, listImageName: List<String>, vararg uriImage: Uri) {
         _stateAddImage.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateAddImage.value = storage.addImagesById(id,Dispatchers.IO, listImageName,*uriImage)
+            _stateAddImage.value =
+                storage.addImagesById(id, Dispatchers.IO, listImageName, *uriImage)
         }
     }
 
     //add image
-    private val _stateDeleteImageByNameOrUri: MutableStateFlow<ResourceRemote<Boolean>> = MutableStateFlow(
-        ResourceRemote.Idle)
-    val stateDeleteImageByNameOrUri: StateFlow<ResourceRemote<Boolean>> = _stateDeleteImageByNameOrUri
+    private val _stateDeleteImageByNameOrUri: MutableStateFlow<ResourceRemote<Boolean>> =
+        MutableStateFlow(ResourceRemote.Idle)
+    val stateDeleteImageByNameOrUri: StateFlow<ResourceRemote<Boolean>> =
+        _stateDeleteImageByNameOrUri
+
     fun resetStateDeleteImageByNameOrUri() {
         _stateDeleteImageByNameOrUri.value = ResourceRemote.Idle
     }
-    fun deleteImageByNameOrUri(id: String,
-                      isByName:Boolean,
-                      nameFile:String="",
-                      url:String=""){
+
+    fun deleteImageByNameOrUri(
+        id: String,
+        isByName: Boolean,
+        nameFile: String = "",
+        url: String = ""
+    ) {
         _stateDeleteImageByNameOrUri.value = ResourceRemote.Loading
         viewModelScope.launch {
-            _stateDeleteImageByNameOrUri.value = storage.deleteImageByNameOrUrl(id, isByName, nameFile, url)
+            _stateDeleteImageByNameOrUri.value =
+                storage.deleteImageByNameOrUrl(id, isByName, nameFile, url)
         }
     }
 
     //download all image
-    private val _stateDownloadAllImageById: MutableStateFlow<ResourceRemote<List<String>>> = MutableStateFlow(
-        ResourceRemote.Idle)
-    val stateDownloadAllImageById: StateFlow<ResourceRemote<List<String>>> = _stateDownloadAllImageById
+    private val _stateDownloadAllImageById: MutableStateFlow<ResourceRemote<List<String>>> =
+        MutableStateFlow(
+            ResourceRemote.Idle
+        )
+    val stateDownloadAllImageById: StateFlow<ResourceRemote<List<String>>> =
+        _stateDownloadAllImageById
+
     fun resetStateDownloadAllImageById() {
         _stateDownloadAllImageById.value = ResourceRemote.Idle
     }
-    fun downloadAllImagesById(id: String){
+
+    fun downloadAllImagesById(id: String) {
         _stateDownloadAllImageById.value = ResourceRemote.Loading
         viewModelScope.launch {
             _stateDownloadAllImageById.value = storage.downloadAllImagesById(id)
+        }
+    }
+
+    //download all image
+    private val _stateAddImageChats: MutableStateFlow<String?> = MutableStateFlow(null)
+    val stateAddImageChats: StateFlow<String?> = _stateAddImageChats
+    fun resetStateAddImageChats() {
+        _stateAddImageChats.value = null
+    }
+    fun addImageChat(
+        senderRoom: String,
+        recieverRoom: String,
+        uriImage: Uri,
+    ) {
+        viewModelScope.launch {
+            storage.addImageIntoStorageChats( senderRoom, recieverRoom, uriImage, {
+                _stateAddImageChats.value = it
+            }, { _stateAddImageChats.value = null })
         }
     }
 }
