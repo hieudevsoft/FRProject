@@ -4,12 +4,18 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -55,10 +61,11 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.log
 
 
 @AndroidEntryPoint
-class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
+class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
     val TAG = "FragmentInbox"
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
     private val args:FragmentInboxArgs by navArgs()
@@ -73,6 +80,7 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
 
     @SuppressLint("ResourceAsColor")
     override fun onSetupView() {
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window,true)
         initRecyclerView()
         database = FirebaseDatabase.getInstance()
         storage = FirebaseStorage.getInstance()
@@ -88,30 +96,42 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
                 dotOnline.startAnimation(anim)
                 tvName.text = it.name
             }
-            launchRepeatOnLifeCycleWhenCreated {scope->
-                realTimeViewModel.checkUserOnOffbyId(it.id)
-                realTimeViewModel.stateFlowUserOnOff.collectLatest {
-                    if(it == true){
-                        binding.apply {
-                            lyDot.toVisible()
-                            tvOnline.apply {
-                                text = "Online"
-                                setTextColor(ContextCompat.getColor(requireContext(),R.color.green_online))
-                            }
+            realTimeViewModel.checkUserOnOffbyId(it.id)
+            subscriberObserver()
+        }
+
+    }
+
+    private fun subscriberObserver() {
+        launchRepeatOnLifeCycleWhenCreated {scope->
+            realTimeViewModel.stateFlowUserOnOff.collectLatest {
+                if(it == true){
+                    binding.apply {
+                        lyDot.toVisible()
+                        tvOnline.apply {
+                            text = "Online"
+                            setTextColor(ContextCompat.getColor(requireContext(),R.color.green_online))
                         }
-                    }else{
-                        binding.apply {
-                            lyDot.toGone()
-                            tvOnline.apply {
-                                text = "Offline"
-                                setTextColor(ContextCompat.getColor(requireContext(),R.color.gray_offline))
-                            }
+                    }
+                }else{
+                    binding.apply {
+                        lyDot.toGone()
+                        tvOnline.apply {
+                            text = "Offline"
+                            setTextColor(ContextCompat.getColor(requireContext(),R.color.gray_offline))
                         }
                     }
                 }
             }
         }
 
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.stateUpdateLastMessage.collectLatest {
+                it?.let {
+                    if(it) Log.d(TAG, "subscriberObserver: Update Last Message Successfully....")
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -181,33 +201,29 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
     private fun handleSendMessage() {
         val content = binding.edtSendMessage.text.toString()
         if (content.isNotEmpty()) {
-            val message = MessageText(UUID.randomUUID().toString(),prefs.readIdUserLogin()!!,MessageType.TEXT, message = content).convertToMessageUpload()
-            val randomKey = database.reference.push().key
+            val randomKey = database.reference.push().key!!
+            val message = MessageText(randomKey,prefs.readIdUserLogin()!!,MessageType.TEXT, message = content).convertToMessageUpload()
             val lastMsgObj = hashMapOf<String,Any>()
             lastMsgObj["lastMsg"] = message.message
             lastMsgObj["lastMsgTime"] = message.time
+            realTimeViewModel.updateLastMessage(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,lastMsgObj)
 
-            database.reference.child("chats").child(chatsMessageAdapter.senderRoom).updateChildren(lastMsgObj)
-            database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).updateChildren(lastMsgObj)
-
-            if (randomKey != null) {
-                database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                    database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
-                        binding.edtSendMessage.apply {
-                            hideKeyboard()
-                            clearFocus()
-                            setText("")
-                        }
-                    }.addOnFailureListener {
-                        binding.root.showSnackbar("Đối phương chưa nhận được tin nhắn đâu :(")
-                    }.addOnCanceledListener {
-                        binding.root.showSnackbar("Có lỗi xảy ra rồi :(")
+            database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
+                database.reference.child("chats").child(chatsMessageAdapter.reciverRoom).child("conversation").child(randomKey).setValue(message).addOnSuccessListener {
+                    binding.edtSendMessage.apply {
+                        hideKeyboard()
+                        clearFocus()
+                        setText("")
                     }
                 }.addOnFailureListener {
-                    binding.root.showSnackbar("Có thể lỗi mạng đó :(")
+                    binding.root.showSnackbar("Đối phương chưa nhận được tin nhắn đâu :(")
                 }.addOnCanceledListener {
-                    binding.root.showSnackbar("Gửi đi chưa thành công :(")
+                    binding.root.showSnackbar("Có lỗi xảy ra rồi :(")
                 }
+            }.addOnFailureListener {
+                binding.root.showSnackbar("Có thể lỗi mạng đó :(")
+            }.addOnCanceledListener {
+                binding.root.showSnackbar("Gửi đi chưa thành công :(")
             }
         }
         else{
@@ -219,30 +235,28 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
         chatsMessageAdapter = ChatsMessageAdapter(this@FragmentInbox,prefs.readIdUserLogin(),args.data?.id,
             args.data?.images?.get(0).toString())
         binding.recyclerViewChat.apply {
-            listMessage = mutableListOf()
-            chatsMessageAdapter.submitList(listMessage.toList())
             adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
                 setDuration(1000)
                 setInterpolator(OvershootInterpolator())
                 setFirstOnly(true)
             }
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false).apply {
-                    stackFromEnd = true
-                }
-            scrollToPosition(chatsMessageAdapter.itemCount+1)
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
         chatsMessageAdapter.setOnItemImageClickListener { view, url ->
             requireActivity().sendImageToFullScreenImageActivity(view)
         }
-        Log.d(TAG, "initRecyclerView: ${chatsMessageAdapter.differ.currentList.size}")
     }
 
     private fun getListMessage() {
         database.reference.child("chats").child(chatsMessageAdapter.senderRoom).child("conversation")
             .addValueEventListener(object:ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    listMessage.clear()
+                    try {
+                        listMessage.clear()
+                    }catch (e:Exception){
+                        listMessage = mutableListOf()
+                    }
                     snapshot.children.forEach {
                         val message : MessageUpload? = it.getValue(MessageUpload::class.java)
                         if (message != null) {
@@ -250,7 +264,11 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
                         }
                     }
                     chatsMessageAdapter.submitList(listMessage.toList())
-                    binding.recyclerViewChat.smoothScrollToPosition(chatsMessageAdapter.differ.currentList.size+1)
+                    Log.d(TAG, "onDataChange: ${listMessage.size}")
+//                    binding.recyclerViewChat.postDelayed ({
+//                        val y: Float = binding.recyclerViewChat.y + binding.recyclerViewChat.getChildAt(listMessage.size).y
+//                        binding.nestedScrollView.smoothScrollTo(0, y.toInt())
+//                    },1000)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -302,6 +320,4 @@ class FragmentInbox() : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Pe
             else PermissionHelper.requestPermissionAudio(this)
         }
     }
-
-
 }

@@ -29,6 +29,7 @@ import com.devapp.fr.ui.fragments.homes.FragmentSettings
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper
+import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
 import com.devapp.fr.util.extensions.showToast
@@ -229,5 +230,6 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
         findNavController().navigate(
             FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentInbox(user)
         )
+        bottomBar.toGone()
     }
 }
