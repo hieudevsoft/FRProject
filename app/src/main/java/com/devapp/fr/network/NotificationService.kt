@@ -12,8 +12,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.devapp.fr.MyApplication.Companion.CHANNEL_ID
 import com.devapp.fr.ui.activities.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class NotificationService : Service() {
     companion object{
         val RC_CODE_NOTIFICATION = 0
@@ -33,7 +35,13 @@ class NotificationService : Service() {
         intent?.let {
             val data = it.getStringExtra("data")
             if (data != null) {
-                sendNotification(startId,data)
+                val combineId = it.getStringExtra("id")
+                if (combineId != null) {
+                    val idOwner = combineId.split("#")[1]
+                    val idNotification = combineId.split("#")[0]
+                    if(idOwner != idOwner)
+                        sendNotification(startId,data)
+                }
             }
         }
         return START_NOT_STICKY
@@ -41,13 +49,16 @@ class NotificationService : Service() {
 
     private fun sendNotification(id:Int,data: String) {
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this,MainActivity::class.java).also {
+            it.putExtra("navigate_chat",true)
+        }
         val pendingIntent = PendingIntent.getActivity(applicationContext, RC_CODE_NOTIFICATION,intent,PendingIntent.FLAG_UPDATE_CURRENT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notification = Notification.Builder(this, CHANNEL_ID)
                 .setContentTitle("Fr Thông báo")
                 .setContentText("$data đã phản hồi bạn")
                 .setSmallIcon(com.devapp.fr.R.drawable.ic_heart_redcolor)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
                 .build()
             startForeground(id,notification)

@@ -23,7 +23,7 @@ class RealTimeViewModel @Inject constructor(
 ):AndroidViewModel(app) {
 
     fun sendNotificationWhenMeReply(
-        notification: Notification,
+        notification: Notification?,
         partnerId:String,
     ){
         viewModelScope.launch {
@@ -42,7 +42,7 @@ class RealTimeViewModel @Inject constructor(
 
      fun readNotificationWhenPartnerReply(
         ownerId:String,
-        replyCallback:(Notification)->Unit,
+        replyCallback:(Notification?)->Unit,
         ){
         viewModelScope.launch {
             realTimeService.readNotificationWhenPartnerReply(ownerId, replyCallback)

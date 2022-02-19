@@ -68,7 +68,7 @@ class FragmentChats(private val eventListener: EventListener) : BaseFragment<Fra
                 .distinctUntilChanged()
                 .collect {
                     binding.edtFilter.addTextChangedListener {text->
-                        informationAccountChatAdapter.submitList(it.filter { it.name.contains(text.toString(),false) })
+                        informationAccountChatAdapter.submitList(it.filter { it.name.contains(text.toString(),true) })
                     }
                     accountAdapter.submitList(it)
                     informationAccountChatAdapter.submitList(it)

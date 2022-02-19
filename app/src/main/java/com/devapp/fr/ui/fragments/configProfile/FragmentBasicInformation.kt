@@ -58,7 +58,7 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
                     0 to binding.edtName.text.toString().trim(),
                     1 to binding.edtDob.text.toString().trim(),
                     2 to binding.edtAddress.text.toString().trim(),
-                    3 to if(binding.male.isCheckable) 1 else 0
+                    3 to if(binding.male.isChecked) 1 else 0
                 )
                 authAndProfileViewModel.updateBasicInformation(args.id,hashMap)
             }
@@ -121,6 +121,7 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
                         loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowBasicInformation(hashMap)
                         showToast("Cập nhật thành công ~")
+                        binding.root.showSnackbar("Chạy lại ứng dụng để cập nhật danh sách kết đôi nhé ~")
                         findNavController().popBackStack()
                     }
 

@@ -100,13 +100,17 @@ class MainActivity : ThemeActivity() {
         //get userprofile
         prefs.readIdUserLogin()?.let {
             getUserProfile(it)
+            if(intent.getBooleanExtra("navigate_chat",false))
+                sharedViewModel.setPositionMainViewPager(1)
             realTimeViewModel.readNotificationWhenPartnerReply(it) {
-                if (it.message.isNotEmpty())
+                if (it!=null && it.message.isNotEmpty())
                     startService(
-                        Intent(this, NotificationService::class.java).putExtra(
-                            "data", it.message + ", " + it.time
-                        )
+                        Intent(this, NotificationService::class.java).apply {
+                            this.putExtra("data", it.message + ", " + it.time)
+                            this.putExtra("id",it.idOwnerSend+"#"+prefs.readIdUserLogin()!!)
+                        }
                     )
+                realTimeViewModel.sendNotificationWhenMeReply(null,prefs.readIdUserLogin()!!)
             }
         }
 
@@ -114,6 +118,7 @@ class MainActivity : ThemeActivity() {
         subscribeObserver()
         subscribeObserverRealtime()
     }
+
 
     private fun subscribeObserverRealtime() {
 
@@ -138,7 +143,7 @@ class MainActivity : ThemeActivity() {
                             authViewModel.getAllProfileWaitingAccept(it.data!!.id) { listWaitingAccept ->
                                 sharedViewModel.setSharedFlowListUserWaitingAccept(listWaitingAccept)
                                 authViewModel.getAllProfileMatch(it.data!!.id) { listWaitingMatch ->
-                                    sharedViewModel.setSharedFlowListUserMatch(listWaitingAccept)
+                                    sharedViewModel.setSharedFlowListUserMatch(listWaitingMatch)
                                     authViewModel.getAllUserMatch(it.data!!.id) {
                                         sharedViewModel.setSharedFlowListUserMatchByMe(it)
                                         val listIdsWaitingAccept =

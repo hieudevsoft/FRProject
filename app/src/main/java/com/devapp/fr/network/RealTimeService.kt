@@ -30,7 +30,7 @@ class RealTimeService @Inject constructor(private val context: Context) {
     private val TAG = "RealTimeService"
 
     suspend fun sendNotificationWhenMeReply(
-        notification: Notification,
+        notification: Notification?,
         partnerId: String,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
