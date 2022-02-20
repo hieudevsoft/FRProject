@@ -4,10 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.devapp.fr.data.entities.UserProfile
+import com.devapp.fr.di.IoDispatcher
 import com.devapp.fr.network.FireStoreService
 import com.devapp.fr.network.ResourceRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthAndProfileViewModel @Inject constructor(
     private val app:Application,
-    private val fireStoreService:FireStoreService
+    private val fireStoreService:FireStoreService,
+    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ):AndroidViewModel(app) {
 
     //add user profile
@@ -28,7 +31,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun addUserProfile(userProfile:UserProfile){
         _stateAddUserProfile.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateAddUserProfile.value = fireStoreService.addUserProfile(userProfile)
       }
     }
@@ -41,7 +44,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun getUserProfile(id:String){
         _stateGetUserProfile.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateGetUserProfile.value = fireStoreService.getUserProfile(id)
         }
     }
@@ -55,7 +58,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun isEmailExits(email:String){
         _stateEmailExist.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateEmailExist.value = fireStoreService.isEmailExist(email)
         }
     }
@@ -69,7 +72,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun updateImagesUserProfile(id:String,listImage:List<String>){
         _stateUpdateImagesUserProfile.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateUpdateImagesUserProfile.value = fireStoreService.updateImages(id,listImage)
         }
     }
@@ -82,7 +85,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun loginWitEmailAndPassword(email:String,password:String){
         _stateLogin.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateLogin.value = fireStoreService.loginWithEmailAndPassword(email,password)
         }
     }
@@ -95,7 +98,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun updateBasicInformation(id:String,mapBasicInformation:HashMap<Int,Any>){
         _stateBasicInformation.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateBasicInformation.value = fireStoreService.updateBasicInformation(id,mapBasicInformation)
         }
     }
@@ -108,7 +111,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun <T> updateByFiledName(id:String,fieldName:String,data:T){
         _stateFieldName.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateFieldName.value = fireStoreService.updateFieldByName(id,fieldName,data)
         }
     }
@@ -121,7 +124,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun updateAdditionalInformation(id:String,fieldName:String,data:Int){
         _stateAdditionalInformation.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateAdditionalInformation.value = fireStoreService.updateFieldAdditionalInformation(id,fieldName,data)
         }
     }
@@ -134,7 +137,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun getAllProfileSwipe(ids:List<String>,gender:Int,limit:Long){
         _sateGetAllProfileSwipe.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _sateGetAllProfileSwipe.value = fireStoreService.getAllUserProfileByLimit(ids, gender,limit)
         }
     }
@@ -147,28 +150,28 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun sendNotificationsToPartner(partnerId:String,ownerId:String){
         _sateSendNotificationToPartner.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _sateSendNotificationToPartner.value = fireStoreService.sendNotificationForPartner(partnerId,ownerId)
         }
     }
 
     //get all profile by owner waiting accept
     fun getAllProfileWaitingAccept(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             fireStoreService.getAllUserWaitingAcceptById(id,Dispatchers.IO,snapshotCallBack)
         }
     }
 
     //get all profile by owner accept or cancel match
     fun getAllProfileMatch(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             fireStoreService.getAllUserSendNotificationToMe(id,Dispatchers.IO,snapshotCallBack)
         }
     }
 
     //get all profile by owner match
     fun getAllUserMatch(id:String,snapshotCallBack:(List<UserProfile>)->Unit){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             fireStoreService.getAllUserMatchesMe(id,Dispatchers.IO,snapshotCallBack)
         }
     }
@@ -181,7 +184,7 @@ class AuthAndProfileViewModel @Inject constructor(
     }
     fun acceptOrCancel(partnerId:String,ownerId:String,isAccept:Boolean){
         _stateAcceptOrCancel.value = ResourceRemote.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             _stateAcceptOrCancel.value = fireStoreService.acceptOrCancelInviteMatch(partnerId,ownerId,isAccept)
         }
     }

@@ -137,6 +137,23 @@ class RealTimeService @Inject constructor(private val context: Context) {
         }
     }
 
+    suspend fun updateMessage(
+        senderRoom: String,
+        reciverRoom: String,
+        message: MessageModel,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ): Boolean {
+        return withContext(dispatcher) {
+            try {
+                refChats.child(senderRoom).child("conversation").child(message.id).setValue(message.convertToMessageUpload()).await()
+                refChats.child(reciverRoom).child("conversation").child(message.id).setValue(message.convertToMessageUpload()).await()
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
     suspend fun sendMessageToFirebase(
         senderRoomId: String, recieverRoomId: String, data: MessageUpload,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,

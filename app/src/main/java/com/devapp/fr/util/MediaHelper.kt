@@ -1,10 +1,13 @@
 package com.devapp.fr.util
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
@@ -19,15 +22,18 @@ object MediaHelper {
     private var mRecorder:MediaRecorder?=null
     private var mediaPlayer:MediaPlayer?=null
     fun getMediaPlayer() = mediaPlayer
-    init {
-        mFileName = Environment.getExternalStorageDirectory().toString()
-        mFileName+= "/my_rec.3gp"
-        mRecorder = MediaRecorder()
-    }
 
     fun startRecording(context:Context){
+        mRecorder = MediaRecorder()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            val cw = ContextWrapper(context)
+            mFileName= cw.getExternalFilesDir(Environment.DIRECTORY_DCIM).toString() + "/myrec.3gp"
+        }
+        else
+        {
+            mFileName = Environment.getExternalStorageDirectory().toString()+"/myrec.3gp"
+        }
         mRecorder?.let {
-            Toast.makeText(context, "Bat dau thiet lap....", Toast.LENGTH_SHORT).show()
             mRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
             mRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             mRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
@@ -35,11 +41,11 @@ object MediaHelper {
             try {
                 mRecorder!!.prepare()
                 mRecorder!!.start()
-                Toast.makeText(context, "Bat dau....", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Bắt đầu ghi âm ...", Toast.LENGTH_SHORT).show()
             }catch (e:Exception){
-                Toast.makeText(context, "Co loi xay ra ~ ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Oops!! ~ ${e.message}", Toast.LENGTH_SHORT).show()
             }
-        }?:Toast.makeText(context, "Khong ho tro ghi am....", Toast.LENGTH_SHORT).show()
+        }?:Toast.makeText(context, "Oops!!", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -48,6 +54,7 @@ object MediaHelper {
             mRecorder?.stop()
             mRecorder?.release()
             mRecorder = null
+            Log.d("FragmentInbox", "stopRecording: $mFileName")
         }catch (e:Exception){
             Toast.makeText(context, "Co loi xay ra ~ ${e.message}", Toast.LENGTH_SHORT).show()
         }

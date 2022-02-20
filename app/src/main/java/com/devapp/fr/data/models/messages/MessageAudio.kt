@@ -14,7 +14,7 @@ data class MessageAudio(
     override var isMe:Boolean=true,
     private var audio:String,
     var isPlaying:Boolean = false,
-    var duration:Int,
+    var duration:Int=0,
 ):MessageModel(id,userId,type) {
     val TAG = "MessageAudio"
     private var mediaPlayer:MediaPlayer?=null

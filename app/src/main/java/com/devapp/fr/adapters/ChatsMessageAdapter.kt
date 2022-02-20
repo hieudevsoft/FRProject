@@ -41,6 +41,7 @@ class ChatsMessageAdapter(
     private val senderId:String?=null,
     private val recieverId:String?=null,
     private val urlImagePartner:String,
+    private val reactionCallback:(Int,MessageModel)->Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TAG = "ChatsMessageAdapter"
     val senderRoom = senderId+recieverId
@@ -330,8 +331,7 @@ class ChatsMessageAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = differ.currentList[position]
-        item.isMe = item.userId==senderId
+        val item = getItemAtPosition(position)
         return if (item.isMe) {
             when (item.type) {
                 MessageType.TEXT -> Constants.TEXT_FROM_ME
@@ -350,7 +350,7 @@ class ChatsMessageAdapter(
     private val diffUtilItemCallBack = object : DiffUtil.ItemCallback<MessageModel>() {
 
         override fun areItemsTheSame(oldItem: MessageModel, newItem: MessageModel): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id == newItem.id && oldItem.isMe==newItem.isMe
         }
 
         override fun areContentsTheSame(oldItem: MessageModel, newItem: MessageModel): Boolean {
@@ -408,7 +408,7 @@ class ChatsMessageAdapter(
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderPartner -> {
@@ -421,7 +421,7 @@ class ChatsMessageAdapter(
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderImageMe -> {
@@ -435,7 +435,7 @@ class ChatsMessageAdapter(
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderImagePartner -> {
@@ -453,7 +453,7 @@ class ChatsMessageAdapter(
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderAudioMe -> {
@@ -471,7 +471,7 @@ class ChatsMessageAdapter(
                             item,
                             reaction
                         )
-                        notifyItemChanged(position)
+                        reactionCallback(position,item)
                     }) {
                     if (it) item.playingAudio() else item.pausePlayingAudio()
                     item.isPlaying = it
@@ -498,7 +498,7 @@ class ChatsMessageAdapter(
                             item,
                             reaction
                         )
-                        notifyItemChanged(position)
+                        reactionCallback(position,item)
                     }) {
                     if (it) item.playingAudio() else item.pausePlayingAudio()
                     item.isPlaying = it

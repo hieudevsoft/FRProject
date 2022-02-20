@@ -21,14 +21,15 @@ import javax.inject.Inject
 @HiltViewModel
 class RealTimeViewModel @Inject constructor(
     private val app:Application,
-    private val realTimeService: RealTimeService
+    private val realTimeService: RealTimeService,
+    @IoDispatcher private val defaultDispatcher:CoroutineDispatcher = Dispatchers.IO
 ):AndroidViewModel(app) {
 
     fun sendNotificationWhenMeReply(
         notification: Notification?,
         partnerId:String,
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             realTimeService.sendNotificationWhenMeReply(notification,partnerId)
         }
     }
@@ -37,7 +38,7 @@ class RealTimeViewModel @Inject constructor(
         account: AccountOnline,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.sendStatusOnOff(account)
         }
     }
@@ -46,7 +47,7 @@ class RealTimeViewModel @Inject constructor(
         ownerId:String,
         replyCallback:(Notification?)->Unit,
         ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.readNotificationWhenPartnerReply(ownerId, replyCallback)
         }
     }
@@ -55,7 +56,7 @@ class RealTimeViewModel @Inject constructor(
         ownerId:String,
         replyCallback:(HashMap<String,Boolean>)->Unit,
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.getListOnlineApp(ownerId, replyCallback)
         }
     }
@@ -64,9 +65,9 @@ class RealTimeViewModel @Inject constructor(
     val stateFlowUserOnOff:StateFlow<Boolean?> =_stateFlowUserOnOff
     fun checkUserOnOffbyId(
         id:String,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
-        realTimeService.checkUserOnOffbyId(id,dispatcher){
+       ){
+        viewModelScope.launch(defaultDispatcher){
+        realTimeService.checkUserOnOffbyId(id,defaultDispatcher){
                 _stateFlowUserOnOff.value = it
             }
         }
@@ -75,9 +76,9 @@ class RealTimeViewModel @Inject constructor(
     fun checkUserOnOffbyId(
         id:String,
         callBack:(Boolean)->Unit,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
-            realTimeService.checkUserOnOffbyId(id,dispatcher){
+       ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.checkUserOnOffbyId(id,defaultDispatcher){
                 callBack(it)
             }
         }
@@ -89,9 +90,24 @@ class RealTimeViewModel @Inject constructor(
         senderRoom:String,
         recieverRoom:String,
         lastObj:HashMap<String,Any>,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
+        ){
+        viewModelScope.launch(defaultDispatcher) {
             _stateFlowUpdateLastMessage.value = realTimeService.updateLastMessage(senderRoom,recieverRoom,lastObj)
+        }
+    }
+
+    private val _stateFlowUpdateMessage:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    fun resetStateFlowUpdateMessage() {
+        _stateFlowUpdateMessage.value = null
+    }
+    val stateUpdateMessage:StateFlow<Boolean?> =_stateFlowUpdateMessage
+    fun updateMessage(
+        senderRoom:String,
+        recieverRoom:String,
+        message:MessageModel,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            _stateFlowUpdateMessage.value = realTimeService.updateMessage(senderRoom,recieverRoom,message)
         }
     }
 
@@ -100,8 +116,8 @@ class RealTimeViewModel @Inject constructor(
     fun updateActing(
         recieverRoom:String,
         acting:String,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
+        ){
+        viewModelScope.launch(defaultDispatcher){
             _stateFlowUpdateActing.value = realTimeService.updateActing(recieverRoom,acting)
         }
     }
@@ -111,37 +127,32 @@ class RealTimeViewModel @Inject constructor(
     fun readActing(
         senderRoom:String,
       ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.readActing(senderRoom,{_stateFlowReadActing.value = it},{_stateFlowReadActing.value = null})
         }
     }
 
     private val _stateFlowSendMessageToFirebase:MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val stateSendMessageToFirebase:StateFlow<Boolean?> =_stateFlowSendMessageToFirebase
+    fun resetStateSendMessageToFirebase() {
+        _stateFlowSendMessageToFirebase.value = null
+    }
     fun sendMessageToFirebase(senderRoom: String,recieverRoom: String,data:MessageUpload){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             _stateFlowSendMessageToFirebase.value = realTimeService.sendMessageToFirebase(senderRoom,recieverRoom,data)
-            _stateFlowSendMessageToFirebase.value = null
+
         }
     }
 
     private val _stateFlowGetListMessage:MutableStateFlow<List<MessageModel>?> = MutableStateFlow(emptyList())
     val stateGetListMessage:StateFlow<List<MessageModel>?> =_stateFlowGetListMessage
     fun getListMessage(senderRoom: String){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.getListMessage(senderRoom,{
                 _stateFlowGetListMessage.value = it.toList()
             },{
                 _stateFlowGetListMessage.value = null
             })
         }
-    }
-}
-
-class RealTimeViewModelFactory(private val app:Application,private val realTimeService:RealTimeService):ViewModelProvider.AndroidViewModelFactory(app){
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(RealTimeViewModel::class.java))
-            return RealTimeViewModel(app,realTimeService) as T
-        else throw IllegalArgumentException("Not found RealTimeViewModel class ")
     }
 }

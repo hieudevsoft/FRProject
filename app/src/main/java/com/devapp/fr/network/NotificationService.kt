@@ -19,7 +19,6 @@ import com.devapp.fr.MyApplication.Companion.CHANNEL_ID
 import com.devapp.fr.data.repositories.ServiceRepository
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
-import com.devapp.fr.ui.viewmodels.RealTimeViewModelFactory
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope

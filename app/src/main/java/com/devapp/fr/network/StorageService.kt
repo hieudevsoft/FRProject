@@ -157,4 +157,34 @@ class StorageService @Inject constructor(private val context:Context) {
             }
         }
     }
+
+    suspend fun addAudioIntoStorageAudio(
+        senderRoom:String,
+        recieverRoom:String,
+        uriAudio:Uri,
+        onSuccessCallback:(String)->Unit,
+        onFailureCallback:()->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ) {
+        val ref = Firebase.storage.reference
+        val res = withContext(dispatcher) {
+            try {
+                val calendar = Calendar.getInstance()
+                val refSenderRoom = ref.child("audios").child(senderRoom).child(calendar.timeInMillis.toString())
+                val refRecieverRoom = ref.child("audios").child(recieverRoom).child(calendar.timeInMillis.toString())
+                refSenderRoom.putFile(uriAudio).await()
+                refRecieverRoom.putFile(uriAudio).addOnCompleteListener{
+                    if(it.isSuccessful){
+                        refRecieverRoom.downloadUrl.addOnSuccessListener {
+                            val filePath = it.toString()
+                            onSuccessCallback(filePath)
+                        }
+                    } else onFailureCallback()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show() }
+                onFailureCallback()
+            }
+        }
+    }
 }
