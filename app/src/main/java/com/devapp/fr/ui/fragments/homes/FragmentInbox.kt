@@ -41,6 +41,7 @@ import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
+import com.devapp.fr.ui.activities.VideoCallActivity
 import com.devapp.fr.ui.viewmodels.HandWriterViewModel
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
@@ -448,6 +449,10 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
 
             ibInformationInbox.setOnClickWithAnimationListener {
                 navigateFragmentInformationInbox()
+            }
+
+            ibCallVideo.setOnClickWithAnimationListener {
+                startActivity(Intent(requireActivity(),VideoCallActivity::class.java))
             }
         }
     }

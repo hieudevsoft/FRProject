@@ -21,19 +21,24 @@ buildscript {
         easy_permission_version = "3.0.0"
         support_dimens_version = "1.0.6"
         circle_image_version = "3.1.0"
-        bottom_bar_version="1.1.0"
-        data_store_version="1.0.0"
-        theme_manager="1.1.4"
-        dot_loading_version="1.0.1"
-        wave_layout="1.0.3"
-        animator_version="4.0.2"
+        bottom_bar_version = "1.1.0"
+        data_store_version = "1.0.0"
+        theme_manager = "1.1.4"
+        dot_loading_version = "1.0.1"
+        wave_layout = "1.0.3"
+        animator_version = "4.0.2"
     }
 
     repositories {
         google()
         mavenCentral()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
+        maven {
+            url 'https://www.jitpack.io'
+        }
+        maven {
+            url 'https://github.com/jitsi/jitsi-maven-repository/raw/master/releases'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'

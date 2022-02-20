@@ -22,7 +22,6 @@
     <dimen name="CORNER_RADIUS_SMALL">10dp</dimen>
 
 
-
     <!--Size of icon,image....-->
     <dimen name="ICON_SIZE_SMALL">@dimen/_13sdp</dimen>
     <dimen name="ICON_SIZE_MEDIUM">@dimen/_25sdp</dimen>
@@ -50,4 +49,5 @@
     <dimen name="MARGIN_LARGEST">@dimen/_42sdp</dimen>
     <dimen name="PADDING_SMALL">@dimen/_8sdp</dimen>
     <dimen name="PADDING_SMALLEST">@dimen/_5sdp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

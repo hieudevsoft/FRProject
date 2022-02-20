@@ -26,9 +26,14 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustUnspecified|stateHidden">
         <activity
+            android:name=".ui.activities.VideoCallActivity"
+            android:exported="false"
+            android:label="@string/title_activity_video_call"
+            android:theme="@style/Theme.FR.NoActionBar" />
+        <activity
             android:name=".ui.activities.ViewPartnerActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service android:name=".network.NotificationService" />
 
@@ -53,7 +58,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
