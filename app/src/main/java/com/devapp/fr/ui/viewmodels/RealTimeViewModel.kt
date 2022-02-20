@@ -96,6 +96,15 @@ class RealTimeViewModel @Inject constructor(
         }
     }
 
+    fun getLastMessage(
+        senderRoom:String,
+        onSuccessCallback:(String)->Unit,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.getLastMessage(senderRoom,{onSuccessCallback(it)})
+        }
+    }
+
     private val _stateFlowUpdateMessage:MutableStateFlow<Boolean?> = MutableStateFlow(null)
     fun resetStateFlowUpdateMessage() {
         _stateFlowUpdateMessage.value = null
@@ -146,6 +155,9 @@ class RealTimeViewModel @Inject constructor(
 
     private val _stateFlowGetListMessage:MutableStateFlow<List<MessageModel>?> = MutableStateFlow(emptyList())
     val stateGetListMessage:StateFlow<List<MessageModel>?> =_stateFlowGetListMessage
+    fun resetStateGetListMessage() {
+        _stateFlowGetListMessage.value = emptyList()
+    }
     fun getListMessage(senderRoom: String){
         viewModelScope.launch(defaultDispatcher){
             realTimeService.getListMessage(senderRoom,{
@@ -153,6 +165,33 @@ class RealTimeViewModel @Inject constructor(
             },{
                 _stateFlowGetListMessage.value = null
             })
+        }
+    }
+
+    fun updateSizeCompareSeenSender(
+        senderRoom:String,
+        obj:HashMap<String,Any>,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.updateSizeCompareSeenSender(senderRoom,obj)
+        }
+    }
+
+    fun updateSizeCompareSeenReciever(
+        recieverRoom:String,
+        newSize:Int,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.updateSizeCompareSeenPartner(recieverRoom,newSize)
+        }
+    }
+
+    fun getCombineOldAndNewSeen(
+        senderRoom:String,
+        onSuccessCallback:(String)->Unit,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.getCombineOldAndNewSeen(senderRoom,{onSuccessCallback(it)})
         }
     }
 }

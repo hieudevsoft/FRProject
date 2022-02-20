@@ -195,6 +195,9 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                             it.isMe = it.userId == prefs.readIdUserLogin()!!
                             it
                         }
+                        val mapPushCompareSeen = hashMapOf<String,Any>("new_size" to listSubmit.size,"old_size" to listSubmit.size)
+                        realTimeViewModel.updateSizeCompareSeenSender(chatsMessageAdapter.senderRoom,mapPushCompareSeen)
+                        realTimeViewModel.updateSizeCompareSeenReciever(chatsMessageAdapter.reciverRoom,listSubmit.size)
                         chatsMessageAdapter.submitList(listSubmit)
                     }
 
@@ -439,6 +442,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     override fun onDestroyView() {
         realTimeViewModel.updateActing(chatsMessageAdapter.reciverRoom,"")
         realTimeViewModel.resetStateSendMessageToFirebase()
+        realTimeViewModel.resetStateGetListMessage()
         storageViewModel.resetStateAddImageChats()
         storageViewModel.resetStateAddAudio()
         super.onDestroyView()

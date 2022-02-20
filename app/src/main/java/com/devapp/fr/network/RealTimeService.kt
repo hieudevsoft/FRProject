@@ -137,6 +137,70 @@ class RealTimeService @Inject constructor(private val context: Context) {
         }
     }
 
+    suspend fun updateSizeCompareSeenSender(
+        senderRoom: String,
+        obj: HashMap<String, Any>,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ): Boolean {
+        return withContext(dispatcher) {
+            try {
+                refChats.child(senderRoom).updateChildren(obj).await()
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
+    suspend fun updateSizeCompareSeenPartner(
+        recieverRoom: String,
+        newSize:Int,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ) {
+        withContext(dispatcher) {
+            try {
+                refChats.child(recieverRoom).child("new_size").setValue(newSize).await()
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    suspend fun getLastMessage(
+        senderRoom: String,
+        onSuccessCallBack:(String)->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ) {
+         withContext(dispatcher) {
+            try {
+                refChats.child(senderRoom).child("lastMsg").addValueEventListener(object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val lastMsg = snapshot.getValue(String::class.java)
+                        refChats.child(senderRoom).child("lastMsgTime").addValueEventListener(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val result  = snapshot.getValue(String::class.java)
+                                result?.let { onSuccessCallBack("$it#$lastMsg") }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+
+                        })
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                })
+
+
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
     suspend fun updateMessage(
         senderRoom: String,
         reciverRoom: String,
@@ -239,6 +303,41 @@ class RealTimeService @Inject constructor(private val context: Context) {
                     }
 
                 })
+
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+    suspend fun getCombineOldAndNewSeen(
+        senderRoom: String,
+        onSuccessCallBack:(String)->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    ) {
+        withContext(dispatcher) {
+            try {
+                refChats.child(senderRoom).child("new_size").addValueEventListener(object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val new_size = snapshot.getValue(Int::class.java)
+                        refChats.child(senderRoom).child("old_size").addValueEventListener(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val old_size  = snapshot.getValue(Int::class.java)
+                                onSuccessCallBack("$new_size#$old_size")
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+
+                        })
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                })
+
 
             } catch (e: Exception) {
 

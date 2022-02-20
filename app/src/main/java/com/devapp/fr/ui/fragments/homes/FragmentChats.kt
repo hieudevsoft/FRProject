@@ -35,13 +35,16 @@ class FragmentChats(private val eventListener: EventListener) : BaseFragment<Fra
     lateinit var prefs:SharedPreferencesHelper
     val TAG = "FragmentChats"
     private val sharedViewModel:SharedViewModel by activityViewModels()
+    private  val realTimeViewModel: RealTimeViewModel by activityViewModels()
     private lateinit var accountAdapter:AccountOnlineAdapter
     private lateinit var informationAccountChatAdapter: InformationAccountChatAdapter
     interface EventListener {
         fun onCardChatClickListener(user:UserProfile)
     }
+    private var idUser = ""
     private val realtimeViewModel:RealTimeViewModel by activityViewModels()
     override fun onSetupView() {
+        idUser = prefs.readIdUserLogin()!!
         binding.rcChatOnline.apply {
             accountAdapter = AccountOnlineAdapter(this@FragmentChats,realtimeViewModel)
             accountAdapter.setOnItemClickListener { view, userProfile ->
@@ -52,7 +55,7 @@ class FragmentChats(private val eventListener: EventListener) : BaseFragment<Fra
         }
 
         binding.rcItemInformation.apply {
-            informationAccountChatAdapter = InformationAccountChatAdapter(this@FragmentChats)
+            informationAccountChatAdapter = InformationAccountChatAdapter(idUser,this@FragmentChats,realtimeViewModel)
             informationAccountChatAdapter.setOnItemClickListener { userProfile ->
                 eventListener.onCardChatClickListener(userProfile)
             }
