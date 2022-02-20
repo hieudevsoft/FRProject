@@ -1,9 +1,18 @@
 package com.devapp.fr.ui.fragments.homes
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -21,15 +30,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.devapp.fr.R
 import com.devapp.fr.adapters.ChatsMessageAdapter
 import com.devapp.fr.app.BaseFragment
+import com.devapp.fr.data.entities.googles.FingerPath
+import com.devapp.fr.data.entities.googles.PostBodyFinger
+import com.devapp.fr.data.entities.googles.Request
+import com.devapp.fr.data.entities.googles.WritingGuide
 import com.devapp.fr.data.models.MessageType
+import com.devapp.fr.data.models.interfaces.HandFingerCallback
 import com.devapp.fr.data.models.messages.MessageAudio
 import com.devapp.fr.data.models.messages.MessageImage
 import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
+import com.devapp.fr.ui.viewmodels.HandWriterViewModel
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.viewmodels.StorageViewModel
+import com.devapp.fr.ui.widgets.FingerBottomDialogFragment
 import com.devapp.fr.util.Constants.RC_MEDIA
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.MediaHelper
@@ -42,9 +58,10 @@ import com.devapp.fr.util.UiHelper.sendImageToFullScreenImageActivity
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
-import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
-import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
+import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
+import com.devapp.fr.util.extensions.*
 import com.devapp.fr.util.storages.SharedPreferencesHelper
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
@@ -60,17 +77,21 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks {
+class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks,HandFingerCallback {
     val TAG = "FragmentInbox"
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
+    private lateinit var speechRecognizerIntent: Intent
+    private lateinit var speechRecognizer: SpeechRecognizer
     private val args: FragmentInboxArgs by navArgs()
+    private var currentPositionReact = -1
 
     @Inject
     lateinit var prefs: SharedPreferencesHelper
     private val realTimeViewModel: RealTimeViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val storageViewModel: StorageViewModel by activityViewModels()
-    private var currentPositionReact = -1
+    private val handWriterViewModel: HandWriterViewModel by activityViewModels()
+
     @SuppressLint("ResourceAsColor")
     override fun onSetupView() {
         initRecyclerView()
@@ -98,7 +119,6 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             pos,item->
             realTimeViewModel.updateMessage(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,item)
             currentPositionReact = pos
-            //chatsMessageAdapter.notifyItemChanged(currentPositionReact)
         }
         binding.recyclerViewChat.apply {
             adapter = ScaleInAnimationAdapter(chatsMessageAdapter).apply {
@@ -296,9 +316,71 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         callClientApi()
         handleEventElements()
+        setupSpeechRecognizer()
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun setupSpeechRecognizer() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext(), ComponentName.unflattenFromString("com.google.android.googlequicksearchbox/com.google.android.voicesearch.serviceapi.GoogleRecognitionService"))
+        speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"vi")
+        speechRecognizer.setRecognitionListener(object: RecognitionListener {
+            override fun onReadyForSpeech(params: Bundle?) {
+                Log.d(TAG, "onReadyForSpeech: Ready~")
+            }
+
+            override fun onBeginningOfSpeech() {
+                Log.d(TAG, "onBeginningOfSpeech: Listening...")
+            }
+
+            override fun onRmsChanged(rmsdB: Float) {
+                Log.d(TAG, "onRmsChanged: RmsChanged...")
+            }
+
+            override fun onBufferReceived(buffer: ByteArray?) {
+                Log.d(TAG, "onBufferReceived: BufferReceived...")
+            }
+
+            override fun onEndOfSpeech() {
+                Log.d(TAG, "onEndOfSpeech: End Of Speech...")
+            }
+
+            override fun onError(error: Int) {
+                Snackbar.make(binding.root, "Xảy ra lỗi!!", Snackbar.LENGTH_LONG)
+                    .setActionTextColor(Color.RED)
+                    .show()
+                Log.d(TAG, "onError: $error")
+            }
+
+            override fun onResults(results: Bundle?) {
+                binding.imgSpeech.setImageResource(R.drawable.ic_speak_red)
+                val result = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                result?.let {
+                    binding.edtSendMessage.setText(result[0].toString().trim())
+                }
+                }
+
+            override fun onPartialResults(partialResults: Bundle?) {
+                Log.d(TAG, "onPartialResults: onPartialResults")
+            }
+
+            override fun onEvent(eventType: Int, params: Bundle?) {
+                Log.d(TAG, "onEvent: onEvent... $eventType")
+            }
+
+        })
+    }
+
+    override fun onDestroy() {
+        try{
+            speechRecognizer.destroy()
+        }catch (e:Exception){
+        }
+        super.onDestroy()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun handleEventElements() {
         binding.apply {
             ibVoiceTemp.setOnClickListener {
@@ -340,7 +422,44 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 if (PermissionHelper.hasPermissionBottomPicker(requireContext())) openBottomImagePicker() else
                     PermissionHelper.requestPermissionBottomPicker(this@FragmentInbox)
             }
+
+            cardRegSpeak.setOnTouchListener { v, event ->
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+                    if (PermissionHelper.hasPermissionAudio(requireContext())) {
+                        v.scaleDown()
+                        binding.imgSpeech.setImageResource(R.drawable.ic_speak_blue)
+                        speechRecognizer.startListening(speechRecognizerIntent)
+                    }
+                    else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
+                }
+                if (event?.action == MotionEvent.ACTION_UP) {
+                    if(PermissionHelper.hasPermissionAudio(requireContext())){
+                        binding.imgSpeech.setImageResource(R.drawable.ic_speak_red)
+                        speechRecognizer.stopListening()
+                        v.scaleUp()
+                    } else showToast("Thông qua quyền để thực hiện!")
+                }
+                true
+            }
+
+            ibHandWrite.setOnClickWithAnimationListener {
+                openBottomHandWriter()
+            }
+
+            ibInformationInbox.setOnClickWithAnimationListener {
+                navigateFragmentInformationInbox()
+            }
         }
+    }
+
+    private fun navigateFragmentInformationInbox() {
+
+    }
+
+    private fun openBottomHandWriter() {
+        FingerBottomDialogFragment(this,handWriterViewModel){
+            binding.edtSendMessage.setText(binding.edtSendMessage.text.toString().trim() +" " + it)
+        }.show(childFragmentManager,"finger")
     }
 
     private fun startRecording() {
@@ -426,7 +545,10 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if (requestCode == RC_MEDIA) openBottomImagePicker() else startRecording()
+        if (requestCode == RC_MEDIA) openBottomImagePicker() else {
+            startRecording()
+            setupSpeechRecognizer()
+        }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -446,5 +568,36 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         storageViewModel.resetStateAddImageChats()
         storageViewModel.resetStateAddAudio()
         super.onDestroyView()
+    }
+
+    override fun onDrawFinger(listFingerPath: List<FingerPath>) {
+        val displayMetrics = DisplayMetrics()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().display?.getRealMetrics(displayMetrics)
+        } else requireActivity().windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+        val writingGuide = WritingGuide(displayMetrics.heightPixels, displayMetrics.widthPixels)
+        val postBodyFinger = PostBodyFinger(
+            "537.36",
+            0.4,
+            "5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
+            0,
+            "enable_pre_space",
+            listOf(getRequest(listFingerPath, writingGuide))
+        )
+        handWriterViewModel.postBody(postBodyFinger)
+    }
+
+    private fun getRequest(listFingerPath: List<FingerPath>, writingGuide: WritingGuide): Request {
+        var inks = mutableListOf<List<List<Int>>>()
+        listFingerPath.forEach {
+            inks.add(listOf(it.getXPoints(), it.getYPoints(), it.time))
+        }
+        return Request(
+            inks.toList(),
+            0,
+            10,
+            "",
+            writingGuide
+        )
     }
 }

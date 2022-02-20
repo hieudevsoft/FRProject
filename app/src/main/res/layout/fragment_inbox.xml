@@ -71,8 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/MARGIN_SMALL"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="Bui Huy Hieu"
                 android:gravity="bottom"
+                android:maxWidth="@dimen/_120sdp"
+                android:text="Bui Huy Hieu"
                 android:textColor="@color/white"
                 android:textSize="@dimen/TEXT_SIZE_NORMAL"
                 app:layout_constraintBottom_toTopOf="@id/anchor_center"
@@ -91,16 +92,24 @@
                 app:layout_constraintStart_toStartOf="@id/tv_name"
                 app:layout_constraintTop_toBottomOf="@id/anchor_center" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_call_video"
+                android:paddingStart="@dimen/PADDING_SMALL"
+                app:layout_constraintBottom_toBottomOf="@id/tv_online"
+                app:layout_constraintTop_toTopOf="@id/tv_online"
+                app:layout_constraintStart_toEndOf="@id/tv_online"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:src="@drawable/webcam"
+                android:layout_height="wrap_content"/>
+
             <com.eyalbira.loadingdots.LoadingDots
-                android:gravity="center"
                 android:id="@+id/loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/MARGIN_SMALLEST"
+                android:gravity="center"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="@id/tv_name"
-                app:layout_constraintBottom_toBottomOf="@id/tv_name"
-                app:layout_constraintStart_toEndOf="@id/tv_name"
                 app:LoadingDots_auto_play="true"
                 app:LoadingDots_dots_color="@color/color_white_800"
                 app:LoadingDots_dots_count="3"
@@ -109,8 +118,56 @@
                 app:LoadingDots_jump_duration="200"
                 app:LoadingDots_jump_height="4dp"
                 app:LoadingDots_loop_duration="800"
-                app:LoadingDots_loop_start_delay="100" />
+                app:LoadingDots_loop_start_delay="100"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
+                app:layout_constraintStart_toEndOf="@id/tv_name"
+                app:layout_constraintTop_toTopOf="@id/tv_name" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_reg_speak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_20sdp"
+                app:cardMaxElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="@id/ib_hand_write"
+                app:layout_constraintTop_toTopOf="@id/ib_hand_write"
+                app:layout_constraintEnd_toStartOf="@id/ib_hand_write">
+
+                <ImageView
+                    android:id="@+id/imgSpeech"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/ic_speak_red" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:padding="@dimen/_10sdp"
+                android:id="@+id/ib_hand_write"
+                app:layout_constraintBottom_toBottomOf="@id/ib_information_inbox"
+                app:layout_constraintTop_toTopOf="@id/ib_information_inbox"
+                app:layout_constraintEnd_toStartOf="@id/ib_information_inbox"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_write"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_information_inbox"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_inforamtion_inbox"
+                android:layout_height="wrap_content"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
@@ -134,7 +191,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/lyBox"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/PADDING_SMALL"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -204,7 +262,6 @@
             android:backgroundTint="@color/color_white_500"
             android:fontFamily="@font/nunito_regular"
             android:hint="Xin chào...."
-            android:inputType="textMultiLine"
             android:padding="@dimen/MEDIUM_SPACE"
             android:textColor="@color/color_dark_800"
             android:textCursorDrawable="@null" />
