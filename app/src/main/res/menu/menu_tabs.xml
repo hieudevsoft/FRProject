@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/tab_settings"
-        android:icon="@drawable/ic_settings"
+        android:icon="@drawable/ic_home"
         android:title="@string/settings" />
     <item
         android:id="@+id/tab_chats"
-        android:icon="@drawable/ic_chat"
+        android:icon="@drawable/ic_chats"
         android:title="@string/chat" />
     <item
         android:id="@+id/tabs_love"
-        android:icon="@drawable/ic_heart"
+        android:icon="@drawable/ic_collection"
         android:title="@string/love" />
 </menu>

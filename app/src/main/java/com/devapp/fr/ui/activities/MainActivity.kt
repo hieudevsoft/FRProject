@@ -227,6 +227,7 @@ class MainActivity : ThemeActivity() {
                 )
             )
             sharedViewModel.setSharedFlowJob(data.job)
+            sharedViewModel.setSharedFlowCoins(data.coins)
             sharedViewModel.setSharedFlowSexuality(data.purpose)
             sharedViewModel.setSharedFlowInterest(data.interests ?: mutableListOf())
             data.interests?.let { it -> prefs.saveInterest(it.joinToString("&")) }

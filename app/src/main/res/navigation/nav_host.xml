@@ -20,6 +20,11 @@
         <action
             app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentCoins"
+            app:destination="@id/fragmentCoin" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentMainViewPager_to_fragmentProfile"
             app:destination="@id/fragmentProfile" />
         <action
@@ -441,6 +446,17 @@
         android:name="com.devapp.fr.ui.fragments.others.FragmentAbousUs"
         android:label="fragment_abous_us"
         tools:layout="@layout/fragment_abous_us" />
+
+    <fragment
+        android:id="@+id/fragmentCoin"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentCoin"
+        android:label="fragment_coin"
+        tools:layout="@layout/fragment_coin">
+        <argument
+            android:name="id"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 
 
 

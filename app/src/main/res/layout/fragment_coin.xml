@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.others.FragmentCoin">
+    <include
+        android:id="@+id/include_spinner"
+        layout="@layout/layout_spinning_game"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="@dimen/LAYOUT_PADDING"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_back"
+            android:layout_marginEnd="@dimen/MARGIN_SMALL"
+            app:srcCompat="@drawable/ic_coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:text="200 coins"
+            android:id="@+id/tv_coins"
+            android:textSize="@dimen/TEXT_SIZE_NORMAL"
+            android:fontFamily="@font/nunito_extra_bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:padding="@dimen/_12sdp"
+            android:id="@+id/box_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_gravity="end"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentBottom="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/back"
+            app:lottie_renderMode="hardware"
+            app:lottie_repeatMode="restart" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

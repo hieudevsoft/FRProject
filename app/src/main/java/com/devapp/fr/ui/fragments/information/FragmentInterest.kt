@@ -39,9 +39,9 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     private val args:FragmentInterestArgs by navArgs()
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-
     @Inject
     lateinit var pref:SharedPreferencesHelper
+
     override fun onSetupView() {
 
         subscribeObserver()
