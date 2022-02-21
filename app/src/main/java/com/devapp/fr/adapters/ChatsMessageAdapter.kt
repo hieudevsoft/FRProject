@@ -33,11 +33,14 @@ import com.devapp.fr.util.UiHelper.VISIBLE
 import com.devapp.fr.util.UiHelper.toGone
 import com.github.pgreze.reactions.ReactionPopup
 import com.github.pgreze.reactions.ReactionSelectedListener
-
+import androidx.fragment.app.Fragment
+import com.devapp.fr.util.GlideApp
 
 class ChatsMessageAdapter(
+    private val fragment:Fragment,
     private val senderId:String?=null,
     private val recieverId:String?=null,
+    private val urlImagePartner:String,
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TAG = "ChatsMessageAdapter"
     val senderRoom = senderId+recieverId
@@ -87,6 +90,7 @@ class ChatsMessageAdapter(
         binding.tvTimePartner.GONE()
         binding.tvTimePartner.text = data.time
         binding.tvMessagePartner.text = data.message
+        GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
         val reactionMe = data.react.first()
         val reactionPartner = data.react.last()
         if (reactionMe.count != 0) {
@@ -185,6 +189,7 @@ class ChatsMessageAdapter(
         fun bind(data: MessageImage) {
             binding.tvTimePartner.GONE()
             binding.tvTimePartner.text = data.time
+            GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
             val reactionMe = data.react.first()
             val reactionPartner = data.react.last()
             if (reactionMe.count != 0) {
@@ -287,6 +292,7 @@ class ChatsMessageAdapter(
         fun bind(data: MessageAudio) {
             binding.tvTimePartner.toGone()
             binding.tvTimePartner.text = data.time
+            GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
             val reactionMe = data.react.first()
             val reactionPartner = data.react.last()
             if (reactionMe.count != 0) {
