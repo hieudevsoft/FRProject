@@ -32,7 +32,7 @@ object Constants {
 
     //Request code
     const val RC_MEDIA = 100
-    const val RC_AUDIO = 100
+    const val RC_AUDIO = 101
 
     //Other constant
     const val DEFAULT_DELAY_STATUS = 500

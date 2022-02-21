@@ -92,7 +92,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
                         val listNew = adapter.getListCurrent().toMutableList()
                         sharedViewModel.getSharedFlowBasicInformation().distinctUntilChanged()
                             .collectLatest {
-                                realTimeViewModel.sendNotificationWhenMeReply(Notification(it[0] as String),
+                                realTimeViewModel.sendNotificationWhenMeReply(Notification(prefs.readIdUserLogin()!!,it[0] as String),
                                     adapter.getItemAtPostion(currentPosition).id
                                 )
                             }

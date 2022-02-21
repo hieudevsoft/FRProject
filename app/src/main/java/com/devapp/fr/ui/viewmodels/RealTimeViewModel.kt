@@ -3,6 +3,8 @@ package com.devapp.fr.ui.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devapp.fr.data.entities.MessageUpload
 import com.devapp.fr.data.models.items.AccountOnline
@@ -19,14 +21,15 @@ import javax.inject.Inject
 @HiltViewModel
 class RealTimeViewModel @Inject constructor(
     private val app:Application,
-    private val realTimeService: RealTimeService
+    private val realTimeService: RealTimeService,
+    @IoDispatcher private val defaultDispatcher:CoroutineDispatcher = Dispatchers.IO
 ):AndroidViewModel(app) {
 
     fun sendNotificationWhenMeReply(
-        notification: Notification,
+        notification: Notification?,
         partnerId:String,
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             realTimeService.sendNotificationWhenMeReply(notification,partnerId)
         }
     }
@@ -35,16 +38,16 @@ class RealTimeViewModel @Inject constructor(
         account: AccountOnline,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.sendStatusOnOff(account)
         }
     }
 
      fun readNotificationWhenPartnerReply(
         ownerId:String,
-        replyCallback:(Notification)->Unit,
+        replyCallback:(Notification?)->Unit,
         ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.readNotificationWhenPartnerReply(ownerId, replyCallback)
         }
     }
@@ -53,7 +56,7 @@ class RealTimeViewModel @Inject constructor(
         ownerId:String,
         replyCallback:(HashMap<String,Boolean>)->Unit,
     ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.getListOnlineApp(ownerId, replyCallback)
         }
     }
@@ -62,9 +65,9 @@ class RealTimeViewModel @Inject constructor(
     val stateFlowUserOnOff:StateFlow<Boolean?> =_stateFlowUserOnOff
     fun checkUserOnOffbyId(
         id:String,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
-        realTimeService.checkUserOnOffbyId(id,dispatcher){
+       ){
+        viewModelScope.launch(defaultDispatcher){
+        realTimeService.checkUserOnOffbyId(id,defaultDispatcher){
                 _stateFlowUserOnOff.value = it
             }
         }
@@ -73,9 +76,9 @@ class RealTimeViewModel @Inject constructor(
     fun checkUserOnOffbyId(
         id:String,
         callBack:(Boolean)->Unit,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
-            realTimeService.checkUserOnOffbyId(id,dispatcher){
+       ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.checkUserOnOffbyId(id,defaultDispatcher){
                 callBack(it)
             }
         }
@@ -87,9 +90,33 @@ class RealTimeViewModel @Inject constructor(
         senderRoom:String,
         recieverRoom:String,
         lastObj:HashMap<String,Any>,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
+        ){
+        viewModelScope.launch(defaultDispatcher) {
             _stateFlowUpdateLastMessage.value = realTimeService.updateLastMessage(senderRoom,recieverRoom,lastObj)
+        }
+    }
+
+    fun getLastMessage(
+        senderRoom:String,
+        onSuccessCallback:(String)->Unit,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.getLastMessage(senderRoom,{onSuccessCallback(it)})
+        }
+    }
+
+    private val _stateFlowUpdateMessage:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    fun resetStateFlowUpdateMessage() {
+        _stateFlowUpdateMessage.value = null
+    }
+    val stateUpdateMessage:StateFlow<Boolean?> =_stateFlowUpdateMessage
+    fun updateMessage(
+        senderRoom:String,
+        recieverRoom:String,
+        message:MessageModel,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            _stateFlowUpdateMessage.value = realTimeService.updateMessage(senderRoom,recieverRoom,message)
         }
     }
 
@@ -98,8 +125,8 @@ class RealTimeViewModel @Inject constructor(
     fun updateActing(
         recieverRoom:String,
         acting:String,
-        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO){
-        viewModelScope.launch {
+        ){
+        viewModelScope.launch(defaultDispatcher){
             _stateFlowUpdateActing.value = realTimeService.updateActing(recieverRoom,acting)
         }
     }
@@ -109,29 +136,62 @@ class RealTimeViewModel @Inject constructor(
     fun readActing(
         senderRoom:String,
       ){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.readActing(senderRoom,{_stateFlowReadActing.value = it},{_stateFlowReadActing.value = null})
         }
     }
 
     private val _stateFlowSendMessageToFirebase:MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val stateSendMessageToFirebase:StateFlow<Boolean?> =_stateFlowSendMessageToFirebase
+    fun resetStateSendMessageToFirebase() {
+        _stateFlowSendMessageToFirebase.value = null
+    }
     fun sendMessageToFirebase(senderRoom: String,recieverRoom: String,data:MessageUpload){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             _stateFlowSendMessageToFirebase.value = realTimeService.sendMessageToFirebase(senderRoom,recieverRoom,data)
-            _stateFlowSendMessageToFirebase.value = null
+
         }
     }
 
     private val _stateFlowGetListMessage:MutableStateFlow<List<MessageModel>?> = MutableStateFlow(emptyList())
     val stateGetListMessage:StateFlow<List<MessageModel>?> =_stateFlowGetListMessage
+    fun resetStateGetListMessage() {
+        _stateFlowGetListMessage.value = emptyList()
+    }
     fun getListMessage(senderRoom: String){
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher){
             realTimeService.getListMessage(senderRoom,{
                 _stateFlowGetListMessage.value = it.toList()
             },{
                 _stateFlowGetListMessage.value = null
             })
+        }
+    }
+
+    fun updateSizeCompareSeenSender(
+        senderRoom:String,
+        obj:HashMap<String,Any>,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.updateSizeCompareSeenSender(senderRoom,obj)
+        }
+    }
+
+    fun updateSizeCompareSeenReciever(
+        recieverRoom:String,
+        newSize:Int,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.updateSizeCompareSeenPartner(recieverRoom,newSize)
+        }
+    }
+
+    fun getCombineOldAndNewSeen(
+        senderRoom:String,
+        onSuccessCallback:(String)->Unit,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            realTimeService.getCombineOldAndNewSeen(senderRoom,{onSuccessCallback(it)})
         }
     }
 }

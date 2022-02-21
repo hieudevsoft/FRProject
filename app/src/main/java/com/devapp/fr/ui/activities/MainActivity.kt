@@ -99,21 +99,21 @@ class MainActivity : ThemeActivity() {
 
         //get userprofile
         prefs.readIdUserLogin()?.let {
+            if(intent.getBooleanExtra("navigate_chat",false))
+                sharedViewModel.setPositionMainViewPager(1)
+            startService(
+                Intent(this, NotificationService::class.java).also {
+                    it.putExtra("navigate_chat",intent.getBooleanExtra("navigate_chat",false))
+                }
+            )
             getUserProfile(it)
-            realTimeViewModel.readNotificationWhenPartnerReply(it) {
-                if (it.message.isNotEmpty())
-                    startService(
-                        Intent(this, NotificationService::class.java).putExtra(
-                            "data", it.message + ", " + it.time
-                        )
-                    )
-            }
         }
 
         //subscriber observer
         subscribeObserver()
         subscribeObserverRealtime()
     }
+
 
     private fun subscribeObserverRealtime() {
 
@@ -138,7 +138,7 @@ class MainActivity : ThemeActivity() {
                             authViewModel.getAllProfileWaitingAccept(it.data!!.id) { listWaitingAccept ->
                                 sharedViewModel.setSharedFlowListUserWaitingAccept(listWaitingAccept)
                                 authViewModel.getAllProfileMatch(it.data!!.id) { listWaitingMatch ->
-                                    sharedViewModel.setSharedFlowListUserMatch(listWaitingAccept)
+                                    sharedViewModel.setSharedFlowListUserMatch(listWaitingMatch)
                                     authViewModel.getAllUserMatch(it.data!!.id) {
                                         sharedViewModel.setSharedFlowListUserMatchByMe(it)
                                         val listIdsWaitingAccept =

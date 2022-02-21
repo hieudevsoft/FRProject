@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setInsetsWindow()
+        //setInsetsWindow()
     }
     private fun setInsetsWindow() {
         WindowCompat.setDecorFitsSystemWindows(window,false)

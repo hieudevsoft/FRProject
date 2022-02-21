@@ -224,6 +224,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
     }
 
     override fun onCardHelpClickListener() {
+
     }
 
     override fun onCardChatClickListener(user: UserProfile) {

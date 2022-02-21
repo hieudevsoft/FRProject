@@ -274,6 +274,10 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
             val tedBottomPicker =
                 TedBottomPicker.with(requireActivity())
                     .setOnMultiImageSelectedListener {
+                        if(it.isEmpty()) {
+                            binding.root.showSnackbar("Chưa có ảnh được chọn ~")
+                            return@setOnMultiImageSelectedListener
+                        }
                         it.forEachIndexed{ index,data ->
                             listUri.add(data.toString())
                             listName.add(System.currentTimeMillis().toString()+"#"+index)
