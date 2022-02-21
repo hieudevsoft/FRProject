@@ -20,7 +20,6 @@ import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEND
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,7 +37,6 @@ import com.devapp.fr.data.models.MessageType
 import com.devapp.fr.data.models.interfaces.HandFingerCallback
 import com.devapp.fr.data.models.messages.MessageAudio
 import com.devapp.fr.data.models.messages.MessageImage
-import com.devapp.fr.data.models.messages.MessageModel
 import com.devapp.fr.data.models.messages.MessageText
 import com.devapp.fr.databinding.FragmentInboxBinding
 import com.devapp.fr.ui.activities.VideoCallActivity
@@ -69,6 +67,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -78,13 +77,16 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks,HandFingerCallback {
+class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.PermissionCallbacks,
+    HandFingerCallback {
     val TAG = "FragmentInbox"
     private lateinit var chatsMessageAdapter: ChatsMessageAdapter
     private lateinit var speechRecognizerIntent: Intent
     private lateinit var speechRecognizer: SpeechRecognizer
     private val args: FragmentInboxArgs by navArgs()
     private var currentPositionReact = -1
+    private var nameOwner = ""
+    private var roomId = ""
 
     @Inject
     lateinit var prefs: SharedPreferencesHelper
@@ -116,9 +118,12 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         chatsMessageAdapter = ChatsMessageAdapter(
             this@FragmentInbox, prefs.readIdUserLogin(), args.data?.id,
             args.data?.images?.get(0).toString()
-        ){
-            pos,item->
-            realTimeViewModel.updateMessage(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,item)
+        ) { pos, item ->
+            realTimeViewModel.updateMessage(
+                chatsMessageAdapter.senderRoom,
+                chatsMessageAdapter.reciverRoom,
+                item
+            )
             currentPositionReact = pos
         }
         binding.recyclerViewChat.apply {
@@ -128,7 +133,8 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 setFirstOnly(true)
             }
             isNestedScrollingEnabled = false
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
         chatsMessageAdapter.setOnItemImageClickListener { view, url ->
             requireActivity().sendImageToFullScreenImageActivity(view)
@@ -190,20 +196,20 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             realTimeViewModel.stateSendMessageToFirebase
                 .collect {
                     Log.d(TAG, "subscriberObserver: $it")
-                it?.let {
-                    if (it) {
-                        Log.d(TAG, "subscriberObserver: send message successfully ~")
-                        realTimeViewModel.resetStateSendMessageToFirebase()
-                        binding.edtSendMessage.apply {
-                            hideKeyboard()
-                            clearFocus()
-                            setText("")
+                    it?.let {
+                        if (it) {
+                            Log.d(TAG, "subscriberObserver: send message successfully ~")
+                            realTimeViewModel.resetStateSendMessageToFirebase()
+                            binding.edtSendMessage.apply {
+                                hideKeyboard()
+                                clearFocus()
+                                setText("")
+                            }
+                        } else {
+                            binding.root.showSnackbar("Oops!!")
                         }
-                    } else {
-                        binding.root.showSnackbar("Oops!!")
                     }
                 }
-            }
         }
 
         launchRepeatOnLifeCycleWhenResumed {
@@ -211,14 +217,23 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 if (it == null) {
                     binding.root.showSnackbar("Có gì đó không ổn! :(")
                 } else {
-                    if(it.isNotEmpty()){
+                    if (it.isNotEmpty()) {
                         val listSubmit = it.map {
                             it.isMe = it.userId == prefs.readIdUserLogin()!!
                             it
                         }
-                        val mapPushCompareSeen = hashMapOf<String,Any>("new_size" to listSubmit.size,"old_size" to listSubmit.size)
-                        realTimeViewModel.updateSizeCompareSeenSender(chatsMessageAdapter.senderRoom,mapPushCompareSeen)
-                        realTimeViewModel.updateSizeCompareSeenReciever(chatsMessageAdapter.reciverRoom,listSubmit.size)
+                        val mapPushCompareSeen = hashMapOf<String, Any>(
+                            "new_size" to listSubmit.size,
+                            "old_size" to listSubmit.size
+                        )
+                        realTimeViewModel.updateSizeCompareSeenSender(
+                            chatsMessageAdapter.senderRoom,
+                            mapPushCompareSeen
+                        )
+                        realTimeViewModel.updateSizeCompareSeenReciever(
+                            chatsMessageAdapter.reciverRoom,
+                            listSubmit.size
+                        )
                         chatsMessageAdapter.submitList(listSubmit)
                     }
 
@@ -259,7 +274,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
         launchRepeatOnLifeCycleWhenCreated {
             storageViewModel.stateAddImageChats.collect {
                 it?.let {
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         val message = MessageImage(
                             "",
                             prefs.readIdUserLogin()!!,
@@ -288,7 +303,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             storageViewModel.stateAddAudio.collect {
                 Log.d(TAG, "subscriberObserver: $it")
                 it?.let {
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         val message = MessageAudio(
                             "",
                             prefs.readIdUserLogin()!!,
@@ -312,6 +327,25 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 }
             }
         }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            sharedViewModel.getSharedFlowBasicInformation().distinctUntilChanged()
+                .collect {
+                    nameOwner = it[0] as String
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.stateFlowNotificationCallVideo.collect {
+                it?.let {
+                    if (it) {
+                        realTimeViewModel.resetStateFlowNotificationCallVideo()
+                    } else {
+                        binding.root.showSnackbar("Có lỗi xảy ra :(")
+                    }
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -322,11 +356,17 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     }
 
     private fun setupSpeechRecognizer() {
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext(), ComponentName.unflattenFromString("com.google.android.googlequicksearchbox/com.google.android.voicesearch.serviceapi.GoogleRecognitionService"))
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(
+            requireContext(),
+            ComponentName.unflattenFromString("com.google.android.googlequicksearchbox/com.google.android.voicesearch.serviceapi.GoogleRecognitionService")
+        )
         speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"vi")
-        speechRecognizer.setRecognitionListener(object: RecognitionListener {
+        speechRecognizerIntent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi")
+        speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 Log.d(TAG, "onReadyForSpeech: Ready~")
             }
@@ -360,7 +400,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                 result?.let {
                     binding.edtSendMessage.setText(result[0].toString().trim())
                 }
-                }
+            }
 
             override fun onPartialResults(partialResults: Bundle?) {
                 Log.d(TAG, "onPartialResults: onPartialResults")
@@ -374,9 +414,9 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     }
 
     override fun onDestroy() {
-        try{
+        try {
             speechRecognizer.destroy()
-        }catch (e:Exception){
+        } catch (e: Exception) {
         }
         super.onDestroy()
     }
@@ -391,8 +431,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                         VISIBLE()
                         start()
                         startRecording()
-                    }
-                    else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
+                    } else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
                 }
 
             }
@@ -415,8 +454,11 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             }
 
             edtSendMessage.addTextChangedListener {
-                if(it!=null)
-                realTimeViewModel.updateActing(chatsMessageAdapter.reciverRoom,if(it.isEmpty()) "" else "đang nhập ...")
+                if (it != null)
+                    realTimeViewModel.updateActing(
+                        chatsMessageAdapter.reciverRoom,
+                        if (it.isEmpty()) "" else "đang nhập ..."
+                    )
             }
 
             ibCamera.setOnClickListener {
@@ -430,11 +472,10 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                         v.scaleDown()
                         binding.imgSpeech.setImageResource(R.drawable.ic_speak_blue)
                         speechRecognizer.startListening(speechRecognizerIntent)
-                    }
-                    else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
+                    } else PermissionHelper.requestPermissionAudio(this@FragmentInbox)
                 }
                 if (event?.action == MotionEvent.ACTION_UP) {
-                    if(PermissionHelper.hasPermissionAudio(requireContext())){
+                    if (PermissionHelper.hasPermissionAudio(requireContext())) {
                         binding.imgSpeech.setImageResource(R.drawable.ic_speak_red)
                         speechRecognizer.stopListening()
                         v.scaleUp()
@@ -452,157 +493,200 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
             }
 
             ibCallVideo.setOnClickWithAnimationListener {
-                startActivity(Intent(requireActivity(),VideoCallActivity::class.java))
-            }
-        }
-    }
-
-    private fun navigateFragmentInformationInbox() {
-
-    }
-
-    private fun openBottomHandWriter() {
-        FingerBottomDialogFragment(this,handWriterViewModel){
-            binding.edtSendMessage.setText(binding.edtSendMessage.text.toString().trim() +" " + it)
-        }.show(childFragmentManager,"finger")
-    }
-
-    private fun startRecording() {
-        Log.d(TAG, "startRecording")
-        MediaHelper.startRecording(requireContext())
-    }
-
-    private fun stopRecording() {
-        Log.d(TAG, "stopRecording")
-        MediaHelper.stopRecording(requireContext())
-        storageViewModel.addAudio(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,Uri.fromFile(File(MediaHelper.mFileName)))
-        binding.root.showSnackbar("Chờ một chút nhé ~")
-    }
-
-    private fun handleSendMessageText() {
-        val content = binding.edtSendMessage.text.toString()
-        if (content.isNotEmpty()) {
-            lifecycleScope.launchWhenCreated {
-                withContext(Dispatchers.IO){
-                    val message = MessageText(
-                        "",
-                        prefs.readIdUserLogin()!!,
-                        MessageType.TEXT,
-                        message = content
-                    ).convertToMessageUpload()
-                    val lastMsgObj = hashMapOf<String, Any>()
-                    lastMsgObj["lastMsg"] = message.message
-                    lastMsgObj["lastMsgTime"] = message.time
-                    realTimeViewModel.updateLastMessage(
-                        chatsMessageAdapter.senderRoom,
-                        chatsMessageAdapter.reciverRoom,
-                        lastMsgObj
-                    )
-                    realTimeViewModel.sendMessageToFirebase(
-                        chatsMessageAdapter.senderRoom,
-                        chatsMessageAdapter.reciverRoom,
-                        message
-                    )
+                roomId = UUID.randomUUID().toString()
+                val roomIdJoin = roomId
+                launchRepeatOnLifeCycleWhenResumed {
+                    realTimeViewModel.readNotificationCallVideo(args.data!!.id) {
+                        if (it == "##" && roomId.isEmpty()) {
+                            showToast("Bạn bị ${args.data!!.name} từ chối mất rồi :(")
+                        } else if (it?.replace("##","")?.trim() == prefs.readIdUserLogin()!!) {
+                            startActivity(
+                                Intent(
+                                    requireActivity(),
+                                    VideoCallActivity::class.java
+                                ).also {
+                                    it.putExtra("roomId", roomIdJoin)
+                                    it.putExtra("partnerId", args.data!!.id)
+                                })
+                        } else {
+                            if (it == null || it.trim().contains("null") || (it == "##" && roomId.isNotEmpty()) || it.split("#")[0].isEmpty()) {
+                                realTimeViewModel.sendNotificationCallVideo(
+                                    args.data!!.id,
+                                    roomId,
+                                    nameOwner,
+                                    prefs.readIdUserLogin()!!
+                                )
+                                roomId = ""
+                            } else if (it.isNotEmpty() && it != "null##" && !it.contains(roomId)) {
+                                binding.root.showSnackbar("Đối phương đã có cuộc gọi khác :(")
+                            }
+                        }
+                    }
                 }
             }
-        } else {
-            binding.root.showSnackbar("Bạn nên gửi lời yêu thương đi ~")
         }
     }
-    private fun handleSendMessageImage(it: Uri?) {
-        if (it!=null&&it.toString().isNotEmpty()) {
+
+        private fun navigateFragmentInformationInbox() {
+
+        }
+
+        private fun openBottomHandWriter() {
+            FingerBottomDialogFragment(this, handWriterViewModel) {
+                binding.edtSendMessage.setText(
+                    binding.edtSendMessage.text.toString().trim() + " " + it
+                )
+            }.show(childFragmentManager, "finger")
+        }
+
+        private fun startRecording() {
+            Log.d(TAG, "startRecording")
+            MediaHelper.startRecording(requireContext())
+        }
+
+        private fun stopRecording() {
+            Log.d(TAG, "stopRecording")
+            MediaHelper.stopRecording(requireContext())
+            storageViewModel.addAudio(
+                chatsMessageAdapter.senderRoom,
+                chatsMessageAdapter.reciverRoom,
+                Uri.fromFile(File(MediaHelper.mFileName))
+            )
             binding.root.showSnackbar("Chờ một chút nhé ~")
-            storageViewModel.addImageChat(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom,it)
-        } else {
-            binding.root.showSnackbar("Chưa chọn được ảnh ~")
         }
-    }
 
-    private fun callClientApi() {
-        args.data?.let { realTimeViewModel.checkUserOnOffbyId(it.id) }
-        realTimeViewModel.getListMessage(chatsMessageAdapter.senderRoom)
-        realTimeViewModel.readActing(chatsMessageAdapter.senderRoom)
-    }
-
-    private fun openBottomImagePicker() {
-        val tedBottomPicker =
-            TedBottomPicker.with(requireActivity())
-                .setOnImageSelectedListener {
-                    handleSendMessageImage(it)
+        private fun handleSendMessageText() {
+            val content = binding.edtSendMessage.text.toString()
+            if (content.isNotEmpty()) {
+                lifecycleScope.launchWhenCreated {
+                    withContext(Dispatchers.IO) {
+                        val message = MessageText(
+                            "",
+                            prefs.readIdUserLogin()!!,
+                            MessageType.TEXT,
+                            message = content
+                        ).convertToMessageUpload()
+                        val lastMsgObj = hashMapOf<String, Any>()
+                        lastMsgObj["lastMsg"] = message.message
+                        lastMsgObj["lastMsgTime"] = message.time
+                        realTimeViewModel.updateLastMessage(
+                            chatsMessageAdapter.senderRoom,
+                            chatsMessageAdapter.reciverRoom,
+                            lastMsgObj
+                        )
+                        realTimeViewModel.sendMessageToFirebase(
+                            chatsMessageAdapter.senderRoom,
+                            chatsMessageAdapter.reciverRoom,
+                            message
+                        )
+                    }
                 }
-                .setOnErrorListener {
-                    binding.root.showSnackbar(it)
-                }
-                .setTitle(R.string.select_image)
-                .setCompleteButtonText(R.string.selected_done)
-                .setEmptySelectionText("Trống")
-                .create()
-        tedBottomPicker.show(childFragmentManager)
-    }
+            } else {
+                binding.root.showSnackbar("Bạn nên gửi lời yêu thương đi ~")
+            }
+        }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
+        private fun handleSendMessageImage(it: Uri?) {
+            if (it != null && it.toString().isNotEmpty()) {
+                binding.root.showSnackbar("Chờ một chút nhé ~")
+                storageViewModel.addImageChat(
+                    chatsMessageAdapter.senderRoom,
+                    chatsMessageAdapter.reciverRoom,
+                    it
+                )
+            } else {
+                binding.root.showSnackbar("Chưa chọn được ảnh ~")
+            }
+        }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if (requestCode == RC_MEDIA) openBottomImagePicker() else {
-            startRecording()
-            setupSpeechRecognizer()
+        private fun callClientApi() {
+            args.data?.let { realTimeViewModel.checkUserOnOffbyId(it.id) }
+            realTimeViewModel.getListMessage(chatsMessageAdapter.senderRoom)
+            realTimeViewModel.readActing(chatsMessageAdapter.senderRoom)
+        }
+
+        private fun openBottomImagePicker() {
+            val tedBottomPicker =
+                TedBottomPicker.with(requireActivity())
+                    .setOnImageSelectedListener {
+                        handleSendMessageImage(it)
+                    }
+                    .setOnErrorListener {
+                        binding.root.showSnackbar(it)
+                    }
+                    .setTitle(R.string.select_image)
+                    .setCompleteButtonText(R.string.selected_done)
+                    .setEmptySelectionText("Trống")
+                    .create()
+            tedBottomPicker.show(childFragmentManager)
+        }
+
+        override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+
+        override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+            if (requestCode == RC_MEDIA) openBottomImagePicker() else {
+                startRecording()
+                setupSpeechRecognizer()
+            }
+        }
+
+        override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+            if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+                AppSettingsDialog.Builder(this).build().show()
+            } else {
+                if (requestCode == RC_MEDIA)
+                    PermissionHelper.requestPermissionBottomPicker(this)
+                else PermissionHelper.requestPermissionAudio(this)
+            }
+        }
+
+        override fun onDestroyView() {
+            realTimeViewModel.updateActing(chatsMessageAdapter.reciverRoom, "")
+            realTimeViewModel.resetStateSendMessageToFirebase()
+            realTimeViewModel.resetStateGetListMessage()
+            storageViewModel.resetStateAddImageChats()
+            storageViewModel.resetStateAddAudio()
+            super.onDestroyView()
+        }
+
+        override fun onDrawFinger(listFingerPath: List<FingerPath>) {
+            val displayMetrics = DisplayMetrics()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                requireActivity().display?.getRealMetrics(displayMetrics)
+            } else requireActivity().windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+            val writingGuide = WritingGuide(displayMetrics.heightPixels, displayMetrics.widthPixels)
+            val postBodyFinger = PostBodyFinger(
+                "537.36",
+                0.4,
+                "5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
+                0,
+                "enable_pre_space",
+                listOf(getRequest(listFingerPath, writingGuide))
+            )
+            handWriterViewModel.postBody(postBodyFinger)
+        }
+
+        private fun getRequest(
+            listFingerPath: List<FingerPath>,
+            writingGuide: WritingGuide
+        ): Request {
+            var inks = mutableListOf<List<List<Int>>>()
+            listFingerPath.forEach {
+                inks.add(listOf(it.getXPoints(), it.getYPoints(), it.time))
+            }
+            return Request(
+                inks.toList(),
+                0,
+                10,
+                "",
+                writingGuide
+            )
         }
     }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).build().show()
-        } else {
-            if (requestCode == RC_MEDIA)
-                PermissionHelper.requestPermissionBottomPicker(this)
-            else PermissionHelper.requestPermissionAudio(this)
-        }
-    }
-
-    override fun onDestroyView() {
-        realTimeViewModel.updateActing(chatsMessageAdapter.reciverRoom,"")
-        realTimeViewModel.resetStateSendMessageToFirebase()
-        realTimeViewModel.resetStateGetListMessage()
-        storageViewModel.resetStateAddImageChats()
-        storageViewModel.resetStateAddAudio()
-        super.onDestroyView()
-    }
-
-    override fun onDrawFinger(listFingerPath: List<FingerPath>) {
-        val displayMetrics = DisplayMetrics()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            requireActivity().display?.getRealMetrics(displayMetrics)
-        } else requireActivity().windowManager.defaultDisplay.getRealMetrics(displayMetrics)
-        val writingGuide = WritingGuide(displayMetrics.heightPixels, displayMetrics.widthPixels)
-        val postBodyFinger = PostBodyFinger(
-            "537.36",
-            0.4,
-            "5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36",
-            0,
-            "enable_pre_space",
-            listOf(getRequest(listFingerPath, writingGuide))
-        )
-        handWriterViewModel.postBody(postBodyFinger)
-    }
-
-    private fun getRequest(listFingerPath: List<FingerPath>, writingGuide: WritingGuide): Request {
-        var inks = mutableListOf<List<List<Int>>>()
-        listFingerPath.forEach {
-            inks.add(listOf(it.getXPoints(), it.getYPoints(), it.time))
-        }
-        return Request(
-            inks.toList(),
-            0,
-            10,
-            "",
-            writingGuide
-        )
-    }
-}

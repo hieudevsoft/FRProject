@@ -31,6 +31,7 @@ import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.Constants
 import com.devapp.fr.util.DataHelper
+import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.extensions.showToast
@@ -40,9 +41,9 @@ import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import nl.joery.animatedbottombar.AnimatedBottomBar
 import javax.inject.Inject
 
@@ -99,24 +100,64 @@ class MainActivity : ThemeActivity() {
 
         //get userprofile
         prefs.readIdUserLogin()?.let {
-            if(intent.getBooleanExtra("navigate_chat",false))
+            if (intent.getBooleanExtra("navigate_chat", false))
                 sharedViewModel.setPositionMainViewPager(1)
             startService(
                 Intent(this, NotificationService::class.java).also {
-                    it.putExtra("navigate_chat",intent.getBooleanExtra("navigate_chat",false))
+                    it.putExtra("navigate_chat", intent.getBooleanExtra("navigate_chat", false))
                 }
             )
             getUserProfile(it)
+            realTimeViewModel.readNotificationCallVideo(it) {
+                it?.let { string ->
+                    if (it.contains("null") || it.contains("##") || it.split("#")[0].isEmpty()) return@readNotificationCallVideo
+                    UiHelper.triggerBottomAlertDialog(
+                        this,
+                        "Cuộc gọi",
+                        "${string.split("#")[1]} muốn gọi cho bạn ~",
+                        "Có",
+                        "Không",
+                        false,
+                        { dialogInterface, _ ->
+                            subscriberNotificationCallVideo(string)
+                            dialogInterface.dismiss()
+                        }
+                    ) {
+                        realTimeViewModel.resetStateFlowNotificationCallVideo()
+                        realTimeViewModel.sendNotificationCallVideo(
+                            prefs.readIdUserLogin()!!,
+                            "",
+                            "",
+                            ""
+                        )
+                    }
+                }
+            }
         }
 
         //subscriber observer
         subscribeObserver()
-        subscribeObserverRealtime()
+
     }
 
 
-    private fun subscribeObserverRealtime() {
-
+    private fun subscriberNotificationCallVideo(string: String) {
+        realTimeViewModel.sendNotificationCallVideo(
+            prefs.readIdUserLogin()!!,
+            "",
+            "",
+            string.split("#")[2]
+        )
+        lifecycle.coroutineScope.launchWhenResumed {
+            realTimeViewModel.stateFlowNotificationCallVideo.collect {
+                it?.let {
+                    startActivity(Intent(this@MainActivity, VideoCallActivity::class.java).also {
+                        it.putExtra("roomId", string.split("#")[0])
+                        it.putExtra("partnerId", prefs.readIdUserLogin()!!)
+                    })
+                }
+            }
+        }
     }
 
 
