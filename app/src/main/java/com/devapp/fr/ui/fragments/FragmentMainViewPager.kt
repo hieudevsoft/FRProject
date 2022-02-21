@@ -38,6 +38,7 @@ import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeFragment
+import com.yanzhenjie.loading.dialog.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import nl.joery.animatedbottombar.AnimatedBottomBar
@@ -223,13 +224,11 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
     }
 
     override fun onCardHelpClickListener() {
-
     }
 
     override fun onCardChatClickListener(user: UserProfile) {
         findNavController().navigate(
             FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentInbox(user)
         )
-        bottomBar.toGone()
     }
 }

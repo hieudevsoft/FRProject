@@ -15,7 +15,7 @@ import com.devapp.fr.databinding.FragmentIntroduceBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
@@ -31,9 +31,7 @@ class FragmentIntroduce : BaseFragment<FragmentIntroduceBinding>() {
     private val args:FragmentIntroduceArgs by navArgs()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
         subscribeObserver()
         binding.edtIntroduce.addTextChangedListener {
             val numberOfCharacter = it.toString().length
@@ -66,11 +64,11 @@ class FragmentIntroduce : BaseFragment<FragmentIntroduceBinding>() {
             authAndProfileViewModel.stateFieldName.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowIntroduce(binding.edtIntroduce.text.toString().trim())
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

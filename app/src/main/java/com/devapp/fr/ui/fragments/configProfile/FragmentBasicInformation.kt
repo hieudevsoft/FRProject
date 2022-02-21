@@ -11,7 +11,7 @@ import com.devapp.fr.databinding.FragmentBasicInformationBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
@@ -36,12 +36,12 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
     private lateinit var hashMap: HashMap<Int,Any>
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     private val args:FragmentBasicInformationArgs by navArgs()
     @Inject
     lateinit var prefs:SharedPreferencesHelper
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         statusBtnDone()
         setDataForFields()
         subscribeObserver()
@@ -114,11 +114,11 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
             authAndProfileViewModel.stateBasicInformation.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowBasicInformation(hashMap)
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

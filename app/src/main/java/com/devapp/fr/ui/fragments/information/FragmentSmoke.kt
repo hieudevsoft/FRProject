@@ -12,7 +12,7 @@ import com.devapp.fr.databinding.FragmentSmokeBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.DataHelper.getListSmoke
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
@@ -30,12 +30,10 @@ class FragmentSmoke : BaseFragment<FragmentSmokeBinding>() {
     private val args:FragmentSmokeArgs by navArgs()
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
     private var currentPositionChoose = -1
     @Inject
     lateinit var prefs: SharedPreferencesHelper
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
         subscribeObserver()
         radioAdapter = RadioAdapter {
                 index,isChecked->
@@ -66,11 +64,11 @@ class FragmentSmoke : BaseFragment<FragmentSmokeBinding>() {
             authAndProfileViewModel.stateAdditionalInformation.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowSmoke(currentPositionChoose)
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

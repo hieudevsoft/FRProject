@@ -24,8 +24,8 @@ class FragmentAbousUs:BaseFragment<FragmentAbousUsBinding>(){
         aboutUsAdapter.submitList(
             listOf(
                 Member(
-                    "tuan hiep",
-                    " le",
+                    "tuấn hiệp",
+                    "lê ",
                     "designer",
                     "ui/ux Design",
                     "Nghe An Convince",
@@ -39,8 +39,8 @@ class FragmentAbousUs:BaseFragment<FragmentAbousUsBinding>(){
                     R.drawable.img_test
                 ),
                 Member(
-                    "truong xuan",
-                    " tran",
+                    "xuân trường",
+                    "trần ",
                     "developer",
                     "web developer",
                     "Ha Noi Convince",
@@ -54,8 +54,8 @@ class FragmentAbousUs:BaseFragment<FragmentAbousUsBinding>(){
                     R.drawable.img_test_1
                 ),
                 Member(
-                    "hieu huy",
-                    " bui",
+                    "huy hiệu",
+                    "bùi ",
                     "developer",
                     "mobile developer",
                     "Bac Giang Convince",

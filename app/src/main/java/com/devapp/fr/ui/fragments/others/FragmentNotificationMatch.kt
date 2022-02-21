@@ -15,7 +15,7 @@ import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
@@ -84,11 +84,11 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
             authAndProfileViewModel.stateAcceptOrCancel.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        showLoadingDialog()
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        hideLoadingDialog()
+                        loadingDialog.dismiss()
                         val listNew = adapter.getListCurrent().toMutableList()
                         sharedViewModel.getSharedFlowBasicInformation().distinctUntilChanged()
                             .collectLatest {
@@ -103,7 +103,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
                     }
 
                     is ResourceRemote.Error -> {
-                        hideLoadingDialog()
+                        loadingDialog.dismiss()
                         showToast("Kiểm tra kết nối mạng!!!")
                     }
                     else -> {
@@ -115,13 +115,8 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         authAndProfileViewModel.resetSateAcceptOrCancel()
-        loadingDialog.onDestroyView()
+        super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        loadingDialog.onDestroy()
-    }
 }

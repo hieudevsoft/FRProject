@@ -12,7 +12,7 @@ import com.devapp.fr.databinding.FragmentReligionBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.DataHelper.getListReligion
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
@@ -30,12 +30,12 @@ class FragmentReligion : BaseFragment<FragmentReligionBinding>() {
     private val args:FragmentReligionArgs by navArgs()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     private var currentPositionChoose = -1
     @Inject
     lateinit var prefs: SharedPreferencesHelper
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         radioAdapter = RadioAdapter {
                 index,isChecked->
@@ -67,11 +67,11 @@ class FragmentReligion : BaseFragment<FragmentReligionBinding>() {
             authAndProfileViewModel.stateAdditionalInformation.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowReligion(currentPositionChoose)
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()
