@@ -57,4 +57,31 @@
         android:textStyle="bold"
         />
 
+    <Button
+        app:layout_constraintTop_toBottomOf="@id/txDescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_bg_button_login"
+        app:backgroundTint="@null"
+        android:text="Hoàn thành"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textAllCaps="false"
+        android:layout_marginTop="@dimen/MARGIN_LARGE"/>
+    <Button
+        app:layout_constraintTop_toBottomOf="@id/txDescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.80"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_bg_button_null"
+        app:backgroundTint="@null"
+        android:text="Làm lại"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textAllCaps="false"
+        android:textColor="#576071"
+        android:layout_marginTop="@dimen/MARGIN_LARGE"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

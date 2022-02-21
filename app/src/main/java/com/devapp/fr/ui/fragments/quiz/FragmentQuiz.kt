@@ -62,6 +62,9 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
     private lateinit var question2 : QuizData
     private lateinit var question3 : QuizData
 
+    private var mLine1 : Boolean = false
+    private var mLine2 : Boolean = false
+    private var mLine3 : Boolean = false
 
     override fun onSetupView() {
         mQuestionList = QuizConstants.getQuestion()
@@ -95,11 +98,14 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //left buttons
             binding.btnLeft1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
+
                 binding.btnLeft1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
                 )
-                resetPoint1()
+
+
                 if (question1.questionType == QuizData.QuestionType.Mind )
                 {
                     mExtravert[0] = 0
@@ -167,6 +173,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnLeft2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnLeft2.background = ContextCompat.getDrawable(
                     requireActivity(), R.drawable.custom_button_quiz_circle_agree_selected)
                 resetPoint2()
@@ -235,6 +242,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnLeft3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnLeft3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -306,6 +314,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             // further left buttons
             binding.btnFurtherleft1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnFurtherleft1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -368,6 +377,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurtherleft2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnFurtherleft2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -440,6 +450,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurtherleft3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnFurtherleft3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -511,6 +522,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             // furthest left buttons
             binding.btnFurthestleft1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnFurthestleft1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -580,6 +592,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurthestleft2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnFurthestleft2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -649,6 +662,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurthestleft3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnFurthestleft3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_agree_selected
@@ -720,6 +734,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //right buttons
             binding.btnRight1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnRight1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -791,6 +806,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnRight2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnRight2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -855,6 +871,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnRight3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnRight3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -925,6 +942,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //further right buttons
             binding.btnFurtherright1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnFurtherright1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -991,6 +1009,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurtherright2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnFurtherright2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -1050,6 +1069,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurtherright3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnFurtherright3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -1112,6 +1132,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //furthest right buttons
             binding.btnFurthestright1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnFurthestright1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -1171,6 +1192,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurthestright2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnFurthestright2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -1230,6 +1252,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnFurthestright3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnFurthestright3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_disagree_selected
@@ -1291,6 +1314,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //neutral buttons
             binding.btnMiddle1.setOnClickListener {
                 defaultOptionViewLine1()
+                mLine1 = true
                 binding.btnMiddle1.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_neutral_selected
@@ -1299,6 +1323,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnMiddle2.setOnClickListener {
                 defaultOptionViewLine2()
+                mLine2 = true
                 binding.btnMiddle2.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_neutral_selected
@@ -1307,6 +1332,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
             binding.btnMiddle3.setOnClickListener {
                 defaultOptionViewLine3()
+                mLine3 = true
                 binding.btnMiddle3.background = ContextCompat.getDrawable(
                     requireActivity(),
                     R.drawable.custom_button_quiz_circle_neutral_selected
@@ -1315,8 +1341,12 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             }
 
             //next button
+
             binding.btnNext.setOnClickListener {
+
+
                 var controller = findNavController()
+                binding.btnNext.isEnabled = !(!mLine1 || !mLine2 || !mLine3)
                 if (mCurrentPosition < mQuestionList!!.size ) {
                     mCurrentPosition += 3
                     setQuestion()
@@ -1392,6 +1422,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
         binding.btnRight1.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
         binding.btnFurtherright1.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
         binding.btnFurthestright1.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
+
     }
     private fun defaultOptionViewLine2() {
         binding.btnMiddle2.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_neutral)
@@ -1401,6 +1432,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
         binding.btnRight2.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
         binding.btnFurtherright2.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
         binding.btnFurthestright2.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_disagree)
+
     }
     private fun defaultOptionViewLine3() {
         binding.btnMiddle3.background = ContextCompat.getDrawable(requireActivity(), R.drawable.custom_button_quiz_circle_neutral)
@@ -1438,6 +1470,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
         mJudging[1] =0
         mTurbulent[1] = 0
         mAssertive[1] = 0
+
     }
     private fun resetPoint3(){
 
@@ -1451,6 +1484,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
         mJudging[2] =0
         mTurbulent[2] = 0
         mAssertive[2] = 0
+
     }
 
 
