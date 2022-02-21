@@ -26,6 +26,7 @@ class RealTimeService @Inject constructor(private val context: Context) {
     private val refsNotifications = FirebaseDatabase.getInstance().getReference("notifications")
     private val refsOnline = FirebaseDatabase.getInstance().getReference("online")
     private val refChats = FirebaseDatabase.getInstance().reference.child("chats")
+    private val refVideo = FirebaseDatabase.getInstance().reference.child("call_videos")
     private val DELAY_RESET = 1000L
     private val TAG = "RealTimeService"
 
@@ -40,6 +41,44 @@ class RealTimeService @Inject constructor(private val context: Context) {
             } catch (e: Exception) {
                 Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    suspend fun sendNotificationCallVideo(
+        partnerId: String,
+        roomId: String?,
+        nameOwner:String?,
+        idOwner:String?,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ):Boolean {
+        return withContext(dispatcher) {
+            try {
+                refVideo.child(partnerId).setValue("$roomId#$nameOwner#$idOwner").await()
+                true
+            } catch (e: Exception) {
+                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+                false
+            }
+        }
+    }
+
+    suspend fun readNotificationCallVideo(
+        ownerId: String,
+        replyCallback: (String?) -> Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        withContext(dispatcher) {
+            refVideo.child(ownerId).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val value = snapshot.getValue(String::class.java)
+                    replyCallback(value)
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(TAG, "onCancelled: ${error.message}")
+                }
+            })
         }
     }
 

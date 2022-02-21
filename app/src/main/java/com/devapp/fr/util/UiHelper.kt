@@ -75,7 +75,8 @@ object UiHelper {
         textConfirm:String,
         textCancel:String,
         isDarkMode: Boolean,
-        callBackYes:(DialogInterface,Int)->Unit
+        callBackYes:(DialogInterface, Int)->Unit,
+        cllBackNo: ((DialogInterface) -> Unit?)? =null
     ){
         val style = if(isDarkMode) R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog_DarkTheme else
             R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog_LightTheme
@@ -85,7 +86,9 @@ object UiHelper {
             .setCancelable(false)
             .setPositiveButton(textConfirm, callBackYes)
             .setNegativeButton(textCancel){dialogInterface,_->
-                dialogInterface.dismiss()
+                if (cllBackNo != null) {
+                    cllBackNo(dialogInterface)
+                }
             }
             .show()
     }

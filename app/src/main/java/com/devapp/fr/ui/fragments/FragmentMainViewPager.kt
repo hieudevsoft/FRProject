@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,26 +18,21 @@ import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
-import com.devapp.fr.app.toBinding
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.homes.FragmentChats
 import com.devapp.fr.ui.fragments.homes.FragmentLoves
 import com.devapp.fr.ui.fragments.homes.FragmentSettings
-import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper
-import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
-import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.DataStoreHelper
 import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeFragment
-import com.yanzhenjie.loading.dialog.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import nl.joery.animatedbottombar.AnimatedBottomBar
@@ -104,7 +98,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
 
         })
 
-        sharedViewModel.getPositionMainViewPager().observe(this){
+        sharedViewModel.getPositionMainViewPager().observe(viewLifecycleOwner){
             bottomBar.selectTabAt(it,true)
             binding.mainViewPager.setCurrentItem(it,true)
         }
@@ -127,11 +121,12 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
                     "Bạn muốn thoát ứng dụng ?",
                     "Có",
                     "Không",
-                    isDarkMode
-                ) { dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                    requireActivity().finish()
-                }
+                    isDarkMode,
+                    { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                        requireActivity().finish()
+                    }
+                )
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)

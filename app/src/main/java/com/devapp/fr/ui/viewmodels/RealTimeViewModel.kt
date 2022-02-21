@@ -34,6 +34,22 @@ class RealTimeViewModel @Inject constructor(
         }
     }
 
+    private val _stateFlowNotificationCallVideo:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateFlowNotificationCallVideo:StateFlow<Boolean?> =_stateFlowNotificationCallVideo
+    fun resetStateFlowNotificationCallVideo(){
+        _stateFlowNotificationCallVideo.value = null
+    }
+    fun sendNotificationCallVideo(
+        partnerId:String,
+        roomId: String?,
+        nameOwner:String?,
+        idOwner:String?,
+    ){
+        viewModelScope.launch(defaultDispatcher) {
+            _stateFlowNotificationCallVideo.value = realTimeService.sendNotificationCallVideo(partnerId,roomId,nameOwner,idOwner)
+        }
+    }
+
     fun sendStatusOnOff(
         account: AccountOnline,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -49,6 +65,15 @@ class RealTimeViewModel @Inject constructor(
         ){
         viewModelScope.launch(defaultDispatcher){
             realTimeService.readNotificationWhenPartnerReply(ownerId, replyCallback)
+        }
+    }
+
+    fun readNotificationCallVideo(
+        ownerId:String,
+        replyCallback:(String?)->Unit,
+    ){
+        viewModelScope.launch(defaultDispatcher){
+            realTimeService.readNotificationCallVideo(ownerId, replyCallback)
         }
     }
 

@@ -1,10 +1,8 @@
 package com.devapp.fr.ui.fragments.configProfile
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -21,7 +19,6 @@ import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.viewmodels.StorageViewModel
-import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.GlideApp
 import com.devapp.fr.util.PermissionHelper
 import com.devapp.fr.util.UiHelper
@@ -88,15 +85,16 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
                     "Bạn muốn xóa ảnh này ?",
                     "Đúng",
                     "Không",
-                    false
-                ) { dialogInterface, _ ->
-                    if(!s.contains("firebase")){
-                        storageViewModel.deleteImageByNameOrUri(args.id,true,listName[listUri.indexOf(s)],"")
-                    }else{
-                        storageViewModel.deleteImageByNameOrUri(args.id,false,"",s)
+                    false,
+                    { dialogInterface, _ ->
+                        if(!s.contains("firebase")){
+                            storageViewModel.deleteImageByNameOrUri(args.id,true,listName[listUri.indexOf(s)],"")
+                        }else{
+                            storageViewModel.deleteImageByNameOrUri(args.id,false,"",s)
+                        }
+                        dialogInterface.dismiss()
                     }
-                    dialogInterface.dismiss()
-                }
+                )
             }
         }
         binding.rcImage.apply {
