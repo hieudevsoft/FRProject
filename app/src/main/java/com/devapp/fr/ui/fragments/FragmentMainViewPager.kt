@@ -29,6 +29,7 @@ import com.devapp.fr.ui.fragments.homes.FragmentSettings
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper
+import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
 import com.devapp.fr.util.extensions.showToast
@@ -37,6 +38,7 @@ import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.devapp.fr.util.storages.dataStore
 import com.dolatkia.animatedThemeManager.AppTheme
 import com.dolatkia.animatedThemeManager.ThemeFragment
+import com.yanzhenjie.loading.dialog.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import nl.joery.animatedbottombar.AnimatedBottomBar

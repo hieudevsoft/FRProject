@@ -15,7 +15,7 @@ import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.RealTimeViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
@@ -33,14 +33,12 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private lateinit var adapter:NotificationsMatchAdapter
-    private lateinit var loadingDialog:CustomDialog
     private var partnerName:String?=""
     var currentPosition = -1
     @Inject
     lateinit var prefs:SharedPreferencesHelper
     private val realTimeViewModel: RealTimeViewModel by activityViewModels()
     override fun onSetupView() {
-        loadingDialog = CustomDialog(R.layout.dialog_loading)
         adapter = NotificationsMatchAdapter(this,
             {view,position->
                 currentPosition = position
@@ -86,7 +84,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
             authAndProfileViewModel.stateAcceptOrCancel.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        loadingDialog.show(childFragmentManager,loadingDialog.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
@@ -94,7 +92,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
                         val listNew = adapter.getListCurrent().toMutableList()
                         sharedViewModel.getSharedFlowBasicInformation().distinctUntilChanged()
                             .collectLatest {
-                                realTimeViewModel.sendNotificationWhenMeReply(Notification(it[0] as String),
+                                realTimeViewModel.sendNotificationWhenMeReply(Notification(prefs.readIdUserLogin()!!,it[0] as String),
                                     adapter.getItemAtPostion(currentPosition).id
                                 )
                             }
@@ -118,12 +116,7 @@ class FragmentNotificationMatch:BaseFragment<FragmentNotificationMatchBinding>()
 
     override fun onDestroyView() {
         authAndProfileViewModel.resetSateAcceptOrCancel()
-        loadingDialog.onDestroyView()
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        loadingDialog.onDestroy()
-        super.onDestroy()
-    }
 }

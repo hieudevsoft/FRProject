@@ -14,8 +14,7 @@ data class MessageAudio(
     override var isMe:Boolean=true,
     private var audio:String,
     var isPlaying:Boolean = false,
-    var duration:Int,
-    var isVoicing:Boolean=false
+    var duration:Int=0,
 ):MessageModel(id,userId,type) {
     val TAG = "MessageAudio"
     private var mediaPlayer:MediaPlayer?=null
@@ -25,7 +24,7 @@ data class MessageAudio(
     }
 
     override fun convertToMessageUpload(): MessageUpload {
-        return MessageUpload(id,userId,type,isMe,"","",isPlaying,duration,audio,time,react,isVoicing)
+        return MessageUpload(id,userId,type,isMe,"","",isPlaying,duration,audio,time,react)
     }
 
     init {

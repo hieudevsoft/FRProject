@@ -15,7 +15,7 @@ import com.devapp.fr.databinding.FragmentUserJobBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
@@ -30,9 +30,9 @@ class FragmentUserJob : BaseFragment<FragmentUserJobBinding>() {
     private val args:FragmentUserJobArgs by navArgs()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         launchRepeatOnLifeCycleWhenResumed {
             sharedViewModel.getSharedFlowJob()
@@ -58,11 +58,11 @@ class FragmentUserJob : BaseFragment<FragmentUserJobBinding>() {
             authAndProfileViewModel.stateFieldName.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowJob(binding.edtCompany.text.toString().trim())
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

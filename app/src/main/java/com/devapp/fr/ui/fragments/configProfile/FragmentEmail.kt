@@ -14,7 +14,7 @@ import com.devapp.fr.databinding.FragmentEmailBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.activities.ConfigProfileActivity
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
@@ -30,10 +30,10 @@ class FragmentEmail : BaseFragment<FragmentEmailBinding>() {
     val TAG = "FragmentEmail"
     private lateinit var pref:SharedPreferencesHelper
     private val authViewModel: AuthAndProfileViewModel by viewModels()
-    private lateinit var dialogLoading: CustomDialog
+
 
     override fun onAttach(context: Context) {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         super.onAttach(context)
     }
 
@@ -75,16 +75,16 @@ class FragmentEmail : BaseFragment<FragmentEmailBinding>() {
             authViewModel.stateEmailExist.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success->{
                         binding.root.showSnackbar("Email đã tồn tại!")
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                     }
 
                     is ResourceRemote.Error->{
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         Log.d(TAG, "subscriberObserver: ${it.message}")
                     }
 

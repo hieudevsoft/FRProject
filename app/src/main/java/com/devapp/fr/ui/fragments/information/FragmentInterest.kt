@@ -16,7 +16,7 @@ import com.devapp.fr.databinding.FragmentInterestBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
@@ -39,11 +39,11 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     private val args:FragmentInterestArgs by navArgs()
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     @Inject
     lateinit var pref:SharedPreferencesHelper
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         val flexLayoutManager = FlexboxLayoutManager(requireContext(),FlexDirection.ROW,FlexWrap.WRAP)
         flexLayoutManager.justifyContent = JustifyContent.CENTER
@@ -104,11 +104,11 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
             authAndProfileViewModel.stateFieldName.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         pref.saveInterest(getListInterestSelected().joinToString("&"))
                         sharedViewModel.setSharedFlowInterest(getListInterestSelected())
                         showToast("Cập nhật thành công ~")

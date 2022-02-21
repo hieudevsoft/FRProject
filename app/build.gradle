@@ -143,4 +143,7 @@ dependencies {
     //Flexbox Layout
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
+    //video call jisit
+    implementation ('org.jitsi.react:jitsi-meet-sdk:4.1.0') { transitive = true }
+
 }

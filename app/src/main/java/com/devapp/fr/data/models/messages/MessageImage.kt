@@ -9,13 +9,12 @@ data class MessageImage(
     override var type: MessageType,
     override var isMe:Boolean=true,
     var urlImage:String,
-    var isUpLoading:Boolean,
 ):MessageModel(id,userId,type) {
     override fun <T> getContent(): T {
         return urlImage as T;
     }
 
     override fun convertToMessageUpload(): MessageUpload {
-        return MessageUpload(id,userId,type,isMe,"",urlImage,false,0,"",time,react,isUpLoading)
+        return MessageUpload(id,userId,type,isMe,"",urlImage,false,0,"",time,react)
     }
 }

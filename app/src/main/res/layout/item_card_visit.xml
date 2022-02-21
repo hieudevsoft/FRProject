@@ -93,8 +93,8 @@
                                         android:layout_marginStart="8dp"
                                         android:fontFamily="@font/varelaround_regular"
                                         android:letterSpacing="0.05"
-                                        android:text="@{data.middleName}"
-                                        android:textColor="@color/black"
+                                        android:text="@{data.name}"
+                                        android:textColor="@color/design_default_color_error"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
@@ -105,9 +105,9 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/varelaround_regular"
                                         android:letterSpacing="0.05"
-                                        android:text="@{ data.name}"
-                                        android:textColor="@color/design_default_color_error"
-                                        android:textSize="18sp"
+                                        android:text="@{ data.middleName}"
+                                        android:textColor="@color/black"
+                                        android:textSize="16sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>
 

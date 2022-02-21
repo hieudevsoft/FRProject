@@ -17,10 +17,11 @@ import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.FragmentMainViewPager
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.sendDataToViewPartnerProfile
 import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.UiHelper.toVisible
+import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
 import com.devapp.fr.util.storages.SharedPreferencesHelper
@@ -50,11 +51,12 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
     lateinit var prefs: SharedPreferencesHelper
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private lateinit var loadingDialog: CustomDialog
 
     override fun onSetupView() {
+        binding.imgHeart.setOnClickWithAnimationListener {
+            binding.cardStackView.rewind()
+        }
         parent = (parentFragment as FragmentMainViewPager)
-        loadingDialog = CustomDialog(R.layout.dialog_loading)
         subscribeObserver()
         binding.apply {
             setupCardStackViewLayoutManger()
@@ -101,7 +103,6 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
             settingSwipe.setDirection(direction).build()
         )
         binding.cardStackView.swipe()
-
     }
 
     private fun setupCardStackViewLayoutManger() {
@@ -158,6 +159,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
         else {
             try {
+                binding.imgHeart.setImageResource(R.drawable.ic_rewind)
                 setupLinearProgress(binding.progressBarEnergy.progress - 1)
                 currentPosition+=1
             } catch (e: Exception) {
@@ -190,9 +192,6 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         Log.d(TAG, "onCardAppeared: $view $position")
         if (position == 0) binding.imgHeart.setImageResource(R.drawable.ic_heart)
         else binding.imgHeart.setImageResource(R.drawable.ic_rewind)
-        binding.imgHeart.setOnClickListener {
-            if (position != 0) binding.cardStackView.rewind()
-        }
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
@@ -207,7 +206,7 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
                 when (it) {
                     is ResourceRemote.Loading -> {
                         try {
-                            loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                            loadingDialog.show()
                         }catch (e:Exception){
 
                         }
@@ -250,12 +249,11 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
             }
 
             launchRepeatOnLifeCycleWhenStarted {
-
                 authAndProfileViewModel.sateSendNotificationToPartner.collect {
                     when (it) {
                         is ResourceRemote.Loading -> {
                             try {
-                                loadingDialog.show(childFragmentManager, loadingDialog.tag)
+                                loadingDialog.show()
                             }catch (e:Exception){
 
                             }
@@ -296,18 +294,5 @@ class FragmentLoves : BaseFragment<FragmentLovesBinding>(), CardStackListener {
         }
     }
 
-    override fun onDestroy() {
-        loadingDialog.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun onDetach() {
-        loadingDialog.onDetach()
-        super.onDetach()
-    }
-
-    override fun onDestroyView() {
-        loadingDialog.onDestroyView()
-        super.onDestroyView()
-    }
+    
 }

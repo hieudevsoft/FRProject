@@ -20,3 +20,12 @@ fun Fragment.showToast(msg:String){
 fun Activity.showToast(msg:String){
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
+
+fun View.scaleDown(){
+    this.scaleX = 0.5F
+    this.scaleY = 0.5F
+}
+fun View.scaleUp(){
+    this.animate().scaleX(1F).setDuration(500).start()
+    this.animate().scaleY(1F).setDuration(500).start()
+}

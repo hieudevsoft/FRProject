@@ -18,7 +18,7 @@ import com.devapp.fr.databinding.FragmentTallBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenCreated
@@ -40,9 +40,9 @@ class FragmentTall : BaseFragment<FragmentTallBinding>() {
     lateinit var prefs:SharedPreferencesHelper
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         binding.apply {
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -107,11 +107,11 @@ class FragmentTall : BaseFragment<FragmentTallBinding>() {
             authAndProfileViewModel.stateAdditionalInformation.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         if (binding.radio.isChecked) {
                             sharedViewModel.setSharedFlowTall(-1)
                         } else {
