@@ -58,6 +58,7 @@
         />
 
     <Button
+        android:id="@+id/btn_done"
         app:layout_constraintTop_toBottomOf="@id/txDescription"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,6 +72,7 @@
         android:textAllCaps="false"
         android:layout_marginTop="@dimen/MARGIN_LARGE"/>
     <Button
+        android:id="@+id/btn_try_again"
         app:layout_constraintTop_toBottomOf="@id/txDescription"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

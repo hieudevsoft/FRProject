@@ -150,6 +150,14 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedPersonality:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedPersonality() = _sharedPersonality.asSharedFlow()
+    fun setSharedPersonality(value :Int){
+        viewModelScope.launch {
+            _sharedPersonality.emit(value)
+        }
+    }
+
     private val _sharedFlowJob:MutableSharedFlow<String> = MutableSharedFlow(1)
     fun getSharedFlowJob() = _sharedFlowJob.asSharedFlow()
     fun setSharedFlowJob(value:String){
@@ -197,5 +205,7 @@ class SharedViewModel @Inject constructor(
             _sharedFlowListUserMatchByMe.emit(list)
         }
     }
+
+
 
 }

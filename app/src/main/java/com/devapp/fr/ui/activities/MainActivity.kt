@@ -245,6 +245,7 @@ class MainActivity : ThemeActivity() {
                 sharedViewModel.setSharedFlowPet(it.pet + 1001)
                 sharedViewModel.setSharedFlowReligion(it.religion + 1001)
                 sharedViewModel.setSharedFlowCertificate(it.certificate + 1001)
+                sharedViewModel.setSharedPersonality(it.personality)
             }
         }
     }

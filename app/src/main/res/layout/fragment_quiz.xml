@@ -7,35 +7,6 @@
     android:background="#E1F8EE"
     android:padding="@dimen/PADDING_SMALL">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="@dimen/_12sdp"
-        android:layout_height="@dimen/_12sdp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/MARGIN_SMALLEST"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Test "
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@id/btn_back"
-        app:layout_constraintLeft_toRightOf="@id/btn_back"
-        app:layout_constraintTop_toTopOf="@id/btn_back" />
-
-    <ImageView
-        android:layout_width="@dimen/_16sdp"
-        android:layout_height="@dimen/_16sdp"
-        android:src="@drawable/ic_about_us"
-        android:tint="@color/black"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UseAppTint" />
-
     <TextView
         android:id="@+id/tx_quiz1"
         android:layout_width="wrap_content"

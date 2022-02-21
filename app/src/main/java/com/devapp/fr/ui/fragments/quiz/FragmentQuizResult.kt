@@ -3,24 +3,79 @@ package com.devapp.fr.ui.fragments.quiz
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.devapp.fr.R
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.databinding.FragmentQuizResultBinding
+import com.devapp.fr.network.ResourceRemote
+import com.devapp.fr.ui.fragments.information.FragmentChooseGenderArgs
+import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
+import com.devapp.fr.util.DataHelper.getListPersonality
+import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
+import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
+import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class FragmentQuizResult : BaseFragment<FragmentQuizResultBinding> () {
-
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    @Inject
+    lateinit var prefs: SharedPreferencesHelper
+    private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
     private var persona : String = ""
+    private var currentPositionChoose = -1
     override fun onSetupView() {
-        val controller = findNavController()
+        findNavController()
         val args  : FragmentQuizResultArgs by navArgs()
         persona = args.personality
         setPersona()
-        Toast.makeText(requireActivity(), "$persona", Toast.LENGTH_SHORT).show()
+        binding.apply {
+            btnDone.setOnClickWithAnimationListener {
+                currentPositionChoose = getListPersonality().indexOf(txPersonalityType.text.toString().trim())
+                authAndProfileViewModel.updateAdditionalInformation(prefs.readIdUserLogin()!!,"personality",currentPositionChoose)
+            }
+
+            btnTryAgain.setOnClickWithAnimationListener {
+                findNavController().navigate(FragmentQuizResultDirections.actionFragmentQuizResultToFragmentQuiz())
+            }
+        }
+        subscribeObserver()
     }
+
+    private fun subscribeObserver() {
+        launchRepeatOnLifeCycleWhenStarted {
+            authAndProfileViewModel.stateAdditionalInformation.collect {
+                when (it) {
+                    is ResourceRemote.Loading -> {
+                        loadingDialog.show()
+                    }
+
+                    is ResourceRemote.Success -> {
+                        loadingDialog.dismiss()
+                        sharedViewModel.setSharedPersonality(currentPositionChoose)
+                        showToast("Cập nhật thành công ~")
+                        findNavController().navigate(FragmentQuizResultDirections.actionFragmentQuizResultToFragmentEditProfile())
+                    }
+
+                    is ResourceRemote.Error -> {
+                        showToast("Có lỗi xảy ra ~")
+                        findNavController().popBackStack()
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        }
+    }
+
     private fun setPersona() {
         if (persona == "INTJ-A" || persona =="INTJ-J") {
             binding.txPersonalityType.text = "Architect"
@@ -118,9 +173,5 @@ class FragmentQuizResult : BaseFragment<FragmentQuizResultBinding> () {
             binding.imgPersonality.setAnimation(R.raw.entertainer)
             binding.txDescription.text = getString(R.string.entertainer)
         }
-
-
-
-
     }
 }

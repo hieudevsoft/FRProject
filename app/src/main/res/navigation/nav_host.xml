@@ -286,6 +286,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentQuiz"
+        tools:layout="@layout/fragment_quiz"
         android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuiz"
         android:label="FragmentQuiz" >
         <action
@@ -414,6 +415,7 @@
 
 
     <fragment
+        tools:layout="@layout/fragment_quiz_result"
         android:id="@+id/fragmentQuizResult"
         android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuizResult"
         android:label="FragmentQuizResult" >
@@ -421,6 +423,17 @@
             android:name="personality"
             app:argType="string"
             android:defaultValue="A"/>
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentQuizResult_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz" />
+
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentQuizResult_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
     </fragment>
 
     <fragment

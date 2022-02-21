@@ -315,6 +315,23 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
         }
 
         launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedPersonality()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listPersonality = DataHelper.getListPersonality()
+                        val data = listPersonality[it]
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 9){
+                                resetAdapter(9,if(it==listPersonality.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
             sharedViewModel.getSharedFlowIntroduce()
                 .distinctUntilChanged()
                 .collectLatest {

@@ -19,6 +19,7 @@ import com.devapp.fr.data.models.quiz.QuizConstants
 import com.devapp.fr.data.models.quiz.QuizData
 import com.devapp.fr.databinding.FragmentQuizBinding
 import com.devapp.fr.databinding.FragmentQuizResultBinding
+import com.devapp.fr.util.UiHelper.showSnackbar
 import com.google.firebase.firestore.util.Assert
 import kotlinx.coroutines.NonDisposableHandle.parent
 import java.lang.AssertionError
@@ -76,6 +77,9 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
 
     }
     private fun setQuestion() {
+        mLine1 = false
+        mLine2 = false
+        mLine3 = false
         question1 = mQuestionList!![mCurrentPosition - 3]
         question2 = mQuestionList!![mCurrentPosition - 2]
         question3 = mQuestionList!![mCurrentPosition - 1]
@@ -1343,14 +1347,13 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
             //next button
 
             binding.btnNext.setOnClickListener {
-
-
-                var controller = findNavController()
-                binding.btnNext.isEnabled = !(!mLine1 || !mLine2 || !mLine3)
-                if (mCurrentPosition < mQuestionList!!.size ) {
+                if(!mLine1||!mLine2||!mLine3) {
+                    binding.root.showSnackbar("Bạn phải trả lời hết các câu hỏi :(")
+                    return@setOnClickListener
+                }
+                else if (mCurrentPosition < mQuestionList!!.size ) {
                     mCurrentPosition += 3
                     setQuestion()
-                    //Toast.makeText(requireActivity(), "${question1.questionType} + ${question2.questionType} + ${question3.questionType}", Toast.LENGTH_LONG).show()
                     defaultOptionViewLine1()
                     defaultOptionViewLine2()
                     defaultOptionViewLine3()
@@ -1364,14 +1367,6 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     Prospecting += mProspecting[0] + mProspecting[1] + mProspecting[2]
                     Assertive += mAssertive[0] + mAssertive[1] + mAssertive[2]
                     Turbulent += mTurbulent[0] + mTurbulent[1] + mTurbulent[2]
-//                    Toast.makeText(
-//                        requireActivity(),
-//                        "Introvert $Introvert Extravert $Extravert Intuitive $Intuitive Observant $Observant" +
-//                                "Thinking $Thinking Feeling $Feeling Judging $Judging Prospecting $Prospecting Assertive $Assertive TUrbulent $Turbulent",
-//                        Toast.LENGTH_LONG
-//                    )
-//                        .show()
-
                 }
                 else {
                     binding.btnNext.setImageResource(R.drawable.ic_done)
@@ -1408,7 +1403,7 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     Toast.makeText(requireActivity(), "$userPersonalities", Toast.LENGTH_LONG).show()
                     val result = userPersonalities
                     val action = FragmentQuizDirections.actionFragmentQuizToFragmentQuizResult(result)
-                    controller.navigate(action)
+                    findNavController().navigate(action)
 
                 }
                 }
