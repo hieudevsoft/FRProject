@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.others.FragmentEditInbox">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_light_mode"
+        android:elevation="0dp"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Thông tin ">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nunito_extra_bold"
+                    android:gravity="center"
+                    android:text="Thông tin"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:padding="@dimen/PADDING_SMALL"
+                    android:id="@+id/btn_back"
+                    android:layout_marginStart="@dimen/MARGIN_SMALL"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="@dimen/MARGIN_SMALL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:fillViewport="true"
+        android:measureAllChildren="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.alespero.expandablecardview.ExpandableCardView
+                app:icon="@drawable/ic_color_chat"
+                android:id="@+id/card_color"
+                app:inner_view="@layout/ly_inner_card_color_inbox"
+                app:expandOnClick="true"
+                android:gravity="center"
+                android:layout_gravity="center"
+                app:animationDuration="400"
+                app:startExpanded="false"
+                android:elevation="@dimen/_2sdp"
+                app:title="Màu đoạn chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.alespero.expandablecardview.ExpandableCardView
+                app:icon="@drawable/ic_nick_name_chat"
+                android:id="@+id/card_nick_name"
+                app:expandOnClick="true"
+                android:gravity="center"
+                app:inner_view="@layout/ly_inner_card_nick_name_inbox"
+                android:layout_gravity="center"
+                app:animationDuration="400"
+                app:startExpanded="false"
+                android:elevation="@dimen/_2sdp"
+                app:title="Đặt biệt danh cho đối phương"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.alespero.expandablecardview.ExpandableCardView
+                app:icon="@drawable/ic_image_inbox"
+                app:expandOnClick="true"
+                android:gravity="center"
+                app:inner_view="@layout/ly_inner_card_image_inbox"
+                android:id="@+id/card_images"
+                android:layout_gravity="center"
+                app:animationDuration="400"
+                app:startExpanded="false"
+                android:elevation="@dimen/_2sdp"
+                app:title="Ảnh đoạn chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

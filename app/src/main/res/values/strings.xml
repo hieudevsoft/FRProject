@@ -77,6 +77,19 @@
         <item>#9ADBA9</item>
         <item>#787676</item>
     </string-array>
+
+    <string-array name="color_inbox">
+        <item>#E53935</item>
+        <item>#D81B60</item>
+        <item>#3FE411</item>
+        <item>#3949AB</item>
+        <item>#5AA7EB</item>
+        <item>#EF5350</item>
+        <item>#000000</item>
+        <item>#FFFFFF</item>
+        <item>#F7FF0D</item>
+        <item>#D80BE6</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_video_call">VideoCallActivity</string>

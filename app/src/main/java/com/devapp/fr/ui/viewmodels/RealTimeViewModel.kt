@@ -219,4 +219,42 @@ class RealTimeViewModel @Inject constructor(
             realTimeService.getCombineOldAndNewSeen(senderRoom,{onSuccessCallback(it)})
         }
     }
+
+    private val _stateFlowSetNickNameForPartner:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateFlowSetNickNameForPartner:StateFlow<Boolean?> =_stateFlowSetNickNameForPartner
+    fun resetStateSetNickNameForPartner() {
+        _stateFlowSetNickNameForPartner.value = null
+    }
+    fun setNickNameForPartner(nickName:String,senderRoom: String){
+        viewModelScope.launch(defaultDispatcher){
+            _stateFlowSetNickNameForPartner.value = realTimeService.setNickNameForPartner(nickName,senderRoom)
+
+        }
+    }
+
+    fun getNickNamePartner(senderRoom: String,nickNameCallback:(String?)->Unit){
+        viewModelScope.launch(defaultDispatcher){
+            realTimeService.getNickNamePartner(senderRoom,{nickNameCallback(it)})
+
+        }
+    }
+
+    private val _stateFlowSetColorBoxChat:MutableStateFlow<Boolean?> = MutableStateFlow(null)
+    val stateFlowSetColorBoxChat:StateFlow<Boolean?> =_stateFlowSetColorBoxChat
+    fun resetStateSetColorBoxChat() {
+        _stateFlowSetColorBoxChat.value = null
+    }
+    fun setColorBoxChat(color:String,senderRoom: String,receiverRoom:String){
+        viewModelScope.launch(defaultDispatcher){
+            _stateFlowSetColorBoxChat.value = realTimeService.setColorBoxChat(color,senderRoom,receiverRoom)
+
+        }
+    }
+
+    fun getColorBoxChat(senderRoom: String,colorBoxChatCallback:(String?)->Unit){
+        viewModelScope.launch(defaultDispatcher){
+            realTimeService.getColorBoxChat(senderRoom,{colorBoxChatCallback(it)})
+
+        }
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatEditText
+    android:id="@+id/edt_nick_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/MARGIN_SMALL"
+    android:layout_marginHorizontal="@dimen/MARGIN_SMALL"
+    android:background="@drawable/custom_background_send"
+    android:backgroundTint="@color/color_white_500"
+    android:fontFamily="@font/nunito_regular"
+    android:hint="Đặt biệt danh"
+    android:padding="@dimen/MEDIUM_SPACE"
+    android:textColor="@color/color_dark_800"
+    android:textCursorDrawable="@null"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

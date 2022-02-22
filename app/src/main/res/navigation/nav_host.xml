@@ -72,6 +72,11 @@
             app:argType="com.devapp.fr.data.entities.UserProfile"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentInbox_to_fragmentEditInbox"
+            app:destination="@id/fragmentEditInbox" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_profile"
@@ -457,7 +462,22 @@
             app:argType="string"
             android:defaultValue=""/>
     </fragment>
+    <fragment
+        android:id="@+id/fragmentEditInbox"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentEditInbox"
+        android:label="fragment_edit_inbox"
+        tools:layout="@layout/fragment_edit_inbox" >
 
+        <argument
+            android:name="senderRoom"
+            app:argType="string"
+            android:defaultValue=""/>
+
+        <argument
+            android:name="receiverRoom"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 
 
 </navigation>

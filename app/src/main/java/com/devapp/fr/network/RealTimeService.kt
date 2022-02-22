@@ -26,8 +26,8 @@ class RealTimeService @Inject constructor(private val context: Context) {
     private val refsNotifications = FirebaseDatabase.getInstance().getReference("notifications")
     private val refsOnline = FirebaseDatabase.getInstance().getReference("online")
     private val refChats = FirebaseDatabase.getInstance().reference.child("chats")
+    private val refInformationChat = FirebaseDatabase.getInstance().reference.child("information_chats")
     private val refVideo = FirebaseDatabase.getInstance().reference.child("call_videos")
-    private val DELAY_RESET = 1000L
     private val TAG = "RealTimeService"
 
     suspend fun sendNotificationWhenMeReply(
@@ -383,4 +383,89 @@ class RealTimeService @Inject constructor(private val context: Context) {
             }
         }
     }
+
+    suspend fun setNickNameForPartner(
+        nickName: String,
+        senderRoom: String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ):Boolean{
+        return withContext(dispatcher) {
+            try {
+                refInformationChat.child(senderRoom).child("nick_name").setValue(nickName).await()
+                true
+            } catch (e: Exception) {
+                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+                false
+            }
+        }
+    }
+
+    suspend fun getNickNamePartner(
+        senderRoom: String,
+        nickNameCallback:(String?)->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ){
+        return withContext(dispatcher) {
+            try {
+                refInformationChat.child(senderRoom).child("nick_name").addValueEventListener(object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val value = snapshot.getValue(String::class.java)
+                        nickNameCallback(value)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        nickNameCallback(null)
+                    }
+
+                })
+            } catch (e: Exception) {
+                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
+    suspend fun setColorBoxChat(
+        color:String,
+        senderRoom: String,
+        receiverRoom: String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ):Boolean{
+        return withContext(dispatcher) {
+            try {
+                refInformationChat.child(senderRoom).child("color_box").setValue(color).await()
+                refInformationChat.child(receiverRoom).child("color_box").setValue(color).await()
+                true
+            } catch (e: Exception) {
+                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+                false
+            }
+        }
+    }
+
+    suspend fun getColorBoxChat(
+        senderRoom: String,
+        colorBoxCallback:(String?)->Unit,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ){
+        return withContext(dispatcher) {
+            try {
+                refInformationChat.child(senderRoom).child("color_box").addValueEventListener(object:ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val value = snapshot.getValue(String::class.java)
+                        colorBoxCallback(value)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        colorBoxCallback(null)
+                    }
+
+                })
+            } catch (e: Exception) {
+                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+    }
+
 }

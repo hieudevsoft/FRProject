@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -49,6 +50,7 @@ class FragmentCoin : BaseFragment<FragmentCoinBinding>(),Animation.AnimationList
     @SuppressLint("ClickableViewAccessibility")
 
     override fun onSetupView() {
+        handleOnBackPress()
         binding.includeSpinner.powerButton.setOnTouchListener { v, event ->
             when(event!!.action){
                 MotionEvent.ACTION_DOWN->{
@@ -74,8 +76,18 @@ class FragmentCoin : BaseFragment<FragmentCoinBinding>(),Animation.AnimationList
             }
         }
         binding.boxAnimation.setOnClickWithAnimationListener {
-            findNavController().popBackStack()
+            (requireActivity() as MainActivity).onBackPressed()
         }
+    }
+
+    private fun handleOnBackPress() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                sharedViewModel.setPositionMainViewPager(0)
+                findNavController().popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     private fun startRotateSpinner(){
@@ -92,7 +104,7 @@ class FragmentCoin : BaseFragment<FragmentCoinBinding>(),Animation.AnimationList
                 fillAfter = true
                 setAnimationListener(this@FragmentCoin)
         }
-        coinsResult = coins[endDegrees%numOfCoins]
+        coinsResult = coins[endDegrees%degreesPerSize]
         binding.includeSpinner.imageWheel.startAnimation(rotateAnimation)
     }
 

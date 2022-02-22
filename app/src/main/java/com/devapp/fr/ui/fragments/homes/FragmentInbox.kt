@@ -152,6 +152,26 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     }
 
     private fun subscriberObserver() {
+
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.getNickNamePartner(chatsMessageAdapter.senderRoom){
+                it?.let {
+                    binding.tvName.text = it
+                }
+            }
+        }
+
+        launchRepeatOnLifeCycleWhenCreated {
+            realTimeViewModel.getColorBoxChat(chatsMessageAdapter.senderRoom){
+                it?.let {
+                    binding.apply {
+                        root.setBackgroundColor(Color.parseColor(it))
+                        lyBottom.setBackgroundColor(Color.parseColor(it))
+                    }
+                }
+            }
+        }
+
         launchRepeatOnLifeCycleWhenCreated { scope ->
             realTimeViewModel.stateFlowUserOnOff.collectLatest {
                 if (it == true) {
@@ -234,6 +254,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
                             chatsMessageAdapter.reciverRoom,
                             listSubmit.size
                         )
+                        sharedViewModel.setSharedFlowListImageInBox(listSubmit.map { if(it is MessageImage) it.urlImage else ""})
                         chatsMessageAdapter.submitList(listSubmit)
                     }
 
@@ -528,7 +549,7 @@ class FragmentInbox : BaseFragment<FragmentInboxBinding>(), EasyPermissions.Perm
     }
 
         private fun navigateFragmentInformationInbox() {
-
+            findNavController().navigate(FragmentInboxDirections.actionFragmentInboxToFragmentEditInbox(chatsMessageAdapter.senderRoom,chatsMessageAdapter.reciverRoom))
         }
 
         private fun openBottomHandWriter() {

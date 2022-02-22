@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rc_images"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:listitem="@layout/item_image_profile"
+    android:layout_height="wrap_content">
+
+</androidx.recyclerview.widget.RecyclerView>

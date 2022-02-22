@@ -216,6 +216,12 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-
+    private val _sharedFlowListImageInbox:MutableSharedFlow<List<String>> = MutableSharedFlow(1)
+    fun getSharedFlowListImageInbox() = _sharedFlowListImageInbox.asSharedFlow()
+    fun setSharedFlowListImageInBox(list:List<String>){
+        viewModelScope.launch {
+            _sharedFlowListImageInbox.emit(list)
+        }
+    }
 
 }
