@@ -1,5 +1,7 @@
 package com.devapp.fr.adapters
 
+import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +20,7 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
 
     inner class ViewHolder(val binding: ItemImageProfileBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(data: String){
-            GlideApp.loadImage(data,binding.imgInsideCard,fragment)
+            GlideApp.loadImage(data,binding.imgInsideCard, fragment)
         }
     }
 
@@ -40,6 +42,8 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
         differ.submitList(list)
     }
 
+    fun getCurrentList() = differ.currentList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemImageProfileBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
@@ -53,13 +57,21 @@ class ProfileImagesAdapter(private val fragment:Fragment) : RecyclerView.Adapter
             imgInsideCard.setOnClickWithAnimationListener {view->
                 onItemClickListener?.let { it(view,item) }
             }
+            imgInsideCard.setOnLongClickListener {view->
+                onItemLongClickListener?.let { it(view,item,position) }
+                true
+            }
         }
 
     }
     private var onItemClickListener:((View,String)->Unit)?=null
+    private var onItemLongClickListener:((View,String,Int)->Unit)?=null
 
     fun setOnItemClickListener(listener:(View,String)->Unit){
         onItemClickListener = listener
+    }
+    fun setOnLogItemClickListener(listener:(View,String,Int)->Unit){
+        onItemLongClickListener = listener
     }
 
     override fun getItemCount(): Int {

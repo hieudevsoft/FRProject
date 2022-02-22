@@ -18,10 +18,10 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/darker_gray</item>
-        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
-        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+<!--        <item name="android:statusBarColor" >@android:color/transparent</item>-->
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+<!--        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>-->
+<!--        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>-->
         <!-- Customize your theme here. -->
     </style>
 
@@ -170,4 +170,17 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+    <style name="CustomCardBottom" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MaterialCardView.CutTop</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MaterialCardView.CutTop" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/_20sdp</item>
+        <item name="cornerSizeTopLeft">@dimen/_20sdp</item>
+    </style>
+
+    <style name="customRoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_12sdp</item>
+    </style>
 </resources>

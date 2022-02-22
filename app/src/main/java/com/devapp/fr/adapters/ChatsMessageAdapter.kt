@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomViewTarget
@@ -32,10 +33,19 @@ import com.devapp.fr.util.UiHelper.VISIBLE
 import com.devapp.fr.util.UiHelper.toGone
 import com.github.pgreze.reactions.ReactionPopup
 import com.github.pgreze.reactions.ReactionSelectedListener
+import androidx.fragment.app.Fragment
+import com.devapp.fr.util.GlideApp
 
-
-class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatsMessageAdapter(
+    private val fragment:Fragment,
+    private val senderId:String?=null,
+    private val recieverId:String?=null,
+    private val urlImagePartner:String,
+    private val reactionCallback:(Int,MessageModel)->Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val TAG = "ChatsMessageAdapter"
+    val senderRoom = senderId+recieverId
+    val reciverRoom = recieverId+senderId
 
     private inner class ViewHolderMe(val binding: ItemChatMeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -81,6 +91,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         binding.tvTimePartner.GONE()
         binding.tvTimePartner.text = data.time
         binding.tvMessagePartner.text = data.message
+        GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
         val reactionMe = data.react.first()
         val reactionPartner = data.react.last()
         if (reactionMe.count != 0) {
@@ -179,6 +190,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(data: MessageImage) {
             binding.tvTimePartner.GONE()
             binding.tvTimePartner.text = data.time
+            GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
             val reactionMe = data.react.first()
             val reactionPartner = data.react.last()
             if (reactionMe.count != 0) {
@@ -281,6 +293,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(data: MessageAudio) {
             binding.tvTimePartner.toGone()
             binding.tvTimePartner.text = data.time
+            GlideApp.loadImage(urlImagePartner,binding.imgPartnerBody,fragment)
             val reactionMe = data.react.first()
             val reactionPartner = data.react.last()
             if (reactionMe.count != 0) {
@@ -318,7 +331,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = differ.currentList[position]
+        val item = getItemAtPosition(position)
         return if (item.isMe) {
             when (item.type) {
                 MessageType.TEXT -> Constants.TEXT_FROM_ME
@@ -337,7 +350,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val diffUtilItemCallBack = object : DiffUtil.ItemCallback<MessageModel>() {
 
         override fun areItemsTheSame(oldItem: MessageModel, newItem: MessageModel): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id == newItem.id && oldItem.isMe==newItem.isMe
         }
 
         override fun areContentsTheSame(oldItem: MessageModel, newItem: MessageModel): Boolean {
@@ -383,7 +396,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun getItemAtPosition(position: Int) = differ.currentList[position]
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = differ.currentList[position]
+        val item = getItemAtPosition(position)
         when (holder) {
             is ViewHolderMe -> {
                 holder.bind(item as MessageText)
@@ -395,7 +408,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderPartner -> {
@@ -408,7 +421,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderImageMe -> {
@@ -422,7 +435,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderImagePartner -> {
@@ -440,7 +453,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         item,
                         reaction
                     )
-                    notifyItemChanged(position)
+                    reactionCallback(position,item)
                 }
             }
             is ViewHolderAudioMe -> {
@@ -458,7 +471,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             item,
                             reaction
                         )
-                        notifyItemChanged(position)
+                        reactionCallback(position,item)
                     }) {
                     if (it) item.playingAudio() else item.pausePlayingAudio()
                     item.isPlaying = it
@@ -485,7 +498,7 @@ class ChatsMessageAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             item,
                             reaction
                         )
-                        notifyItemChanged(position)
+                        reactionCallback(position,item)
                     }) {
                     if (it) item.playingAudio() else item.pausePlayingAudio()
                     item.isPlaying = it

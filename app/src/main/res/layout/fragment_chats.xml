@@ -2,7 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_chats_bg"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -30,38 +32,45 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/LARGEST_SPACE"
+                android:paddingTop="?attr/actionBarSize"
                 android:paddingHorizontal="@dimen/PADDING_SMALL">
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_filter"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0">
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:background="@drawable/custom_background_send"
+                    android:backgroundTint="@color/color_white_500"
+                    android:fontFamily="@font/comfortaa_regular"
+                    android:hint="Tìm kiếm..."
+                    android:inputType="textMultiLine"
+                    android:padding="@dimen/PADDING_SMALL"
+                    android:textColor="@color/color_dark_800"
+                    android:textCursorDrawable="@null" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_friend"
-                        android:layout_width="@dimen/SIZE_IMAGE_CHAT"
-                        android:layout_height="@dimen/SIZE_IMAGE_CHAT"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_food"
-                        app:civ_border_color="@color/blue"
-                        app:civ_border_width="0.25dp" />
-
-                    <View
-                        android:id="@+id/dot_online"
-                        android:layout_width="@dimen/_8sdp"
-                        android:layout_height="@dimen/_8sdp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="@dimen/_2sdp"
-                        android:layout_marginBottom="@dimen/_2sdp"
-                        android:background="@drawable/custom_dot_online" />
-                </FrameLayout>
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_chat_online"
+                    app:layout_constraintTop_toBottomOf="@id/edt_filter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_online_chat"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <View
+                    android:backgroundTint="@color/white"
+                    android:layout_marginTop="@dimen/MARGIN_SMALL"
+                    app:layout_constraintTop_toBottomOf="@id/rc_chat_online"
+                    android:background="?attr/dividerVertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -73,96 +82,14 @@
         android:fitsSystemWindows="true"
         android:measureAllChildren="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/PADDING_SMALL"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_item_information"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_information_chat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                android:id="@+id/ly_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/SIZE_IMAGE_CHAT"
-                    android:layout_height="@dimen/SIZE_IMAGE_CHAT"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_food"
-                    app:civ_border_color="@color/blue"
-                    app:civ_border_width="0.25dp" />
-
-                <View
-                    android:layout_width="@dimen/_8sdp"
-                    android:layout_height="@dimen/_8sdp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/_2sdp"
-                    android:layout_marginBottom="@dimen/_2sdp"
-                    android:background="@drawable/custom_dot_online" />
-            </FrameLayout>
-
-            <View
-                android:id="@+id/anchor"
-                android:layout_width="@dimen/_4sdp"
-                android:layout_height="@dimen/_4sdp"
-                app:layout_constraintBottom_toBottomOf="@id/ly_image"
-                app:layout_constraintEnd_toEndOf="@id/ly_image"
-                app:layout_constraintStart_toStartOf="@id/ly_image"
-                app:layout_constraintTop_toTopOf="@id/ly_image" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/SMALL_SPACE"
-                android:ellipsize="end"
-                android:fontFamily="@font/varelaround_regular"
-                android:maxLines="1"
-                android:text="day la title"
-                android:textColor="@color/background_dark_mode"
-                android:textSize="@dimen/TEXT_SIZE_NORMAL"
-                app:layout_constraintBottom_toTopOf="@id/anchor"
-                app:layout_constraintEnd_toStartOf="@id/tv_time"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/ly_image" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_last_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/SMALL_SPACE"
-                android:ellipsize="end"
-                android:fontFamily="@font/varelaround_regular"
-                android:maxLines="1"
-                android:text="day la title"
-                android:textColor="@color/color_grey"
-                android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                app:layout_constraintEnd_toStartOf="@id/tv_time"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/ly_image"
-                app:layout_constraintTop_toBottomOf="@id/anchor" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/SMALL_SPACE"
-                android:ellipsize="end"
-                android:fontFamily="@font/varelaround_regular"
-                android:maxLines="1"
-                android:text="10:10"
-                android:textColor="@color/light_gray"
-                android:textSize="@dimen/TEXT_SIZE_SMALLEST"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"/>
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

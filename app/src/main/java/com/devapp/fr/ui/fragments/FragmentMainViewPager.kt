@@ -14,16 +14,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.devapp.fr.R
 import com.devapp.fr.adapters.MainViewPagerAdapter
 import com.devapp.fr.app.MyAppTheme
-import com.devapp.fr.app.toBinding
+import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.databinding.FragmentMainViewPagerBinding
 import com.devapp.fr.ui.activities.MainActivity
 import com.devapp.fr.ui.fragments.homes.FragmentChats
 import com.devapp.fr.ui.fragments.homes.FragmentLoves
 import com.devapp.fr.ui.fragments.homes.FragmentSettings
-import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
+import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.util.UiHelper
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.PageTransformHelper
@@ -38,7 +39,7 @@ import nl.joery.animatedbottombar.AnimatedBottomBar
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
+class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,FragmentChats.EventListener {
     val TAG = "FragmentMainViewPager"
     private var _binding: FragmentMainViewPagerBinding? = null
     val binding get() = _binding!!
@@ -46,12 +47,10 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     private lateinit var mainViewPager: MainViewPagerAdapter
     private lateinit var dataStoreHelper: DataStoreHelper
     private lateinit var dataStore: DataStore<androidx.datastore.preferences.core.Preferences>
-    private lateinit var fragmentSettings: FragmentSettings
+    private val sharedViewModel:SharedViewModel by activityViewModels()
     private val args: FragmentMainViewPagerArgs by navArgs()
-
     @Inject
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,6 +83,25 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
         //Retrieve data
         subscribersObserve()
 
+        binding.mainViewPager.registerOnPageChangeCallback(object:
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when(position){
+                    1->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.drawable.custom_chats_bg)
+                    2->bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_dark_mode)
+                    else->{
+                        bottomBar.background = ContextCompat.getDrawable(requireContext(),R.color.background_light_mode)
+                    }
+                }
+                super.onPageSelected(position)
+            }
+
+        })
+
+        sharedViewModel.getPositionMainViewPager().observe(viewLifecycleOwner){
+            bottomBar.selectTabAt(it,true)
+            binding.mainViewPager.setCurrentItem(it,true)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -99,15 +117,16 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
             override fun handleOnBackPressed() {
                 UiHelper.triggerBottomAlertDialog(
                     requireActivity(),
-                    "Exit",
-                    "Do you want exit app ?",
-                    "OK",
-                    "NO",
-                    isDarkMode
-                ) { dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                    requireActivity().finish()
-                }
+                    "Thoát ?",
+                    "Bạn muốn thoát ứng dụng ?",
+                    "Có",
+                    "Không",
+                    isDarkMode,
+                    { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                        requireActivity().finish()
+                    }
+                )
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
@@ -159,10 +178,9 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     private fun makeListFragment(): List<Fragment> {
-        fragmentSettings = FragmentSettings(this)
         return listOf(
-            fragmentSettings,
-            FragmentChats(),
+            FragmentSettings(this),
+            FragmentChats(this),
             FragmentLoves()
         )
     }
@@ -176,6 +194,7 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     }
 
     override fun onCardLogoutClickListener() {
+        sharedPreferencesHelper.saveIsLogin(false)
         requireActivity().finish()
     }
 
@@ -190,6 +209,26 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener {
     override fun onCardNotificationMatchClickListener() {
         findNavController().navigate(
             FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentNotificationMatch()
+        )
+    }
+
+    override fun onCardAboutsUsClickListener() {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentAbousUs()
+        )
+    }
+
+    override fun onCardHelpClickListener() {
+        if (getIdUser().isNotEmpty()) findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentCoins(
+                getIdUser()
+            )
+        )
+    }
+
+    override fun onCardChatClickListener(user: UserProfile) {
+        findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentInbox(user)
         )
     }
 }

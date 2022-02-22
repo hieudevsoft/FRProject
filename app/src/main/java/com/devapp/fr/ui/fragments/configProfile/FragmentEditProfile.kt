@@ -1,5 +1,6 @@
 package com.devapp.fr.ui.fragments.configProfile
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,13 +13,25 @@ import androidx.navigation.fragment.navArgs
 import com.devapp.fr.R
 import com.devapp.fr.adapters.InformationAdapter
 import com.devapp.fr.app.BaseFragment
+import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.data.models.items.InformationItem
 import com.devapp.fr.databinding.FragmentEditProfileBinding
+import com.devapp.fr.ui.fragments.quiz.FragmentQuiz
+import com.devapp.fr.ui.fragments.quiz.FragmentQuizDirections
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.SexualityBottomDialogFragment
 import com.devapp.fr.util.DataHelper
+import com.devapp.fr.util.DataHelper.getListCertificate
+import com.devapp.fr.util.DataHelper.getListChild
+import com.devapp.fr.util.DataHelper.getListDrink
+import com.devapp.fr.util.DataHelper.getListGender
 import com.devapp.fr.util.DataHelper.getListItemInformation
+import com.devapp.fr.util.DataHelper.getListMaritalStatus
+import com.devapp.fr.util.DataHelper.getListPet
+import com.devapp.fr.util.DataHelper.getListReligion
 import com.devapp.fr.util.DataHelper.getListSexuality
+import com.devapp.fr.util.DataHelper.getListSmoke
+import com.devapp.fr.util.UiHelper.toGone
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.composeElementsSameClickEvent
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
@@ -27,7 +40,7 @@ import kotlinx.coroutines.flow.*
 import java.util.*
 
 @AndroidEntryPoint
-class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
+class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragment<FragmentEditProfileBinding>() {
     val TAG = "FragmentEditProfile"
     private lateinit var informationAdapter: InformationAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -40,13 +53,73 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
     private var currentPosPet = -1
     private var currentCertificate = -1
     private var currentPosReligion = -1
+    private var currentPosQuiz = -1
     private val args:FragmentEditProfileArgs by navArgs()
     override fun onSetupView() {
         setupRecyclerViewInformation()
-        handleEventElement()
-        subscriberObserver()
+        if(userProfile!=null){
+            informationAdapter.submitList(getListItemInformation())
+            binding.apply {
+                tvEditProfile.text = "Thông tin chi tiết"
+                root.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.background_dark_mode))
+                appBarLayout.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.background_dark_mode))
+                tvEditProfile.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                ViewCompat.setBackgroundTintList(btnBack, ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.white)))
+                val age = Calendar.getInstance().get(Calendar.YEAR)-userProfile.dob.split("/").last().toInt()+1
+                tvUsernameAge.text = "${userProfile.name}, $age"
+                val gender = if(userProfile.gender==0) "Nữ" else "Nam"
+                tvGenderAddress.text = "${gender}, ${userProfile.address}"
+                binding.tvDetailJob.apply {
+                    text = userProfile.job.ifEmpty { "Thêm công việc và học vấn" }
+                    setTextColor(ContextCompat.getColor(requireContext(), if(userProfile.job.isNotEmpty()) R.color.background_dark_mode else R.color.color_blue_500)  )
+                }
+                userProfile.purpose.also {
+                    if(it==-1){
+                        binding.tvDesPurpose.text = "Cho chúng tôi biết thêm về bạn..."
+                    } else binding.tvDesPurpose.text = getListSexuality()[it].text
+                    binding.tvDesPurpose.apply {
+                        setTextColor(ContextCompat.getColor(requireContext(), if(it!=-1) R.color.background_dark_mode else R.color.color_blue_500)  )
+                    }
+                }
+                lyHobby.toGone()
+                userProfile.bio.also {
+                    binding.tvDesYourself.apply {
+                        text = it.ifEmpty { "Cho chúng tôi biết thêm về bạn..." }
+                        setTextColor(ContextCompat.getColor(requireContext(), if(it.isNotEmpty()) R.color.background_dark_mode else R.color.color_blue_500)  )
+                    }
+                }
+                userProfile.additionInformation?.let {
+                    resetAdapterViewProfile(0,if(it.tall==-1) "" else it.tall.toString())
+                    resetAdapterViewProfile(1,if(it.child==-1) "" else getListChild()[it.child].text)
+                    resetAdapterViewProfile(2,if(it.drink==-1) "" else getListDrink()[it.drink].text)
+                    resetAdapterViewProfile(3,if(it.maritalStatus==-1) "" else getListMaritalStatus()[it.maritalStatus].text)
+                    resetAdapterViewProfile(4,if(it.trueGender==-1) "" else getListGender()[it.trueGender].text)
+                    resetAdapterViewProfile(5,if(it.smoking==-1) "" else getListSmoke()[it.smoking].text)
+                    resetAdapterViewProfile(6,if(it.pet==-1) "" else getListPet()[it.pet].text)
+                    resetAdapterViewProfile(7,if(it.religion==-1) "" else getListReligion()[it.religion].text)
+                    resetAdapterViewProfile(8,if(it.certificate==-1) "" else getListCertificate()[it.certificate].text)
+                }
+            }
+
+        } else{
+            handleEventElement()
+            subscriberObserver()
+        }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.apply {
+            btnBack.setOnClickWithAnimationListener {
+                if(userProfile==null)
+                findNavController().popBackStack() else activity?.supportFragmentManager?.popBackStack() }
+            nestedScrollView.setOnScrollChangeListener {
+                    _, _, scrollY, _, _ ->
+                sharedViewModel.currentNestedScrollPosition = scrollY
+            }
+        }
+
+        super.onViewCreated(view, savedInstanceState)
+    }
     private fun subscriberObserver() {
 
         sharedViewModel.getListItemInformation().observe(viewLifecycleOwner){
@@ -242,6 +315,23 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
         }
 
         launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedPersonality()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listPersonality = DataHelper.getListPersonality()
+                        val data = listPersonality[it]
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 9){
+                                resetAdapter(9,if(it==listPersonality.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
             sharedViewModel.getSharedFlowIntroduce()
                 .distinctUntilChanged()
                 .collectLatest {
@@ -293,10 +383,15 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                 }
         }
     }
-
     private fun resetAdapter(pos:Int, data:String){
         listTemp = sharedViewModel.getListItemInformation().value!!.toMutableList()
         listTemp[pos].content = data
+    }
+
+    private fun resetAdapterViewProfile(pos:Int, data:String){
+        listTemp = informationAdapter.differ.currentList
+        listTemp[pos].content = data
+        informationAdapter.submitList(listTemp)
     }
 
     private fun handleEventElement() {
@@ -346,6 +441,10 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
                     sharedViewModel.setPositionInformation(8)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentCertificate(true,currentCertificate))
                 }
+                9-> {
+                    sharedViewModel.setPositionInformation(9)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentQuiz())
+                }
             }
         }
         binding.apply {
@@ -356,48 +455,28 @@ class FragmentEditProfile : BaseFragment<FragmentEditProfileBinding>() {
             composeElementsSameClickEvent(icNextUserBasicInformation,lyBasicInformation){openFragmentBasicInformation()}
         }
     }
-
     private fun openBottomSexuality() {
         SexualityBottomDialogFragment().show(childFragmentManager,args.id)
     }
-
     private fun openFragmentBasicInformation() {
         findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentBasicInformation(args.id))
     }
-
     private fun openFragmentJob() {
         findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentUserJob(isSingleNavigate = true,id=args.id))
     }
-
     private fun openFragmentHobby() {
         findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentInterest(isSingleNavigate = true,id=args.id))
     }
-
     private fun openFragmentIntroduce() {
         findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentIntroduce(isSingleNavigate = true,id=args.id))
     }
-
     private fun setupRecyclerViewInformation() {
         informationAdapter = InformationAdapter()
         binding.rcInformation.adapter = informationAdapter
         binding.rcInformation.isNestedScrollingEnabled = false
 
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.apply {
-            btnBack.setOnClickWithAnimationListener { findNavController().popBackStack() }
-            nestedScrollView.setOnScrollChangeListener {
-                    _, _, scrollY, _, _ ->
-                sharedViewModel.currentNestedScrollPosition = scrollY
-            }
-        }
-
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onResume() {
-
         binding.nestedScrollView.apply {
             isSmoothScrollingEnabled = true
             startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL)

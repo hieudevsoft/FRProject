@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-    app:startDestination="@id/fragmentMainViewPager">
+
+
+    app:startDestination="@id/fragmentQuiz">
+
 
     <fragment
         tools:layout="@layout/fragment_main_view_pager"
@@ -14,6 +17,11 @@
             android:name="id"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_left"
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentCoins"
+            app:destination="@id/fragmentCoin" />
         <action
             app:enterAnim="@anim/anim_slide_in_right"
             app:exitAnim="@anim/anim_slide_out_left"
@@ -29,20 +37,22 @@
             app:destination="@id/fragmentNotificationMatch"
             app:enterAnim="@anim/anim_slide_in_left"
             app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentAbousUs"
+            app:destination="@id/fragmentAbousUs"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMainViewPager_to_fragmentInbox"
+            app:destination="@id/fragmentInbox"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_chats"
         android:id="@+id/fragmentChats"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentChats"
-        android:label="FragmentChats" >
-        <action
-            android:id="@+id/action_fragmentChats_to_fragmentInbox"
-            app:destination="@id/fragmentInbox"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_right"
-            app:popEnterAnim="@anim/anim_slide_in_right"
-            app:popExitAnim="@anim/anim_slide_out_left" />
-    </fragment>
+        android:label="FragmentChats" />
     <fragment
         tools:layout="@layout/fragment_settings"
         android:id="@+id/fragmentSettings"
@@ -55,7 +65,19 @@
         tools:layout="@layout/fragment_inbox"
         android:id="@+id/fragmentInbox"
         android:name="com.devapp.fr.ui.fragments.homes.FragmentInbox"
-        android:label="FragmentInbox" />
+        android:label="FragmentInbox" >
+
+        <argument
+            android:name="data"
+            app:argType="com.devapp.fr.data.entities.UserProfile"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentInbox_to_fragmentEditInbox"
+            app:destination="@id/fragmentEditInbox" />
+    </fragment>
     <fragment
         tools:layout="@layout/fragment_profile"
         android:id="@+id/fragmentProfile"
@@ -183,6 +205,11 @@
             app:popExitAnim="@anim/anim_slide_out_left"
             android:id="@+id/action_fragmentEditProfile_to_fragmentBasicInformation"
             app:destination="@id/fragmentBasicInformation" />
+        <action
+            android:id="@+id/action_fragmentEditProfile_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         app:enterAnim="@anim/anim_slide_in_left"
@@ -266,6 +293,28 @@
         <argument
             android:name="selected"
             android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentQuiz"
+        tools:layout="@layout/fragment_quiz"
+        android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuiz"
+        android:label="FragmentQuiz" >
+        <action
+            android:id="@+id/action_fragmentQuiz_pop"
+            app:popUpTo="@id/fragmentQuiz"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentQuiz_pop2"
+            app:popUpTo="@id/fragmentQuiz"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_fragmentQuiz_to_fragmentQuizResult"
+            app:destination="@id/fragmentQuizResult"
+            app:enterAnim="@animator/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/anim_slide_out_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -362,7 +411,6 @@
             app:argType="string" />
     </fragment>
     <fragment
-<<<<<<< HEAD
         android:id="@+id/fragmentWaitingAccept"
         android:name="com.devapp.fr.ui.fragments.others.FragmentWaitingAccept"
         android:label="fragment_waiting_accept"
@@ -374,10 +422,62 @@
         android:name="com.devapp.fr.ui.fragments.others.FragmentNotificationMatch"
         android:label="fragment_notification_match"
         tools:layout="@layout/fragment_notification_match" />
-        <fragment
-        android:id="@+id/fragmentViewOtherProfile"
-        android:name="com.devapp.fr.ui.fragments.FragmentViewOtherProfile"
-        android:label="FragmentViewOtherProfile" />
+
+
+    <fragment
+        tools:layout="@layout/fragment_quiz_result"
+        android:id="@+id/fragmentQuizResult"
+        android:name="com.devapp.fr.ui.fragments.quiz.FragmentQuizResult"
+        android:label="FragmentQuizResult" >
+        <argument
+            android:name="personality"
+            app:argType="string"
+            android:defaultValue="A"/>
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentQuizResult_to_fragmentQuiz"
+            app:destination="@id/fragmentQuiz" />
+
+        <action
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_right"
+            android:id="@+id/action_fragmentQuizResult_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentAbousUs"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentAbousUs"
+        android:label="fragment_abous_us"
+        tools:layout="@layout/fragment_abous_us" />
+
+    <fragment
+        android:id="@+id/fragmentCoin"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentCoin"
+        android:label="fragment_coin"
+        tools:layout="@layout/fragment_coin">
+        <argument
+            android:name="id"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEditInbox"
+        android:name="com.devapp.fr.ui.fragments.others.FragmentEditInbox"
+        android:label="fragment_edit_inbox"
+        tools:layout="@layout/fragment_edit_inbox" >
+
+        <argument
+            android:name="senderRoom"
+            app:argType="string"
+            android:defaultValue=""/>
+
+        <argument
+            android:name="receiverRoom"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 
 
 </navigation>

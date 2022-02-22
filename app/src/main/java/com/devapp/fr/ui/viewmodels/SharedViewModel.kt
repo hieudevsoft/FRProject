@@ -38,11 +38,29 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+
+
+    private val _positionMainViewPager:MutableLiveData<Int> = MutableLiveData()
+    fun getPositionMainViewPager():LiveData<Int> = _positionMainViewPager
+    fun setPositionMainViewPager(value:Int){
+        viewModelScope.launch {
+            _positionMainViewPager.postValue(value)
+        }
+    }
+
     private val _listItemInformation:MutableLiveData<List<InformationItem>> = MutableLiveData()
     fun getListItemInformation():LiveData<List<InformationItem>> = _listItemInformation
     fun setListItemInformation(value:List<InformationItem>){
         viewModelScope.launch {
             _listItemInformation.postValue(value)
+        }
+    }
+
+    private val _sharedFlowCoins:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedFlowCoins() = _sharedFlowCoins.asSharedFlow()
+    fun setSharedFlowCoins(value:Int){
+        viewModelScope.launch {
+            _sharedFlowCoins.emit(value)
         }
     }
 
@@ -142,6 +160,14 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedPersonality:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedPersonality() = _sharedPersonality.asSharedFlow()
+    fun setSharedPersonality(value :Int){
+        viewModelScope.launch {
+            _sharedPersonality.emit(value)
+        }
+    }
+
     private val _sharedFlowJob:MutableSharedFlow<String> = MutableSharedFlow(1)
     fun getSharedFlowJob() = _sharedFlowJob.asSharedFlow()
     fun setSharedFlowJob(value:String){
@@ -158,7 +184,7 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    private val _sharedFlowImage:MutableSharedFlow<List<String>> = MutableSharedFlow(1)
+    private val _sharedFlowImage:MutableSharedFlow<List<String>> = MutableSharedFlow(2)
     fun getSharedFlowImage() = _sharedFlowImage.asSharedFlow()
     fun setSharedFlowImage(value:List<String>){
         viewModelScope.launch {
@@ -179,6 +205,22 @@ class SharedViewModel @Inject constructor(
     fun setSharedFlowListUserMatch(list:List<UserProfile>){
         viewModelScope.launch {
             _sharedFlowListUserMatch.emit(list)
+        }
+    }
+
+    private val _sharedFlowListUserMatchByMe:MutableSharedFlow<List<UserProfile>> = MutableSharedFlow(1)
+    fun getSharedFlowListUserMatchByMe() = _sharedFlowListUserMatchByMe.asSharedFlow()
+    fun setSharedFlowListUserMatchByMe(list:List<UserProfile>){
+        viewModelScope.launch {
+            _sharedFlowListUserMatchByMe.emit(list)
+        }
+    }
+
+    private val _sharedFlowListImageInbox:MutableSharedFlow<List<String>> = MutableSharedFlow(1)
+    fun getSharedFlowListImageInbox() = _sharedFlowListImageInbox.asSharedFlow()
+    fun setSharedFlowListImageInBox(list:List<String>){
+        viewModelScope.launch {
+            _sharedFlowListImageInbox.emit(list)
         }
     }
 

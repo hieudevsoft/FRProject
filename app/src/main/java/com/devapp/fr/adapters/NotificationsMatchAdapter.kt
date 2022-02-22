@@ -64,7 +64,7 @@ class NotificationsMatchAdapter(
 
 
             root.setOnClickWithAnimationListener { view->
-                onRootClickListener?.let { it(view,item) }
+                onRootClickListener?.let { it(imgAvatarProfile,item) }
             }
 
 

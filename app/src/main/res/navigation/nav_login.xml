@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_login"
-    app:startDestination="@id/fragmentSplash">
+    app:startDestination="@id/fragmentSplash"
+    >
     <fragment
         tools:layout="@layout/fragment_splash"
         android:id="@+id/fragmentSplash"

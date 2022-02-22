@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/MEDIUM_SPACE"
                     android:fontFamily="@font/varelaround_regular"
-                    android:text="Giới tính của bạn là gì?"
+                    android:text="Xu hướng giới tính của bạn là gì?"
                     android:textColor="@color/black"
                     android:textSize="@dimen/TEXT_SIZE_MEDIUM"
                     app:layout_constraintEnd_toEndOf="parent"

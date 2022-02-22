@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/color_white_500"
+    app:cardCornerRadius="@dimen/MEDIUM_RADIUS"
+    app:cardUseCompatPadding="true">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/LAYOUT_PADDING">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_avatar2"
+            app:shapeAppearance="@style/customRoundedImageView"
+            app:shapeAppearanceOverlay="@style/customRoundedImageView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_name_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="..."
+            android:textColor="@color/black"
+            android:textSize="@dimen/TEXT_SIZE_NORMAL" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_gender_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="..."
+            android:textSize="@dimen/TEXT_SIZE_SMALL" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="..." />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_message_new"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardElevation="@dimen/_2sdp"
+            app:cardUseCompatPadding="true">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_number_not_seen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nunito_extra_bold"
+                android:text=""
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_tv_last_time"
+            app:cardBackgroundColor="@color/background_dark_mode"
+            app:cardUseCompatPadding="true">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_last_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="-1"
+                android:padding="@dimen/PADDING_SMALL"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_time_last_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:marqueeRepeatLimit="-1"
+                android:paddingHorizontal="@dimen/PADDING_SMALLEST"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/background_dark_mode"
+                android:visibility="gone" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

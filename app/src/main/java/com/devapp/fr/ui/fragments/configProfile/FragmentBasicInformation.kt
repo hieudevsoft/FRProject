@@ -11,7 +11,7 @@ import com.devapp.fr.databinding.FragmentBasicInformationBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.enableOrNot
 import com.devapp.fr.util.UiHelper.showSnackbar
 import com.devapp.fr.util.UiHelper.toGone
@@ -20,6 +20,7 @@ import com.devapp.fr.util.extensions.convertLongToDateVn
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -27,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>() {
@@ -34,10 +36,12 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
     private lateinit var hashMap: HashMap<Int,Any>
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel:AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+
     private val args:FragmentBasicInformationArgs by navArgs()
+    @Inject
+    lateinit var prefs:SharedPreferencesHelper
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         statusBtnDone()
         setDataForFields()
         subscribeObserver()
@@ -54,7 +58,7 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
                     0 to binding.edtName.text.toString().trim(),
                     1 to binding.edtDob.text.toString().trim(),
                     2 to binding.edtAddress.text.toString().trim(),
-                    3 to if(binding.male.isCheckable) 1 else 0
+                    3 to if(binding.male.isChecked) 1 else 0
                 )
                 authAndProfileViewModel.updateBasicInformation(args.id,hashMap)
             }
@@ -110,13 +114,14 @@ class FragmentBasicInformation : BaseFragment<FragmentBasicInformationBinding>()
             authAndProfileViewModel.stateBasicInformation.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
                         sharedViewModel.setSharedFlowBasicInformation(hashMap)
                         showToast("Cập nhật thành công ~")
+                        binding.root.showSnackbar("Chạy lại ứng dụng để cập nhật danh sách kết đôi nhé ~")
                         findNavController().popBackStack()
                     }
 

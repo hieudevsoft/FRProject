@@ -28,7 +28,6 @@ open class SexualityBottomDialogFragment :BottomSheetDialogFragment() {
     val TAG = "SexualityBottomDialogFragment"
     private lateinit var radioAdapter: RadioAdapter
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
     private val sharedViewModel:SharedViewModel by activityViewModels()
 
     private var currentPostion = -1
@@ -46,7 +45,7 @@ open class SexualityBottomDialogFragment :BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         val binding = getView()?.let { LayoutDialogSexualityBinding.bind(it) }
         radioAdapter = RadioAdapter { index, _ ->
@@ -82,11 +81,9 @@ open class SexualityBottomDialogFragment :BottomSheetDialogFragment() {
             authAndProfileViewModel.stateFieldName.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
                         sharedViewModel.setSharedFlowSexuality(currentPostion)
                         showToast("Cập nhật thành công ~")
                     }

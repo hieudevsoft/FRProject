@@ -3,7 +3,7 @@ buildscript {
 
     //Define version for libs
     ext {
-        safe_arg_sersion = "2.4.0-beta02"
+        safe_arg_sersion = "2.5.0-alpha01"
         dagger_hilt_version = "2.38.1"
         gps_version = "1.1.1"
         room_version = "2.3.0"
@@ -21,23 +21,30 @@ buildscript {
         easy_permission_version = "3.0.0"
         support_dimens_version = "1.0.6"
         circle_image_version = "3.1.0"
-        bottom_bar_version="1.1.0"
-        data_store_version="1.0.0"
-        theme_manager="1.1.4"
-        dot_loading_version="1.0.1"
-        wave_layout="1.0.3"
-        animator_version="4.0.2"
+        bottom_bar_version = "1.1.0"
+        data_store_version = "1.0.0"
+        theme_manager = "1.1.4"
+        dot_loading_version = "1.0.1"
+        wave_layout = "1.0.3"
+        animator_version = "4.0.2"
     }
 
     repositories {
         google()
         mavenCentral()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
+        maven {
+            url 'https://www.jitpack.io'
+        }
+        maven {
+            url 'https://github.com/jitsi/jitsi-maven-repository/raw/master/releases'
+        }
     }
     dependencies {
+
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safe_arg_sersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
         classpath 'com.google.gms:google-services:4.3.10'

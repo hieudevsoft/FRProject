@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.devapp.fr.data.entities.AdditionInformation
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.di.IoDispatcher
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.auth.User
@@ -321,10 +322,9 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     }
                     value?.let {
                         listUserResult.clear()
-                        if(it.data!=null)
+                        if(it.data!=null&&it.data!!.isNotEmpty())
                         it.data!!.forEach { (_, any) ->
                             val id = any.toString()
-                            Log.d("TAG", "getAllUserWaitingAcceptById: $id")
                             val queriesSnapshot =
                                 collectionUserProfile
                                     .whereEqualTo("id", id)
@@ -361,10 +361,10 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     error?.let {
                         return@addSnapshotListener
                     }
-                    if(value!=null)
-                        value.let {
+                        value?.let {
                             listUserResult.clear()
-                            it.data?.forEach { (_, any) ->
+                            if(it.data==null || it.data!!.isEmpty()) snapshotCallBack(emptyList())
+                             else it.data?.forEach { (_, any) ->
                                 val id = any.toString()
                                 val queriesSnapshot =
                                     collectionUserProfile
@@ -379,7 +379,7 @@ class FireStoreService @Inject constructor(private val context: Context) {
                                 }
 
                             }
-                        } else snapshotCallBack(emptyList())
+                        }
 
                 }
             } catch (e: Exception) {
@@ -463,4 +463,47 @@ class FireStoreService @Inject constructor(private val context: Context) {
         }
         return res
     }
+
+    suspend fun getAllUserMatchesMe(
+        ownerId:String,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO,
+        snapshotCallBack:(List<UserProfile>)->Unit
+    ) {
+        val collectionMatches = Firebase.firestore.collection("matches").document(ownerId)
+        val collectionUserProfile = Firebase.firestore.collection("profiles")
+        withContext(dispatcher) {
+            try {
+                val listUserResult = mutableListOf<UserProfile>()
+                collectionMatches.addSnapshotListener { value, error ->
+                    error?.let {
+                        return@addSnapshotListener
+                    }
+                    value?.let {
+                        listUserResult.clear()
+                        if(it.data==null || it.data!!.isEmpty()) snapshotCallBack(emptyList())
+                        else it.data?.forEach { (_, any) ->
+                            val id = any.toString()
+                            val queriesSnapshot =
+                                collectionUserProfile
+                                    .whereEqualTo("id", id)
+                                    .get()
+                            queriesSnapshot.addOnCompleteListener {task->
+                                if(task.isSuccessful){
+                                    task.result.documents[0].toObject(UserProfile::class.java)
+                                        ?.let { listUserResult.add(it) }
+                                    snapshotCallBack(listUserResult.toList())
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show() }
+            }
+        }
+    }
+
+
 }

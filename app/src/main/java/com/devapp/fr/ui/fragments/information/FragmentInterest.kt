@@ -11,39 +11,47 @@ import com.devapp.fr.R
 import com.devapp.fr.adapters.InterestAdapter
 import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.models.items.InterestItem
+import com.devapp.fr.data.models.items.SlideItem
 import com.devapp.fr.databinding.FragmentInterestBinding
 import com.devapp.fr.network.ResourceRemote
 import com.devapp.fr.ui.viewmodels.AuthAndProfileViewModel
 import com.devapp.fr.ui.viewmodels.SharedViewModel
-import com.devapp.fr.ui.widgets.CustomDialog
+import com.devapp.fr.ui.widgets.LoadingDialog
 import com.devapp.fr.util.UiHelper.toVisible
 import com.devapp.fr.util.animations.AnimationHelper.setOnClickWithAnimationListener
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenResumed
 import com.devapp.fr.util.extensions.launchRepeatOnLifeCycleWhenStarted
 import com.devapp.fr.util.extensions.showToast
+import com.devapp.fr.util.storages.SharedPreferencesHelper
 import com.google.android.flexbox.*
+import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     val TAG = "FragmentInterest"
     private lateinit var interestAdapter: InterestAdapter
     private val args:FragmentInterestArgs by navArgs()
     private val sharedViewModel:SharedViewModel by activityViewModels()
     private val authAndProfileViewModel: AuthAndProfileViewModel by activityViewModels()
-    private lateinit var dialogLoading: CustomDialog
+    @Inject
+    lateinit var pref:SharedPreferencesHelper
+
     override fun onSetupView() {
-        dialogLoading = CustomDialog(R.layout.dialog_loading)
+
         subscribeObserver()
         val flexLayoutManager = FlexboxLayoutManager(requireContext(),FlexDirection.ROW,FlexWrap.WRAP)
-        flexLayoutManager.justifyContent = JustifyContent.SPACE_BETWEEN
+        flexLayoutManager.justifyContent = JustifyContent.CENTER
         flexLayoutManager.alignItems = AlignItems.CENTER
         interestAdapter = InterestAdapter()
         binding.rcvInterest.apply {
             layoutManager = flexLayoutManager
-            itemAnimator = null
+            itemAnimator = SlideInLeftAnimator()
             adapter = interestAdapter
         }
         interestAdapter.submitList(getListInterest())
@@ -51,9 +59,10 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
             sharedViewModel.getSharedFlowInterest()
                 .distinctUntilChanged()
                 .collectLatest {
+                    Log.d(TAG, "onSetupView: $it")
                     if(it.isNotEmpty()){
                         it.forEach { pos->
-                            interestAdapter.notifyItemChanged(pos)
+                            interestAdapter.setItemSelected(pos)
                         }
                     }
                 }
@@ -63,6 +72,7 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if(args.isSingleNavigate) binding.ibBack.toVisible()
         binding.ibBack.setOnClickWithAnimationListener {
+            Log.d(TAG, "onViewCreated: ${getListInterestSelected()}")
             authAndProfileViewModel.updateByFiledName(args.id,"interests",getListInterestSelected())
         }
         super.onViewCreated(view, savedInstanceState)
@@ -87,18 +97,19 @@ class FragmentInterest : BaseFragment<FragmentInterestBinding>() {
         return result.toList()
     }
 
-    fun getListInterestSelected() = interestAdapter.listIndexSelected.sorted()
+    private fun getListInterestSelected() = interestAdapter.listIndexSelected.sorted()
 
     private fun subscribeObserver() {
         launchRepeatOnLifeCycleWhenStarted {
             authAndProfileViewModel.stateFieldName.collect {
                 when (it) {
                     is ResourceRemote.Loading -> {
-                        dialogLoading.show(childFragmentManager,dialogLoading.tag)
+                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success -> {
-                        dialogLoading.dismiss()
+                        loadingDialog.dismiss()
+                        pref.saveInterest(getListInterestSelected().joinToString("&"))
                         sharedViewModel.setSharedFlowInterest(getListInterestSelected())
                         showToast("Cập nhật thành công ~")
                         findNavController().popBackStack()

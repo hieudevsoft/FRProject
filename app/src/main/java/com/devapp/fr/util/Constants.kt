@@ -20,6 +20,7 @@ object Constants {
     const val KEY_IS_REGISTER = "key_is_register"
     const val KEY_PROCESS_REGISTER = "key_process_register"
     const val KEY_ID_LOGIN = "key_id_logim"
+    const val KEY_INTEREST = "key_intrest"
 
     //Type Message
     const val TEXT_FROM_ME=0
@@ -31,7 +32,7 @@ object Constants {
 
     //Request code
     const val RC_MEDIA = 100
-    const val RC_AUDIO = 100
+    const val RC_AUDIO = 101
 
     //Other constant
     const val DEFAULT_DELAY_STATUS = 500

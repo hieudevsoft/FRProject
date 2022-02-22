@@ -33,6 +33,7 @@ object PermissionHelper {
         return EasyPermissions.hasPermissions(
             context,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO,
         )
     }
@@ -43,6 +44,7 @@ object PermissionHelper {
             "Bạn phải thông qua những quyền này để thực hiện~",
             RC_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO
         )
     }

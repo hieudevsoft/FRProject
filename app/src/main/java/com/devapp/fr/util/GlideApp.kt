@@ -15,7 +15,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(fragment).load(uri).apply(option).into(imageView)
@@ -25,7 +25,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(fragment).load(uri).apply(option).into(imageView)
@@ -36,7 +36,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(fragment).load(uri).apply(option).into(imageView)
@@ -46,7 +46,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(activity).load(uri).apply(option).into(imageView)
@@ -56,7 +56,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(activity).load(uri).apply(option).into(imageView)
@@ -67,7 +67,7 @@ object GlideApp {
         imageView.context
         val option = RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL).centerCrop()
             .error(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.ic_react_wow)
+            .placeholder(R.drawable.ic_food)
             .skipMemoryCache(false)
 
         Glide.with(activity).load(uri).apply(option).into(imageView)
