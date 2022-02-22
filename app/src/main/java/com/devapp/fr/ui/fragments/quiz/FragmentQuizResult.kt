@@ -125,49 +125,49 @@ class FragmentQuizResult : BaseFragment<FragmentQuizResultBinding> () {
             binding.imgPersonality.setAnimation(R.raw.campaigner)
             binding.txDescription.text = getString(R.string.campaigner)
         }
-        else if (persona == "ISTJ-A"|| persona == "ISTJ-T") {
+        else if (persona == "IOTJ-A"|| persona == "IOTJ-T") {
             binding.txPersonalityType.text = "Logistician"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.logistician)
             binding.txDescription.text = getString(R.string.logistician)
         }
-        else if (persona == "ISFJ-A"|| persona == "ISFJ-T") {
+        else if (persona == "IOFJ-A"|| persona == "IOFJ-T") {
             binding.txPersonalityType.text = "Defender"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.defender)
             binding.txDescription.text = getString(R.string.logistician)
         }
-        else if (persona == "ESTJ-A"|| persona == "ESTJ-T") {
+        else if (persona == "EOTJ-A"|| persona == "EOTJ-T") {
             binding.txPersonalityType.text = "Executive"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.executive)
             binding.txDescription.text = getString(R.string.executive)
         }
-        else if (persona == "ESFJ-A"|| persona == "ESFJ-T") {
+        else if (persona == "EOFJ-A"|| persona == "EOFJ-T") {
             binding.txPersonalityType.text = "Consul"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.consul)
             binding.txDescription.text = getString(R.string.consul)
         }
-        else if (persona == "ISTP-A"|| persona == "ISTP-T") {
+        else if (persona == "IOTP-A"|| persona == "IOTP-T") {
             binding.txPersonalityType.text = "Virtuoso"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.virtuoso)
             binding.txDescription.text = getString(R.string.virtuoso)
         }
-        else if (persona == "ISFP-A"|| persona == "ISFP-T") {
+        else if (persona == "IOFP-A"|| persona == "IOFP-T") {
             binding.txPersonalityType.text = "Adventurer"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.adventurer)
             binding.txDescription.text = getString(R.string.adventurer)
         }
-        else if (persona == "ESTP-A"|| persona == "ESTP-T") {
+        else if (persona == "EOTP-A"|| persona == "EOTP-T") {
             binding.txPersonalityType.text = "Entrepreneur  "
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.entrepreneur)
             binding.txDescription.text = getString(R.string.entrepreneur)
         }
-        else if (persona == "ESFP-A"|| persona == "ESFP-T") {
+        else if (persona == "EOFP-A"|| persona == "EOFP-T") {
             binding.txPersonalityType.text = "Entertainer"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.entertainer)
