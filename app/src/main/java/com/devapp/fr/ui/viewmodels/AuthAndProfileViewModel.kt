@@ -188,4 +188,16 @@ class AuthAndProfileViewModel @Inject constructor(
             _stateAcceptOrCancel.value = fireStoreService.acceptOrCancelInviteMatch(partnerId,ownerId,isAccept)
         }
     }
+
+    private val _sateGetAllProfileSwipePersonality:MutableStateFlow<ResourceRemote<List<UserProfile>>> = MutableStateFlow(ResourceRemote.Idle)
+    val sateGetAllProfileSwipePersonality:StateFlow<ResourceRemote<List<UserProfile>>> = _sateGetAllProfileSwipePersonality
+    fun resetSateGetAllProfileSwipePersonality() {
+        _sateGetAllProfileSwipePersonality.value = ResourceRemote.Idle
+    }
+    fun getAllProfileSwipePersonality(ids:List<String>,personality:Int,limit:Long){
+        _sateGetAllProfileSwipePersonality.value = ResourceRemote.Loading
+        viewModelScope.launch(defaultDispatcher) {
+            _sateGetAllProfileSwipePersonality.value = fireStoreService.getAllUserProfileByPersonality(ids,personality,limit)
+        }
+    }
 }

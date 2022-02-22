@@ -224,4 +224,12 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedFlowListIds:MutableSharedFlow<List<String>> = MutableSharedFlow(1)
+    fun getSharedFlowListIds() = _sharedFlowListIds.asSharedFlow()
+    fun setSharedFlowListIds(list:List<String>){
+        viewModelScope.launch {
+            _sharedFlowListIds.emit(list)
+        }
+    }
+
 }
