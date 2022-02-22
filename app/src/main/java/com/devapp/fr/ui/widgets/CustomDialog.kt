@@ -33,5 +33,11 @@ class LoadingDialog(private val activity:Activity) {
         win?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(activity,android.R.color.transparent)))
 
     }
-    fun dismiss() = dialog.dismiss()
+    fun dismiss(){
+        try {
+            dialog.dismiss()
+        }catch (e:Exception){
+
+        }
+    }
 }

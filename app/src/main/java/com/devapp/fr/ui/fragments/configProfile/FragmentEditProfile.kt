@@ -16,6 +16,8 @@ import com.devapp.fr.app.BaseFragment
 import com.devapp.fr.data.entities.UserProfile
 import com.devapp.fr.data.models.items.InformationItem
 import com.devapp.fr.databinding.FragmentEditProfileBinding
+import com.devapp.fr.ui.fragments.quiz.FragmentQuiz
+import com.devapp.fr.ui.fragments.quiz.FragmentQuizDirections
 import com.devapp.fr.ui.viewmodels.SharedViewModel
 import com.devapp.fr.ui.widgets.SexualityBottomDialogFragment
 import com.devapp.fr.util.DataHelper
@@ -51,6 +53,7 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
     private var currentPosPet = -1
     private var currentCertificate = -1
     private var currentPosReligion = -1
+    private var currentPosQuiz = -1
     private val args:FragmentEditProfileArgs by navArgs()
     override fun onSetupView() {
         setupRecyclerViewInformation()
@@ -312,6 +315,23 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
         }
 
         launchRepeatOnLifeCycleWhenStarted {
+            sharedViewModel.getSharedPersonality()
+                .distinctUntilChanged()
+                .collectLatest {
+                    if(it!=-1){
+                        val listPersonality = DataHelper.getListPersonality()
+                        val data = listPersonality[it]
+                        sharedViewModel.getPositionInformation().value?.let { pos ->
+                            if(pos == 9){
+                                resetAdapter(9,if(it==listPersonality.size-1) "" else data)
+                                sharedViewModel.setListItemInformation(listTemp)
+                            }
+                        }
+                    }
+                }
+        }
+
+        launchRepeatOnLifeCycleWhenStarted {
             sharedViewModel.getSharedFlowIntroduce()
                 .distinctUntilChanged()
                 .collectLatest {
@@ -420,6 +440,10 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
                 8-> {
                     sharedViewModel.setPositionInformation(8)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentCertificate(true,currentCertificate))
+                }
+                9-> {
+                    sharedViewModel.setPositionInformation(9)
+                    findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentQuiz())
                 }
             }
         }

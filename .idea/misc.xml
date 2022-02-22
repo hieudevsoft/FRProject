@@ -23,10 +23,13 @@
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/custom_chats_bg.xml" value="0.18697916666666667" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/custom_dot_online.xml" value="0.20260416666666667" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/custom_thumb.xml" value="0.1625" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_about_us.xml" value="0.125" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_chat.xml" value="0.15092592592592594" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_heart.xml" value="0.3651041666666667" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_logout.xml" value="0.125" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_person_add.xml" value="0.15092592592592594" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_personality.xml" value="0.15092592592592594" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_profile.xml" value="0.125" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_rewind.xml" value="0.32864583333333336" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/ic_speak_blue.xml" value="0.152" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/drawable/layout_card_hand_write.xml" value="0.125" />
@@ -40,6 +43,7 @@
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/dialog_loading.xml" value="0.13" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_abous_us.xml" value="0.2" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_chats.xml" value="0.22" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_coin.xml" value="0.25" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_full_screen_image.xml" value="0.1" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_inbox.xml" value="0.25" />
@@ -47,7 +51,9 @@
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_loves.xml" value="0.18" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_other_profile.xml" value="0.3489583333333333" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_profile.xml" value="0.14" />
-        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_quiz.xml" value="0.25" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_quiz_result.xml" value="0.2" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/fragment_view_profile.xml" value="0.14" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_card_visit.xml" value="0.1" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_chat_partner.xml" value="0.1408514492753623" />
@@ -57,12 +63,15 @@
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_online_chat.xml" value="0.75" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_tag_hobby.xml" value="0.25" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_tag_interest.xml" value="0.5" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/item_waiting_accept.xml" value="0.14375" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/layout_bottom_sheet_view_profile.xml" value="0.15" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/layout_item_card.xml" value="0.22" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/layout_item_image_view_profile.xml" value="0.1" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/layout_spinning_game.xml" value="0.2" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/ly_card_hand_write.xml" value="0.12" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/ly_suggest_word.xml" value="0.5" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/layout/ly_suggest_wrod.xml" value="0.15489130434782608" />
+        <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/menu/menu_tabs.xml" value="0.12135416666666667" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_circle.xml" value="0.1" />
         <entry key="..\:/DEVS/ANDROID_PROJECT/FRProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_square.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/custom_bg_edittext_login_error.xml" value="0.1814814814814815" />

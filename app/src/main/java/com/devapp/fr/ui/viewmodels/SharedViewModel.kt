@@ -38,6 +38,8 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+
+
     private val _positionMainViewPager:MutableLiveData<Int> = MutableLiveData()
     fun getPositionMainViewPager():LiveData<Int> = _positionMainViewPager
     fun setPositionMainViewPager(value:Int){
@@ -51,6 +53,14 @@ class SharedViewModel @Inject constructor(
     fun setListItemInformation(value:List<InformationItem>){
         viewModelScope.launch {
             _listItemInformation.postValue(value)
+        }
+    }
+
+    private val _sharedFlowCoins:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedFlowCoins() = _sharedFlowCoins.asSharedFlow()
+    fun setSharedFlowCoins(value:Int){
+        viewModelScope.launch {
+            _sharedFlowCoins.emit(value)
         }
     }
 
@@ -150,6 +160,14 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private val _sharedPersonality:MutableSharedFlow<Int> = MutableSharedFlow(1)
+    fun getSharedPersonality() = _sharedPersonality.asSharedFlow()
+    fun setSharedPersonality(value :Int){
+        viewModelScope.launch {
+            _sharedPersonality.emit(value)
+        }
+    }
+
     private val _sharedFlowJob:MutableSharedFlow<String> = MutableSharedFlow(1)
     fun getSharedFlowJob() = _sharedFlowJob.asSharedFlow()
     fun setSharedFlowJob(value:String){
@@ -197,5 +215,7 @@ class SharedViewModel @Inject constructor(
             _sharedFlowListUserMatchByMe.emit(list)
         }
     }
+
+
 
 }

@@ -219,7 +219,11 @@ class FragmentMainViewPager : ThemeFragment(), FragmentSettings.EventListener,Fr
     }
 
     override fun onCardHelpClickListener() {
-
+        if (getIdUser().isNotEmpty()) findNavController().navigate(
+            FragmentMainViewPagerDirections.actionFragmentMainViewPagerToFragmentCoins(
+                getIdUser()
+            )
+        )
     }
 
     override fun onCardChatClickListener(user: UserProfile) {

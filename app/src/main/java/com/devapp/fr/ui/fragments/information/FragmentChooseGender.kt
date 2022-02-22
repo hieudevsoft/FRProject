@@ -85,7 +85,6 @@ class FragmentChooseGender : BaseFragment<FragmentChooseGenderBinding>() {
 
                     }
                 }
-
             }
         }
     }

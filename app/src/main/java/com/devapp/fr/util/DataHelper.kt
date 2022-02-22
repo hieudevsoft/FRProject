@@ -104,5 +104,23 @@ internal object DataHelper {
         RadioItem("Tìm mối quan hệ lâu dài"),
         RadioItem("Tôi không muốn nói"),
     )
+    internal fun getListPersonality() = listOf(
+        "Architect",
+        "Logician",
+        "Commander",
+        "Debater",
+        "Advocate",
+        "Mediator",
+        "Protagonist",
+        "Campaigner",
+        "Logistician",
+        "Defender",
+        "Executive",
+        "Consul",
+        "Virtuoso",
+        "Adventurer",
+        "Entrepreneur",
+        "Entertainer",
+    )
 
 }

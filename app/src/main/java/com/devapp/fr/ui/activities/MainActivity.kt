@@ -227,6 +227,7 @@ class MainActivity : ThemeActivity() {
                 )
             )
             sharedViewModel.setSharedFlowJob(data.job)
+            sharedViewModel.setSharedFlowCoins(data.coins)
             sharedViewModel.setSharedFlowSexuality(data.purpose)
             sharedViewModel.setSharedFlowInterest(data.interests ?: mutableListOf())
             data.interests?.let { it -> prefs.saveInterest(it.joinToString("&")) }
@@ -245,6 +246,7 @@ class MainActivity : ThemeActivity() {
                 sharedViewModel.setSharedFlowPet(it.pet + 1001)
                 sharedViewModel.setSharedFlowReligion(it.religion + 1001)
                 sharedViewModel.setSharedFlowCertificate(it.certificate + 1001)
+                sharedViewModel.setSharedPersonality(it.personality)
             }
         }
     }

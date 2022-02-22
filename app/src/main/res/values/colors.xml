@@ -46,6 +46,10 @@
     <color name="color_dark_800">#FF101010</color>
     <color name="color_dark_500">#1C1C1C</color>
     <color name="color_red_700">#d32f2f</color>
+    
+    <!--Circle button color-->
+    <color name="color_agree">#AB6363</color>
+    <color name="color_disagree">#277A94</color>
 
 
 </resources>
