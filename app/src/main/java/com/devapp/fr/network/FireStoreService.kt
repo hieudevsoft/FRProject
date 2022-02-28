@@ -481,20 +481,21 @@ class FireStoreService @Inject constructor(private val context: Context) {
                     value?.let {
                         listUserResult.clear()
                         if(it.data==null || it.data!!.isEmpty()) snapshotCallBack(emptyList())
-                        else it.data?.forEach { (_, any) ->
-                            val id = any.toString()
-                            val queriesSnapshot =
-                                collectionUserProfile
-                                    .whereEqualTo("id", id)
-                                    .get()
-                            queriesSnapshot.addOnCompleteListener {task->
-                                if(task.isSuccessful){
-                                    task.result.documents[0].toObject(UserProfile::class.java)
-                                        ?.let { listUserResult.add(it) }
-                                    snapshotCallBack(listUserResult.toList())
+                        else {
+                            it.data?.forEach { (_, any) ->
+                                val id = any.toString()
+                                val queriesSnapshot =
+                                    collectionUserProfile
+                                        .whereEqualTo("id", id)
+                                        .get()
+                                queriesSnapshot.addOnCompleteListener {task->
+                                    if(task.isSuccessful){
+                                        task.result.documents[0].toObject(UserProfile::class.java)
+                                            ?.let { listUserResult.add(it) }
+                                        snapshotCallBack(listUserResult.toList())
+                                    }
                                 }
                             }
-
                         }
                     }
 
@@ -505,5 +506,42 @@ class FireStoreService @Inject constructor(private val context: Context) {
         }
     }
 
+    suspend fun getAllUserProfileByPersonality(
+        ids: List<String>,
+        personality:Int,
+        limit: Long,
+        @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ): ResourceRemote<List<UserProfile>> {
+        val collection = Firebase.firestore.collection("profiles")
+        val res = withContext(dispatcher) {
+            try {
+                var queriesSnapshot: QuerySnapshot? = collection
+                    .limit(limit)
+                    .get()
+                    .await()
+
+                var listResult = mutableListOf<UserProfile>()
+                queriesSnapshot?.documents?.forEach {
+                    val item = it.toObject<UserProfile>()
+                    if (item != null) {
+                        if(!ids.contains(item.id) && item.additionInformation?.personality==personality)
+                            listResult.add(item)
+                    }
+                }
+                listResult.let {
+                    listResult.shuffle()
+                    if(listResult.size>=10) listResult = listResult.subList(0,9)
+                    ResourceRemote.Success(listResult)
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                ResourceRemote.Error(null, e.message)
+            }
+        }
+        return res
+    }
 
 }

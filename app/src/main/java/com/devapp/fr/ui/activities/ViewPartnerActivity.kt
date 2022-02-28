@@ -179,7 +179,7 @@ class ViewPartnerActivity : AppCompatActivity() {
             adapter = imageProfileImagesAdapter
             imageProfileImagesAdapter.submitList(user.images ?: emptyList())
             imageProfileImagesAdapter.setOnItemClickListener { view, s ->
-                sendImageToFullScreenImageActivity(view, s)
+                sendImageToFullScreenImageActivity(view)
             }
         }
     }

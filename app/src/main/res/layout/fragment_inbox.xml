@@ -173,18 +173,18 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@id/tool_bar"
         android:id="@+id/nestedScrollView"
-        android:paddingStart="@dimen/MEDIUM_SPACE"
-        android:paddingEnd="@dimen/MEDIUM_SPACE"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="?attr/actionBarSize"
-         />
+        android:layout_below="@id/tool_bar"
+        android:paddingStart="@dimen/MEDIUM_SPACE"
+        android:paddingEnd="@dimen/MEDIUM_SPACE">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_60sdp" />
     </androidx.core.widget.NestedScrollView>
 
 

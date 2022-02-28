@@ -75,7 +75,7 @@ class FragmentProfile : BaseFragment<FragmentProfileBinding>(), EasyPermissions.
     private fun setupProfileImageAdapter() {
         profileImageAdapter = ProfileImagesAdapter(this).apply {
             setOnItemClickListener { view, s ->
-                requireActivity().sendImageToFullScreenImageActivity(view, s)
+                requireActivity().sendImageToFullScreenImageActivity(view)
             }
             setOnLogItemClickListener { view, s,pos ->
                 currentPos = pos

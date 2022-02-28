@@ -182,19 +182,17 @@ class MainActivity : ThemeActivity() {
                                     sharedViewModel.setSharedFlowListUserMatch(listWaitingMatch)
                                     authViewModel.getAllUserMatch(it.data!!.id) {
                                         sharedViewModel.setSharedFlowListUserMatchByMe(it)
-                                        val listIdsWaitingAccept =
-                                            listWaitingAccept.map { it.id }.toMutableList()
-                                                .also { it.add(prefs.readIdUserLogin().toString()) }
-                                        val listIdsUserMatch =
-                                            listWaitingMatch.map { it.id }.toMutableList()
+                                        val listIdsWaitingAccept = listWaitingAccept.map { it.id }.toMutableList()
+                                        listIdsWaitingAccept.add(prefs.readIdUserLogin().toString())
+                                        Log.d(TAG, "subscribeObserver waiting accept: $listIdsWaitingAccept")
+                                        val listIdsUserMatch = listWaitingMatch.map { it.id }.toMutableList()
+                                        Log.d(TAG, "subscribeObserver idsUsermatch: $listIdsUserMatch")
                                         val listIdsAlreadyMatch = it.map { it.id }.toMutableList()
+                                        Log.d(TAG, "subscribeObserver already match: $listIdsAlreadyMatch")
                                         listIdsUserMatch.addAll(listIdsAlreadyMatch)
                                         listIdsWaitingAccept.addAll(listIdsUserMatch)
-                                        authViewModel.getAllProfileSwipe(
-                                            listIdsWaitingAccept,
-                                            user!!.gender,
-                                            Constants.LIMIT_REQUEST_SWIPE
-                                        )
+                                        Log.d(TAG, "subscribeObserver already done: $listIdsWaitingAccept")
+                                        sharedViewModel.setSharedFlowListIds(listIdsWaitingAccept)
                                     }
 
                                 }

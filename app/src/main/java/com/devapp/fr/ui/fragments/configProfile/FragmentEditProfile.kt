@@ -321,12 +321,8 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
                     if(it!=-1){
                         val listPersonality = DataHelper.getListPersonality()
                         val data = listPersonality[it]
-                        sharedViewModel.getPositionInformation().value?.let { pos ->
-                            if(pos == 9){
-                                resetAdapter(9,if(it==listPersonality.size-1) "" else data)
-                                sharedViewModel.setListItemInformation(listTemp)
-                            }
-                        }
+                        resetAdapter(9,if(it==listPersonality.size-1) "" else data)
+                        sharedViewModel.setListItemInformation(listTemp)
                     }
                 }
         }
@@ -441,6 +437,7 @@ class FragmentEditProfile(private val userProfile:UserProfile?=null): BaseFragme
                     sharedViewModel.setPositionInformation(8)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentCertificate(true,currentCertificate))
                 }
+
                 9-> {
                     sharedViewModel.setPositionInformation(9)
                     findNavController().navigate(FragmentEditProfileDirections.actionFragmentEditProfileToFragmentQuiz())

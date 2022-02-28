@@ -104,14 +104,15 @@ class FragmentCoin : BaseFragment<FragmentCoinBinding>(),Animation.AnimationList
                 fillAfter = true
                 setAnimationListener(this@FragmentCoin)
         }
-        coinsResult = coins[endDegrees%degreesPerSize]
+        coinsResult = coins[endDegrees/degreesPerSize]
         binding.includeSpinner.imageWheel.startAnimation(rotateAnimation)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         userProfile = (requireActivity() as MainActivity).getUser()
-        launchRepeatOnLifeCycleWhenResumed {
-            sharedViewModel.getSharedFlowCoins().distinctUntilChanged()
+        launchRepeatOnLifeCycleWhenCreated {
+            sharedViewModel.getSharedFlowCoins()
+                .distinctUntilChanged()
                 .collect {
                     binding.tvCoins.text ="$it coins"
                     currentCoins = it
@@ -146,6 +147,7 @@ class FragmentCoin : BaseFragment<FragmentCoinBinding>(),Animation.AnimationList
                         loadingDialog.dismiss()
                         count+=1
                         sharedViewModel.setSharedFlowCoins(currentCoins+coinsResult)
+                        if(coinsResult!=0)
                         binding.root.showSnackbar("Bạn nhận được $coinsResult coins")
                     }
 
