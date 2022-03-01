@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <targetSelectedWithDropDown>
+    <multipleDevicesSelectedInDropDown value="true" />
+    <runningDeviceTargetsSelectedWithDialog>
       <Target>
-        <type value="QUICK_BOOT_TARGET" />
+        <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <value value="C:\Users\Kull\.android\avd\Pixel_4_XL_API_30.avd" />
-=======
-            <value value="$USER_HOME$/.android/avd/Pixel_3a_API_29.avd" />
->>>>>>> 77f422b2c4b78fee1232a141024fcad37b79a35c
-=======
-            <value value="$USER_HOME$/.android/avd/Pixel_XL_API_26.avd" />
->>>>>>> 4e472b3ca3c0c701e87e556bd99169f35f36ba72
+            <value value="C:\Users\Kull\.android\avd\Pixel_5_API_26.avd" />
           </Key>
         </deviceKey>
       </Target>
-    </targetSelectedWithDropDown>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <timeTargetWasSelectedWithDropDown value="2022-02-22T09:03:16.609483600Z" />
-=======
-    <timeTargetWasSelectedWithDropDown value="2022-02-22T07:43:59.244700Z" />
->>>>>>> 77f422b2c4b78fee1232a141024fcad37b79a35c
-=======
-    <timeTargetWasSelectedWithDropDown value="2022-02-22T09:38:07.133856Z" />
->>>>>>> 4e472b3ca3c0c701e87e556bd99169f35f36ba72
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\Kull\.android\avd\Pixel_4_XL_API_30.avd" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetsSelectedWithDialog>
   </component>
 </project>
