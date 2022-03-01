@@ -60,12 +60,12 @@ class FragmentQuizResult : BaseFragment<FragmentQuizResultBinding> () {
                     is ResourceRemote.Success -> {
                         loadingDialog.dismiss()
                         sharedViewModel.setSharedPersonality(currentPositionChoose)
-                        showToast("Cập nhật thành công ~")
+                        showToast("Cập nhật thành công ")
                         findNavController().navigate(FragmentQuizResultDirections.actionFragmentQuizResultToFragmentEditProfile())
                     }
 
                     is ResourceRemote.Error -> {
-                        showToast("Có lỗi xảy ra ~")
+                        showToast("Có lỗi xảy ra ")
                         findNavController().popBackStack()
                     }
                     else -> {
@@ -125,7 +125,7 @@ class FragmentQuizResult : BaseFragment<FragmentQuizResultBinding> () {
             binding.imgPersonality.setAnimation(R.raw.campaigner)
             binding.txDescription.text = getString(R.string.campaigner)
         }
-        else if (persona == "IOTJ-A"|| persona == "IOTJ-T") {
+        else if (persona == "IOTJ-A"|| persona == "ISTJ-T") {
             binding.txPersonalityType.text = "Logistician"
             binding.txPersona.text = persona
             binding.imgPersonality.setAnimation(R.raw.logistician)

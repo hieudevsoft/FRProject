@@ -1373,28 +1373,28 @@ class FragmentQuiz : BaseFragment<FragmentQuizBinding>() {
                     binding.txQuestion.text = "Xem kết quả"
                     binding.sharp.text = null
                     binding.txTotalquestion.text = null
-                    if (Introvert > Extravert){
+                    if (Introvert >= Extravert){
                         mChar1 = "I"
 
                     } else if (Extravert > Introvert)  {
                         mChar1 = "E"
                     }
-                    if (Intuitive > Observant) {
+                    if (Intuitive >= Observant) {
                         mChar2 = "N"
                     } else if (Observant > Intuitive) {
                         mChar2 = "O"
                     }
-                    if (Thinking > Feeling) {
+                    if (Thinking >= Feeling) {
                         mChar3 = "T"
                     } else if (Feeling > Thinking) {
                         mChar3 = "F"
                     }
-                    if (Judging > Prospecting) {
+                    if (Judging >= Prospecting) {
                         mChar4 = "J"
                     } else if (Prospecting > Judging) {
                         mChar4 = "P"
                     }
-                    if (Assertive > Turbulent) {
+                    if (Assertive >= Turbulent) {
                         mChar5 = "-A"
                     } else if (Turbulent > Assertive) {
                         mChar5 = "-T"
