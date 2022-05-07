@@ -185,11 +185,10 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
 
                     is ResourceRemote.Success->{
                         saveUserToFirebase()
-                        loadingDialog.dismiss()
                     }
 
                     is ResourceRemote.Error->{
-                        loadingDialog.dismiss()
+
                         Log.d(TAG, "subscriberObserver: ${it.message}")
                     }
 
@@ -207,17 +206,17 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
             authViewModel.stateAddUserProfile.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
-                        loadingDialog.show()
+
                     }
 
                     is ResourceRemote.Success->{
                         Log.d(TAG, "subscriberObserver: save successfully")
                         storageViewModel.downloadAllImagesById(idOfUser)
-                        loadingDialog.dismiss()
+
                     }
 
                     is ResourceRemote.Error->{
-                        loadingDialog.dismiss()
+
                         Log.d(TAG, "subscriberObserver: ${it.message}")
                     }
 
@@ -231,12 +230,10 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
             storageViewModel.stateDownloadAllImageById.collectLatest {
                 when(it){
                     is ResourceRemote.Loading->{
-                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success->{
                         authViewModel.updateImagesUserProfile(idOfUser,it.data)
-                        loadingDialog.dismiss()
                     }
 
                     is ResourceRemote.Error->{
@@ -257,16 +254,16 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
             authViewModel.stateUpdateImagesUserProfile.collect {
                 when(it){
                     is ResourceRemote.Loading->{
-                        loadingDialog.show()
                     }
 
                     is ResourceRemote.Success->{
                         Log.d(TAG, "subscriberObserver: update images successfully")
                         Handler(Looper.getMainLooper()).postDelayed({
+                            loadingDialog.dismiss()
                             findNavController().navigate(FragmentImageDirections.actionFragmentImageToFragmentTerms())
                             resetStateLocal()
                         },1000)
-                        loadingDialog.dismiss()
+
                     }
 
                     is ResourceRemote.Error->{
@@ -275,10 +272,12 @@ class FragmentImage : BaseFragment<FragmentImageBinding>(), EasyPermissions.Perm
                     }
 
                     is ResourceRemote.Empty->{
+                        loadingDialog.dismiss()
                         Log.d(TAG, "subscriberObserver: empty")
                     }
 
                     is ResourceRemote.Idle->{
+                        loadingDialog.dismiss()
 
                     }
                 }

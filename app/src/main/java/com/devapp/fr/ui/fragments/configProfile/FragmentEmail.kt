@@ -89,6 +89,7 @@ class FragmentEmail : BaseFragment<FragmentEmailBinding>() {
                     }
 
                     is ResourceRemote.Empty->{
+                        loadingDialog.dismiss()
                         pref.saveEmail(binding.edtEmail.text.toString().trim())
                         pref.saveProcessRegister(4)
                         binding.btnContinue.startAnimClick()
