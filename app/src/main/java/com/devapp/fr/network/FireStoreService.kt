@@ -20,7 +20,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FireStoreService @Inject constructor(private val context: Context) {
-
     suspend fun addUserProfile(
         userProfile: UserProfile,
         @IoDispatcher dispatcher: CoroutineDispatcher = Dispatchers.IO
